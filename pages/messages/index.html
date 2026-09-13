@@ -1,0 +1,584 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><title>Tin nhắn tuyển dụng | Internships.io</title><meta name="description" content="Tin nhắn tuyển dụng — Nền tảng kết nối sinh viên và doanh nghiệp."><link rel="stylesheet" href="/src/styles/generated/messages.css"><link rel="stylesheet" href="/src/styles/app.css"></head><body data-page="messages" class="bg-background font-body-md text-on-background"><div class=""><header class="fixed top-0 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-lg left-0"><div class="flex items-center gap-xl"><div class="flex items-center gap-sm cursor-pointer"><img alt="Internships.io Logo" class="h-8 w-auto object-contain" src="/assets/images/4d6ee6ab42d539ae.png"><span class="font-headline-md text-headline-md text-primary font-bold">Internships.io</span></div><nav class="hidden md:flex items-center gap-sm font-label-md text-label-md"><a href="#" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">work</span><span class="">Việc làm</span></a><a href="#" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">description</span><span class="">Đơn ứng tuyển</span></a><a href="#" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary font-bold shadow-sm"><span class="material-symbols-outlined text-[20px]">chat</span><span class="">Tin nhắn</span><span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-error text-on-error ml-0.5">3</span></a><a href="#" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">groups</span><span class="">Cộng đồng</span></a></nav></div><div class="flex items-center gap-md"><div class="flex items-center gap-xs"><button aria-label="Chat" class="relative p-2 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors" type="button"><span class="material-symbols-outlined block text-[22px]">forum</span></button><button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors" type="button"><span class="material-symbols-outlined block text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span></button></div><div class="h-8 w-px bg-surface-container-high hidden sm:block"></div><div class="flex items-center gap-sm pl-xs cursor-pointer hover:opacity-90 transition-opacity"><img alt="Avatar Nguyễn Minh Thư" class="w-9 h-9 rounded-full object-cover ring-2 ring-primary-container/60 shadow-sm" src="/assets/images/33290a779af11a09.png"><div class="hidden sm:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Nguyễn Minh Thư</span><span class="font-body-sm text-[11px] text-on-surface-variant leading-tight">ĐH Bách Khoa TP.HCM</span></div><span class="material-symbols-outlined text-on-surface-variant text-[18px] hidden sm:block">expand_more</span></div></div></header><main class="relative pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Context Header Bar (Breadcrumb & Live Status indicator) -->
+<div class="w-full bg-surface-container-low px-lg py-sm flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-xs font-body-sm text-on-surface-variant">
+<span class="hover:text-primary cursor-pointer transition-colors">Trang chủ</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Kết nối &amp; Hộp thư</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface font-headline-md text-[14px]">TechNova Solutions (Recruitment Chat)</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs px-sm py-xs rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="">Hệ thống tuyển dụng bảo mật &amp; xác minh</span>
+</div>
+<span class="text-outline-variant">|</span>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+<span class="">Tỉ lệ phản hồi HR: 98% (thường dưới 15 phút)</span>
+</div>
+</div>
+</div>
+<!-- 3-Column Recruitment Messaging Layout -->
+<div class="grid grid-cols-12 w-full gap-0 h-[calc(100vh-6.75rem)] overflow-hidden">
+<!-- ========================================================================= -->
+<!-- COLUMN 1: CONVERSATIONS LIST (Sidebar ~340px / 3 cols on 12-grid)        -->
+<!-- ========================================================================= -->
+<aside class="col-span-3 bg-surface-container-lowest flex flex-col h-full shadow-[2px_0_12px_rgba(0,0,0,0.02)] z-10">
+<!-- Search Box Area -->
+<div class="p-md space-y-sm bg-surface-container-lowest">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface">Tin nhắn tuyển dụng</h2>
+<button class="p-xs rounded-lg hover:bg-surface-container text-on-surface-variant transition-colors" title="Lọc tin nhắn">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:bg-surface-container-lowest shadow-sm transition-all focus:outline-none" placeholder="Tìm theo tên công ty, nhà tuyển dụng..." type="text">
+</div>
+<!-- Filter Tabs -->
+<div class="flex items-center gap-xs overflow-x-auto pb-1 pt-0.5 no-scrollbar">
+<button class="px-sm py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm whitespace-nowrap shadow-sm">
+            Tất cả (4)
+          </button>
+<button class="px-sm py-1 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors flex items-center gap-1">
+<span class="">Chưa đọc</span>
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+</button>
+<button class="px-sm py-1 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors">
+            Phỏng vấn (1)
+          </button>
+<button class="px-sm py-1 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors">
+            Lưu trữ
+          </button>
+</div>
+</div>
+<!-- Conversations Scrollable Feed -->
+<div class="flex-1 overflow-y-auto divide-y-0 space-y-1 p-xs">
+<!-- Conversation 1: ACTIVE (TechNova) -->
+<div class="p-sm rounded-xl bg-surface-container cursor-pointer transition-all hover:shadow-sm group relative">
+<div class="absolute left-1 top-3 bottom-3 w-1 bg-primary rounded-full"></div>
+<div class="flex items-start gap-sm pl-2">
+<div class="relative shrink-0">
+<img class="w-11 h-11 rounded-full object-cover shadow-sm" data-alt="Professional portrait headshot of a friendly Vietnamese female HR leader named Mai Phuong wearing modern business attire with bright daylight studio lighting in high resolution" src="/assets/images/41410c47c78c26aa.png">
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 min-w-0">
+<h3 class="font-headline-md text-[14px] text-on-surface truncate">Nguyễn Mai Phương</h3>
+<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: 'FILL' 1;" title="Doanh nghiệp xác thực">verified</span>
+</div>
+<span class="font-label-sm text-[11px] text-primary font-bold">10:45 AM</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">
+                TechNova Solutions • HR Lead
+              </p>
+<div class="mt-1 flex items-center gap-xs">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-primary-container/40 text-on-primary-container shrink-0">
+                  SWE Intern
+                </span>
+<p class="font-body-sm text-[12px] text-on-surface truncate">
+                  Team rất ấn tượng với dự án BKBookShare của em...
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Conversation 2: VNG Corporation -->
+<div class="p-sm rounded-xl hover:bg-surface-container-low cursor-pointer transition-all group">
+<div class="flex items-start gap-sm">
+<div class="relative shrink-0">
+<img class="w-11 h-11 rounded-full object-cover shadow-sm" data-alt="Corporate professional headshot of a young Vietnamese male talent acquisition recruiter wearing dark blue polo in a sleek corporate tech office interior" src="/assets/images/048fc3e1f101635e.png">
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-outline-variant shadow-sm"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 min-w-0">
+<h3 class="font-headline-md text-[14px] text-on-surface truncate">Lê Hoàng Nam</h3>
+<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Hôm qua</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">
+                VNG Corp • Campus Recruiter
+              </p>
+<div class="mt-1 flex items-center gap-xs">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-secondary-container text-on-secondary-container shrink-0">
+                  Frontend
+                </span>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">
+                  Hẹn em buổi phỏng vấn kỹ thuật online vào thứ 5 nhé!
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Conversation 3: FPT Software -->
+<div class="p-sm rounded-xl hover:bg-surface-container-low cursor-pointer transition-all group">
+<div class="flex items-start gap-sm">
+<div class="relative shrink-0">
+<img class="w-11 h-11 rounded-full object-cover shadow-sm" data-alt="Professional studio portrait of an Asian female recruiter with gentle warm smile wearing elegant corporate blouse against neutral light grey background" src="/assets/images/10bc68d630d802a2.png">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 min-w-0">
+<h3 class="font-headline-md text-[14px] text-on-surface truncate">Trần Bảo Ngọc</h3>
+<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">12 Th05</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">
+                FPT Software • Talent Acquisition
+              </p>
+<div class="mt-1 flex items-center gap-xs">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-surface-variant text-on-surface-variant shrink-0">
+                  AI / Data
+                </span>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">
+                  Cảm ơn bạn đã quan tâm đến chương trình Fresher...
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Conversation 4: Tiki Corporation -->
+<div class="p-sm rounded-xl hover:bg-surface-container-low cursor-pointer transition-all group">
+<div class="flex items-start gap-sm">
+<div class="relative shrink-0">
+<img class="w-11 h-11 rounded-full object-cover shadow-sm" data-alt="Modern close up headshot portrait of a Vietnamese male tech recruiter wearing spectacles and minimal black crewneck inside bright modern co-working studio" src="/assets/images/81b86be2a3038f92.png">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 min-w-0">
+<h3 class="font-headline-md text-[14px] text-on-surface truncate">Võ Minh Trí</h3>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">08 Th05</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">
+                Tiki Corp • Technical Recruiter
+              </p>
+<div class="mt-1 flex items-center gap-xs">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-surface-variant text-on-surface-variant shrink-0">
+                  Backend (Go)
+                </span>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">
+                  Đơn ứng tuyển của bạn đã chuyển tới Eng Manager.
+                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Quick Profile Switcher/Status -->
+<div class="p-sm bg-surface-container-low m-xs rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary"></div>
+<span class="font-label-sm text-label-sm text-on-surface">Đang tìm thực tập (Sẵn sàng)</span>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- COLUMN 2: ACTIVE CHAT WINDOW / MAIN STREAM (Center ~5.5 cols / ~600px)   -->
+<!-- ========================================================================= -->
+<section class="col-span-6 bg-background flex flex-col h-full relative">
+<!-- Chat Header -->
+<div class="px-lg py-sm bg-surface-container-lowest/90 backdrop-blur-md shadow-sm flex items-center justify-between z-20">
+<div class="flex items-center gap-md">
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Professional portrait headshot of a friendly Vietnamese female HR leader named Mai Phuong wearing modern business attire with bright daylight studio lighting in high resolution" src="/assets/images/2ec498645c3d7186.png">
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<div class="flex items-center gap-xs">
+<h2 class="font-headline-md text-[16px] text-on-surface">Nguyễn Mai Phương</h2>
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/50 text-on-tertiary-container text-[11px] font-label-sm font-semibold">Đang online</span>
+</div>
+<div class="flex items-center gap-xs text-[12px] font-body-sm text-on-surface-variant">
+<span class="">Head of Talent Acquisition</span>
+<span class="">•</span>
+<span class="font-medium text-primary">TechNova Solutions</span>
+</div>
+</div>
+</div>
+<!-- Right Quick Actions -->
+<div class="flex items-center gap-xs">
+<button class="px-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-xs transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">apartment</span>
+<span class="">Hồ sơ công ty</span>
+</button>
+<button class="px-sm py-1.5 rounded-lg bg-primary hover:bg-primary-dim text-on-primary font-label-sm text-label-sm flex items-center gap-xs transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+<span class="">Video Call</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant transition-colors" title="Thêm tuỳ chọn">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Context Sub-bar: Linked Job Vacancy Banner -->
+<div class="px-lg py-2 bg-surface-container-high/60 flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">work</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Đang thảo luận:</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Software Engineering Intern (Frontend/Backend)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-mono text-[11px]">TN-2024-FE</span>
+</div>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-tertiary font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="">Vòng 1: Đã hẹn phỏng vấn</span>
+</div>
+</div>
+<!-- Message History Stream (Scrollable) -->
+<div class="flex-1 overflow-y-auto px-lg py-md space-y-md">
+<!-- Date Separator Badge -->
+<div class="flex items-center justify-center my-2">
+<span class="px-sm py-1 rounded-full bg-surface-container font-label-sm text-[11px] text-on-surface-variant shadow-sm">
+            Hôm nay, 14 Tháng 5, 2024
+          </span>
+</div>
+<!-- Recruiter Message 1 -->
+<div class="flex items-start gap-sm max-w-[85%]">
+<img class="w-8 h-8 rounded-full object-cover mt-1 shrink-0" data-alt="Professional portrait headshot of a friendly Vietnamese female HR leader named Mai Phuong wearing modern business attire with bright daylight studio lighting in high resolution" src="/assets/images/b236f7364447b968.png">
+<div class="space-y-1">
+<div class="flex items-center gap-xs">
+<span class="font-label-md text-[13px] text-on-surface">Nguyễn Mai Phương</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">10:30 AM</span>
+</div>
+<div class="p-md rounded-2xl rounded-tl-xs bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm">
+<p class="">Chào bạn <strong class="text-primary font-semibold">Nguyễn Minh Thu</strong>! Mình là Mai Phương đến từ phòng Nhân sự TechNova Solutions. Team Kỹ thuật vừa xem qua hồ sơ ứng tuyển vị trí Thực tập sinh Kỹ thuật Phần mềm và các dự án GitHub của bạn trên hệ thống Internships.io.</p>
+</div>
+</div>
+</div>
+<!-- Profile Snapshot Attachment Card (Sent by Recruiter referencing Student) -->
+<div class="ml-10 max-w-[80%] bg-surface-container-lowest p-md rounded-xl shadow-md">
+<div class="flex items-center justify-between pb-sm mb-sm bg-surface-container-low -mx-md -mt-md p-md rounded-t-xl">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+<span class="font-label-md text-label-md text-on-surface">Hồ sơ ứng viên đính kèm trên hệ thống</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-[11px]">GPA 3.65 / 4.0</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container/40 flex items-center justify-center text-primary font-headline-md text-headline-md shrink-0">
+              MT
+            </div>
+<div class="flex-1 min-w-0">
+<h4 class="font-headline-md text-[15px] text-on-surface">Nguyễn Minh Thu</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Đại học Bách Khoa TP.HCM • Khoa Khoa học &amp; Kỹ thuật Máy tính</p>
+<div class="flex items-center gap-xs mt-1 flex-wrap">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[11px] text-on-surface">ReactJS</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[11px] text-on-surface">Node.js</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[11px] text-on-surface">PostgreSQL</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[11px] text-on-surface">Docker</span>
+</div>
+</div>
+</div>
+<div class="mt-md pt-sm flex items-center justify-between">
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-error text-[18px]">picture_as_pdf</span>
+<span class="font-medium text-on-surface">Nguyen_Minh_Thu_CV_2024.pdf</span>
+<span class="text-on-surface-variant text-[11px]">(1.4 MB)</span>
+</div>
+<button class="px-sm py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Xem chi tiết</span>
+</button>
+</div>
+</div>
+<!-- Student Message 2 (Outbound) -->
+<div class="flex items-start justify-end gap-sm max-w-[85%] ml-auto">
+<div class="space-y-1 flex flex-col items-end">
+<div class="flex items-center gap-xs">
+<span class="font-body-sm text-[11px] text-on-surface-variant">10:35 AM</span>
+<span class="font-label-md text-[13px] text-on-surface">Bạn (Nguyễn Minh Thu)</span>
+</div>
+<div class="p-md rounded-2xl rounded-tr-xs bg-primary text-on-primary font-body-md text-body-md shadow-sm">
+<p class="">Dạ em chào chị Phương! Em rất vui và vinh dự khi nhận được phản hồi từ TechNova Solutions ạ. Em đã theo dõi các bài chia sẻ công nghệ của công ty và rất mong muốn được trải nghiệm môi trường kỹ thuật thực tế với hệ thống Microservices của bên mình.</p>
+</div>
+</div>
+</div>
+<!-- Recruiter Message 3 -->
+<div class="flex items-start gap-sm max-w-[85%]">
+<img class="w-8 h-8 rounded-full object-cover mt-1 shrink-0" data-alt="Professional portrait headshot of a friendly Vietnamese female HR leader named Mai Phuong wearing modern business attire with bright daylight studio lighting in high resolution" src="/assets/images/61719b8030c708dd.png">
+<div class="space-y-1">
+<div class="flex items-center gap-xs">
+<span class="font-label-md text-[13px] text-on-surface">Nguyễn Mai Phương</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">10:38 AM</span>
+</div>
+<div class="p-md rounded-2xl rounded-tl-xs bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm">
+<p class="">Chị thấy em đã có kinh nghiệm thực chiến với React, Node.js và Docker qua hai dự án <em>EduTrack</em> và <em>BKBookShare</em>. Lead Kỹ thuật của bên chị rất ấn tượng và muốn mời em tham gia buổi phỏng vấn trao đổi kỹ thuật và định hướng thực tập 3 tháng sắp tới!</p>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE INTERVIEW INVITATION CARD -->
+<div class="ml-10 max-w-[88%] bg-surface-container-lowest rounded-2xl shadow-xl overflow-hidden">
+<div class="bg-primary px-md py-sm flex items-center justify-between text-on-primary">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span class="font-label-md text-label-md font-bold tracking-wide uppercase text-[12px]">Lời mời phỏng vấn kỹ thuật trực tuyến</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary text-on-tertiary font-label-sm text-[11px] font-semibold">Đã xác nhận</span>
+</div>
+<div class="p-lg space-y-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">
+                Vòng 1: Technical &amp; Culture Fit Interview
+              </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Thời lượng: 45 phút • Nền tảng: Internships.io Secure Video Room &amp; Google Meet
+              </p>
+</div>
+<div class="grid grid-cols-2 gap-sm bg-surface-container-low p-md rounded-xl">
+<div class="space-y-1">
+<span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider block">Thời gian đề xuất</span>
+<div class="flex items-center gap-xs font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">schedule</span>
+<span class="">09:30 - 10:15 AM</span>
+</div>
+<p class="font-body-sm text-[12px] text-primary font-medium">Thứ Năm, 16/05/2024</p>
+</div>
+<div class="space-y-1">
+<span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider block">Hội đồng phỏng vấn</span>
+<div class="flex items-center gap-xs font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-[18px]">group</span>
+<span class="truncate">Anh Long (VP Eng) &amp; Chị Phương (HR)</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">VP of Engineering (Ex-Grab) &amp; HR</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-xs">
+<div class="flex items-center gap-xs text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="">Ứng viên đã xác nhận tham gia đúng hẹn</span>
+</div>
+<div class="flex items-center gap-xs">
+<button class="px-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors">
+                  Đổi lịch khác
+                </button>
+<button class="px-md py-1.5 rounded-lg bg-tertiary hover:bg-tertiary-dim text-on-tertiary font-label-md text-label-md flex items-center gap-xs shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">event_available</span>
+<span class="">Đã nhận lịch (16/05)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Student Message 4 (Confirmation) -->
+<div class="flex items-start justify-end gap-sm max-w-[85%] ml-auto">
+<div class="space-y-1 flex flex-col items-end">
+<div class="flex items-center gap-xs">
+<span class="font-body-sm text-[11px] text-on-surface-variant">10:42 AM</span>
+<span class="font-label-md text-[13px] text-on-surface">Bạn (Nguyễn Minh Thu)</span>
+</div>
+<div class="p-md rounded-2xl rounded-tr-xs bg-primary text-on-primary font-body-md text-body-md shadow-sm">
+<p class="">Dạ khung giờ <strong>09:30 sáng Thứ Năm ngày 16/05</strong> hoàn toàn phù hợp với lịch học của em ạ. Em đã bấm xác nhận tham gia rồi ạ! Em sẽ chuẩn bị kỹ phần kiến thức hệ thống và dự án demo.</p>
+</div>
+</div>
+</div>
+<!-- System Banner Notification -->
+<div class="mx-auto max-w-[90%] p-sm rounded-xl bg-secondary-container/70 text-on-secondary-container flex items-center gap-sm text-body-sm text-[13px] shadow-sm">
+<span class="material-symbols-outlined text-tertiary shrink-0 text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="flex-1">
+<strong>Thông báo tự động:</strong> Cuộc hẹn phỏng vấn kỹ thuật đã được đồng bộ vào Google Calendar cá nhân của bạn và gửi email xác nhận kèm đường dẫn phòng họp trực tuyến bảo mật.
+          </p>
+</div>
+</div>
+<!-- Chat Input Area (Fixed Bottom of Column 2) -->
+<div class="p-md bg-surface-container-lowest shadow-[0_-4px_16px_rgba(0,0,0,0.03)] z-20">
+<!-- Toolbar items -->
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-xs">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Đính kèm CV / File">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Chèn liên kết GitHub / Portfolio">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Đề xuất thời gian rảnh">
+<span class="material-symbols-outlined text-[20px]">event</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Thêm emoji">
+<span class="material-symbols-outlined text-[20px]">sentiment_satisfied</span>
+</button>
+</div>
+<div class="flex items-center gap-xs font-label-sm text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-tertiary">lock</span>
+<span class="">Mã hoá đầu cuối bởi Internships.io</span>
+</div>
+</div>
+<!-- Input Box and Send CTA -->
+<div class="flex items-center gap-sm bg-surface-container-low rounded-xl p-1.5 focus-within:bg-surface-container-lowest focus-within:shadow-md transition-all">
+<input class="flex-1 bg-transparent px-sm py-2 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none" placeholder="Nhập tin nhắn trao đổi với nhà tuyển dụng TechNova... (Nhấn Enter để gửi)" type="text">
+<button class="px-lg py-2.5 rounded-lg bg-primary hover:bg-primary-dim text-on-primary font-label-md text-label-md flex items-center gap-xs transition-all shadow-md shrink-0">
+<span class="">Gửi tin nhắn</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- COLUMN 3: RECRUITMENT CONTEXT SIDEBAR (~320px / ~3.5 cols on grid)       -->
+<!-- ========================================================================= -->
+<aside class="col-span-3 bg-surface-container-lowest flex flex-col h-full overflow-y-auto p-md space-y-lg shadow-[-2px_0_12px_rgba(0,0,0,0.02)] z-10">
+<!-- Company Overview Card -->
+<div class="bg-surface-container-low p-md rounded-2xl space-y-md">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary font-headline-lg text-[22px] shadow-sm">
+            TN
+          </div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-bold">
+            Đối tác chiến lược
+          </span>
+</div>
+<div>
+<div class="flex items-center gap-xs">
+<h3 class="font-headline-md text-headline-md text-on-surface">TechNova Solutions</h3>
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Enterprise Cloud Solutions &amp; AI-powered SaaS Products
+          </p>
+</div>
+<div class="space-y-xs pt-xs font-body-sm text-[13px] text-on-surface">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span class="">Quy mô: 100 - 250 nhân sự</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="truncate">Tầng 18, Bitexco Financial Tower, Q.1, TP.HCM</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-on-surface">4.9 / 5.0</span>
+<span class="text-on-surface-variant">(89 đánh giá từ cựu thực tập sinh)</span>
+</div>
+</div>
+<button class="w-full py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-primary font-label-md text-label-md transition-colors shadow-sm flex items-center justify-center gap-xs">
+<span class="">Xem trang tuyển dụng công ty</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</div>
+<!-- Hiring Pipeline Tracker -->
+<div class="space-y-sm">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-md text-[15px] text-on-surface">Tiến trình tuyển dụng</h4>
+<span class="font-label-sm text-[11px] text-tertiary font-bold">Giai đoạn 3/4</span>
+</div>
+<!-- Step List -->
+<div class="space-y-xs relative pl-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-highest">
+<!-- Step 1 (Completed) -->
+<div class="relative flex flex-col py-1">
+<span class="absolute -left-6 top-1.5 w-5 h-5 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-[12px] font-bold shadow-sm">
+              ✓
+            </span>
+<span class="font-label-md text-[13px] text-on-surface">1. Nộp hồ sơ ứng tuyển</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">10/05/2024 • Đã nộp qua Internships.io</span>
+</div>
+<!-- Step 2 (Completed) -->
+<div class="relative flex flex-col py-1">
+<span class="absolute -left-6 top-1.5 w-5 h-5 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-[12px] font-bold shadow-sm">
+              ✓
+            </span>
+<span class="font-label-md text-[13px] text-on-surface">2. Duyệt CV &amp; Phù hợp năng lực</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">12/05/2024 • Đạt tiêu chí đầu vào</span>
+</div>
+<!-- Step 3 (Active) -->
+<div class="relative flex flex-col py-1 p-sm rounded-xl bg-primary/5">
+<span class="absolute -left-6 top-3 w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center text-[11px] font-bold animate-pulse shadow-sm">
+              3
+            </span>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-[13px] text-primary font-bold">3. Phỏng vấn Kỹ thuật</span>
+<span class="px-1.5 py-0.5 rounded bg-primary text-on-primary text-[10px] font-semibold">Đang diễn ra</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">16/05/2024 • 09:30 AM (Online)</span>
+</div>
+<!-- Step 4 (Upcoming) -->
+<div class="relative flex flex-col py-1 opacity-60">
+<span class="absolute -left-6 top-1.5 w-5 h-5 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-[11px] font-bold">
+              4
+            </span>
+<span class="font-label-md text-[13px] text-on-surface">4. Nhận Offer &amp; Ký hợp đồng</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Dự kiến thông báo sau 3-5 ngày làm việc</span>
+</div>
+</div>
+</div>
+<!-- Shared Documents Section -->
+<div class="space-y-sm">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-md text-[15px] text-on-surface">Tài liệu đã chia sẻ (3)</h4>
+<button class="p-xs text-primary hover:bg-surface-container rounded transition-colors" title="Tải lên tệp mới">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+</button>
+</div>
+<div class="space-y-xs">
+<!-- Document 1 -->
+<div class="p-sm rounded-xl bg-surface-container-low hover:bg-surface-container flex items-center justify-between transition-colors cursor-pointer group">
+<div class="flex items-center gap-xs min-w-0">
+<span class="material-symbols-outlined text-error text-[20px]">picture_as_pdf</span>
+<div class="min-w-0">
+<p class="font-label-md text-[12px] text-on-surface truncate group-hover:text-primary transition-colors">
+                  Nguyen_Minh_Thu_CV_2024.pdf
+                </p>
+<p class="font-body-sm text-[10px] text-on-surface-variant">Sinh viên tải lên • 1.4 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary">download</span>
+</div>
+<!-- Document 2 -->
+<div class="p-sm rounded-xl bg-surface-container-low hover:bg-surface-container flex items-center justify-between transition-colors cursor-pointer group">
+<div class="flex items-center gap-xs min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px]">description</span>
+<div class="min-w-0">
+<p class="font-label-md text-[12px] text-on-surface truncate group-hover:text-primary transition-colors">
+                  TechNova_LaunchPad_Brochure.pdf
+                </p>
+<p class="font-body-sm text-[10px] text-on-surface-variant">HR Mai Phương gửi • 3.2 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary">download</span>
+</div>
+<!-- Document 3 -->
+<div class="p-sm rounded-xl bg-surface-container-low hover:bg-surface-container flex items-center justify-between transition-colors cursor-pointer group">
+<div class="flex items-center gap-xs min-w-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">verified</span>
+<div class="min-w-0">
+<p class="font-label-md text-[12px] text-on-surface truncate group-hover:text-primary transition-colors">
+                  Interview_Preparation_Guide.pdf
+                </p>
+<p class="font-body-sm text-[10px] text-on-surface-variant">Tài liệu chuẩn bị • 850 KB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary">download</span>
+</div>
+</div>
+</div>
+<!-- Trust & Security Box -->
+<div class="p-md rounded-2xl bg-secondary-container/40 text-on-secondary-container space-y-xs">
+<div class="flex items-center gap-xs font-label-md text-label-md text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="">Bảo vệ ứng viên thực tập</span>
+</div>
+<p class="font-body-sm text-[12px] leading-relaxed text-on-surface-variant">
+          Internships.io nghiêm cấm mọi hành vi yêu cầu thu phí tuyển dụng, đóng tiền cọc hoặc gửi mã xác thực ngân hàng. Mọi giao dịch và thông tin được hệ thống bảo hộ và mã hoá tuyệt đối.
+        </p>
+<button class="font-label-sm text-[11px] text-primary hover:underline font-semibold flex items-center gap-0.5 pt-1">
+<span class="">Báo cáo nghi vấn lừa đảo</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</aside>
+</div>
+</div></main></div>
+
+<script type="module" src="/src/main.ts"></script></body></html>

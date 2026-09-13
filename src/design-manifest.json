@@ -1,0 +1,15 @@
+[
+  {"slug":"jobs","title":"Việc làm thực tập","url":"/"},
+  {"slug":"community","title":"Cộng đồng hướng nghiệp","url":"/pages/community/"},
+  {"slug":"login","title":"Đăng nhập","url":"/pages/login/"},
+  {"slug":"register","title":"Đăng ký tài khoản","url":"/pages/register/"},
+  {"slug":"messages","title":"Tin nhắn tuyển dụng","url":"/pages/messages/"},
+  {"slug":"employer","title":"Quản lý tuyển dụng","url":"/pages/employer/"},
+  {"slug":"candidates","title":"Quản lý ứng viên ATS","url":"/pages/candidates/"},
+  {"slug":"post-job","title":"Đăng tin tuyển dụng","url":"/pages/post-job/"},
+  {"slug":"job-detail","title":"Chi tiết công việc","url":"/pages/job-detail/"},
+  {"slug":"company","title":"TechNova Solutions","url":"/pages/company/"},
+  {"slug":"cv-builder","title":"Tạo và hoàn thiện CV","url":"/pages/cv-builder/"},
+  {"slug":"profile","title":"Hồ sơ cá nhân","url":"/pages/profile/"},
+  {"slug":"university","title":"Đại học Bách Khoa TP.HCM","url":"/pages/university/"}
+]

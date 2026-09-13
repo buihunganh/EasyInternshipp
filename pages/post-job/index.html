@@ -1,0 +1,610 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><title>Đăng tin tuyển dụng | Internships.io</title><meta name="description" content="Đăng tin tuyển dụng — Nền tảng kết nối sinh viên và doanh nghiệp."><link rel="stylesheet" href="/src/styles/generated/post-job.css"><link rel="stylesheet" href="/src/styles/app.css"></head><body data-page="post-job" class="bg-background font-body-md text-on-background min-h-screen flex flex-col justify-between"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex items-center justify-between px-lg md:px-xl border-b border-outline-variant/30"><div class="flex items-center gap-xl"><div class="flex items-center gap-sm"><img alt="Internships.io Logo" class="h-8 w-auto object-contain" src="/assets/images/4d6ee6ab42d539ae.png"><span class="font-headline-md text-headline-md text-primary font-bold tracking-tight">Internships.io</span></div><nav class="hidden md:flex items-center gap-md"><a class="text-on-surface-variant hover:text-primary font-label-md text-label-md py-xs transition-colors" href="#">Việc làm</a><a class="text-on-surface-variant hover:text-primary font-label-md text-label-md py-xs transition-colors" href="#">Đơn ứng tuyển</a><a class="text-on-surface-variant hover:text-primary font-label-md text-label-md py-xs transition-colors" href="#">Tin nhắn</a><a class="text-on-surface-variant hover:text-primary font-label-md text-label-md py-xs transition-colors" href="#">Cộng đồng</a></nav></div><div class="flex items-center gap-md"><button class="text-on-surface-variant hover:text-primary p-xs rounded-full hover:bg-surface-container flex items-center justify-center transition-colors" title="Tin nhắn" type="button"><span class="material-symbols-outlined text-xl">chat_bubble_outline</span></button><button class="text-on-surface-variant hover:text-primary p-xs rounded-full hover:bg-surface-container flex items-center justify-center transition-colors relative" title="Thông báo" type="button"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><div class="relative group pl-xs border-l border-outline-variant/40 flex items-center"><button class="flex items-center gap-xs rounded-full focus:outline-none p-0.5 hover:bg-surface-container-high transition-colors" type="button"><img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant/40" src="/assets/images/33290a779af11a09.png"><span class="material-symbols-outlined text-on-surface-variant text-sm">expand_more</span></button><div class="absolute right-0 top-full mt-xs w-56 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg py-xs hidden group-hover:block z-50"><div class="px-md py-xs border-b border-outline-variant"><p class="font-label-md text-label-md text-on-surface font-semibold">Nhà tuyển dụng / Doanh nghiệp</p><p class="font-body-sm text-label-sm text-on-surface-variant truncate">recruiter@technova.vn</p></div><a class="flex items-center gap-sm px-md py-sm text-on-surface hover:bg-surface-container-low font-label-md text-label-md" href="#"><span class="material-symbols-outlined text-primary text-base">dashboard</span> Bảng tin tuyển dụng</a><a class="flex items-center gap-sm px-md py-sm text-on-surface hover:bg-surface-container-low font-label-md text-label-md" href="#"><span class="material-symbols-outlined text-on-surface-variant text-base">business</span> Hồ sơ công ty</a><div class="border-t border-outline-variant my-xs"></div><a class="flex items-center gap-sm px-md py-sm text-on-surface hover:bg-surface-container-low font-label-md text-label-md" href="#"><span class="material-symbols-outlined text-on-surface-variant text-base">settings</span> Cài đặt tài khoản</a><a class="flex items-center gap-sm px-md py-sm text-error hover:bg-surface-container-low font-label-md text-label-md" href="#"><span class="material-symbols-outlined text-error text-base">logout</span> Đăng xuất</a></div></div></div></header><main class="relative pt-16 bg-background min-h-screen flex-1"><div class="flex flex-col w-full">
+<!-- Top Command & Stepper Header -->
+<section class="w-full bg-surface-container-lowest shadow-sm">
+<div class="max-w-[1200px] mx-auto px-lg md:px-xl py-lg">
+<!-- Breadcrumb & Auto-save Status -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-md">
+<div class="flex flex-col gap-xs">
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="">Quản trị tuyển dụng</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-semibold">Tạo chiến dịch thực tập mới</span>
+</div>
+<div class="flex flex-wrap items-center gap-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Đăng tin tuyển dụng thực tập mới</h1>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+              Bản nháp tự lưu lúc 14:32:05
+            </span>
+</div>
+</div>
+<!-- Top Actions -->
+<div class="flex items-center gap-sm">
+<button class="inline-flex items-center gap-xs px-md py-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="material-symbols-outlined text-base">save</span>
+<span class="">Lưu bản nháp</span>
+</button>
+<button class="inline-flex items-center gap-xs px-md py-sm rounded-lg bg-surface-container-high hover:bg-primary-container text-on-primary-container font-label-md text-label-md transition-all" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+<span class="">Xem trước</span>
+</button>
+<button class="inline-flex items-center gap-xs px-lg py-sm rounded-lg bg-primary hover:bg-primary-dim text-on-primary font-label-md text-label-md shadow-md hover:shadow-lg transition-all" type="button">
+<span class="">Tiếp tục sang Bước 2</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- 4-Step Interactive Stepper Tabs -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md pt-sm">
+<!-- Step 1 (Active) -->
+<div class="relative p-md rounded-xl bg-primary/10 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-md text-headline-md shrink-0 shadow-sm">
+            1
+          </div>
+<div class="min-w-0 flex-1">
+<p class="font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider">Bước 1 • Hiện tại</p>
+<p class="font-headline-md text-body-md text-on-surface font-semibold truncate">Vị trí &amp; Vai trò thực tập</p>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-b-xl"></div>
+</div>
+<!-- Step 2 -->
+<div class="p-md rounded-xl bg-surface-container-low flex items-center gap-md opacity-80 hover:opacity-100 transition-opacity">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-md text-label-md shrink-0">
+            2
+          </div>
+<div class="min-w-0 flex-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Bước 2</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold truncate">Mô tả &amp; Tiêu chí tuyển</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="p-md rounded-xl bg-surface-container-low flex items-center gap-md opacity-80 hover:opacity-100 transition-opacity">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-md text-label-md shrink-0">
+            3
+          </div>
+<div class="min-w-0 flex-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Bước 3</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold truncate">Đãi ngộ &amp; Quyền lợi</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="p-md rounded-xl bg-surface-container-low flex items-center gap-md opacity-80 hover:opacity-100 transition-opacity">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-md text-label-md shrink-0">
+            4
+          </div>
+<div class="min-w-0 flex-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant font-medium uppercase tracking-wider">Bước 4</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold truncate">Quy trình &amp; Duyệt tin</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Body (7:3 Layout) -->
+<div class="max-w-[1200px] w-full mx-auto px-lg md:px-xl py-xl">
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-gutter items-start">
+<!-- LEFT COLUMN: Main Form Inputs (7 Cols) -->
+<form class="lg:col-span-7 flex flex-col gap-xl" id="jobForm">
+<!-- Section 1: Basic Role Information -->
+<div class="bg-surface-container-lowest p-lg md:p-xl rounded-xl shadow-sm flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">work</span>
+</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">1. Thông tin cơ bản về vị trí</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Xác định rõ vai trò giúp thuật toán kết nối chính xác sinh viên phù hợp</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold px-sm py-xs bg-primary/10 rounded-full">Bắt buộc</span>
+</div>
+<!-- Job Title Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="job-title">
+<span class="">Chức danh tuyển dụng <span class="text-error">*</span></span>
+<span class="text-on-surface-variant font-normal text-xs" id="title-counter">42 / 100 ký tự</span>
+</label>
+<input class="w-full px-md py-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:shadow-md transition-all placeholder:text-on-surface-variant/60" id="job-title" placeholder="Ví dụ: Thực tập sinh Frontend ReactJS (Có lương, hỗ trợ dấu thực tập tốt nghiệp)..." type="text" value="Thực tập sinh Frontend ReactJS (Có lương &amp; Trợ cấp)">
+<p class="font-body-sm text-label-sm text-on-surface-variant">Mẹo: Thêm các từ khóa như "(Có lương)", "(Part-time linh hoạt)" tăng 45% tỷ lệ nhấp mở.</p>
+</div>
+<!-- Department & Headcount -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="department">
+                Phòng ban / Chuyên môn <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full appearance-none px-md py-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:shadow-md transition-all cursor-pointer" id="department">
+<option selected="" value="software">Kỹ thuật phần mềm (Software Engineering)</option>
+<option value="uiux">UI/UX Design &amp; Product Design</option>
+<option value="data">Data Science, Analytics &amp; AI</option>
+<option value="marketing">Digital Marketing &amp; Growth</option>
+<option value="business">Quản trị kinh doanh &amp; Sales B2B</option>
+<option value="hr">Nhân sự &amp; Talent Acquisition</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="headcount">
+                Số lượng tuyển sinh viên <span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full px-md py-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:shadow-md transition-all" id="headcount" max="50" min="1" type="number" value="3">
+<span class="absolute right-4 font-label-md text-label-md text-on-surface-variant">Thực tập sinh</span>
+</div>
+</div>
+</div>
+<!-- Work Mode Radio Cards -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface">Hình thức làm việc <span class="text-error">*</span></label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-sm">
+<label class="cursor-pointer group">
+<input checked="" class="peer sr-only" name="work_mode" type="radio" value="hybrid">
+<div class="p-md rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary-container text-on-surface transition-all flex flex-col items-center text-center gap-xs shadow-sm hover:shadow">
+<span class="material-symbols-outlined text-2xl">sync_alt</span>
+<span class="font-label-md text-label-md">Hybrid linh hoạt</span>
+<span class="text-xs opacity-75">Văn phòng + Nhà</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="work_mode" type="radio" value="fulltime">
+<div class="p-md rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary-container text-on-surface transition-all flex flex-col items-center text-center gap-xs shadow-sm hover:shadow">
+<span class="material-symbols-outlined text-2xl">apartment</span>
+<span class="font-label-md text-label-md">Toàn thời gian</span>
+<span class="text-xs opacity-75">T2 - T6 hành chính</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="work_mode" type="radio" value="parttime">
+<div class="p-md rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary-container text-on-surface transition-all flex flex-col items-center text-center gap-xs shadow-sm hover:shadow">
+<span class="material-symbols-outlined text-2xl">schedule</span>
+<span class="font-label-md text-label-md">Bán thời gian</span>
+<span class="text-xs opacity-75">Theo ca học sinh viên</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="work_mode" type="radio" value="remote">
+<div class="p-md rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary-container text-on-surface transition-all flex flex-col items-center text-center gap-xs shadow-sm hover:shadow">
+<span class="material-symbols-outlined text-2xl">laptop_chromebook</span>
+<span class="font-label-md text-label-md">100% Remote</span>
+<span class="text-xs opacity-75">Từ xa toàn quốc</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Working Location Address -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="location">Địa chỉ làm việc thực tế <span class="text-error">*</span></label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-primary">location_on</span>
+<input class="w-full pl-10 pr-md py-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:shadow-md transition-all" id="location" type="text" value="Tầng 14, Bitexco Financial Tower, Số 2 Hải Triều, Bến Nghé, Quận 1, TP. Hồ Chí Minh">
+</div>
+</div>
+</div>
+<!-- Section 2: Education & Target Audience -->
+<div class="bg-surface-container-lowest p-lg md:p-xl rounded-xl shadow-sm flex flex-col gap-lg">
+<div class="flex items-center gap-sm">
+<span class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">school</span>
+</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">2. Yêu cầu học vấn &amp; Định vị đối tượng</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Nhắm chọn tệp sinh viên phù hợp theo giai đoạn đào tạo &amp; chuyên ngành</p>
+</div>
+</div>
+<!-- Student Year Preference -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface">Trình độ sinh viên ưu tiên tuyển chọn</label>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-sm">
+<label class="flex items-center gap-sm p-sm rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input class="w-4 h-4 rounded text-primary accent-primary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Sinh viên Năm 3</span>
+</label>
+<label class="flex items-center gap-sm p-sm rounded-lg bg-secondary-container text-on-secondary-container cursor-pointer">
+<input checked="" class="w-4 h-4 rounded accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md font-semibold">Sinh viên Năm 4 (Chuẩn tốt nghiệp)</span>
+</label>
+<label class="flex items-center gap-sm p-sm rounded-lg bg-secondary-container text-on-secondary-container cursor-pointer">
+<input checked="" class="w-4 h-4 rounded accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md font-semibold">Mới tốt nghiệp &lt; 1 năm</span>
+</label>
+</div>
+</div>
+<!-- Majors multi-tags -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface">Chuyên ngành đào tạo mục tiêu</label>
+<div class="flex flex-wrap gap-xs p-sm rounded-lg bg-surface-container-low min-h-[50px] items-center">
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-surface-container-lowest text-primary font-label-md text-label-md shadow-xs">
+                Khoa học Máy tính
+                <button class="material-symbols-outlined text-sm hover:text-error" type="button">close</button>
+</span>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-surface-container-lowest text-primary font-label-md text-label-md shadow-xs">
+                Kỹ thuật Phần mềm
+                <button class="material-symbols-outlined text-sm hover:text-error" type="button">close</button>
+</span>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-surface-container-lowest text-primary font-label-md text-label-md shadow-xs">
+                Hệ thống Thông tin
+                <button class="material-symbols-outlined text-sm hover:text-error" type="button">close</button>
+</span>
+<button class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-surface-container-high hover:bg-primary/20 text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">add</span> Thêm chuyên ngành
+              </button>
+</div>
+</div>
+<!-- University Partner Sync (Exclusive on Internships.io) -->
+<div class="flex flex-col gap-xs p-md rounded-xl bg-surface-container-low">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-tertiary">hub</span>
+                Đẩy tin về Cổng thông tin trường Đại học liên kết đối tác
+              </label>
+<span class="text-xs font-semibold text-tertiary bg-tertiary-fixed px-sm py-xs rounded-full">Tiếp cận 45.000+ sinh viên</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tin sẽ được tự động xuất hiện tại bảng tin việc làm sinh viên của trường đối tác:</p>
+<div class="flex flex-wrap gap-sm mt-xs">
+<button class="inline-flex items-center gap-xs px-md py-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-sm">check</span>
+                ĐH Bách Khoa - ĐHQG-HCM
+              </button>
+<button class="inline-flex items-center gap-xs px-md py-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-sm">check</span>
+                ĐH Khoa học Tự nhiên TP.HCM
+              </button>
+<button class="inline-flex items-center gap-xs px-md py-xs rounded-full bg-surface-container-highest text-on-surface hover:bg-secondary-fixed hover:text-on-secondary-fixed font-label-sm text-label-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">add</span>
+                ĐH Công nghệ - ĐHQGHN
+              </button>
+<button class="inline-flex items-center gap-xs px-md py-xs rounded-full bg-surface-container-highest text-on-surface hover:bg-secondary-fixed hover:text-on-secondary-fixed font-label-sm text-label-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">add</span>
+                Đại học FPT Toàn quốc
+              </button>
+</div>
+</div>
+</div>
+<!-- Section 3: Compensation & Benefits -->
+<div class="bg-surface-container-lowest p-lg md:p-xl rounded-xl shadow-sm flex flex-col gap-lg">
+<div class="flex items-center gap-sm">
+<span class="w-8 h-8 rounded-lg bg-tertiary/15 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">payments</span>
+</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">3. Chế độ phụ cấp &amp; Quyền lợi thực tập sinh</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Minh bạch đãi ngộ để thu hút ứng viên xuất sắc nhất và xây dựng thương hiệu nhà tuyển dụng</p>
+</div>
+</div>
+<!-- Allowance Toggle -->
+<div class="p-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container shrink-0">
+<span class="material-symbols-outlined">paid</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Chế độ phụ cấp thực tập có lương</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cam kết không để sinh viên thực tập không lương vì sự phát triển bền vững</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary"></div>
+</label>
+</div>
+<!-- Salary Range Slider / Inputs -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="salary-min">Mức phụ cấp tối thiểu / tháng</label>
+<div class="relative flex items-center">
+<input class="w-full pl-4 pr-16 py-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md font-semibold focus:bg-surface-container-lowest focus:outline-none focus:shadow-md transition-all" id="salary-min" type="text" value="6.000.000">
+<span class="absolute right-4 font-label-md text-label-md text-on-surface-variant">VNĐ</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="salary-max">Mức phụ cấp tối đa / tháng</label>
+<div class="relative flex items-center">
+<input class="w-full pl-4 pr-16 py-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md font-semibold focus:bg-surface-container-lowest focus:outline-none focus:shadow-md transition-all" id="salary-max" type="text" value="10.000.000">
+<span class="absolute right-4 font-label-md text-label-md text-on-surface-variant">VNĐ</span>
+</div>
+</div>
+</div>
+<!-- Perks Checklist -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface">Các đặc quyền dành riêng cho thực tập sinh (Tích chọn để làm nổi bật)</label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<label class="p-md rounded-xl bg-surface-container-low flex items-center gap-sm cursor-pointer hover:bg-surface-container transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary shrink-0" type="checkbox">
+<span class="material-symbols-outlined text-primary text-xl">support_agent</span>
+<span class="font-body-md text-body-md text-on-surface">Cố vấn Mentor 1-on-1 hàng tuần</span>
+</label>
+<label class="p-md rounded-xl bg-surface-container-low flex items-center gap-sm cursor-pointer hover:bg-surface-container transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary shrink-0" type="checkbox">
+<span class="material-symbols-outlined text-primary text-xl">history_edu</span>
+<span class="font-body-md text-body-md text-on-surface">Hỗ trợ dấu mộc &amp; báo cáo tốt nghiệp</span>
+</label>
+<label class="p-md rounded-xl bg-surface-container-low flex items-center gap-sm cursor-pointer hover:bg-surface-container transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary shrink-0" type="checkbox">
+<span class="material-symbols-outlined text-primary text-xl">devices</span>
+<span class="font-body-md text-body-md text-on-surface">Trang bị Macbook M2 khi làm việc</span>
+</label>
+<label class="p-md rounded-xl bg-surface-container-low flex items-center gap-sm cursor-pointer hover:bg-surface-container transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary shrink-0" type="checkbox">
+<span class="material-symbols-outlined text-primary text-xl">restaurant</span>
+<span class="font-body-md text-body-md text-on-surface">Phụ cấp cơm trưa + gửi xe miễn phí</span>
+</label>
+<label class="p-md rounded-xl bg-surface-container-low flex items-center gap-sm cursor-pointer hover:bg-surface-container transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary shrink-0" type="checkbox">
+<span class="material-symbols-outlined text-primary text-xl">rocket_launch</span>
+<span class="font-body-md text-body-md text-on-surface">Xét lên nhân viên chính thức sau 3 tháng</span>
+</label>
+<label class="p-md rounded-xl bg-surface-container-low flex items-center gap-sm cursor-pointer hover:bg-surface-container transition-colors">
+<input class="w-4 h-4 rounded text-primary accent-primary shrink-0" type="checkbox">
+<span class="material-symbols-outlined text-primary text-xl">fitness_center</span>
+<span class="font-body-md text-body-md text-on-surface">Thẻ tập Gym &amp; Teambuilding hàng quý</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Section 4: Job Description & Skill Requirements -->
+<div class="bg-surface-container-lowest p-lg md:p-xl rounded-xl shadow-sm flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">description</span>
+</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">4. Mô tả công việc &amp; Yêu cầu năng lực</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Sử dụng mẫu văn phong thực tập thân thiện, tránh yêu cầu quá nặng kinh nghiệm</p>
+</div>
+</div>
+</div>
+<!-- Quick Templates Bar -->
+<div class="flex items-center gap-xs overflow-x-auto pb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0 mr-xs">Mẫu gợi ý:</span>
+<button class="px-sm py-xs rounded-lg bg-surface-container-high hover:bg-primary-container text-on-primary-container font-label-sm text-label-sm shrink-0 transition-colors" type="button">
+              ⚡ Khung chuẩn Frontend Intern
+            </button>
+<button class="px-sm py-xs rounded-lg bg-surface-container-high hover:bg-primary-container text-on-primary-container font-label-sm text-label-sm shrink-0 transition-colors" type="button">
+              💼 Thực tập sinh Đồ án tốt nghiệp
+            </button>
+<button class="px-sm py-xs rounded-lg bg-surface-container-high hover:bg-primary-container text-on-primary-container font-label-sm text-label-sm shrink-0 transition-colors" type="button">
+              🎯 Thực tập sinh Chuyển đổi ngành
+            </button>
+</div>
+<!-- Rich-Text Mock Editor -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-inner">
+<!-- Toolbar -->
+<div class="flex flex-wrap items-center gap-xs px-md py-sm bg-surface-container border-b border-outline-variant/30 text-on-surface-variant">
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">format_bold</span></button>
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">format_italic</span></button>
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">format_underlined</span></button>
+<span class="w-[1px] h-4 bg-outline-variant/40 mx-xs"></span>
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">format_list_bulleted</span></button>
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">format_list_numbered</span></button>
+<span class="w-[1px] h-4 bg-outline-variant/40 mx-xs"></span>
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">link</span></button>
+<button class="p-xs rounded hover:bg-surface-container-highest hover:text-on-surface" type="button"><span class="material-symbols-outlined text-lg">code</span></button>
+<span class="ml-auto font-label-sm text-label-sm text-tertiary flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Hỗ trợ viết bằng AI
+              </span>
+</div>
+<!-- Content Area -->
+<div class="p-md text-on-surface font-body-md text-body-md leading-relaxed flex flex-col gap-sm min-h-[220px]">
+<p class="font-semibold text-primary">📌 Trách nhiệm công việc chính:</p>
+<ul class="list-disc pl-lg flex flex-col gap-xs text-on-surface-variant">
+<li class="">Tham gia phát triển giao diện Web Dashboard cùng Tech Lead sử dụng React 18, TypeScript và TailwindCSS.</li>
+<li class="">Tối ưu hóa tốc độ tải trang và trải nghiệm người dùng trên các kích thước màn hình responsive.</li>
+<li class="">Được đào tạo viết Unit Test &amp; thực hành quy trình làm việc Git Flow chuyên nghiệp chuẩn Enterprise.</li>
+</ul>
+<p class="font-semibold text-primary pt-xs">🎯 Yêu cầu năng lực ứng viên:</p>
+<ul class="list-disc pl-lg flex flex-col gap-xs text-on-surface-variant">
+<li class="">Nắm vững nền tảng HTML5, CSS3, JavaScript ES6+ và tư duy Component trong React.</li>
+<li class="">Có ít nhất 1 dự án cá nhân hoặc đồ án môn học liên quan (đính kèm link GitHub là điểm cộng lớn).</li>
+<li class="">Tinh thần ham học hỏi, chủ động lắng nghe phản hồi và sẵn sàng đón nhận thử thách mới.</li>
+</ul>
+</div>
+</div>
+<!-- Required Tech Skills Tags -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface">Kỹ năng chuyên môn yêu cầu (Tags)</label>
+<div class="flex flex-wrap items-center gap-xs p-sm rounded-lg bg-surface-container-low">
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-primary text-on-primary font-label-sm text-label-sm">
+                React.js
+                <button class="material-symbols-outlined text-xs" type="button">close</button>
+</span>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-primary text-on-primary font-label-sm text-label-sm">
+                TypeScript
+                <button class="material-symbols-outlined text-xs" type="button">close</button>
+</span>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-primary text-on-primary font-label-sm text-label-sm">
+                TailwindCSS
+                <button class="material-symbols-outlined text-xs" type="button">close</button>
+</span>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-primary text-on-primary font-label-sm text-label-sm">
+                Git &amp; GitHub
+                <button class="material-symbols-outlined text-xs" type="button">close</button>
+</span>
+<input class="bg-transparent text-body-sm font-body-sm px-sm py-xs focus:outline-none placeholder:text-on-surface-variant/60" placeholder="+ Thêm kỹ năng (nhấn Enter)..." type="text">
+</div>
+</div>
+</div>
+<!-- Section 5: Prescreening Questions -->
+<div class="bg-surface-container-lowest p-lg md:p-xl rounded-xl shadow-sm flex flex-col gap-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">quiz</span>
+</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">5. Câu hỏi sàng lọc tự động (Prescreening)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Lọc nhanh ứng viên phù hợp với lịch học và trình độ thực tế</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-xs px-sm py-xs rounded-md bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">add_circle</span> Thêm câu hỏi
+            </button>
+</div>
+<div class="flex flex-col gap-md">
+<!-- Question 1 -->
+<div class="p-md rounded-xl bg-surface-container-low flex flex-col gap-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Câu hỏi 1: Lịch làm việc</span>
+<span class="font-label-sm text-label-sm text-primary bg-primary-container px-xs py-0.5 rounded">Trắc nghiệm</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">Bạn có thể thu xếp lên văn phòng tối thiểu bao nhiêu buổi trong tuần?</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Đáp án yêu cầu: Tối thiểu 4 buổi / tuần</p>
+</div>
+<!-- Question 2 -->
+<div class="p-md rounded-xl bg-surface-container-low flex flex-col gap-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Câu hỏi 2: Sản phẩm thực tế</span>
+<span class="font-label-sm text-label-sm text-primary bg-primary-container px-xs py-0.5 rounded">Đính kèm Link</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">Vui lòng đính kèm link Repository GitHub hoặc sản phẩm Demo Web bạn tâm đắc nhất:</p>
+</div>
+</div>
+</div>
+<!-- Form Sticky Action Footer -->
+<div class="flex flex-wrap items-center justify-between gap-md p-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<button class="inline-flex items-center gap-xs px-md py-sm rounded-lg hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-all" type="button">
+<span class="material-symbols-outlined text-base">close</span>
+<span class="">Hủy bỏ thay đổi</span>
+</button>
+<div class="flex items-center gap-sm">
+<button class="inline-flex items-center gap-xs px-md py-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="">Lưu nháp</span>
+</button>
+<button class="inline-flex items-center gap-xs px-xl py-sm rounded-lg bg-primary hover:bg-primary-dim text-on-primary font-label-md text-label-md shadow-md hover:shadow-lg transition-all" type="submit">
+<span class="">Đăng tin tuyển dụng ngay</span>
+<span class="material-symbols-outlined text-base">publish</span>
+</button>
+</div>
+</div>
+</form>
+<!-- RIGHT COLUMN: Sticky Real-time Preview & Quality Assistant (3 Cols) -->
+<aside class="lg:col-span-3 flex flex-col gap-lg sticky top-24">
+<!-- Widget 1: Real-time Student Card Preview -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-md flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Xem trước hiển thị trực tiếp</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chế độ Học sinh</span>
+</div>
+<!-- Simulated Student Job Card -->
+<div class="p-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-sm group">
+<div class="flex items-start justify-between gap-sm">
+<div class="flex items-center gap-sm">
+<!-- Company Logo Avatar -->
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container shadow-xs shrink-0" data-alt="Modern tech company logo with clean geometric symbol in blue gradient on pure white minimalist background" src="/assets/images/400665c052079266.png">
+<div class="min-w-0">
+<p class="font-headline-md text-body-md text-on-surface font-bold truncate">TechNova Solutions</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs truncate">
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+                    Doanh nghiệp đối tác trường học
+                  </p>
+</div>
+</div>
+<span class="inline-flex items-center gap-0.5 px-xs py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold shrink-0">
+                Tuyển gấp
+              </span>
+</div>
+<!-- Job Title -->
+<h3 class="font-headline-md text-body-lg text-primary font-bold line-clamp-2 leading-snug">
+              Thực tập sinh Frontend ReactJS (Có lương &amp; Trợ cấp)
+            </h3>
+<!-- Salary Tag -->
+<div class="flex items-center gap-xs">
+<span class="px-sm py-xs rounded-md bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold">
+                6 - 10 triệu / tháng
+              </span>
+<span class="px-sm py-xs rounded-md bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+                Hybrid
+              </span>
+</div>
+<!-- Badges -->
+<div class="flex flex-wrap gap-xs pt-xs">
+<span class="px-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-xs">
+                Mentor 1-on-1
+              </span>
+<span class="px-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-xs">
+                Dấu mộc tốt nghiệp
+              </span>
+<span class="px-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-xs">
+                Cấp Macbook
+              </span>
+</div>
+<!-- Card Bottom Meta -->
+<div class="flex items-center justify-between pt-sm text-on-surface-variant font-body-sm text-xs">
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                Bitexco, Quận 1, TP.HCM
+              </span>
+<span class="">Vừa xong</span>
+</div>
+</div>
+<p class="font-body-sm text-label-sm text-on-surface-variant text-center">Tin của bạn sẽ hiển thị với giao diện chuẩn này trong feed sinh viên.</p>
+</div>
+<!-- Widget 2: Post Quality Score Gauge -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-md flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Chỉ số tối ưu tin tuyển dụng</h3>
+<span class="font-label-sm text-label-sm text-tertiary font-bold bg-tertiary-fixed px-sm py-xs rounded-full">Hạng Tốt</span>
+</div>
+<!-- Score Progress Circle / Bar -->
+<div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low">
+<div class="relative w-16 h-16 flex items-center justify-center shrink-0">
+<!-- Inline SVG Progress Gauge -->
+<svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-tertiary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-md text-headline-md text-on-surface font-bold">85<span class="text-xs font-normal text-on-surface-variant">%</span></span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Tin đã sẵn sàng hút ứng viên</span>
+<span class="font-body-sm text-label-sm text-on-surface-variant">Được ưu tiên thuật toán hiển thị trên Top tìm kiếm</span>
+</div>
+</div>
+<!-- Optimization Tips List -->
+<div class="flex flex-col gap-sm">
+<div class="flex items-start gap-xs text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-base shrink-0 mt-0.5">check_circle</span>
+<span class="">Đã có khoảng phụ cấp thực tập rõ ràng (+40% ứng tuyển)</span>
+</div>
+<div class="flex items-start gap-xs text-body-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-base shrink-0 mt-0.5">check_circle</span>
+<span class="">Đã liên kết 2 trường ĐH mục tiêu tại TP.HCM</span>
+</div>
+<div class="flex items-start gap-xs text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">tips_and_updates</span>
+<span class="">Gợi ý: Thêm video ngắn giới thiệu văn phòng để đạt 100 điểm</span>
+</div>
+</div>
+</div>
+<!-- Widget 3: Authenticity & Trust Pledge Badge -->
+<div class="bg-surface-container-low p-lg rounded-xl flex flex-col gap-sm">
+<div class="flex items-center gap-xs text-secondary">
+<span class="material-symbols-outlined text-xl">verified_user</span>
+<span class="font-label-md text-label-md font-bold">Bảo chứng minh bạch Internships.io</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Mọi tin thực tập được kiểm duyệt trong 60 phút nhằm phòng chống lừa đảo việc làm và bảo vệ toàn diện dữ liệu sinh viên.
+          </p>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-secondary font-semibold pt-xs">
+<span class="">Chính sách kiểm duyệt tin tuyển dụng</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script type="module" src="/src/features/design/post-job-0.js"></script></main><footer class="internships-footer"><div class="itviec-footer-rings" aria-hidden="true"></div><div class="itviec-footer-inner"><div class="itviec-brand-block"><a class="internships-logo" href="/" aria-label="Internships.io home"><span class="internships-logo-mark"></span><span>Internships.io</span></a><p class="internships-tagline"><strong>KẾT NỐI TƯƠNG LAI NGHỀ NGHIỆP<br>SINH VIÊN</strong><small>BUILD YOU THEN BUILD IMPACT</small></p><div class="itviec-socials"><a href="#" aria-label="Website"><span class="material-symbols-outlined">language</span></a><a href="#" aria-label="Facebook"><span class="material-symbols-outlined">public</span></a><a href="#" aria-label="Youtube"><span class="material-symbols-outlined">play_circle</span></a></div></div><div class="itviec-footer-column"><h3>Về Internships.io</h3><a href="/">Trang Chủ</a><a href="/pages/profile/">Về chúng tôi</a><a href="/pages/job-detail/">Dịch vụ AI Matching sinh viên</a><a href="/pages/community/">Liên hệ</a><a href="/">Tất cả vị trí thực tập</a><a href="/pages/community/">Câu hỏi thường gặp</a></div><div class="itviec-footer-column"><h3>Chiến dịch &amp; Cộng đồng</h3><a href="/pages/community/">Chuyện thực tập</a><a href="/pages/community/">Cuộc thi viết CV &amp; Chia sẻ</a><a href="/">Vị trí thực tập nổi bật</a><a href="/pages/community/">Khảo sát lương thực tập sinh hàng năm</a><a href="/pages/university/">Mạng lưới đối tác Trường ĐH</a></div><div class="itviec-footer-column"><h3>Điều khoản chung</h3><a href="/pages/login/">Chính sách bảo mật</a><a href="/pages/login/">Quy chế hoạt động</a><a href="/pages/community/">Giải quyết khiếu nại</a><a href="/pages/login/">Thỏa thuận sử dụng</a><a href="/pages/community/">Thông cáo báo chí</a></div><div class="itviec-footer-column itviec-contact"><h3>Dành cho nhà tuyển dụng</h3><p>Bạn muốn đăng tin tuyển thực tập sinh?<br>Liên hệ tại:</p><a href="tel:+84977460519">Hồ Chí Minh: <b>(+84) 977 460 519</b></a><a href="tel:+84983131351">Hà Nội: <b>(+84) 983 131 351</b></a><a href="mailto:partner@internships.io">Email: partner@internships.io</a><a class="footer-contact-link" href="/pages/community/">Gửi thông tin liên hệ <span class="material-symbols-outlined">arrow_forward</span></a></div><div class="itviec-footer-bottom"><span>Copyright © Internships.io JSC</span><b>|</b><span>Mã số thuế: 0312192258</span></div></div></footer>
+
+
+
+
+<script type="module" src="/src/main.ts"></script></body></html>

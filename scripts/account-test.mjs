@@ -1,0 +1,48 @@
+import { chromium } from '@playwright/test';
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:900}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const base='http://127.0.0.1:5173';
+const manifest=JSON.parse(await fs.readFile('src/design-manifest.json','utf8'));
+try{
+ for(const entry of manifest.filter(entry=>!['login','register'].includes(entry.slug))){
+  await page.goto(base+entry.url,{waitUntil:'networkidle'});
+  const trigger=page.getByRole('button',{name:'Mở menu tài khoản',exact:true});
+  assert.equal(await trigger.count(),1,entry.slug+' account trigger');
+  await trigger.click();await page.getByRole('menu').waitFor();
+  assert.equal(await trigger.getAttribute('aria-expanded'),'true');
+  await page.keyboard.press('Escape');assert.equal(await page.getByRole('menu').count(),0);
+  await trigger.focus();await page.keyboard.press('Enter');await page.getByRole('menu').waitFor();
+  await page.getByRole('menuitem',{name:'Đăng xuất',exact:true}).click();
+  await page.getByRole('dialog',{name:'Đăng xuất tài khoản'}).waitFor();
+  await page.getByRole('button',{name:'Hủy',exact:true}).click();assert.equal(page.url(),base+entry.url);
+  console.log(entry.slug,'account menu + cancel passed');
+ }
+ await page.goto(base+'/');
+ await page.getByRole('button',{name:'Mở menu tài khoản'}).click();
+ await page.screenshot({path:'test-results/account-menu-desktop.png',animations:'disabled'});
+ await page.mouse.click(300,400);assert.equal(await page.getByRole('menu').count(),0);
+ await page.getByRole('button',{name:'Mở menu tài khoản'}).click();
+ await page.getByRole('menuitem',{name:'Xem hồ sơ cá nhân'}).click();await page.waitForURL(base+'/pages/profile/');
+ await page.getByRole('button',{name:'Mở menu tài khoản'}).click();await page.getByRole('menuitem',{name:'Chỉnh sửa hồ sơ / CV'}).click();await page.waitForURL(base+'/pages/cv-builder/');
+ await page.getByRole('button',{name:'Mở menu tài khoản'}).click();await page.getByRole('menuitem',{name:'Cài đặt thông báo'}).click();
+ await page.locator('dialog input[name=jobs]').uncheck();await page.getByRole('button',{name:'Lưu cài đặt'}).click();await page.reload();
+ await page.getByRole('button',{name:'Mở menu tài khoản'}).click();await page.getByRole('menuitem',{name:'Cài đặt thông báo'}).click();assert.equal(await page.locator('dialog input[name=jobs]').isChecked(),false);await page.keyboard.press('Escape');
+ await page.goto(base+'/');await page.locator('[title="Lưu công việc"]').first().click();
+ await page.getByRole('button',{name:'Mở menu tài khoản'}).click();await page.getByRole('menuitem',{name:'Việc làm đã lưu'}).click();
+ await page.locator('.app-remove-saved').first().click();assert.equal(await page.locator('[title="Lưu công việc"]').first().getAttribute('aria-pressed'),'false');await page.keyboard.press('Escape');
+ await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Mở menu tài khoản'}).click();
+ const rect=await page.getByRole('menu').boundingBox();assert(rect.x>=0&&rect.x+rect.width<=390);await page.screenshot({path:'test-results/account-menu-mobile.png',animations:'disabled'});
+ await page.keyboard.press('End');assert.equal(await page.locator(':focus').textContent(),'logoutĐăng xuất');
+ await page.getByRole('menuitem',{name:'Đăng xuất',exact:true}).click();await page.screenshot({path:'test-results/logout-modal-mobile.png',animations:'disabled'});
+ await page.evaluate(()=>{localStorage.setItem('internships:demo-session',JSON.stringify({role:'student'}));localStorage.setItem('internships:form:cv-builder',JSON.stringify({name:'Keep me'}));});
+ await page.getByRole('dialog').getByRole('button',{name:'Đăng xuất',exact:true}).click();await page.waitForURL(base+'/pages/login/');
+ assert.equal(await page.evaluate(()=>localStorage.getItem('internships:demo-session')),null);assert.notEqual(await page.evaluate(()=>localStorage.getItem('internships:form:cv-builder')),null);
+ await page.goto(base+'/pages/messages/');await page.getByRole('button',{name:'Tùy chọn cuộc trò chuyện'}).click();await page.getByRole('menuitem',{name:'Tắt thông báo cuộc trò chuyện'}).click();await page.reload();
+ assert.match(await page.locator('#conversation-status').textContent(),/Đã tắt thông báo/);
+ await page.goto(base+'/pages/community/');await page.getByRole('button',{name:'Tùy chọn bài viết'}).first().click();await page.getByRole('menuitem',{name:'Báo cáo bài viết'}).click();await page.getByRole('dialog',{name:'Báo cáo nội dung'}).waitFor();
+ assert.deepEqual(errors,[]);
+ console.log('Profile navigation, preferences, saved jobs, mobile menus, logout, contextual menus passed.');
+}finally{await browser.close();}
