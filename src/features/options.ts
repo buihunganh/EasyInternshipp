@@ -10,6 +10,7 @@ function report(context:string){
 }
 
 export function setupOptions(page:string){
+  if(page==='messages')return; // Conversation menus are scoped to the active demo thread.
   for(const button of document.querySelectorAll<HTMLButtonElement>('button')){
     const icon=button.querySelector('.material-symbols-outlined')?.textContent?.trim();
     if(!['more_horiz','more_vert'].includes(icon || ''))continue;

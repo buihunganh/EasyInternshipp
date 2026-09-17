@@ -8,7 +8,10 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "node scripts/smoke-test.mjs",
-    "test:account": "node scripts/account-test.mjs"
+    "test:account": "node scripts/account-test.mjs",
+    "test:demo": "node scripts/demo-test.mjs",
+    "test:admin": "node scripts/admin-test.mjs",
+    "test:design": "node scripts/design-system-test.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

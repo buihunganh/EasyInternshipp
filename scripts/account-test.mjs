@@ -7,6 +7,8 @@ const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base='http://127.0.0.1:5173';
 const manifest=JSON.parse(await fs.readFile('src/design-manifest.json','utf8'));
 try{
+ await page.goto(base+'/');
+ await page.evaluate(()=>localStorage.setItem('internships:demo-session',JSON.stringify({role:'student'})));
  for(const entry of manifest.filter(entry=>!['login','register'].includes(entry.slug))){
   await page.goto(base+entry.url,{waitUntil:'networkidle'});
   const trigger=page.getByRole('button',{name:'Mở menu tài khoản',exact:true});
@@ -40,6 +42,7 @@ try{
  await page.evaluate(()=>{localStorage.setItem('internships:demo-session',JSON.stringify({role:'student'}));localStorage.setItem('internships:form:cv-builder',JSON.stringify({name:'Keep me'}));});
  await page.getByRole('dialog').getByRole('button',{name:'Đăng xuất',exact:true}).click();await page.waitForURL(base+'/pages/login/');
  assert.equal(await page.evaluate(()=>localStorage.getItem('internships:demo-session')),null);assert.notEqual(await page.evaluate(()=>localStorage.getItem('internships:form:cv-builder')),null);
+ await page.evaluate(()=>localStorage.setItem('internships:demo-session',JSON.stringify({role:'student'})));
  await page.goto(base+'/pages/messages/');await page.getByRole('button',{name:'Tùy chọn cuộc trò chuyện'}).click();await page.getByRole('menuitem',{name:'Tắt thông báo cuộc trò chuyện'}).click();await page.reload();
  assert.match(await page.locator('#conversation-status').textContent(),/Đã tắt thông báo/);
  await page.goto(base+'/pages/community/');await page.getByRole('button',{name:'Tùy chọn bài viết'}).first().click();await page.getByRole('menuitem',{name:'Báo cáo bài viết'}).click();await page.getByRole('dialog',{name:'Báo cáo nội dung'}).waitFor();

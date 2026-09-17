@@ -21,7 +21,7 @@ export function savedJobs() {
     if(!jobs.length){const empty=document.createElement('p');empty.className='app-muted';empty.textContent='Bạn chưa lưu công việc nào. Bấm biểu tượng đánh dấu ở một tin tuyển dụng để lưu lại.';list.append(empty);return;}
     jobs.forEach(job=>{
       const row=document.createElement('div');row.className='app-saved-row';
-      const link=document.createElement('a');link.href=routes['job-detail'];link.textContent=job;
+      const link=document.createElement('a');link.href=routes['job-detail']+'?job='+encodeURIComponent(job);link.textContent=job;
       const remove=document.createElement('button');remove.type='button';remove.className='app-remove-saved';remove.textContent='Bỏ lưu';remove.setAttribute('aria-label',`Bỏ lưu ${job}`);
       remove.addEventListener('click',()=>{write('saved-jobs',read<string[]>('saved-jobs',[]).filter(value=>value!==job));render();window.dispatchEvent(new Event('saved-jobs-changed'));});
       row.append(link,remove);list.append(row);

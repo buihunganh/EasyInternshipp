@@ -9,6 +9,8 @@ await fs.mkdir('test-results',{recursive:true});
 const errors=[];page.on('pageerror',error=>errors.push(error.message));
 const results=[];
 try {
+  await page.goto(base+'/');
+  await page.evaluate(()=>localStorage.setItem('internships:demo-session',JSON.stringify({role:'student'})));
   for(const entry of manifest){
     const response=await page.goto(base+entry.url,{waitUntil:'networkidle'});
     await page.evaluate(()=>document.fonts.ready);
