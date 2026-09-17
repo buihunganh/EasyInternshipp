@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><title>Việc làm thực tập | Internships.io</title><meta name="description" content="Việc làm thực tập — Nền tảng kết nối sinh viên và doanh nghiệp."><link rel="stylesheet" href="/src/styles/generated/jobs.css"><link rel="stylesheet" href="/src/styles/app.css"></head><body data-page="jobs" class="bg-background font-body-md text-on-background"><div class="min-h-screen bg-background text-on-background flex flex-col">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><title>Việc làm thực tập | Internships.io</title><meta name="description" content="Việc làm thực tập — Nền tảng kết nối sinh viên và doanh nghiệp."><link rel="stylesheet" href="/src/styles/generated/jobs.css"><link rel="stylesheet" href="/src/styles/app.css"><link rel="stylesheet" href="/src/styles/tokens.css"><link rel="stylesheet" href="/src/styles/design-system.css"></head><body data-page="jobs" class="bg-background font-body-md text-on-background"><div class="min-h-screen bg-background text-on-background flex flex-col">
 <!-- Global Top Navigation Bar -->
 <header class="sticky top-0 h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 px-lg flex items-center justify-between">
 <div class="flex items-center gap-xl">
@@ -71,12 +71,12 @@
 </div>
 </section>
 <!-- 3-Column LinkedIn Architecture Layout Container -->
-<div class="max-w-content mx-auto w-full px-md lg:px-lg py-lg">
-<div class="flex flex-col lg:flex-row gap-lg items-start">
+<div class="home-container max-w-content mx-auto w-full px-md lg:px-lg py-lg">
+<div class="home-layout flex flex-col lg:flex-row gap-lg items-start">
 <!-- ================= 1. LEFT SIDEBAR (~270px) ================= -->
-<aside class="w-full lg:w-[270px] flex-shrink-0 flex flex-col gap-md">
+<aside class="home-filters w-full lg:w-[270px] flex-shrink-0 flex flex-col gap-md">
 <!-- Student Profile Card -->
-<div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm relative overflow-hidden">
+<div data-auth-only hidden class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm relative overflow-hidden">
 <div class="h-16 -mx-md -mt-md bg-gradient-to-r from-primary/80 to-primary-container relative">
 <span class="absolute top-2 right-2 bg-surface/90 text-primary font-label-sm px-xs py-[2px] rounded text-[11px] font-semibold">Sinh viên</span>
 </div>
@@ -186,7 +186,7 @@
 </div>
 </aside>
 <!-- ================= 2. CENTER FEED (~650px - 700px) ================= -->
-<main class="flex-1 max-w-full lg:max-w-[700px] flex flex-col gap-md">
+<main class="home-feed flex-1 max-w-full lg:max-w-[700px] flex flex-col gap-md">
 <!-- Feed Header Toolbar -->
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm bg-surface-container-lowest p-md rounded-xl border border-outline-variant/40 shadow-sm">
 <div>
@@ -404,7 +404,7 @@
 </div>
 </main>
 <!-- ================= 3. RIGHT SIDEBAR (~300px) ================= -->
-<aside class="w-full lg:w-[300px] flex-shrink-0 flex flex-col gap-md">
+<aside class="home-discovery w-full lg:w-[300px] flex-shrink-0 flex flex-col gap-md">
 <!-- Top Hiring Companies -->
 <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm space-y-md">
 <div class="flex items-center justify-between pb-xs border-b border-outline-variant/30">

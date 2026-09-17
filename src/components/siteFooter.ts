@@ -1,5 +1,13 @@
 export function renderSiteFooter() {
-  document.querySelectorAll('body > footer').forEach(footer => footer.remove());
+  document.querySelectorAll('body > footer, footer.internships-footer, footer.itviec-footer, footer.workspace-footer').forEach(footer => footer.remove());
+  const workspacePages = ['candidates', 'employer', 'post-job', 'messages', 'cv-builder', 'profile'];
+  if (workspacePages.includes(document.body.dataset.page || '')) {
+    const footer = document.createElement('footer');
+    footer.className = 'workspace-footer';
+    footer.innerHTML = `<a href="/" aria-label="Internships.io — Trang chủ">Internships.io</a><span>© ${new Date().getFullYear()} Internships.io</span><a href="mailto:partner@internships.io">Liên hệ hỗ trợ</a>`;
+    document.body.append(footer);
+    return;
+  }
   const footer = document.createElement('footer'); footer.className = 'internships-footer';
   footer.innerHTML = `<div class="itviec-footer-rings" aria-hidden="true"></div><div class="itviec-footer-inner">
     <div class="itviec-brand-block"><a class="internships-logo" href="/" aria-label="Internships.io home"><span class="internships-logo-mark"></span><span>Internships.io</span></a><p class="internships-tagline"><strong>KẾT NỐI TƯƠNG LAI NGHỀ NGHIỆP<br>SINH VIÊN</strong><small>BUILD YOU THEN BUILD IMPACT</small></p><div class="itviec-socials"><a href="#" aria-label="Website"><span class="material-symbols-outlined">language</span></a><a href="#" aria-label="Facebook"><span class="material-symbols-outlined">public</span></a><a href="#" aria-label="Youtube"><span class="material-symbols-outlined">play_circle</span></a></div></div>

@@ -1,3 +1,5 @@
+import { requireSignIn, isSignedIn } from './auth';
+import { isRecruiterWorkspace, workspaceHref } from './workspace';
 import { dialog } from '../components/feedback';
 import { read } from './storage';
 
@@ -30,6 +32,7 @@ export function destination(text: string): string | undefined {
   if (/intern|chi tiết công việc|xem chi tiết/i.test(text)) return routes['job-detail'];
 }
 export function applications() {
+  if (!requireSignIn('/?view=applications')) return;
   const saved = read<string[]>('applications', []);
   dialog('Đơn ứng tuyển', '<p id="application-list"></p>', 'Đóng');
   document.getElementById('application-list')!.textContent = saved.length ? saved.join(' • ') : 'Chưa có đơn ứng tuyển trong bản demo. Hãy chọn một việc làm và nộp hồ sơ.';
@@ -40,7 +43,7 @@ export function setupNavigation() {
     const text = label(a);
     if (/đơn ứng tuyển/i.test(text)) { a.addEventListener('click', e => {e.preventDefault(); applications();}); return; }
     const href = destination(text);
-    if (href) a.href = href;
+    if (href) a.href = workspaceHref(href);
     else a.addEventListener('click', e => {e.preventDefault(); dialog(text || 'Thông tin', '<p>Nội dung này đang chờ kết nối dữ liệu từ hệ thống.</p>', 'Đóng');});
   });
   document.querySelectorAll<HTMLElement>('header img').forEach(img => {
@@ -50,9 +53,10 @@ export function setupNavigation() {
     target.addEventListener('click', () => location.assign('/'));
   });
   const mobile = document.createElement('nav'); mobile.className = 'app-mobile-nav'; mobile.setAttribute('aria-label','Điều hướng trên điện thoại');
-  const items = ['employer','candidates','post-job'].includes(document.body.dataset.page || '')
+  const items = isRecruiterWorkspace()
     ? [['employer','dashboard','Tổng quan'],['candidates','group','Ứng viên'],['post-job','add_circle','Đăng tin'],['messages','chat','Tin nhắn']]
     : [['jobs','work','Việc làm'],['community','forum','Cộng đồng'],['messages','chat','Tin nhắn'],['profile','person','Hồ sơ']];
-  mobile.innerHTML = items.map(([key,icon,name])=>`<a href="${routes[key]}"><span class="material-symbols-outlined">${icon}</span>${name}</a>`).join('');
+  mobile.innerHTML = items.filter(([key]) => isSignedIn() || !['messages', 'profile'].includes(key)).map(([key,icon,name])=>`<a href="${workspaceHref(routes[key])}" ${key === document.body.dataset.page ? 'aria-current="page"' : ''}><span class="material-symbols-outlined">${icon}</span>${name}</a>`).join('');
   document.body.append(mobile);
+  if (isSignedIn() && new URLSearchParams(location.search).get('view') === 'applications') applications();
 }

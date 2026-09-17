@@ -1,0 +1,48 @@
+/* Focused recruiting workspace; keep cards readable instead of squeezing columns. */
+body[data-page=candidates]{background:var(--ui-page);color:var(--ui-text);font:14px/1.5 Inter, sans-serif}
+body[data-page=candidates]>aside{width:224px;border-right:1px solid var(--ui-border);box-shadow:none}
+body[data-page=candidates]>.pl-64{padding-left:224px}
+body[data-page=candidates] header{left:224px;background:#fff;border-bottom:1px solid var(--ui-border);box-shadow:none;padding:0 28px}
+body[data-page=candidates] main{overflow:visible;background:var(--ui-page)}
+.candidate-workspace{padding:28px;gap:24px;max-width:1800px;margin:auto}
+.candidate-workspace>div:first-child{padding:0;background:transparent;box-shadow:none;gap:16px}
+.candidate-workspace h1{font-size:26px;line-height:1.3;font-weight:700}
+.candidate-workspace button{min-height:36px;line-height:1.4}
+#jobSelectorBtn{flex-wrap:wrap;text-align:left;box-shadow:none;max-width:100%}
+.candidate-metrics{gap:12px!important;grid-template-columns:repeat(4,minmax(0,1fr))}
+.candidate-metrics>div{padding:16px;border:1px solid var(--ui-border);box-shadow:none;border-radius:10px}
+.candidate-metrics>div>div:first-child>span:last-child,.candidate-metrics>div>div:last-child:not(.my-sm){display:none}
+.candidate-metrics .my-sm{margin:8px 0 0}
+.candidate-metrics .my-sm>span:first-child{font-size:28px}
+.candidate-metrics .my-sm>span:last-child{display:none}
+.candidate-metrics>div>div:nth-child(3){display:none}
+.candidate-filters{border:1px solid var(--ui-border);background:#fff;padding:16px}
+.candidate-filters summary{cursor:pointer;font-weight:600;min-height:24px}
+.candidate-filters summary span{font-size:12px;font-weight:400;color:var(--ui-muted);margin-left:12px}
+.candidate-filters[open]>div{margin-top:16px}
+.candidate-filters select{min-height:40px;border:1px solid #dde3ed;background:#f8fafc}
+.candidate-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.candidate-board>div{min-width:0;min-height:0;background:#eef2f6;padding:12px;gap:12px;border-radius:12px}
+.candidate-board h2{font-size:14px;line-height:1.5}
+.candidate-board>div>div:first-child{min-height:32px;gap:12px}
+.candidate-board>div>div:not(:first-child){padding:18px;border:1px solid #e0e6ee;box-shadow:none;background:#fff;gap:14px;border-radius:10px}
+.candidate-board img{width:40px;height:40px;flex-shrink:0}
+.candidate-board .animate-ping,.candidate-board .animate-pulse{animation:none}
+.candidate-board>div>div:not(:first-child)>div:first-child{flex-wrap:wrap;gap:12px}
+.candidate-board>div>div:not(:first-child)>div:first-child>div{min-width:0;flex:1}
+.candidate-board .font-headline-md{font-size:16px;line-height:1.5;color:var(--ui-text);font-weight:600}
+.candidate-board .font-label-sm{font-size:13px;line-height:1.45}
+.candidate-board .text-on-surface-variant{color:var(--ui-muted)}
+.candidate-board .flex.items-center.justify-between{gap:12px}
+.candidate-board button{white-space:normal;padding:8px 12px}
+.candidate-board .truncate{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#targetCandidateCard{border-color:#bccbe8}
+#targetCandidateCard>div.absolute{position:static;align-self:flex-start;border-radius:5px;background:#e5f4ef;color:#17654f;font-size:12px}
+#targetCandidateCard>div:nth-child(2){margin-top:0}
+.candidate-extra{border-top:1px solid var(--ui-border);padding-top:12px;color:var(--ui-muted);font-size:13px}
+.candidate-extra summary{cursor:pointer;color:#405a8b;font-weight:500}
+.candidate-extra[open]>div{margin-top:12px}
+body[data-page=candidates] #candidateDrawer{position:fixed;inset:80px 20px 20px auto;width:min(460px,calc(100vw - 40px));max-height:calc(100dvh - 100px);overflow:auto;z-index:80;border:1px solid #dbe2ee;box-shadow:0 16px 60px #25324a33}
+@media(min-width:1600px){.candidate-board{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1000px){.candidate-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.candidate-workspace{padding:20px}.candidate-board{grid-template-columns:1fr}}
+@media(max-width:767px){body[data-page=candidates]>.pl-64{padding-left:0}body[data-page=candidates] header{left:0;padding:0 16px}body[data-page=candidates] header>div:first-child{display:none}.candidate-workspace{padding:20px 16px}.candidate-workspace h1{font-size:23px}.candidate-filters summary span{display:block;margin:4px 0 0}.candidate-board{gap:16px}}

@@ -1,3 +1,4 @@
+import { isSignedIn } from '../lib/auth';
 import { label, routes } from '../lib/navigation';
 import { read, write } from '../lib/storage';
 
@@ -43,7 +44,7 @@ export function setupJobs() {
   });
   document.querySelectorAll<HTMLButtonElement>('button[title="Lưu công việc"]').forEach((button,index)=>{
     const key=headings[index]?.textContent?.trim() || String(index);let saved=read<string[]>('saved-jobs',[]);
-    const render=()=>{const active=saved.includes(key);button.setAttribute('aria-pressed',String(active));button.querySelector('span')!.textContent=active?'bookmark':'bookmark_border';};render();
+    const render=()=>{const active=isSignedIn() && saved.includes(key);button.setAttribute('aria-pressed',String(active));button.querySelector('span')!.textContent=active?'bookmark':'bookmark_border';};render();
     window.addEventListener('saved-jobs-changed',()=>{saved=read<string[]>('saved-jobs',[]);render();});
     button.addEventListener('click',e=>{e.stopPropagation();saved=read<string[]>('saved-jobs',[]);saved=saved.includes(key)?saved.filter(x=>x!==key):[...saved,key];write('saved-jobs',saved);render();});
   });

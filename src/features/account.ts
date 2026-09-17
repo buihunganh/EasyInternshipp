@@ -1,3 +1,4 @@
+import { isRecruiterWorkspace, workspaceHref } from '../lib/workspace';
 import { attachMenu, type MenuItem } from '../components/menu';
 import { dialog, toast } from '../components/feedback';
 import { applications, routes } from '../lib/navigation';
@@ -48,7 +49,7 @@ export function setupAccount(page:string){
     if(page==='login'&&sessionStorage.getItem('internships:logged-out')){sessionStorage.removeItem('internships:logged-out');toast('Bạn đã đăng xuất.');}
     return;
   }
-  const employer=['employer','candidates','post-job'].includes(page);
+  const employer=isRecruiterWorkspace();
   for(const header of document.querySelectorAll('header')){
     header.querySelectorAll<HTMLElement>('[class~="group-hover:block"]').forEach(menu=>{if(menu.textContent?.includes('Đăng xuất'))menu.remove();});
     const images=[...header.querySelectorAll<HTMLImageElement>('img')];
@@ -66,7 +67,7 @@ export function setupAccount(page:string){
     trigger.setAttribute('aria-label','Mở menu tài khoản');trigger.style.cursor='pointer';
     const displayName=employer?'Mai Phương':(trigger.querySelector('.text-left span')?.textContent?.trim() || 'Nguyễn Minh Thư');
     attachMenu(trigger,():MenuItem[]=>[
-      {label:employer?'Xem hồ sơ doanh nghiệp':'Xem hồ sơ cá nhân',icon:employer?'business':'person',action:()=>location.assign(employer?routes.company:routes.profile)},
+      {label:employer?'Xem hồ sơ doanh nghiệp':'Xem hồ sơ cá nhân',icon:employer?'business':'person',action:()=>location.assign(employer?workspaceHref(routes.company):routes.profile)},
       ...(!employer?[{label:'Chỉnh sửa hồ sơ / CV',icon:'edit',action:()=>location.assign(routes['cv-builder'])},{label:'Đơn ứng tuyển',icon:'send',action:applications},{label:'Việc làm đã lưu',icon:'bookmark',action:savedJobs}]:[{label:'Quản lý tuyển dụng',icon:'dashboard',action:()=>location.assign(routes.employer)},{label:'Quản lý ứng viên',icon:'group',action:()=>location.assign(routes.candidates)}]),
       {label:'Cài đặt thông báo',icon:'settings',action:settings,divider:true},
       {label:'Đăng xuất',icon:'logout',action:logout,danger:true,divider:true}

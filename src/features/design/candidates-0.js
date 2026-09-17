@@ -49,3 +49,30 @@
       }, 900);
     });
   }
+
+// Keep secondary project information available without crowding the board.
+if (targetCard) {
+  const project = targetCard.children[2];
+  const details = document.createElement('details');
+  details.className = 'candidate-extra';
+  const summary = document.createElement('summary');
+  summary.textContent = 'Dự án & kỹ năng';
+  details.append(summary);
+  project.replaceWith(details);
+  details.append(project);
+  details.addEventListener('click', event => event.stopPropagation());
+  targetCard.tabIndex = 0;
+  targetCard.setAttribute('aria-label', 'Xem hồ sơ Nguyễn Minh Thư');
+  targetCard.addEventListener('keydown', event => {
+    if (event.target === targetCard && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      openCandidateDrawer();
+    }
+  });
+}
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && drawer && !drawer.classList.contains('hidden')) {
+    closeCandidateDrawer();
+    targetCard?.focus();
+  }
+});

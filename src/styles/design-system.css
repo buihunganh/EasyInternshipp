@@ -1,0 +1,25 @@
+/* Shared visual rules over page-specific generated utilities. Layout stays local. */
+body[data-page]{font-family:var(--ui-font);color:var(--ui-text);background-color:var(--ui-page)}
+body[data-page] main.bg-background,body[data-page] main.bg-surface{background-color:var(--ui-page)}
+body[data-page] .text-on-surface,body[data-page] .text-on-background{color:var(--ui-text)}
+body[data-page] .text-on-surface-variant{color:var(--ui-muted)}
+body[data-page] .text-primary{color:var(--ui-primary)}
+body[data-page] .bg-surface-container-lowest{background-color:var(--ui-surface)}
+body[data-page] :is(button,a).bg-primary,body[data-page] .admin-primary,body[data-page] .app-dialog-actions .app-primary{background:var(--ui-primary);color:var(--ui-surface);border-color:var(--ui-primary)}
+body[data-page] :is(button,a).bg-primary:hover,body[data-page] .admin-primary:hover,body[data-page] .app-dialog-actions .app-primary:hover{background:var(--ui-primary-hover);border-color:var(--ui-primary-hover)}
+body[data-page] button:not(.rounded-full):not(.site-header-notifications):not(.role-btn),body[data-page] a.bg-primary{border-radius:var(--ui-radius-control)}
+body[data-page] button:not(.role-btn):not(.material-symbols-outlined){font-family:var(--ui-font)}
+body[data-page] :is(button,a).bg-primary,body[data-page] .admin-primary,body[data-page] .admin-actions button,body[data-page] .app-dialog-actions button{font-size:var(--ui-control-size);font-weight:500;line-height:1.5}
+body[data-page] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),body[data-page] select,body[data-page] textarea{font-family:var(--ui-font);border-radius:var(--ui-radius-control);accent-color:var(--ui-primary)}
+body[data-page] :is(input,textarea)::placeholder{color:var(--ui-muted);opacity:1}
+body[data-page] :is(input,textarea,select):focus-visible{outline:2px solid var(--ui-primary);outline-offset:2px;box-shadow:var(--ui-focus)}
+body[data-page] :is(button,a,summary,[tabindex]):focus-visible{outline:2px solid var(--ui-primary);outline-offset:3px}
+body[data-page] :is(button,input,select,textarea):disabled{opacity:.55;cursor:not-allowed}
+body[data-page] :is(input,textarea,select)[aria-invalid=true]{border-color:var(--ui-danger);outline-color:var(--ui-danger)}
+body[data-page] main .rounded-xl,body[data-page] :is(.admin-stat,.admin-table-wrap,.admin-overview article,.admin-login-card,.candidate-board>div>div:not(:first-child)){border-radius:var(--ui-radius-card)}
+body[data-page] :is(.site-header-nav,.recruiter-sidebar nav,.admin-sidebar nav) a[aria-current=page],body[data-page] .app-mobile-nav a[aria-current=page]{background:var(--ui-primary-soft);color:var(--ui-primary)!important;border-radius:var(--ui-radius-control)}
+body[data-page] :is(.site-header,.admin-top,.admin-login-top){background:var(--ui-surface);border-bottom-color:var(--ui-border);color:var(--ui-text)}
+body[data-page] :is(.recruiter-sidebar,.admin-sidebar){border-right-color:var(--ui-border)}
+body[data-page] :is(.workspace-footer,.admin-footer,.admin-login-footer){color:var(--ui-muted);font-size:12px}
+body[data-page=admin] .admin-heading h1,body[data-page=candidates] .candidate-workspace h1{font-size:var(--ui-title-size);line-height:1.3;color:var(--ui-text)}
+@media(max-width:767px){body[data-page=admin] .admin-heading h1,body[data-page=candidates] .candidate-workspace h1{font-size:23px}}

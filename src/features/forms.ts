@@ -1,3 +1,4 @@
+import { requireSignIn, safeReturnPath } from '../lib/auth';
 import { read, write } from '../lib/storage';
 import { dialog, toast } from '../components/feedback';
 import { routes } from '../lib/navigation';
@@ -29,6 +30,16 @@ export function setupForms(page: string) {
     });
   }
   if (['login','register'].includes(page)) {
+    const next = safeReturnPath(new URLSearchParams(location.search).get('next'));
+    if (next) {
+      const notice = document.createElement('p');
+      notice.className = 'app-muted'; notice.setAttribute('role', 'status');
+      notice.textContent = 'Vui lòng đăng nhập để sử dụng chức năng này. Bạn sẽ được đưa trở lại sau khi đăng nhập.';
+      document.querySelector('form')?.prepend(notice);
+      document.querySelectorAll<HTMLAnchorElement>('a').forEach(link => {
+        if (['/pages/login/', '/pages/register/'].includes(link.pathname)) link.search = '?next=' + encodeURIComponent(next);
+      });
+    }
     let role = 'student';
     document.querySelectorAll<HTMLElement>('[data-role]').forEach(button => button.addEventListener('click', () => {role = button.dataset.role || 'student';}));
     document.querySelectorAll('form').forEach(form => form.addEventListener('submit', event => {
@@ -40,7 +51,8 @@ export function setupForms(page: string) {
       if(page==='register'&&passwords.length>1&&passwords[0].value!==passwords[1].value){passwords[1].setCustomValidity('Mật khẩu xác nhận chưa khớp.');passwords[1].reportValidity();passwords[1].addEventListener('input',()=>passwords[1].setCustomValidity(''),{once:true});return;}
       // Demo session only; never persist passwords or claim backend authentication.
       write('demo-session', {role});
-      location.assign(['recruiter','employer'].includes(role) ? routes.employer : role==='university' ? routes.university : routes.jobs);
+      const next = safeReturnPath(new URLSearchParams(location.search).get('next'));
+      location.assign(next || (['recruiter','employer'].includes(role) ? routes.employer : role==='university' ? routes.university : routes.jobs));
     }));
   }
   document.querySelectorAll('form').forEach(form => {
@@ -49,6 +61,7 @@ export function setupForms(page: string) {
   });
 }
 export function apply(job?: string) {
+  if (!requireSignIn()) return;
   const title = job || document.querySelector('h1')?.textContent?.trim() || 'Software Engineering Intern';
   dialog('Ứng tuyển — ' + title, '<p>Hồ sơ ứng tuyển demo được lưu trên trình duyệt.</p><label>Email liên hệ<input name="email" type="email" required placeholder="ban@example.com"></label><label>Thư giới thiệu<textarea name="letter" placeholder="Giới thiệu ngắn về bạn..."></textarea></label>', 'Lưu đơn ứng tuyển', () => {
     const entries = read<string[]>('applications', []); if (!entries.includes(title)) entries.push(title);

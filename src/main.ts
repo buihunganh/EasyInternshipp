@@ -1,3 +1,7 @@
+import { setupAccess, isSignedIn } from './lib/auth';
+import { renderSiteHeader } from './components/siteHeader';
+import { setupWorkflow } from './features/workflow';
+import { renderRecruiterSidebar } from './components/recruiterSidebar';
 import { setupNavigation, destination, label, routes } from './lib/navigation';
 import { toast, dialog } from './components/feedback';
 import { setupForms, saveForm, apply } from './features/forms';
@@ -9,8 +13,11 @@ import { setupOptions } from './features/options';
 import { renderSiteFooter } from './components/siteFooter';
 
 const page=document.body.dataset.page || 'jobs';
+if (setupAccess(page)) {
 renderSiteFooter();
-setupNavigation();setupForms(page);
+renderRecruiterSidebar(page);
+renderSiteHeader(page);
+setupNavigation();setupWorkflow(page);setupForms(page);
 setupAccount(page);
 setupOptions(page);
 if(page==='jobs')setupJobs();
@@ -61,4 +68,6 @@ function renderPosts(){
   const block=document.createElement('section');block.id='demo-posts';block.style.cssText='padding:24px;margin:24px;background:white;border:1px solid #dbe1ff;border-radius:12px';
   posts.forEach(post=>{const article=document.createElement('p');article.textContent=post;article.style.cssText='white-space:pre-wrap;padding:16px 0;border-bottom:1px solid #ebedff';block.append(article);});document.querySelector('main')?.prepend(block);
 }
-if(page==='community')renderPosts();
+if(page==='community' && isSignedIn())renderPosts();
+
+}

@@ -1,0 +1,24 @@
+﻿/* Shared design tokens. All new components should use these variables. */
+:root{
+  --ui-primary:#3f5baa;
+  --ui-primary-hover:#334b8e;
+  --ui-primary-soft:#eaf0ff;
+  --ui-text:#243157;
+  --ui-muted:#64748b;
+  --ui-page:#f6f8fb;
+  --ui-surface:#ffffff;
+  --ui-subtle:#f1f4f8;
+  --ui-border:#e1e7ee;
+  --ui-success:#216b50;
+  --ui-success-soft:#e6f5ef;
+  --ui-warning:#866018;
+  --ui-warning-soft:#fff4de;
+  --ui-danger:#a53a3a;
+  --ui-danger-soft:#fff0f0;
+  --ui-radius-control:8px;
+  --ui-radius-card:12px;
+  --ui-font:Inter,Arial,sans-serif;
+  --ui-control-size:14px;
+  --ui-title-size:26px;
+  --ui-focus:0 0 0 3px #3f5baa26;
+}
