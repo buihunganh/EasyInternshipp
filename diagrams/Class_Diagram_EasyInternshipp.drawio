@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-08T16:15:00.000Z" agent="EasyInternshipp OOAD" version="24.0.0" type="device">
+  <diagram id="class-diagram-easyinternshipp" name="Class Diagram - EasyInternshipp Domain Model">
+    <mxGraphModel dx="2000" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2150" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title Block -->
+        <mxCell id="title_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#3f51b5;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="620" y="20" width="900" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="title_text" value="&lt;b style=&quot;font-size: 18px; color: #1a237e;&quot;&gt;UML CLASS DIAGRAM (SƠ ĐỒ LỚP HƯỚNG ĐỐI TƯỢNG)&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 13px; color: #283593;&quot;&gt;Hệ thống Tuyển dụng Thực tập &amp; Quản trị Tuyển dụng ATS EasyInternshipp (Internships.io)&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="640" y="25" width="860" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== 1. ABSTRACT BASE CLASS: User ==================== -->
+        <mxCell id="class_User" value="&amp;laquo;abstract&amp;raquo;&#xa;&lt;b&gt;User&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- email: String&#xa;- passwordHash: String&#xa;- fullName: String&#xa;- phone: String&#xa;- avatarUrl: String&#xa;- role: UserRole&#xa;- status: AccountStatus&#xa;- createdAt: DateTime&#xa;- updatedAt: DateTime&#xa;--&#xa;+ register(): Boolean&#xa;+ login(password: String): AuthToken&#xa;+ logout(): Void&#xa;+ updateProfile(dto: ProfileDTO): Boolean&#xa;+ changePassword(oldPw: String, newPw: String): Boolean&#xa;+ resetPassword(token: String, newPw: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontColor=#0d47a1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="910" y="110" width="300" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== 2. INHERITING USER CLASSES ==================== -->
+        <!-- Student -->
+        <mxCell id="class_Student" value="&lt;b&gt;Student&lt;/b&gt;&#xa;--&#xa;- studentCode: String&#xa;- universityId: String [FK]&#xa;- major: String&#xa;- gpa: Float&#xa;- graduationYear: Int&#xa;- skills: List&amp;lt;String&amp;gt;&#xa;- isLookingForJob: Boolean&#xa;- isVerifiedByUni: Boolean&#xa;--&#xa;+ createCV(dto: CVProfileDTO): CVProfile&#xa;+ applyJob(jobId: String, cvId: String, ans: List&amp;lt;AnswerDTO&amp;gt;): Application&#xa;+ withdrawApplication(appId: String): Boolean&#xa;+ rsvpInterview(interviewId: String, rsvp: RSVPStatus): Boolean&#xa;+ respondOffer(offerId: String, accept: Boolean): Boolean&#xa;+ saveJob(jobId: String): Boolean&#xa;+ postCommunityReview(review: ReviewDTO): Void" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e1f5fe;strokeColor=#0288d1;fontColor=#01579b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="160" y="410" width="310" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- Employer -->
+        <mxCell id="class_Employer" value="&lt;b&gt;Employer&lt;/b&gt;&#xa;--&#xa;- companyId: String [FK]&#xa;- positionTitle: String&#xa;- department: String&#xa;- isVerifiedHR: Boolean&#xa;--&#xa;+ postJob(jobData: JobPostingDTO): JobPosting&#xa;+ updateJob(jobId: String, jobData: JobPostingDTO): Boolean&#xa;+ reviewApplications(jobId: String): List&amp;lt;Application&amp;gt;&#xa;+ moveAtsStage(appId: String, stage: ATSStage): Boolean&#xa;+ scheduleInterview(appId: String, dto: InterviewDTO): Interview&#xa;+ issueOffer(appId: String, dto: OfferDTO): JobOffer&#xa;+ rejectApplication(appId: String, reason: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="690" y="410" width="310" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- UniversityOfficer -->
+        <mxCell id="class_UniversityOfficer" value="&lt;b&gt;UniversityOfficer&lt;/b&gt;&#xa;--&#xa;- institutionName: String&#xa;- officerCode: String&#xa;- department: String&#xa;--&#xa;+ verifyStudent(studentId: String): Boolean&#xa;+ approveMoUJob(jobId: String): Boolean&#xa;+ exportInternshipReport(semester: String): ReportData&#xa;+ manageCareerFairEvent(dto: EventDTO): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff8e1;strokeColor=#f57f17;fontColor=#f57f17;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="410" width="280" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- SystemAdmin -->
+        <mxCell id="class_SystemAdmin" value="&lt;b&gt;SystemAdmin&lt;/b&gt;&#xa;--&#xa;- adminLevel: Int&#xa;- lastLoginIp: String&#xa;--&#xa;+ moderateJob(jobId: String, approve: Boolean, note: String): Boolean&#xa;+ verifyCompany(companyId: String, status: VerifyStatus): Boolean&#xa;+ suspendUser(userId: String, reason: String): Boolean&#xa;+ handleReport(reportId: String, action: String): Boolean&#xa;+ viewAuditLogs(filter: LogFilterDTO): List&amp;lt;AuditLog&amp;gt;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontColor=#880e4f;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="410" width="300" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== GENERALIZATION ARROWS (Inheritance) ==================== -->
+        <mxCell id="gen_student" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=12;strokeWidth=1.5;strokeColor=#1565c0;" edge="1" source="class_Student" target="class_User" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="370"/>
+              <mxPoint x="980" y="370"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gen_employer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=12;strokeWidth=1.5;strokeColor=#2e7d32;" edge="1" source="class_Employer" target="class_User" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="845" y="370"/>
+              <mxPoint x="1030" y="370"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gen_uni" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=12;strokeWidth=1.5;strokeColor=#f57f17;" edge="1" source="class_UniversityOfficer" target="class_User" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1270" y="370"/>
+              <mxPoint x="1080" y="370"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gen_admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=12;strokeWidth=1.5;strokeColor=#c2185b;" edge="1" source="class_SystemAdmin" target="class_User" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1660" y="370"/>
+              <mxPoint x="1140" y="370"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ==================== 3. COMPANY & JOB DOMAIN ==================== -->
+        <!-- Company -->
+        <mxCell id="class_Company" value="&lt;b&gt;Company&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- name: String&#xa;- taxCode: String&#xa;- industry: String&#xa;- website: String&#xa;- address: String&#xa;- logoUrl: String&#xa;- companySize: String&#xa;- verificationStatus: VerifyStatus&#xa;- verifiedAt: DateTime&#xa;--&#xa;+ updateProfile(dto: CompanyDTO): Boolean&#xa;+ submitVerificationDocs(docs: List&amp;lt;File&amp;gt;): Boolean&#xa;+ getActiveJobs(): List&amp;lt;JobPosting&amp;gt;&#xa;+ getMembers(): List&amp;lt;Employer&amp;gt;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="690" y="700" width="280" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- JobPosting -->
+        <mxCell id="class_JobPosting" value="&lt;b&gt;JobPosting&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- companyId: String [FK]&#xa;- recruiterId: String [FK]&#xa;- title: String&#xa;- description: String&#xa;- requirements: String&#xa;- location: String&#xa;- workType: WorkType&#xa;- salaryRange: String&#xa;- status: JobStatus&#xa;- viewCount: Int&#xa;- applicationCount: Int&#xa;- expiresAt: DateTime&#xa;- publishedAt: DateTime&#xa;--&#xa;+ submitForApproval(): Boolean&#xa;+ publish(): Boolean&#xa;+ pause(): Boolean&#xa;+ close(): Boolean&#xa;+ addScreeningQuestion(q: ScreeningQuestion): Void&#xa;+ getApplications(): List&amp;lt;Application&amp;gt;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="700" width="300" height="270" as="geometry"/>
+        </mxCell>
+
+        <!-- ScreeningQuestion -->
+        <mxCell id="class_ScreeningQuestion" value="&lt;b&gt;ScreeningQuestion&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- jobId: String [FK]&#xa;- questionText: String&#xa;- isRequired: Boolean&#xa;- idealAnswer: String&#xa;--&#xa;+ validateAnswer(ans: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="700" width="240" height="140" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== 4. CV & APPLICATION DOMAIN ==================== -->
+        <!-- CVProfile -->
+        <mxCell id="class_CVProfile" value="&lt;b&gt;CVProfile&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- candidateId: String [FK]&#xa;- title: String&#xa;- fileUrl: String&#xa;- templateName: String&#xa;- summary: String&#xa;- isDefault: Boolean&#xa;- updatedAt: DateTime&#xa;--&#xa;+ generatePdf(): File&#xa;+ setAsDefault(): Boolean&#xa;+ updateDetails(dto: CVProfileDTO): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e1f5fe;strokeColor=#0288d1;fontColor=#01579b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="160" y="700" width="280" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Application -->
+        <mxCell id="class_Application" value="&lt;b&gt;Application&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- candidateId: String [FK]&#xa;- jobId: String [FK]&#xa;- cvId: String [FK]&#xa;- coverLetter: String&#xa;- status: ApplicationStatus&#xa;- atsStage: ATSStage&#xa;- score: Int&#xa;- appliedAt: DateTime&#xa;- viewedAt: DateTime&#xa;--&#xa;+ submit(): Boolean&#xa;+ markAsViewed(): Void&#xa;+ moveToNextStage(stage: ATSStage): Boolean&#xa;+ withdraw(): Boolean&#xa;+ reject(reason: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e0f2f1;strokeColor=#00897b;fontColor=#004d40;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="510" y="1060" width="290" height="250" as="geometry"/>
+        </mxCell>
+
+        <!-- ScreeningAnswer -->
+        <mxCell id="class_ScreeningAnswer" value="&lt;b&gt;ScreeningAnswer&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- applicationId: String [FK]&#xa;- questionId: String [FK]&#xa;- answerText: String&#xa;--&#xa;+ getQuestion(): ScreeningQuestion" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e0f2f1;strokeColor=#00897b;fontColor=#004d40;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1060" width="260" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- Interview -->
+        <mxCell id="class_Interview" value="&lt;b&gt;Interview&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- applicationId: String [FK]&#xa;- scheduledTime: DateTime&#xa;- durationMinutes: Int&#xa;- meetingLink: String&#xa;- location: String&#xa;- candidateRsvp: RSVPStatus&#xa;- interviewerNotes: String&#xa;--&#xa;+ sendInvite(): Boolean&#xa;+ updateRsvp(rsvp: RSVPStatus, note: String): Boolean&#xa;+ submitEvaluation(score: Int, notes: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1060" width="290" height="210" as="geometry"/>
+        </mxCell>
+
+        <!-- JobOffer -->
+        <mxCell id="class_JobOffer" value="&lt;b&gt;JobOffer&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- applicationId: String [FK]&#xa;- offeredSalary: Double&#xa;- startDate: Date&#xa;- expiryDate: Date&#xa;- offerLetterUrl: String&#xa;- status: OfferStatus&#xa;- candidateResponseNote: String&#xa;--&#xa;+ issueOffer(): Boolean&#xa;+ accept(): Boolean&#xa;+ decline(reason: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="1060" width="280" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== 5. COLLABORATION, SAFETY & AUDIT ==================== -->
+        <!-- Message -->
+        <mxCell id="class_Message" value="&lt;b&gt;Message&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- senderId: String [FK]&#xa;- recipientId: String [FK]&#xa;- content: String&#xa;- attachmentUrl: String&#xa;- isRead: Boolean&#xa;- sentAt: DateTime&#xa;--&#xa;+ sendMessage(): Boolean&#xa;+ markAsRead(): Void" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontColor=#4a148c;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1600" y="1060" width="240" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- ViolationReport -->
+        <mxCell id="class_ViolationReport" value="&lt;b&gt;ViolationReport&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- reporterId: String [FK]&#xa;- targetType: ReportType&#xa;- targetId: String&#xa;- reason: String&#xa;- status: ReportStatus&#xa;- createdAt: DateTime&#xa;--&#xa;+ submit(): Boolean&#xa;+ resolve(adminAction: String): Boolean" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fbe9e7;strokeColor=#d84315;fontColor=#bf360c;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1870" y="410" width="240" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- AuditLog -->
+        <mxCell id="class_AuditLog" value="&lt;b&gt;AuditLog&lt;/b&gt;&#xa;--&#xa;- id: String [PK]&#xa;- actorId: String [FK]&#xa;- action: String&#xa;- targetEntity: String&#xa;- targetId: String&#xa;- ipAddress: String&#xa;- timestamp: DateTime&#xa;--&#xa;+ recordLog(log: AuditDTO): Void" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#eceff1;strokeColor=#546e7a;fontColor=#263238;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1870" y="700" width="240" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== ASSOCIATIONS &amp; RELATIONSHIPS ==================== -->
+
+        <!-- Company to Employer (Composition) -->
+        <mxCell id="rel_comp_emp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;startArrow=diamond;startFill=1;startSize=12;" edge="1" source="class_Company" target="class_Employer" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_comp_emp_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="835" y="675" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_comp_emp_mult2" value="1..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="850" y="645" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_comp_emp_role" value="employs" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="850" y="660" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Company to JobPosting -->
+        <mxCell id="rel_comp_job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;" edge="1" source="class_Company" target="class_JobPosting" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_comp_job_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="975" y="760" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_comp_job_mult2" value="0..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1085" y="760" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_comp_job_role" value="offers" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="755" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- JobPosting to ScreeningQuestion (Composition) -->
+        <mxCell id="rel_job_sq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;startArrow=diamond;startFill=1;startSize=12;" edge="1" source="class_JobPosting" target="class_ScreeningQuestion" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_job_sq_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1415" y="745" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_job_sq_mult2" value="0..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1485" y="745" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_job_sq_role" value="contains" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="730" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Student to CVProfile (Composition) -->
+        <mxCell id="rel_stu_cv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#0288d1;startArrow=diamond;startFill=1;startSize=12;" edge="1" source="class_Student" target="class_CVProfile" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_stu_cv_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="645" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_stu_cv_mult2" value="1..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="305" y="675" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_stu_cv_role" value="creates &amp; owns" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="305" y="655" width="85" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Student to Application -->
+        <mxCell id="rel_stu_app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#00897b;" edge="1" source="class_Student" target="class_Application" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="550"/>
+              <mxPoint x="490" y="550"/>
+              <mxPoint x="490" y="1120"/>
+              <mxPoint x="510" y="1120"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_stu_app_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="475" y="530" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_stu_app_mult2" value="0..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="485" y="1100" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_stu_app_role" value="submits" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="445" y="800" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- JobPosting to Application -->
+        <mxCell id="rel_job_app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#00897b;" edge="1" source="class_JobPosting" target="class_Application" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1190" y="1000"/>
+              <mxPoint x="750" y="1000"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_job_app_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1195" y="975" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_job_app_mult2" value="0..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="725" y="1035" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_job_app_role" value="receives" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="930" y="980" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Application to CVProfile (Association) -->
+        <mxCell id="rel_app_cv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=8;strokeWidth=1.5;strokeColor=#0288d1;dashed=1;" edge="1" source="class_Application" target="class_CVProfile" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="980"/>
+              <mxPoint x="360" y="980"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_app_cv_role" value="&amp;laquo;attaches&amp;raquo;" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="960" width="70" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Application to ScreeningAnswer (Composition) -->
+        <mxCell id="rel_app_ans" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#00897b;startArrow=diamond;startFill=1;startSize=12;" edge="1" source="class_Application" target="class_ScreeningAnswer" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_ans_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="485" y="1115" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_ans_mult2" value="0..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="425" y="1115" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_ans_role" value="includes" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="435" y="1095" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Application to Interview (Association / Composition) -->
+        <mxCell id="rel_app_intv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#2e7d32;" edge="1" source="class_Application" target="class_Interview" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_intv_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="805" y="1120" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_intv_mult2" value="0..*" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="875" y="1120" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_intv_role" value="schedules" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="815" y="1100" width="70" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Application to JobOffer (Association) -->
+        <mxCell id="rel_app_off" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#2e7d32;" edge="1" source="class_Application" target="class_JobOffer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="1330"/>
+              <mxPoint x="1360" y="1330"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_app_off_mult1" value="1" style="text;html=1;fontSize=11;fontStyle=1;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="690" y="1310" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_off_mult2" value="0..1" style="text;html=1;fontSize=11;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1365" y="1255" width="30" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_app_off_role" value="results in" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="1310" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- User to Message -->
+        <mxCell id="rel_user_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#7b1fa2;" edge="1" source="class_User" target="class_Message" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230" y="220"/>
+              <mxPoint x="1230" y="320"/>
+              <mxPoint x="1720" y="320"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_user_msg_role" value="sends / receives" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1670" y="330" width="100" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- User to ViolationReport -->
+        <mxCell id="rel_user_rep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#d84315;" edge="1" source="class_User" target="class_ViolationReport" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1220" y="160"/>
+              <mxPoint x="1990" y="160"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_user_rep_role" value="files report" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1600" y="140" width="70" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- SystemAdmin to AuditLog -->
+        <mxCell id="rel_adm_log" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#546e7a;" edge="1" source="class_SystemAdmin" target="class_AuditLog" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1740" y="660"/>
+              <mxPoint x="1990" y="660"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_adm_log_role" value="monitors / records" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1830" y="640" width="110" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_adm_log_role" value="monitors / records" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1830" y="640" width="110" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Legend / Notes Block -->
+        <mxCell id="legend_box" value="&lt;b&gt;QUY ƯỚC KÝ HIỆU HƯỚNG ĐỐI TƯỢNG (UML CLASS CONVENTIONS):&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Phạm vi truy xuất:&lt;/b&gt; &lt;span style=&quot;color: #d32f2f;&quot;&gt;&lt;b&gt;-&lt;/b&gt; Private&lt;/span&gt;, &lt;span style=&quot;color: #388e3c;&quot;&gt;&lt;b&gt;+&lt;/b&gt; Public&lt;/span&gt;, &lt;span style=&quot;color: #f57c00;&quot;&gt;&lt;b&gt;#&lt;/b&gt; Protected&lt;/span&gt;&lt;br/&gt;• &lt;b&gt;Quan hệ Kế thừa (Generalization):&lt;/b&gt; Mũi tên tam giác rỗng trỏ về lớp cha &lt;i&gt;User&lt;/i&gt;.&lt;br/&gt;• &lt;b&gt;Quan hệ Hợp thành (Composition):&lt;/b&gt; Hình thoi đặc đen (ví dụ: &lt;i&gt;JobPosting&lt;/i&gt; chứa &lt;i&gt;ScreeningQuestion&lt;/i&gt;, &lt;i&gt;Application&lt;/i&gt; chứa &lt;i&gt;ScreeningAnswer&lt;/i&gt;).&lt;br/&gt;• &lt;b&gt;Quan hệ Kết hợp (Association):&lt;/b&gt; Đường thẳng kèm cấp số bội (&lt;i&gt;1, 1..*, 0..*&lt;/i&gt;) và nhãn vai trò." style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#fffde7;strokeColor=#fbc02d;fontColor=#f57f17;fontSize=11;align=left;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1360" width="640" height="100" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

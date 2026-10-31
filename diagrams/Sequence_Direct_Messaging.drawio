@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T11:45:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="seq-messaging" name="Sequence - Direct Messaging &amp; Chat">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Sequence Diagram — Quy trình Nhắn tin Trực tiếp 1-1 &amp; Trao đổi Phỏng vấn" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="450" y="20" width="600" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Lifelines -->
+        <mxCell id="ll_cand" value="Candidate&#xa;(Sinh viên)" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;fillColor=#e3f2fd;strokeColor=#1565c0;fontColor=#0d47a1;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="80" height="950" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_c_ui" value=":CandidateChatUI" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#e1f5fe;strokeColor=#0288d1;fontColor=#01579b;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="80" width="150" height="950" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_ws" value=":ChatGateway&#xa;&amp; WebSocketService" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="80" width="160" height="950" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_db" value=":Database&#xa;(D5_Messages_Appointments)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#f5f5f5;strokeColor=#616161;fontColor=#212121;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="770" y="80" width="170" height="950" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_e_ui" value=":EmployerChatUI" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="80" width="150" height="950" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_emp" value="Employer&#xa;(Recruiter)" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="80" width="80" height="950" as="geometry"/>
+        </mxCell>
+
+        <!-- Activations -->
+        <mxCell id="act_c" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#bbdefb;strokeColor=#1565c0;" vertex="1" parent="ll_cand">
+          <mxGeometry x="35" y="100" width="10" height="750" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_cui" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#b3e5fc;strokeColor=#0288d1;" vertex="1" parent="ll_c_ui">
+          <mxGeometry x="70" y="100" width="10" height="740" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_ws" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#d1c4e9;strokeColor=#512da8;" vertex="1" parent="ll_ws">
+          <mxGeometry x="75" y="120" width="10" height="700" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_db" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#e0e0e0;strokeColor=#616161;" vertex="1" parent="ll_db">
+          <mxGeometry x="75" y="150" width="10" height="600" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_eui" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#c8e6c9;strokeColor=#2e7d32;" vertex="1" parent="ll_e_ui">
+          <mxGeometry x="70" y="420" width="10" height="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_emp" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#c8e6c9;strokeColor=#2e7d32;" vertex="1" parent="ll_emp">
+          <mxGeometry x="35" y="420" width="10" height="420" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 1: Load Conversation History -->
+        <mxCell id="m1" value="1: Chọn cuộc trò chuyện với Nhà tuyển dụng" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#0d47a1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="190" as="sourcePoint"/>
+            <mxPoint x="310" y="190" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="2: joinRoom(conversationId) &amp; getHistory()" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="215" as="sourcePoint"/>
+            <mxPoint x="575" y="215" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="3: SELECT * FROM Messages WHERE conversation_id = ? ORDER BY created_at ASC" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="585" y="240" as="sourcePoint"/>
+            <mxPoint x="845" y="240" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="4: Trả về danh sách tin nhắn cũ" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#616161;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="845" y="270" as="sourcePoint"/>
+            <mxPoint x="585" y="270" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="5: Render lịch sử tin nhắn &amp; Trạng thái đối phương online" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#01579b;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="575" y="295" as="sourcePoint"/>
+            <mxPoint x="320" y="295" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Phase 2: Send Message & File Attachment -->
+        <mxCell id="m6" value="6: Soạn tin nhắn &amp; Đính kèm portfolio PDF" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#0d47a1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="340" as="sourcePoint"/>
+            <mxPoint x="310" y="340" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="7: sendMessage({ text, fileUrl, receiverId })" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="365" as="sourcePoint"/>
+            <mxPoint x="575" y="365" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="8: INSERT INTO Messages (body, attachment, is_read=false, time=NOW())" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="585" y="395" as="sourcePoint"/>
+            <mxPoint x="845" y="395" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="9: Phát sự kiện WebSocket 'newMessage' thời gian thực" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#1b5e20;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="585" y="440" as="sourcePoint"/>
+            <mxPoint x="1110" y="440" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="10: Hiển thị bóng chat tin nhắn mới &amp; Chuông báo âm thanh" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#1b5e20;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1120" y="470" as="sourcePoint"/>
+            <mxPoint x="1335" y="470" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="11: emit('markAsRead', messageId)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1110" y="510" as="sourcePoint"/>
+            <mxPoint x="585" y="510" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="12: UPDATE Messages SET is_read = true WHERE id = messageId" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="585" y="535" as="sourcePoint"/>
+            <mxPoint x="845" y="535" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="13: Hiển thị icon 'Đã xem' trên màn hình Candidate" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#01579b;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="575" y="570" as="sourcePoint"/>
+            <mxPoint x="320" y="570" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Phase 3: Interview Proposal & Video Call -->
+        <mxCell id="m14" value="14: Nhà tuyển dụng nhấn 'Gửi lịch phỏng vấn nhanh' trong chat" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#1b5e20;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1335" y="630" as="sourcePoint"/>
+            <mxPoint x="1120" y="630" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="15: sendCardMessage({ type: 'INTERVIEW_INVITE', time, link })" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1110" y="660" as="sourcePoint"/>
+            <mxPoint x="585" y="660" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m16" value="16: Đẩy thẻ lời mời phỏng vấn vào luồng chat của Candidate" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#0288d1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="575" y="700" as="sourcePoint"/>
+            <mxPoint x="320" y="700" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m17" value="17: Nhấn nút 'Mở Video Call' trực tiếp từ cửa sổ chat" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#0d47a1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="750" as="sourcePoint"/>
+            <mxPoint x="310" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m18" value="18: Khởi tạo phòng họp trực tuyến WebRTC Video Call" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#01579b;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="310" y="780" as="sourcePoint"/>
+            <mxPoint x="105" y="780" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

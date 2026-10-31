@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T12:40:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="seq-job-moderation" name="Sequence - Job Posting &amp; Moderation">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="1300" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Sequence Diagram — Quy trình Đăng tin Tuyển dụng, Cổng Thẩm định GPKD &amp; Kiểm duyệt Tin An toàn" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="780" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Lifelines -->
+        <mxCell id="ll_emp" value="Employer&#xa;(Doanh nghiệp)" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="80" height="1150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_post_ui" value=":PostJobUI&#xa;(Trang Soạn thảo tin)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="80" width="160" height="1150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_job_svc" value=":JobPostingService&#xa;&amp; Validator" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="150" height="1150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_db" value=":Database&#xa;(D1_Company, D2_Jobs, D8)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#f5f5f5;strokeColor=#616161;fontColor=#212121;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="80" width="170" height="1150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_mod_svc" value=":ModerationService" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#fce4ec;strokeColor=#c62828;fontColor=#b71c1c;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="80" width="150" height="1150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_admin_ui" value=":AdminDashboardUI&#xa;(Hàng đợi Kiểm duyệt)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#fce4ec;strokeColor=#c62828;fontColor=#b71c1c;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="80" width="160" height="1150" as="geometry"/>
+        </mxCell>
+        <mxCell id="ll_admin" value="Admin&#xa;(Quản trị viên)" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;fillColor=#fce4ec;strokeColor=#c62828;fontColor=#b71c1c;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1390" y="80" width="80" height="1150" as="geometry"/>
+        </mxCell>
+
+        <!-- Activations -->
+        <mxCell id="act_emp" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#c8e6c9;strokeColor=#2e7d32;" vertex="1" parent="ll_emp">
+          <mxGeometry x="35" y="100" width="10" height="980" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_pui" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#c8e6c9;strokeColor=#2e7d32;" vertex="1" parent="ll_post_ui">
+          <mxGeometry x="75" y="100" width="10" height="340" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_jsvc" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#d1c4e9;strokeColor=#512da8;" vertex="1" parent="ll_job_svc">
+          <mxGeometry x="70" y="200" width="10" height="210" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_mod" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#ffcdd2;strokeColor=#c62828;" vertex="1" parent="ll_mod_svc">
+          <mxGeometry x="70" y="340" width="10" height="680" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_aui" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#ffcdd2;strokeColor=#c62828;" vertex="1" parent="ll_admin_ui">
+          <mxGeometry x="75" y="470" width="10" height="520" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_adm" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#ffcdd2;strokeColor=#c62828;" vertex="1" parent="ll_admin">
+          <mxGeometry x="35" y="470" width="10" height="520" as="geometry"/>
+        </mxCell>
+
+        <!-- Phase 1: Employer drafts & submits job -->
+        <mxCell id="m1" value="1: Nhập thông tin Job (Tiêu đề, phòng ban, JD, phụ cấp, câu hỏi sàng lọc)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#1b5e20;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="200" as="sourcePoint"/>
+            <mxPoint x="295" y="200" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="2: Bấm 'Gửi duyệt tin tuyển dụng'" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#1b5e20;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="235" as="sourcePoint"/>
+            <mxPoint x="295" y="235" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="3: submitJob(jobData, employerId)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="305" y="250" as="sourcePoint"/>
+            <mxPoint x="520" y="250" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="4: verifyCompanyStatus(employerId)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="275" as="sourcePoint"/>
+            <mxPoint x="760" y="275" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="5: Kết quả: Doanh nghiệp đã thẩm định (status='verified')" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#616161;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="300" as="sourcePoint"/>
+            <mxPoint x="530" y="300" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="6: INSERT INTO Jobs (status='pending_approval')" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="330" as="sourcePoint"/>
+            <mxPoint x="760" y="330" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="7: pushToModerationQueue(jobId)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#c62828;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="360" as="sourcePoint"/>
+            <mxPoint x="990" y="360" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="8: Thông báo màn hình: 'Tin đã được gửi, đang chờ Quản trị viên duyệt'" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#1b5e20;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="390" as="sourcePoint"/>
+            <mxPoint x="105" y="390" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Phase 2: Admin Queue & Review -->
+        <mxCell id="m9" value="9: Mở Dashboard &amp; Hàng đợi kiểm duyệt tin" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#b71c1c;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1425" y="480" as="sourcePoint"/>
+            <mxPoint x="1235" y="480" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="10: getPendingModerationQueue()" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#b71c1c;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1225" y="505" as="sourcePoint"/>
+            <mxPoint x="1000" y="505" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="11: SELECT * FROM Jobs WHERE status='pending_approval'" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="530" as="sourcePoint"/>
+            <mxPoint x="770" y="530" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="12: Trả về danh sách tin chờ duyệt" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#616161;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="555" as="sourcePoint"/>
+            <mxPoint x="990" y="555" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="13: Hiển thị chi tiết tin (Nội dung JD, phụ cấp, yêu cầu tuyển dụng)" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#b71c1c;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1225" y="580" as="sourcePoint"/>
+            <mxPoint x="1425" y="580" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- UML Alternative Frame (alt: Moderation Decision) -->
+        <mxCell id="alt_mod_frame" value="alt [Quyết định Kiểm duyệt]" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1565c0;strokeWidth=1.5;fontSize=10;fontStyle=1;fontColor=#0d47a1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="615" width="1280" height="420" as="geometry"/>
+        </mxCell>
+
+        <!-- Alt Branch 1: Approve -->
+        <mxCell id="alt_app_label" value="[Hợp lệ: Đạt tiêu chuẩn minh bạch &amp; an toàn]" style="text;html=1;fontSize=9;fontStyle=2;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="190" y="635" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="m14a" value="14a: Nhấn 'Phê duyệt (Approve)'" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#2e7d32;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1425" y="660" as="sourcePoint"/>
+            <mxPoint x="1235" y="660" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15a" value="15a: approveJob(jobId, adminId)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1225" y="685" as="sourcePoint"/>
+            <mxPoint x="1000" y="685" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m16a" value="16a: UPDATE Jobs SET status='active', published_at=NOW()" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="710" as="sourcePoint"/>
+            <mxPoint x="770" y="710" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m17a" value="17a: INSERT INTO Audit_Logs (action='APPROVE_JOB', target=jobId)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="735" as="sourcePoint"/>
+            <mxPoint x="770" y="735" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m18a" value="18a: Gửi Email &amp; Thông báo đến Employer: 'Tin tuyển dụng đã được duyệt &amp; xuất bản công khai'" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#2e7d32;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="765" as="sourcePoint"/>
+            <mxPoint x="105" y="765" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Alt Divider -->
+        <mxCell id="alt_mod_div" value="" style="line;strokeWidth=1;dashed=1;strokeColor=#1565c0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="795" width="1280" height="10" as="geometry"/>
+        </mxCell>
+
+        <!-- Alt Branch 2: Reject -->
+        <mxCell id="alt_rej_label" value="[Không hợp lệ: Vi phạm tiêu chuẩn (Thu phí / Lừa đảo / Thiếu thông tin)]" style="text;html=1;fontSize=9;fontStyle=2;fontColor=#c62828;" vertex="1" parent="1">
+          <mxGeometry x="190" y="810" width="380" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="m14b" value="14b: Nhập lý do từ chối &amp; Nhấn 'Từ chối (Reject)'" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#c62828;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1425" y="835" as="sourcePoint"/>
+            <mxPoint x="1235" y="835" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15b" value="15b: rejectJob(jobId, adminId, reason)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#311b92;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1225" y="860" as="sourcePoint"/>
+            <mxPoint x="1000" y="860" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m16b" value="16b: UPDATE Jobs SET status='rejected', rejection_reason=?" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="885" as="sourcePoint"/>
+            <mxPoint x="770" y="885" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m17b" value="17b: INSERT INTO Audit_Logs (action='REJECT_JOB', target=jobId, reason=?)" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#212121;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="910" as="sourcePoint"/>
+            <mxPoint x="770" y="910" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m18b" value="18b: Gửi Email &amp; Thông báo đến Employer kèm chi tiết lý do từ chối để chỉnh sửa lại" style="verticalAlign=bottom;endArrow=block;rounded=0;fontSize=10;fontColor=#c62828;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="945" as="sourcePoint"/>
+            <mxPoint x="105" y="945" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m19" value="19: Xác nhận lưu kết quả kiểm duyệt thành công trên Dashboard Admin" style="verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;fontSize=10;fontColor=#b71c1c;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1225" y="985" as="sourcePoint"/>
+            <mxPoint x="1425" y="985" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

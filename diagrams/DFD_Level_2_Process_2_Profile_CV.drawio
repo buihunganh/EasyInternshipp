@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T10:00:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="dfd-level2-profile-cv" name="DFD Level 2 - Process 2.0 Quản lý Hồ sơ &amp; CV">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="950" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="DFD Level 2 — Process 2.0: Quản lý Hồ sơ &amp; CV Ứng viên" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="550" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- External Entities -->
+        <mxCell id="candidate" value="CANDIDATE" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e3f2fd;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="employer" value="EMPLOYER" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e8f5e9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="520" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <mxCell id="p21" value="2.1&#xa;Cập nhật Hồ sơ&#xa;Cá nhân &amp; Avatar" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="120" width="145" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p22" value="2.2&#xa;Tạo &amp; Chỉnh sửa&#xa;CV (CV Builder)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="310" width="145" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p23" value="2.3&#xa;Xem trước &amp;&#xa;Chia sẻ Hồ sơ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="500" width="145" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p24" value="2.4&#xa;Xuất &amp; Tải&#xa;File PDF CV" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="690" width="145" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Stores -->
+        <mxCell id="d1" value="D1  Users" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="720" y="150" width="170" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="d4" value="D4  CVs" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="720" y="420" width="170" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Profile (2.1) -->
+        <mxCell id="df_cand_profile" value="Thông tin cá nhân, Bio, Avatar" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p21" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="160"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p21_d1" value="Lưu thông tin ứng viên" style="fontSize=9;fontColor=#616161;" edge="1" source="p21" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_d1_p21" value="Đọc thông tin hồ sơ hiện tại" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d1" target="p21" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="130"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p21_cand" value="Kết quả cập nhật hồ sơ" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p21" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="200"/>
+              <mxPoint x="150" y="290"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: CV Builder (2.2) -->
+        <mxCell id="df_cand_cv" value="Kỹ năng, Học vấn, Dự án,&#xa;Template (Modern/Tech), Màu sắc" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p22" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p22_d4" value="Lưu phiên bản CV" style="fontSize=9;fontColor=#616161;" edge="1" source="p22" target="d4" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="350"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_d4_p22" value="Đọc dữ liệu CV đã lưu" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d4" target="p22" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="390"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p22_cand" value="Xác nhận lưu bản CV" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p22" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="380"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Preview & Share (2.3) -->
+        <mxCell id="df_cand_preview" value="Yêu cầu xem trước / Chia sẻ link" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p23" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="490"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_d4_p23" value="Đọc template &amp; nội dung CV" style="fontSize=9;fontColor=#616161;" edge="1" source="d4" target="p23" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="470"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p23_cand" value="Render giao diện xem trước &amp; Public Link" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p23" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="530"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p23_emp" value="Xem hồ sơ ứng viên qua link chia sẻ" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p23" target="employer" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Export PDF (2.4) -->
+        <mxCell id="df_cand_pdf" value="Lệnh xuất file PDF" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p24" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="670"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_d4_p24" value="Đọc dữ liệu cấu trúc CV" style="fontSize=9;fontColor=#616161;" edge="1" source="d4" target="p24" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="650"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p24_cand" value="Trả về File CV dạng PDF đã định dạng" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p24" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="740"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

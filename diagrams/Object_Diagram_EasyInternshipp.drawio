@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-08T16:20:00.000Z" agent="EasyInternshipp OOAD" version="24.0.0" type="device">
+  <diagram id="object-diagram-easyinternshipp" name="Object Diagram - EasyInternshipp Runtime Snapshot">
+    <mxGraphModel dx="1800" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title Block -->
+        <mxCell id="title_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f7fa;strokeColor=#00838f;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="550" y="20" width="900" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="title_text" value="&lt;b style=&quot;font-size: 18px; color: #006064;&quot;&gt;UML OBJECT DIAGRAM (SƠ ĐỒ ĐỐI TƯỢNG HƯỚNG ĐỐI TƯỢNG)&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size: 13px; color: #00838f;&quot;&gt;Ảnh chụp Trạng thái Thực thi (Runtime Snapshot) — Chu trình Tuyển dụng Thực tập Sinh viên&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="570" y="25" width="860" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== OBJECT INSTANCES ==================== -->
+
+        <!-- 1. Student Instance: nam_tran -->
+        <mxCell id="obj_student" value="&lt;u&gt;&lt;b&gt;nam_tran : Student&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;usr_stu_001&quot;&#xa;fullName = &quot;Trần Văn Nam&quot;&#xa;email = &quot;nam.tran@student.edu.vn&quot;&#xa;phone = &quot;0987654321&quot;&#xa;studentCode = &quot;2023IT0088&quot;&#xa;major = &quot;Kỹ thuật Phần mềm&quot;&#xa;gpa = 3.65&#xa;graduationYear = 2026&#xa;isLookingForJob = true&#xa;isVerifiedByUni = true&#xa;status = ACTIVE" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e1f5fe;strokeColor=#0288d1;fontColor=#01579b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="140" y="380" width="290" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- 2. CVProfile Instance: cv_nam_react -->
+        <mxCell id="obj_cv" value="&lt;u&gt;&lt;b&gt;cv_nam_react : CVProfile&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;cv_nam_v2&quot;&#xa;candidateId = &quot;usr_stu_001&quot;&#xa;title = &quot;CV Frontend React Developer&quot;&#xa;templateName = &quot;Modern Tech Pro&quot;&#xa;fileUrl = &quot;/storage/cvs/cv_nam_v2.pdf&quot;&#xa;summary = &quot;Sinh viên năm 3 thành thạo React, TS, Tailwind&quot;&#xa;isDefault = true&#xa;updatedAt = &quot;2026-09-28 14:00&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e1f5fe;strokeColor=#0288d1;fontColor=#01579b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="140" y="700" width="290" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- 3. Company Instance: fpt_software -->
+        <mxCell id="obj_company" value="&lt;u&gt;&lt;b&gt;fpt_software : Company&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;cmp_fpt_01&quot;&#xa;name = &quot;FPT Software Ltd&quot;&#xa;taxCode = &quot;0101234567&quot;&#xa;industry = &quot;Công nghệ Thông tin&quot;&#xa;website = &quot;https://fptsoftware.com&quot;&#xa;companySize = &quot;10000+ nhân viên&quot;&#xa;verificationStatus = VERIFIED&#xa;verifiedAt = &quot;2026-08-15&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="680" y="380" width="280" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- 4. Employer Instance: lan_recruiter -->
+        <mxCell id="obj_employer" value="&lt;u&gt;&lt;b&gt;lan_recruiter : Employer&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;usr_emp_042&quot;&#xa;companyId = &quot;cmp_fpt_01&quot;&#xa;fullName = &quot;Nguyễn Thị Lan&quot;&#xa;email = &quot;lan.hr@fpt.com&quot;&#xa;positionTitle = &quot;Senior Talent Acquisition&quot;&#xa;department = &quot;FSOFT Global Talent&quot;&#xa;isVerifiedHR = true&#xa;status = ACTIVE" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="680" y="680" width="280" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- 5. JobPosting Instance: job_react_intern -->
+        <mxCell id="obj_job" value="&lt;u&gt;&lt;b&gt;job_react_intern : JobPosting&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;job_2026_101&quot;&#xa;companyId = &quot;cmp_fpt_01&quot;&#xa;recruiterId = &quot;usr_emp_042&quot;&#xa;title = &quot;Frontend ReactJS Intern (Có Mentor 1:1)&quot;&#xa;location = &quot;Hà Nội (Hybrid)&quot;&#xa;workType = HYBRID&#xa;salaryRange = &quot;6.000.000 - 8.000.000 VNĐ&quot;&#xa;status = ACTIVE&#xa;viewCount = 428&#xa;applicationCount = 18&#xa;expiresAt = &quot;2026-11-20&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="380" width="310" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- 6. ScreeningQuestion Instance: q_react_exp -->
+        <mxCell id="obj_question" value="&lt;u&gt;&lt;b&gt;q_react_exp : ScreeningQuestion&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;q_101_01&quot;&#xa;jobId = &quot;job_2026_101&quot;&#xa;questionText = &quot;Bạn đã từng phát triển dự án với React / TypeScript chưa?&quot;&#xa;isRequired = true&#xa;idealAnswer = &quot;Đã có dự án thực tế hoặc đồ án môn học&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#ede7f6;strokeColor=#512da8;fontColor=#311b92;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="380" width="290" height="150" as="geometry"/>
+        </mxCell>
+
+        <!-- 7. Application Instance: app_8899 -->
+        <mxCell id="obj_app" value="&lt;u&gt;&lt;b&gt;app_8899 : Application&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;app_8899&quot;&#xa;candidateId = &quot;usr_stu_001&quot;&#xa;jobId = &quot;job_2026_101&quot;&#xa;cvId = &quot;cv_nam_v2&quot;&#xa;coverLetter = &quot;Em mong muốn đóng góp kỹ năng React và học hỏi quy trình Agile.&quot;&#xa;status = INTERVIEWING&#xa;atsStage = &quot;Vòng 2: Phỏng vấn Kỹ thuật&quot;&#xa;score = 88&#xa;appliedAt = &quot;2026-10-01 08:30:15&quot;&#xa;viewedAt = &quot;2026-10-01 10:15:00&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e0f2f1;strokeColor=#00897b;fontColor=#004d40;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="490" y="980" width="320" height="230" as="geometry"/>
+        </mxCell>
+
+        <!-- 8. ScreeningAnswer Instance: ans_q1 -->
+        <mxCell id="obj_answer" value="&lt;u&gt;&lt;b&gt;ans_q1 : ScreeningAnswer&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;ans_8899_01&quot;&#xa;applicationId = &quot;app_8899&quot;&#xa;questionId = &quot;q_101_01&quot;&#xa;answerText = &quot;Em đã hoàn thành 2 dự án ReactJS + NextJS (Fullstack E-Commerce và Blog).&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e0f2f1;strokeColor=#00897b;fontColor=#004d40;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="140" y="980" width="290" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- 9. Interview Instance: intv_tech_501 -->
+        <mxCell id="obj_interview" value="&lt;u&gt;&lt;b&gt;intv_tech_501 : Interview&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;intv_501&quot;&#xa;applicationId = &quot;app_8899&quot;&#xa;scheduledTime = &quot;2026-10-12 14:30:00&quot;&#xa;durationMinutes = 45&#xa;meetingLink = &quot;https://meet.google.com/fpt-intern-react&quot;&#xa;location = &quot;Phòng họp trực tuyến Google Meet&quot;&#xa;candidateRsvp = ACCEPTED&#xa;interviewerNotes = &quot;Ứng viên trả lời vững React Hooks, State Management&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="980" width="310" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- 10. JobOffer Instance: offer_75m -->
+        <mxCell id="obj_offer" value="&lt;u&gt;&lt;b&gt;offer_75m : JobOffer&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;off_301&quot;&#xa;applicationId = &quot;app_8899&quot;&#xa;offeredSalary = 7500000.0&#xa;startDate = &quot;2026-11-01&quot;&#xa;expiryDate = &quot;2026-10-20&quot;&#xa;offerLetterUrl = &quot;/storage/offers/fpt_offer_nam.pdf&quot;&#xa;status = SENT&#xa;candidateResponseNote = null" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontColor=#1b5e20;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="980" width="300" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- 11. UniversityOfficer Instance: officer_hoang -->
+        <mxCell id="obj_officer" value="&lt;u&gt;&lt;b&gt;officer_hoang : UniversityOfficer&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;usr_uni_007&quot;&#xa;institutionName = &quot;Đại học Bách Khoa Hà Nội&quot;&#xa;officerCode = &quot;BK_CC_09&quot;&#xa;department = &quot;Trung tâm Hướng nghiệp &amp; Hợp tác DN&quot;&#xa;fullName = &quot;PGS. TS. Lê Hoàng&quot;&#xa;email = &quot;hoang.le@hust.edu.vn&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fff8e1;strokeColor=#f57f17;fontColor=#f57f17;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="140" y="120" width="300" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- 12. SystemAdmin Instance: admin_minh -->
+        <mxCell id="obj_admin" value="&lt;u&gt;&lt;b&gt;admin_minh : SystemAdmin&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;usr_adm_001&quot;&#xa;fullName = &quot;Vũ Quang Minh&quot;&#xa;email = &quot;admin@easyinternshipp.io&quot;&#xa;adminLevel = 1&#xa;lastLoginIp = &quot;118.70.18.92&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontColor=#880e4f;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="120" width="280" height="150" as="geometry"/>
+        </mxCell>
+
+        <!-- 13. AuditLog Instance: log_approve_job -->
+        <mxCell id="obj_log" value="&lt;u&gt;&lt;b&gt;log_approve_job : AuditLog&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;log_9901&quot;&#xa;actorId = &quot;usr_adm_001&quot;&#xa;action = &quot;APPROVE_JOB_POSTING&quot;&#xa;targetEntity = &quot;JobPosting&quot;&#xa;targetId = &quot;job_2026_101&quot;&#xa;ipAddress = &quot;118.70.18.92&quot;&#xa;timestamp = &quot;2026-09-29 09:15:00&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#eceff1;strokeColor=#546e7a;fontColor=#263238;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="120" width="280" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- 14. Message Instance: msg_prep -->
+        <mxCell id="obj_msg" value="&lt;u&gt;&lt;b&gt;msg_prep : Message&lt;/b&gt;&lt;/u&gt;&#xa;--&#xa;id = &quot;msg_7701&quot;&#xa;senderId = &quot;usr_emp_042&quot;&#xa;recipientId = &quot;usr_stu_001&quot;&#xa;content = &quot;Chào Nam, bạn chuẩn bị sẵn máy tính và mic test trước 10p nhé!&quot;&#xa;attachmentUrl = null&#xa;isRead = true&#xa;sentAt = &quot;2026-10-10 09:00:00&quot;" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontColor=#4a148c;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="980" width="280" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== OBJECT LINKS & ASSOCIATIONS ==================== -->
+
+        <!-- Link: officer_hoang verifies nam_tran -->
+        <mxCell id="lnk_uni_stu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#f57f17;" edge="1" source="obj_officer" target="obj_student" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_uni_stu" value=":verifiesStudent" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="320" width="90" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: nam_tran owns cv_nam_react -->
+        <mxCell id="lnk_stu_cv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#0288d1;" edge="1" source="obj_student" target="obj_cv" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_stu_cv" value=":creates &amp; owns" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="640" width="90" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: fpt_software employs lan_recruiter -->
+        <mxCell id="lnk_comp_emp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;" edge="1" source="obj_company" target="obj_employer" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_comp_emp" value=":employs" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="770" y="610" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: lan_recruiter posts job_react_intern -->
+        <mxCell id="lnk_emp_job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#2e7d32;" edge="1" source="obj_employer" target="obj_job" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040" y="775"/>
+              <mxPoint x="1040" y="495"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_emp_job" value=":posts" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="630" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: fpt_software offers job_react_intern -->
+        <mxCell id="lnk_comp_job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;" edge="1" source="obj_company" target="obj_job" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_comp_job" value=":offers" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="450" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: job_react_intern contains q_react_exp -->
+        <mxCell id="lnk_job_q" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;" edge="1" source="obj_job" target="obj_question" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_job_q" value=":contains" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="435" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: admin_minh approves job_react_intern -->
+        <mxCell id="lnk_adm_job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#c2185b;" edge="1" source="obj_admin" target="obj_job" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_adm_job" value=":moderates &amp; approves" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="310" width="120" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: admin_minh writes log_approve_job -->
+        <mxCell id="lnk_adm_log" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#546e7a;" edge="1" source="obj_admin" target="obj_log" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_adm_log" value=":createsAuditLog" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="175" width="100" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: nam_tran submits app_8899 -->
+        <mxCell id="lnk_stu_app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#00897b;" edge="1" source="obj_student" target="obj_app" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="520"/>
+              <mxPoint x="460" y="1040"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_stu_app" value=":submits" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="470" y="810" width="50" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: app_8899 applies to job_react_intern -->
+        <mxCell id="lnk_app_job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#00897b;" edge="1" source="obj_app" target="obj_job" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="940"/>
+              <mxPoint x="1200" y="940"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_app_job" value=":appliesFor" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="930" y="920" width="70" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: app_8899 attaches cv_nam_react -->
+        <mxCell id="lnk_app_cv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#0288d1;dashed=1;" edge="1" source="obj_app" target="obj_cv" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="920"/>
+              <mxPoint x="360" y="920"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_app_cv" value=":attachesCV" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="410" y="900" width="80" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: app_8899 includes ans_q1 -->
+        <mxCell id="lnk_app_ans" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#00897b;" edge="1" source="obj_app" target="obj_answer" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_app_ans" value=":includesAnswer" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="1030" width="90" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: ans_q1 answers q_react_exp -->
+        <mxCell id="lnk_ans_q" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#512da8;dashed=1;" edge="1" source="obj_answer" target="obj_question" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="1250"/>
+              <mxPoint x="1750" y="1250"/>
+              <mxPoint x="1750" y="550"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_ans_q" value=":answersQuestion" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="1230" width="110" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: app_8899 schedules intv_tech_501 -->
+        <mxCell id="lnk_app_intv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#2e7d32;" edge="1" source="obj_app" target="obj_interview" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_lnk_app_intv" value=":schedules" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1030" width="70" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: app_8899 results in offer_75m -->
+        <mxCell id="lnk_app_off" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#2e7d32;" edge="1" source="obj_app" target="obj_offer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="1230"/>
+              <mxPoint x="1400" y="1230"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_app_off" value=":issuesOffer" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="1210" width="80" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Link: lan_recruiter sends msg_prep to nam_tran -->
+        <mxCell id="lnk_emp_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=1.5;strokeColor=#7b1fa2;" edge="1" source="obj_employer" target="obj_msg" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="900"/>
+              <mxPoint x="1780" y="900"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_lnk_emp_msg" value=":sendsDirectMessage" style="text;html=1;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="880" width="130" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Legend / Notes Block -->
+        <mxCell id="legend_box" value="&lt;b&gt;QUY ƯỚC KÝ HIỆU SƠ ĐỒ ĐỐI TƯỢNG (UML OBJECT DIAGRAM CONVENTIONS):&lt;/b&gt;&lt;br/&gt;• &lt;b&gt;Ký hiệu Tên đối tượng:&lt;/b&gt; &lt;u&gt;&lt;b&gt;tên_đối_tượng : Tên_Lớp&lt;/b&gt;&lt;/u&gt; (Bắt buộc gạch chân theo chuẩn UML để phân biệt với Lớp).&lt;br/&gt;• &lt;b&gt;Khoang Thuộc tính (Attribute Slots):&lt;/b&gt; Liệt kê các cặp &lt;i&gt;tên_thuộc_tính = giá_trị_cụ_thể&lt;/i&gt; tại thời điểm hệ thống đang chụp snapshot.&lt;br/&gt;• &lt;b&gt;Liên kết đối tượng (Links):&lt;/b&gt; Đường nét liền thể hiện liên kết thực tế giữa các thực thể thể hiện trong phiên làm việc tuyển dụng." style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#fffde7;strokeColor=#fbc02d;fontColor=#f57f17;fontSize=11;align=left;spacingLeft=10;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1280" width="700" height="90" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T10:00:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="dfd-level2-recruitment" name="DFD Level 2 - Process 5.0 Quản lý Tuyển dụng">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="DFD Level 2 — Process 5.0: Quản lý Tuyển dụng &amp; ATS Tuyển dụng" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1b5e20;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="580" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- External Entities -->
+        <mxCell id="employer" value="EMPLOYER" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e8f5e9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="candidate" value="CANDIDATE" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e3f2fd;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="650" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <mxCell id="p51" value="5.1&#xa;Đăng &amp; Quản lý&#xa;Tin tuyển dụng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="100" width="155" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p52" value="5.2&#xa;Quản lý Pipeline&#xa;Kanban Ứng viên" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="280" width="155" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p53" value="5.3&#xa;Đánh giá &amp; Xếp&#xa;Lịch phỏng vấn" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="460" width="155" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p54" value="5.4&#xa;Quyết định tuyển dụng&#xa;&amp; Gửi Offer / Từ chối" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="640" width="155" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p55" value="5.5&#xa;Xuất Dữ liệu &amp;&#xa;Báo cáo ATS" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="820" width="155" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Stores -->
+        <mxCell id="d2" value="D2  Jobs" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="125" width="170" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="d10" value="D10  Pipeline" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="380" width="170" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="d3" value="D3  Applications" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="580" width="170" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Post & Manage Jobs (5.1) -->
+        <mxCell id="df_e_post_job" value="Nội dung Job (tiêu đề, JD, đãi ngộ, hạn chót)" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p51" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="140"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p51_d2" value="Ghi / Cập nhật Job (Draft/Pending/Active)" style="fontSize=9;fontColor=#616161;" edge="1" source="p51" target="d2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_d2_p51" value="Đọc danh sách tin của công ty" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d2" target="p51" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="160"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p51_e_resp" value="Trạng thái đăng tin &amp; quản lý tin" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p51" target="employer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="190"/>
+              <mxPoint x="150" y="380"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Pipeline Kanban (5.2) -->
+        <mxCell id="df_e_move_cand" value="Thao tác kéo thả / Chuyển vòng ứng viên" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p52" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="320"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p52_d10" value="Cập nhật vị trí cột Kanban &amp; cấu hình vòng" style="fontSize=9;fontColor=#616161;" edge="1" source="p52" target="d10" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="320"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_d3_p52" value="Đọc hồ sơ &amp; đơn ứng tuyển" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d3" target="p52" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="360"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p52_e_resp" value="Bảng Kanban cập nhật thời gian thực" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p52" target="employer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="360"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Evaluation & Interview (5.3) -->
+        <mxCell id="df_e_eval" value="Điểm số (0-100), Nhận xét, Lịch phỏng vấn" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p53" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p53_d10" value="Lưu lịch phỏng vấn &amp; đánh giá" style="fontSize=9;fontColor=#616161;" edge="1" source="p53" target="d10" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="440"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p53_cand" value="Thông báo lịch mời phỏng vấn &amp; link video call" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p53" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="520"/>
+              <mxPoint x="1150" y="520"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Decision & Offer/Reject (5.4) -->
+        <mxCell id="df_e_decision" value="Quyết định (Offer: lương, ngày bắt đầu / Lý do từ chối)" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p54" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="660"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p54_d3" value="Cập nhật trạng thái đơn (Offered / Rejected)" style="fontSize=9;fontColor=#616161;" edge="1" source="p54" target="d3" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="650"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p54_cand" value="Thư mời nhận việc (Offer Letter) / Thông báo từ chối" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p54" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Export Excel & Report (5.5) -->
+        <mxCell id="df_e_export" value="Lệnh xuất Excel / Báo cáo tuyển dụng" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p55" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="860"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_d3_p55" value="Đọc danh sách ứng viên &amp; điểm" style="fontSize=9;fontColor=#616161;" edge="1" source="d3" target="p55" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="760"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p55_e_resp" value="File Excel danh sách ứng viên &amp; phễu tuyển dụng" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p55" target="employer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="900"/>
+              <mxPoint x="100" y="550"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
