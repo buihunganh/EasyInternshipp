@@ -1,0 +1,12 @@
+/* /pages/company-settings/ (recruiting module) */
+.company-settings-shell{min-height:100vh}
+.company-settings-intro h1{font-size:28px}
+.company-settings-brand{display:flex;flex-wrap:wrap;gap:24px}
+.company-settings-brand figure{margin:0;display:grid;gap:8px;justify-items:start}
+.company-settings-brand figcaption{font-size:13px;color:var(--ui-muted)}
+.company-settings-brand img{width:96px;height:96px;object-fit:cover;border-radius:var(--ui-radius-card);border:1px solid var(--ui-border);background:var(--ui-subtle)}
+.company-settings-cover{width:320px;max-width:70vw;height:96px;border-radius:var(--ui-radius-card);border:1px solid var(--ui-border);background:var(--ui-subtle) center/cover no-repeat}
+.company-settings-member{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.company-settings-member select{min-height:36px;padding:4px 8px;border:1px solid var(--ui-border);border-radius:var(--ui-radius-control);font:inherit}
+/* Pages without a generated Tailwind file lack its button reset; the shared header expects it */
+body[data-page=company-settings] .site-header button{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer}

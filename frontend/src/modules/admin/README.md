@@ -6,14 +6,15 @@ This module does **not** use `main.ts` or the `FeatureModule` hooks. Each page l
 
 | File | What it does |
 |---|---|
-| `admin.ts` | entry for `pages/admin/`: overview, job queue, users, reports, audit log |
-| `adminLogin.ts` | entry for `pages/admin-login/` |
-| `adminSession.ts` | sessionStorage session (`internships:admin-session`, expires) |
+| `admin.ts` | entry for `pages/admin/`: overview, company verification, job moderation, accounts (officer activation, suspend), reports, audit log |
+| `adminLogin.ts` | entry for `pages/admin-login/`: Supabase login that rejects non-admin roles |
+| `api.ts` | `admin_overview`, `review_company_verification` (+ signed URLs for documents), `moderate_job`, `admin_close_job`, `set_user_status`, `resolve_report`, audit log |
 | `admin.css` | admin styles, linked from both admin pages |
 
-**Storage:** owns `admin:v1` (localStorage) and the admin session (sessionStorage); reads `reports` written by `core/report.ts` (community, messages).
+**Data:** the admin's own Supabase session (role `admin`). Every action goes through an RPC that writes `audit_logs` with the reason (BR-38).
 
 **Watch out**
-- No site header, footer or generic controls run here. Anything shared you need, import from `core/` directly.
-- Escape all user-submitted text with `esc()` (`core/ui/actions.ts`); `npm run test:admin` includes an XSS check.
-- Demo credentials: `admin@example.com` / `AdminDemo2026!`.
+- Rejecting, revoking, suspending and taking down need a reason (enforced by the RPCs too).
+- Escape all user-submitted text with `esc()` (`core/ui/actions.ts`).
+- Make an admin: sign up, then `update public.profiles set role = 'admin' where email = '…'` (or `npm run db:seed` for `admin@demo.internships.io`).
+- Analytics dashboards and settings come in Phase 11.

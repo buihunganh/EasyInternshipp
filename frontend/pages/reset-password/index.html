@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt lại mật khẩu | Internships.io</title>
+  <meta name="description" content="Đặt mật khẩu mới cho tài khoản Internships.io.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+</head>
+<body data-page="reset-password">
+  <main class="ei-page ei-page-narrow">
+    <section class="ei-card" aria-labelledby="reset-title">
+      <a href="/" class="ei-muted" aria-label="Internships.io — Trang chủ">Internships.io</a>
+      <h1 id="reset-title">Đặt lại mật khẩu</h1>
+      <p class="ei-muted">Nhập mật khẩu mới cho tài khoản của bạn (tối thiểu 8 ký tự).</p>
+      <form id="reset-password-form" class="ei-form" novalidate>
+        <label class="ei-field" for="new-password">Mật khẩu mới
+          <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="Tối thiểu 8 ký tự">
+        </label>
+        <label class="ei-field" for="confirm-new-password">Nhập lại mật khẩu
+          <input id="confirm-new-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Nhập lại mật khẩu">
+        </label>
+        <div class="ei-actions">
+          <button type="submit" class="ei-button ei-button-primary">Cập nhật mật khẩu</button>
+          <a class="ei-button" href="/pages/login/">Quay lại đăng nhập</a>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -7,9 +7,13 @@ export const routes: Record<string, string> = {
   jobs: '/', community: '/pages/community/', login: '/pages/login/', register: '/pages/register/',
   messages: '/pages/messages/', employer: '/pages/employer/', candidates: '/pages/candidates/',
   'post-job': '/pages/post-job/', 'job-detail': '/pages/job-detail/', company: '/pages/company/',
-  'cv-builder': '/pages/cv-builder/', profile: '/pages/profile/', university: '/pages/university/'
+  'cv-builder': '/pages/cv-builder/', profile: '/pages/profile/', university: '/pages/university/',
+  'company-settings': '/pages/company-settings/', 'reset-password': '/pages/reset-password/',
+  applications: '/pages/applications/', cv: '/pages/cv/'
 };
-export const jobHref = (title: string) => '/pages/job-detail/?job=' + encodeURIComponent(title);
+/** Links to jobs and companies use ids (`?id=<uuid>`). */
+export const jobHref = (id: string) => '/pages/job-detail/?id=' + encodeURIComponent(id);
+export const companyHref = (id: string) => '/pages/company/?id=' + encodeURIComponent(id);
 export function label(el: Element) {
   const clone = el.cloneNode(true) as Element;
   clone.querySelectorAll('.material-symbols-outlined').forEach(i => i.remove());
@@ -32,11 +36,10 @@ export function destination(text: string): string | undefined {
   if (/internships.io|^việc làm$|tìm việc|tất cả việc làm/i.test(text)) return routes.jobs;
   if (/intern|chi tiết công việc|xem chi tiết/i.test(text)) return routes['job-detail'];
 }
+/** "Đơn ứng tuyển": the student's My Applications page. */
 export function applications() {
-  if (!requireSignIn('/?view=applications')) return;
-  const saved = read<string[]>('applications', []);
-  dialog('Đơn ứng tuyển', '<p id="application-list"></p>', 'Đóng');
-  document.getElementById('application-list')!.textContent = saved.length ? saved.join(' • ') : 'Chưa có đơn ứng tuyển trong bản demo. Hãy chọn một việc làm và nộp hồ sơ.';
+  if (!requireSignIn(routes.applications)) return;
+  location.assign(routes.applications);
 }
 export function setupNavigation() {
   document.querySelectorAll<HTMLAnchorElement>('a[href="#"]').forEach(a => {
@@ -59,5 +62,5 @@ export function setupNavigation() {
     : [['jobs','work','Việc làm'],['community','forum','Cộng đồng'],['messages','chat','Tin nhắn'],['profile','person','Hồ sơ']];
   mobile.innerHTML = items.filter(([key]) => isSignedIn() || !['messages', 'profile'].includes(key)).map(([key,icon,name])=>`<a href="${workspaceHref(routes[key])}" ${key === document.body.dataset.page ? 'aria-current="page"' : ''}><span class="material-symbols-outlined">${icon}</span>${name}</a>`).join('');
   document.body.append(mobile);
-  if (isSignedIn() && new URLSearchParams(location.search).get('view') === 'applications') applications();
+  if (isSignedIn() && new URLSearchParams(location.search).get('view') === 'applications') location.replace(routes.applications);
 }

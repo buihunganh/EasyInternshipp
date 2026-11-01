@@ -6,6 +6,21 @@
 > Status at the time of writing (2026-10-31): the backend schema is done and deployed
 > (`backend/supabase/migrations/2026103100000{1..8}`). The frontend still uses localStorage only.
 
+## Progress (updated 2026-11-01)
+
+| Phase | Status | Notes |
+|---|---|---|
+| P0 Setup | ✅ Done | Auth settings pushed from `backend/supabase/config.toml` (min password 8, redirect URLs). **No test project** (decision: PGlite for DB tests, E2E against dev with throwaway accounts). Vietnamese e-mail templates still to do in the dashboard. |
+| P1 Backend & tests | ✅ Done | Migrations `…09_ui_alignment`, `…10_search_jobs_filters` pushed to dev. `npm run test:db` (PGlite, 75 checks). `npm run db:types`. `npm run db:seed` (idempotent demo data). `reset-test-db.mjs` skipped (no test project). |
+| P2 Frontend foundation | ✅ Done | `core/supabase.ts`, `session.ts`, `errors.ts`, `format.ts`, `render.ts`, `accountApi.ts`; role-aware guards; demo session, banner and `adminSession.ts` removed; ids in URLs. |
+| P3 Accounts & roles | ✅ Done | Real register/login/logout, forgot + `/pages/reset-password/`, pending officers, admin-only admin login, account menu on real data. `frontend/tests/e2e/accounts.e2e.mjs`. |
+| P4 Public discovery | ✅ Done | Home via `search_jobs` (filters, chips, sort, pagination), job detail `?id=`, company `?id=`, save, follow, guest report. Minimal real apply dialog (CV + screening answers); the full P6 modal is still to do. `discovery.e2e.mjs`. |
+| P5 Employer onboarding & moderation | ✅ Done | `/pages/company-settings/`, real post-job (drafts, skills, questions, submit, edit, rejection reason, live-edit warning), employer dashboard (status, counts, pause/resume/close/duplicate/delete), admin queues (companies, jobs, accounts, reports, audit). `posting.e2e.mjs`. |
+| P6 Student profile, CV, applying | ✅ Done | Migration `…11_applications_links` (notification links → `/pages/applications/?id=`). Profile on real data (edit, avatar, skills, verification request, discoverable, completeness), CV builder saving typed `CvContent` (several CVs, default, public link `/pages/cv/?slug=`, PDF upload, local draft), full apply dialog, My Applications (timeline, interview RSVP, offer accept/decline, withdraw), saved jobs, job alerts. `npm run test:db` 86 checks; `apply.e2e.mjs`. Core fix: generic button fallback only touches design-HTML buttons. |
+| P7 – P14 | ⏳ Not started | Candidates board, messages, community and university pages still run on local demo data. |
+
+Demo accounts (all with password `Demo@2026`): `admin@`, `employer@`, `hr.vng@`, `design@`, `newco@`, `officer@`, `student@demo.internships.io`.
+
 ---
 
 ## 1. How to read this plan

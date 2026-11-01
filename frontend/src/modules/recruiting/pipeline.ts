@@ -1,36 +1,10 @@
 import { dialog, toast } from '../../core/ui/feedback';
-import { jobHref, label } from '../../core/navigation';
+import { label } from '../../core/navigation';
 import { read, write } from '../../core/storage';
 import { bind, button, compose, csv, esc, field, normal, record, schedule, value, video } from '../../core/ui/actions';
-import type { DemoJob } from '../../core/models';
 
-export function setupRecruiting(page:string){if(page==='employer')employer();else candidates();}
-function employer(){
-  const original=[...document.querySelectorAll<HTMLElement>('main .group')].filter(c=>c.querySelector('h2')&&c.querySelector('button[title="Sao chép tin"]'));
-  const host=original[0]?.parentElement;if(!host)return;
-  let jobs=read<DemoJob[]>('demo:jobs',[]);
-  original.forEach((card,i)=>{const id='seed-'+i;if(!jobs.some(j=>j.id===id))jobs.push({id,title:card.querySelector('h2')!.textContent!.trim(),status:i===3?'paused':'active',department:i===2?'design':'tech',location:'TP.HCM · Hybrid',description:card.innerText});});write('demo:jobs',jobs);
-  let tab='all';const search=document.querySelector<HTMLInputElement>('main input')!;const department=document.querySelector<HTMLSelectElement>('main select')!;
-  const tabs=[...document.querySelectorAll<HTMLButtonElement>('main button')].filter(b=>/^(Tất cả|Đang nhận đơn|Tạm dừng|Bản nháp)/.test(label(b)));
-  function render(){
-    host!.replaceChildren();const visible=jobs.filter(j=>(tab==='all'||j.status===tab)&&normal(j.title).includes(normal(search.value))&&(!department.value||j.department===department.value));
-    if(!visible.length){const empty=document.createElement('p');empty.className='app-empty';empty.textContent='Không có tin tuyển dụng phù hợp.';host!.append(empty);}
-    visible.forEach(job=>{const card=document.createElement('article');card.className='demo-card';card.dataset.jobId=job.id;
-      card.innerHTML=`<span class="demo-tag">${({active:'Đang nhận đơn',paused:'Tạm dừng',draft:'Bản nháp'} as Record<string,string>)[job.status]||job.status}</span><h2>${esc(job.title)}</h2><p>${esc(job.location)}</p><div class="demo-actions"></div>`;
-      card.querySelector('.demo-actions')!.append(button('Xem tin',()=>location.assign(jobHref(job.title)+'&workspace=employer')),button('Ứng viên',()=>location.assign('/pages/candidates/?job='+encodeURIComponent(job.title))),button('Sao chép tin',()=>{jobs.unshift({...job,id:crypto.randomUUID(),title:job.title+' (bản sao)',status:'draft'});save();}),button(job.status==='active'?'Tạm dừng':'Mở nhận đơn',()=>{job.status=job.status==='active'?'paused':'active';save();}),button('Chỉnh sửa',()=>location.assign('/pages/post-job/?edit='+encodeURIComponent(job.id))));host!.append(card);
-    });
-    tabs.forEach((b,i)=>{const status=['all','active','paused','draft'][i];b.classList.toggle('demo-selected',tab===status);const count=b.querySelector('span:last-child');if(count)count.textContent=String(jobs.filter(j=>status==='all'||j.status===status).length);});
-  }
-  function save(){write('demo:jobs',jobs);render();}
-  tabs.forEach((b,i)=>bind(b,()=>{tab=['all','active','paused','draft'][i];render();}));search.addEventListener('input',render);department.addEventListener('change',render);
-  document.querySelectorAll<HTMLButtonElement>('main button').forEach(b=>{const text=label(b);
-    if(/Xuất Excel/.test(text))bind(b,()=>csv('tin-tuyen-dung.csv',[['Vị trí','Trạng thái','Địa điểm'],...jobs.map(j=>[j.title,j.status,j.location])]));
-    else if(/Đồng bộ Cổng/.test(text))bind(b,()=>dialog('Đồng bộ cổng trường','<label><input type="checkbox" name="bk" checked> ĐH Bách Khoa</label><label><input type="checkbox" name="dhqg" checked> Cổng ĐHQG</label><p>Chọn nơi hiển thị tin trong bản mô phỏng.</p>','Đồng bộ thử',()=>{record('inquiries',{name:'Đồng bộ tin tuyển dụng với cổng trường'});b.textContent='Đã đồng bộ demo';toast('Đã cập nhật trạng thái đồng bộ demo.');}));
-    else if(/Xem toàn bộ lịch/.test(text))bind(b,()=>{const items=read<Record<string,string>[]>('demo:appointments',[]);const modal=dialog('Lịch phỏng vấn tuần này',items.map(x=>`<p>${esc(x.person)} · ${esc(x.time)} · ${esc(x.place)}</p>`).join('')||'<p>Chưa có lịch mới. Hãy tạo lịch hẹn để thử.</p>','Đóng');modal.querySelector('.app-dialog-content')!.append(button('Thêm lịch',()=>{modal.close();schedule('Phỏng vấn ứng viên');}));});
-    else if(/Mời ứng tuyển/.test(text))bind(b,()=>compose('Mời ứng tuyển','student@example.com'));
-    else if(/Tìm kiếm hồ sơ/.test(text))bind(b,()=>location.assign('/pages/candidates/'));
-  });render();
-}
+/** Candidate board (demo data until Phase 7 wires it to applications / pipeline_stages). */
+export function setupCandidates(){candidates();}
 function candidates(){
   const columns=[...document.querySelectorAll<HTMLElement>('.candidate-board>div')];
   const cards=columns.flatMap((column,stage)=>[...column.children].slice(1).filter(c=>c.querySelector('img')).map((element,i)=>({el:element as HTMLElement,name:element.querySelector('.font-headline-md')?.textContent?.trim()||'Ứng viên',stage,id:`candidate-${stage}-${i}`})));

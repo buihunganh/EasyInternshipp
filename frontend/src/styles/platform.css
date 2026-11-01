@@ -1,0 +1,68 @@
+/* Shared components for data-driven UI (loaded on every page by main.ts). Built only on tokens.css. */
+
+/* Loading / empty / error states */
+.app-state{display:grid;justify-items:center;gap:10px;padding:32px 16px;color:var(--ui-muted);text-align:center;border:1px dashed var(--ui-border);border-radius:var(--ui-radius-card);background:var(--ui-surface)}
+.app-state p{margin:0}
+.app-state-error{color:var(--ui-danger);border-color:var(--ui-danger);background:var(--ui-danger-soft)}
+.app-state-loading p::before{content:"";display:inline-block;width:14px;height:14px;margin-right:8px;vertical-align:-2px;border:2px solid var(--ui-border);border-top-color:var(--ui-primary);border-radius:50%;animation:ei-spin .8s linear infinite}
+.app-state-retry{padding:6px 14px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+@keyframes ei-spin{to{transform:rotate(360deg)}}
+
+/* Inline form messages */
+.app-form-error{margin:0 0 12px;padding:10px 12px;border-radius:var(--ui-radius-control);background:var(--ui-danger-soft);color:var(--ui-danger);font-size:14px;line-height:1.45}
+.app-form-error.app-form-success{background:var(--ui-success-soft);color:var(--ui-success)}
+.app-form-error[hidden]{display:none}
+
+/* Notifications */
+.app-notification-list{display:grid;gap:4px;max-height:60vh;overflow:auto}
+.app-notification{display:block;padding:10px 12px;border-radius:var(--ui-radius-control);color:var(--ui-text);text-decoration:none}
+.app-notification span{display:grid;gap:2px}
+.app-notification small{color:var(--ui-muted)}
+.app-notification:hover{background:var(--ui-subtle)}
+.app-notification.app-unread{background:var(--ui-primary-soft)}
+.app-notification-badge{position:absolute;top:2px;right:2px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--ui-danger);color:#fff;font:700 10px/16px var(--ui-font);text-align:center}
+
+/* Status chips */
+.ei-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;line-height:20px;background:var(--ui-subtle);color:var(--ui-muted);white-space:nowrap}
+.ei-chip-active,.ei-chip-verified,.ei-chip-approved{background:var(--ui-success-soft);color:var(--ui-success)}
+.ei-chip-pending_approval,.ei-chip-pending{background:var(--ui-warning-soft);color:var(--ui-warning)}
+.ei-chip-rejected,.ei-chip-revoked,.ei-chip-closed,.ei-chip-expired,.ei-chip-suspended{background:var(--ui-danger-soft);color:var(--ui-danger)}
+.ei-chip-draft,.ei-chip-paused,.ei-chip-unverified{background:var(--ui-subtle);color:var(--ui-muted)}
+
+/* Cards, forms and buttons for pages without generated Tailwind */
+.ei-page{max-width:1080px;margin:0 auto;padding:96px 20px 48px;display:grid;gap:20px}
+.ei-page-narrow{max-width:480px}
+.ei-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:var(--ui-radius-card);padding:24px;display:grid;gap:16px}
+.ei-card h1,.ei-card h2,.ei-card h3{margin:0;color:var(--ui-text)}
+.ei-card h1{font-size:var(--ui-title-size,28px)}
+.ei-card h2{font-size:20px}
+.ei-muted{color:var(--ui-muted);margin:0}
+.ei-form{display:grid;gap:14px}
+.ei-grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.ei-field{display:grid;gap:6px;font-size:14px;font-weight:600;color:var(--ui-text)}
+.ei-field small{font-weight:400;color:var(--ui-muted)}
+.ei-field :is(input,select,textarea){width:100%;box-sizing:border-box;min-height:var(--ui-control-size,44px);padding:10px 12px;border:1px solid var(--ui-border);border-radius:var(--ui-radius-control);background:var(--ui-surface);color:var(--ui-text);font:400 15px var(--ui-font)}
+.ei-field textarea{min-height:110px;resize:vertical}
+.ei-field :is(input,select,textarea):focus{outline:2px solid var(--ui-focus);outline-offset:1px;border-color:var(--ui-primary)}
+.ei-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ei-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 16px;border:1px solid var(--ui-border);background:var(--ui-surface);color:var(--ui-text);font:600 14px var(--ui-font);cursor:pointer;text-decoration:none}
+.ei-button:hover{background:var(--ui-subtle)}
+.ei-button[disabled]{opacity:.6;cursor:not-allowed}
+.ei-button-primary{background:var(--ui-primary);border-color:var(--ui-primary);color:var(--ui-surface)}
+.ei-button-primary:hover{background:var(--ui-primary-hover)}
+.ei-button-danger{color:var(--ui-danger);border-color:var(--ui-danger)}
+.ei-banner{padding:12px 16px;border-radius:var(--ui-radius-control);background:var(--ui-subtle);color:var(--ui-text);display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.ei-banner-warning{background:var(--ui-warning-soft)}
+.ei-banner-danger{background:var(--ui-danger-soft);color:var(--ui-danger)}
+.ei-banner-success{background:var(--ui-success-soft);color:var(--ui-success)}
+.ei-list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.ei-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--ui-border);border-radius:var(--ui-radius-control);background:var(--ui-surface)}
+.ei-row strong{color:var(--ui-text)}
+@media (max-width:640px){.ei-page{padding-top:80px}.ei-card{padding:18px}}
+
+/* Apply dialog */
+.apply-question{display:grid;gap:6px;margin:0 0 12px;padding:0;border:0;font-weight:600}
+.apply-question legend{padding:0;margin-bottom:6px}
+.apply-choice{display:inline-flex!important;align-items:center;gap:6px;margin-right:16px;font-weight:400}
+.apply-required{color:var(--ui-danger)}
+.apply-cv-links{margin-top:-4px}

@@ -1,4 +1,7 @@
 import { isSignedIn } from '../auth';
+import { currentProfile, currentRole, roleLabel } from '../session';
+import { publicUrl } from '../supabase';
+import { esc } from '../ui/actions';
 import { isRecruiterWorkspace, workspaceHref } from '../workspace';
 
 export function renderSiteHeader(page: string) {
@@ -10,7 +13,13 @@ export function renderSiteHeader(page: string) {
   const current = ['job-detail', 'company'].includes(page) ? 'jobs' : page;
   const items = recruiter
     ? [['employer', 'dashboard', 'Tổng quan', '/pages/employer/'], ['candidates', 'group', 'Ứng viên', '/pages/candidates/'], ['messages', 'chat', 'Tin nhắn', workspaceHref('/pages/messages/')]]
-    : [['jobs', 'work', 'Việc làm', '/'], ['applications', 'send', 'Đơn ứng tuyển', '#'], ['messages', 'chat', 'Tin nhắn', '/pages/messages/'], ['community', 'forum', 'Cộng đồng', '/pages/community/']];
+    : currentRole() === 'university_officer' || currentRole() === 'admin'
+    ? [['jobs', 'work', 'Việc làm', '/'], ['community', 'forum', 'Cộng đồng', '/pages/community/']]
+    : [['jobs', 'work', 'Việc làm', '/'], ['applications', 'send', 'Đơn ứng tuyển', '/pages/applications/'], ['messages', 'chat', 'Tin nhắn', '/pages/messages/'], ['community', 'forum', 'Cộng đồng', '/pages/community/']];
+  const profile = currentProfile();
+  const name = profile?.full_name || profile?.email || '';
+  const subtitle = profile ? roleLabel[profile.role] : '';
+  const avatar = publicUrl('avatars', profile?.avatar_path) || initialsAvatar(name);
   header.className = guest ? 'site-header site-header-guest' : 'site-header';
   header.setAttribute('aria-label', recruiter ? 'Không gian nhà tuyển dụng' : 'Điều hướng Internships.io');
   header.innerHTML = `
@@ -23,9 +32,16 @@ export function renderSiteHeader(page: string) {
     <div class="site-header-actions">${guest ? '<a class="site-header-login" href="/pages/login/">Đăng nhập</a><a class="site-header-register bg-primary" href="/pages/register/">Đăng ký</a>' : `
       <button type="button" class="site-header-notifications" aria-label="Thông báo"><span class="material-symbols-outlined" aria-hidden="true">notifications</span></button>
       <button type="button" class="site-header-account" aria-label="Mở menu tài khoản">
-        <img src="${recruiter ? '/assets/images/b9998a7b65909586.png' : '/assets/images/33290a779af11a09.png'}" alt="${recruiter ? 'Mai Phương' : 'Nguyễn Minh Thư'}" width="34" height="34">
-        <span class="site-header-account-text"><strong>${recruiter ? 'Mai Phương' : 'Nguyễn Minh Thư'}</strong><small>${recruiter ? 'Nhà tuyển dụng' : 'ĐH Bách Khoa TP.HCM'}</small></span>
+        <img src="${esc(avatar)}" alt="${esc(name)}" width="34" height="34">
+        <span class="site-header-account-text"><strong>${esc(name)}</strong><small>${esc(subtitle)}</small></span>
         <span class="material-symbols-outlined site-header-chevron" aria-hidden="true">expand_more</span>
       </button>
     `}</div>`;
+}
+
+/** SVG data-URL with the user's initials, used until they upload an avatar. */
+export function initialsAvatar(name: string) {
+  const initials = name.trim().split(/\s+/).slice(-2).map(w => w[0] || '').join('').toUpperCase() || '?';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" rx="32" fill="#e8edf8"/><text x="50%" y="54%" font-family="Inter,Arial" font-size="24" font-weight="700" fill="#3f5baa" text-anchor="middle" dominant-baseline="middle">${initials.replace(/[<&>]/g, '')}</text></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }

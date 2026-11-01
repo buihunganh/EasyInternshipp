@@ -4,10 +4,11 @@ const items = [
   ['candidates', 'view_kanban', 'Quản lý ứng viên', '/pages/candidates/'],
   ['post-job', 'post_add', 'Đăng tin tuyển dụng', '/pages/post-job/'],
   ['messages', 'chat', 'Tin nhắn', '/pages/messages/'],
+  ['company-settings', 'business', 'Hồ sơ doanh nghiệp', '/pages/company-settings/'],
 ];
 
 export function renderRecruiterSidebar(page: string) {
-  if (!isRecruiterWorkspace() || !['employer', 'candidates', 'post-job', 'messages'].includes(page)) return;
+  if (!isRecruiterWorkspace() || !['employer', 'candidates', 'post-job', 'messages', 'company-settings'].includes(page)) return;
   let sidebar = document.querySelector('body > aside');
   if (!sidebar) {
     sidebar = document.createElement('aside');

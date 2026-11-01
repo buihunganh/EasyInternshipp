@@ -9,6 +9,7 @@ const pages = ['index.html', ...readdirSync(resolve(root, 'pages')).map(name => 
 
 export default defineConfig({
   root,
+  envDir: resolve(root, '..'),   // .env.local lives at the repo root
   build: {
     rollupOptions: {
       input: Object.fromEntries(pages.map(file => [file, resolve(root, file)]))

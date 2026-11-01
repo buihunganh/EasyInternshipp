@@ -26,13 +26,17 @@ EasyInternshipp/
 
 ```bash
 npm install
+cp .env.example .env.local   # fill in the Supabase URL, anon key and service-role key
 npm run dev          # http://127.0.0.1:5173
 npm run build        # type-check + production build (the gate before every PR)
+npm run db:seed      # demo accounts (password Demo@2026): admin@, employer@, student@, officer@… demo.internships.io
 ```
 
-Tests run against the dev server, so start `npm run dev` first:
+Tests run against the dev server and the dev Supabase project, so start `npm run dev` and seed once:
 
 ```bash
+npm run test:db      # database business rules in PGlite (no server, no network)
+npm run test:e2e     # real-data flows: accounts, job discovery, posting & moderation
 npm test             # smoke test, every page
 npm run test:account # account menu, saved jobs, logout
 npm run test:demo    # end-to-end flows
@@ -47,6 +51,8 @@ Backend (Supabase CLI through `npx`, run from the repo root):
 npm run db:new -- <name>   # new migration in backend/supabase/migrations/
 npm run db:push            # apply pending migrations to the linked project
 npm run db:migrations      # local vs remote migration status
+npm run db:types           # regenerate frontend/src/core/database.types.ts
+npm run db:seed            # idempotent demo data (needs SUPABASE_SERVICE_ROLE_KEY)
 npm run db:link -- --project-ref <ref>
 ```
 
@@ -57,7 +63,8 @@ Each frontend module lives in `frontend/src/modules/<name>/` and owns its pages.
 | Module | Pages (`data-page`) | Covers | Diagrams | Owner |
 |---|---|---|---|---|
 | `accounts` | login, register | sign-in, sign-up, password reset | Process 1, Sequence_User_Authentication | |
-| `profile-cv` | profile, cv-builder | student profile, CV builder | Process 2 | |
+| `profile-cv` | profile, cv-builder, cv (public) | student profile, CV builder, public CV link | Process 2 | |
+| `applications` | applications | My Applications, saved jobs, job alerts | Process 4, Activity_Candidate_Apply | |
 | `jobs` | jobs (home), job-detail, company | search, job detail, company page | Process 3, Activity_Candidate_Apply | |
 | `recruiting` | employer, candidates, post-job | employer dashboard, ATS pipeline, posting jobs | Processes 3 & 5, Sequence_Employer_Recruitment_ATS | |
 | `messages` | messages | conversations | Process 6, Sequence_Direct_Messaging | |

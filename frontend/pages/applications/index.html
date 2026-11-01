@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đơn ứng tuyển của tôi | Internships.io</title>
+  <meta name="description" content="Theo dõi đơn ứng tuyển, lịch phỏng vấn, thư mời nhận việc, việc làm đã lưu và thông báo việc làm.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+  <link rel="stylesheet" href="/src/modules/applications/applications.css">
+</head>
+<body data-page="applications">
+  <header></header>
+  <main class="ei-page" id="my-applications">
+    <div class="ei-card">
+      <span class="ei-muted">Không gian sinh viên</span>
+      <h1>Đơn ứng tuyển của tôi</h1>
+      <p class="ei-muted">Theo dõi tiến độ hồ sơ, phản hồi lịch phỏng vấn và thư mời nhận việc.</p>
+      <div class="apps-tabs" role="tablist" aria-label="Mục">
+        <button type="button" role="tab" id="tab-applications" aria-controls="panel-applications" aria-selected="true">Đơn ứng tuyển <span class="ei-chip" id="count-applications">0</span></button>
+        <button type="button" role="tab" id="tab-saved" aria-controls="panel-saved" aria-selected="false">Việc làm đã lưu <span class="ei-chip" id="count-saved">0</span></button>
+        <button type="button" role="tab" id="tab-alerts" aria-controls="panel-alerts" aria-selected="false">Thông báo việc làm <span class="ei-chip" id="count-alerts">0</span></button>
+      </div>
+    </div>
+    <section id="panel-applications" role="tabpanel" aria-labelledby="tab-applications" class="ei-card">
+      <div class="ei-actions apps-filter">
+        <label class="ei-field apps-filter-field" for="app-filter">Trạng thái
+          <select id="app-filter">
+            <option value="">Tất cả</option>
+            <option value="active">Đang xử lý</option>
+            <option value="interviewing">Phỏng vấn</option>
+            <option value="offered">Có thư mời</option>
+            <option value="closed">Đã kết thúc</option>
+          </select>
+        </label>
+      </div>
+      <ul class="ei-list" id="application-list"></ul>
+    </section>
+    <section id="panel-saved" role="tabpanel" aria-labelledby="tab-saved" class="ei-card" hidden>
+      <ul class="ei-list" id="saved-list"></ul>
+    </section>
+    <section id="panel-alerts" role="tabpanel" aria-labelledby="tab-alerts" class="ei-card" hidden>
+      <p class="ei-muted">Nhận thông báo khi có tin tuyển dụng mới phù hợp (trong ứng dụng; email theo cài đặt thông báo).</p>
+      <ul class="ei-list" id="alert-list"></ul>
+      <form id="alert-form" class="ei-form" novalidate>
+        <h2>Tạo thông báo mới</h2>
+        <div class="ei-grid-2">
+          <label class="ei-field" for="alert-name">Tên thông báo *<input id="alert-name" name="name" required maxlength="80" placeholder="VD: Frontend TP.HCM"></label>
+          <label class="ei-field" for="alert-keywords">Từ khóa<input id="alert-keywords" name="keywords" maxlength="120" placeholder="VD: React, Data"></label>
+          <label class="ei-field" for="alert-city">Địa điểm<input id="alert-city" name="city" maxlength="80" placeholder="VD: Hồ Chí Minh"></label>
+          <label class="ei-field" for="alert-industry">Lĩnh vực<select id="alert-industry" name="industry_id"><option value="">Tất cả</option></select></label>
+          <label class="ei-field" for="alert-work-type">Hình thức<select id="alert-work-type" name="work_type"><option value="">Tất cả</option><option value="onsite">Tại văn phòng</option><option value="hybrid">Hybrid</option><option value="remote">Từ xa</option></select></label>
+          <label class="ei-field" for="alert-stipend">Phụ cấp tối thiểu (triệu/tháng)<input id="alert-stipend" name="min_stipend" type="number" min="0" max="100" step="0.5"></label>
+          <label class="ei-field" for="alert-frequency">Tần suất<select id="alert-frequency" name="frequency"><option value="daily">Hằng ngày</option><option value="weekly">Hằng tuần</option><option value="instant">Ngay khi có tin</option></select></label>
+        </div>
+        <div class="ei-actions"><button type="submit" class="ei-button ei-button-primary">Tạo thông báo</button></div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

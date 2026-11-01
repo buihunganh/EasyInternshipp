@@ -1,30 +1,31 @@
+// Flows on pages still on local demo data (candidate board, messages, community, university contact),
+// plus the CV builder editor (saved to Supabase since Phase 6, as a throwaway student). Registration, search,
+// applying, following and posting are covered by the real-data suites in tests/e2e/.
 import {chromium,expect} from '@playwright/test';
 import assert from 'node:assert/strict';
+import { cleanup, ready, setSession, throwawayEmployer, throwawayStudent } from './session.mjs';
 const base=process.env.APP_URL||'http://127.0.0.1:5173';
 const browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1366,height:900}});page.setDefaultTimeout(8000);
 page.setDefaultNavigationTimeout(30000);
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
-const goto=async slug=>{await page.goto(base+(slug?`/pages/${slug}/`:'/'),{waitUntil:'domcontentloaded'});await page.locator('.demo-notice').waitFor();};
+const goto=async slug=>{await page.goto(base+(slug?`/pages/${slug}/`:'/'),{waitUntil:'domcontentloaded'});await ready(page);};
 const submit=()=>page.locator('dialog[open] button[type=submit]').click();
 try{
-  await goto('messages');await expect(page).toHaveURL(/login/);
-  await goto('register');await page.locator('#fullname').fill('Demo Tester');await page.locator('#phone').fill('0912345678');await page.locator('#email').fill('demo@example.com');await page.locator('#university').selectOption('hcmut');await page.locator('#password').fill('abcdefgh');await page.locator('#confirm-password').fill('different');await page.locator('input[type=checkbox][required]').check();await page.locator('#toggle-pw').click();await page.locator('#submit-btn').click();await expect(page).toHaveURL(/register/);await page.locator('#confirm-password').fill('abcdefgh');await page.locator('#submit-btn').click();await expect(page).toHaveURL(base+'/');
-  await page.getByRole('button',{name:'Thiết lập lại',exact:true}).click();await expect(page.locator('main article:visible')).toHaveCount(3);await page.getByRole('button',{name:'2',exact:true}).click();await expect(page.locator('main article:visible')).toHaveCount(2);
-  await page.locator('aside select').selectOption({index:2});await expect(page.locator('main article:visible')).toHaveCount(1);await page.getByRole('button',{name:'Thiết lập lại',exact:true}).click();
-  const title=await page.locator('main article h3').nth(1).innerText();await page.locator('main article h3').nth(1).click();await expect(page.locator('h1')).toHaveText(title);await page.getByRole('button',{name:/Ứng Tuyển Ngay/i}).first().click();await page.locator('dialog input[name=email]').fill('demo@example.com');await page.locator('dialog textarea').fill('Demo application');await submit();
-  await goto('company');await page.locator('[data-design-click^="applyModal"]').nth(1).click();await expect(page.locator('dialog h2')).toContainText('UI/UX');await page.keyboard.press('Escape');await page.locator('#btn-follow').click();await expect(page.locator('#btn-follow')).toHaveAttribute('aria-pressed','true');await page.reload();await expect(page.locator('#btn-follow')).toHaveAttribute('aria-pressed','true');await page.locator('#btn-follow').click();await expect(page.locator('#btn-follow')).toHaveAttribute('aria-pressed','false');
-  console.log('Registration, filtering, pagination, job identity, application and follow passed.');
+  await page.goto(base+'/');await setSession(page,null);
+  await page.goto(base+'/pages/messages/');await expect(page).toHaveURL(/login/);
+  const student=await throwawayStudent(),employer=await throwawayEmployer();
+  await setSession(page,student);
 
   await goto('cv-builder');await page.locator('#input-fullname').fill('Demo Tester');await page.locator('#input-school').fill('Demo University');await page.locator('#input-github').fill('github.com/demo');await expect(page.locator('#a4-cv-sheet')).toContainText('Demo University');await expect(page.locator('#preview-links')).toContainText('github.com/demo');
-  await page.getByRole('button',{name:'Thêm dự án mới',exact:true}).click();await page.locator('dialog input[name=title]').fill('Demo Project');await page.locator('dialog textarea').fill('Project description');await submit();await expect(page.locator('#a4-cv-sheet')).toContainText('Demo Project');await page.getByRole('button',{name:/Lưu & Cập nhật/}).click();await page.reload();await expect(page.locator('#preview-name')).toHaveText('DEMO TESTER');await expect(page.locator('#a4-cv-sheet')).toContainText('Demo Project');
+  await page.getByRole('button',{name:'Thêm dự án mới',exact:true}).click();await page.locator('dialog input[name=title]').fill('Demo Project');await page.locator('dialog textarea').fill('Project description');await submit();await expect(page.locator('#a4-cv-sheet')).toContainText('Demo Project');await page.getByRole('button',{name:/Lưu & Cập nhật/}).click();await expect(page.locator('#app-feedback')).toContainText(/Đã tạo CV|Đã lưu CV/);await expect(page).toHaveURL(/[?&]id=/);await page.reload();await ready(page);await expect(page.locator('#preview-name')).toHaveText('DEMO TESTER');await expect(page.locator('#a4-cv-sheet')).toContainText('Demo Project');
   await page.evaluate(()=>window.dispatchEvent(new Event('beforeprint')));await page.emulateMedia({media:'print'});await expect(page.locator('input:visible')).toHaveCount(0);await expect(page.locator('#demo-print-region')).toBeVisible();await page.emulateMedia({media:'screen'});await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
   console.log('CV live fields, project CRUD, persistence and print isolation passed.');
 
-  await goto('post-job');await page.locator('#job-title').fill('Demo Frontend Intern');await expect(page.locator('.post-job-preview')).toContainText('Demo Frontend Intern');await page.locator('form button[type=submit]').click();await expect(page.locator('dialog h2')).toHaveText('Đã đăng tin tuyển dụng');await submit();await expect(page).toHaveURL(/employer/);const job=page.locator('article[data-job-id]').filter({has:page.getByRole('heading',{name:'Demo Frontend Intern',exact:true})});await expect(job).toBeVisible();await job.getByRole('button',{name:'Tạm dừng',exact:true}).click();await expect(job).toContainText('Tạm dừng');await page.reload();await expect(job).toContainText('Tạm dừng');await job.getByRole('button',{name:'Sao chép tin'}).click();await expect(page.locator('article').filter({hasText:'Demo Frontend Intern (bản sao)'})).toBeVisible();
-  await job.getByRole('button',{name:'Mở nhận đơn',exact:true}).click();await goto('');await expect(page.locator('main article h3').filter({hasText:'Demo Frontend Intern'})).toHaveCount(1);
+  await setSession(page,employer);
   await goto('candidates');const candidate=page.locator('[data-demo-card]').first();const id=await candidate.getAttribute('data-demo-card');await candidate.getByRole('button',{name:'Chuyển vòng',exact:true}).click();await page.locator('dialog select').selectOption('2');await submit();await expect(page.locator('.candidate-board>div').nth(2).locator(`[data-demo-card="${id}"]`)).toBeVisible();await page.reload();await expect(page.locator('.candidate-board>div').nth(2).locator(`[data-demo-card="${id}"]`)).toBeVisible();const download=page.waitForEvent('download');await page.getByRole('button',{name:'Xuất Excel'}).click();assert.match((await download).suggestedFilename(),/csv$/);
-  console.log('Posting, employer list, pause, duplicate, pipeline and CSV passed.');
+  console.log('Candidate board stage move and CSV passed.');
 
+  await setSession(page,student);
   await goto('messages');const chat=page.locator('input[placeholder^="Nhập tin nhắn"]');await chat.fill('Demo first thread');await chat.press('Enter');await expect(page.locator('.app-chat-message')).toHaveText('Demo first thread');await page.locator('aside h3').nth(1).click();await expect(page.locator('section h2').first()).toHaveText('Lê Hoàng Nam');await expect(page.locator('.app-chat-message')).toHaveCount(0);await chat.fill('Demo second thread');await chat.press('Enter');await page.locator('aside h3').first().click();await expect(page.locator('.app-chat-message')).toHaveText('Demo first thread');
   await page.getByRole('button',{name:'Đính kèm CV / File'}).click();await page.locator('dialog input[type=file]').setInputFiles({name:'demo-cv.txt',mimeType:'text/plain',buffer:Buffer.from('demo cv')});await submit();await expect(page.locator('.app-chat-message').last()).toContainText('demo-cv.txt');
   await page.getByRole('button',{name:'Tùy chọn cuộc trò chuyện'}).click();await page.getByRole('menuitem',{name:'Tắt thông báo cuộc trò chuyện'}).click();await expect(page.locator('#conversation-status')).toContainText('Đã tắt thông báo');
@@ -35,4 +36,4 @@ try{
   await goto('university');await page.locator('#btn-contact-career').click();const contact=page.locator('#partner-inquiry-form');await contact.locator('input').nth(0).fill('Demo Tester');await contact.locator('input').nth(1).fill('Demo Company');await contact.locator('input').nth(2).fill('demo@example.com');await contact.locator('button[type=submit]').click();await expect(page.locator('#contact-modal')).not.toBeVisible();
   console.log('Community posting, comments, persistence and university contact passed.');
   assert.deepEqual(errors,[]);console.log('All demo integration checks passed.');
-}finally{await browser.close();}
+}finally{await browser.close();await cleanup();}

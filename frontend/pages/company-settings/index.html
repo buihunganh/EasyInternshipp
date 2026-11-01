@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ doanh nghiệp | Internships.io</title>
+  <meta name="description" content="Thiết lập hồ sơ doanh nghiệp, giấy tờ thẩm định và đội ngũ tuyển dụng.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+  <link rel="stylesheet" href="/src/modules/recruiting/company-settings.css">
+</head>
+<body data-page="company-settings">
+  <header></header>
+  <div class="company-settings-shell">
+    <main class="ei-page" id="company-settings">
+      <div class="ei-card company-settings-intro">
+        <span class="ei-muted">Không gian tuyển dụng</span>
+        <h1 id="settings-title">Hồ sơ doanh nghiệp</h1>
+        <p class="ei-muted">Thông tin hiển thị trên trang công ty và tin tuyển dụng. Doanh nghiệp cần được xác thực (mã số thuế + giấy phép kinh doanh) trước khi đăng tin.</p>
+        <div id="verification-banner" class="ei-banner" role="status" hidden></div>
+      </div>
+
+      <section class="ei-card" aria-labelledby="info-title">
+        <h2 id="info-title">Thông tin doanh nghiệp</h2>
+        <form id="company-form" class="ei-form" novalidate>
+          <p class="app-form-error" hidden></p>
+          <label class="ei-field" for="company-name">Tên doanh nghiệp *
+            <input id="company-name" name="name" required minlength="2" maxlength="200" placeholder="VD: Công ty TNHH TechNova Solutions">
+            <small>Đổi tên hoặc mã số thuế sau khi xác thực sẽ cần thẩm định lại.</small>
+          </label>
+          <div class="ei-grid-2">
+            <label class="ei-field" for="tax-code">Mã số thuế (MST)
+              <input id="tax-code" name="tax_code" inputmode="numeric" pattern="[0-9]{10}(-?[0-9]{3})?" placeholder="10 hoặc 13 chữ số">
+            </label>
+            <label class="ei-field" for="industry">Lĩnh vực
+              <select id="industry" name="industry_id"><option value="">Chọn lĩnh vực</option></select>
+            </label>
+            <label class="ei-field" for="company-size">Quy mô
+              <select id="company-size" name="company_size">
+                <option value="">Chọn quy mô</option><option>1-20</option><option>20-50</option><option>50-200</option>
+                <option>200-500</option><option>500-1000</option><option>1000+</option>
+              </select>
+            </label>
+            <label class="ei-field" for="founded-year">Năm thành lập
+              <input id="founded-year" name="founded_year" type="number" min="1800" max="2100" placeholder="VD: 2015">
+            </label>
+            <label class="ei-field" for="website">Website
+              <input id="website" name="website" type="url" placeholder="https://">
+            </label>
+            <label class="ei-field" for="city">Tỉnh / thành phố
+              <input id="city" name="city" placeholder="VD: TP. Hồ Chí Minh">
+            </label>
+          </div>
+          <label class="ei-field" for="address">Địa chỉ trụ sở
+            <input id="address" name="address" placeholder="Số nhà, đường, quận/huyện">
+          </label>
+          <label class="ei-field" for="description">Giới thiệu doanh nghiệp
+            <textarea id="description" name="description" maxlength="10000" placeholder="Lĩnh vực hoạt động, sản phẩm, văn hóa..."></textarea>
+          </label>
+          <div class="ei-actions"><button type="submit" class="ei-button ei-button-primary" id="company-save">Lưu thông tin</button></div>
+        </form>
+      </section>
+
+      <div id="company-extra" hidden>
+        <section class="ei-card" aria-labelledby="brand-title">
+          <h2 id="brand-title">Logo &amp; ảnh bìa</h2>
+          <div class="company-settings-brand">
+            <figure><img id="logo-preview" alt="Logo doanh nghiệp" width="96" height="96"><figcaption>Logo (PNG/JPG/WebP, ≤ 5MB)</figcaption>
+              <label class="ei-button"><input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp" hidden>Tải logo</label></figure>
+            <figure><div id="cover-preview" class="company-settings-cover" role="img" aria-label="Ảnh bìa"></div><figcaption>Ảnh bìa trang công ty</figcaption>
+              <label class="ei-button"><input type="file" id="cover-file" accept="image/png,image/jpeg,image/webp" hidden>Tải ảnh bìa</label></figure>
+          </div>
+        </section>
+
+        <section class="ei-card" aria-labelledby="profile-title">
+          <h2 id="profile-title">Nội dung trang công ty</h2>
+          <form id="profile-form" class="ei-form" novalidate>
+            <label class="ei-field" for="tagline">Khẩu hiệu ngắn<input id="tagline" name="tagline" maxlength="200"></label>
+            <div class="ei-grid-2">
+              <label class="ei-field" for="mission">Sứ mệnh<textarea id="mission" name="mission" maxlength="600"></textarea></label>
+              <label class="ei-field" for="vision">Tầm nhìn<textarea id="vision" name="vision" maxlength="600"></textarea></label>
+            </div>
+            <div class="ei-grid-2">
+              <label class="ei-field" for="program-title">Tên chương trình thực tập<input id="program-title" name="program_title" maxlength="160"></label>
+              <label class="ei-field" for="office">Tên văn phòng / tòa nhà<input id="office" name="office" maxlength="160"></label>
+            </div>
+            <label class="ei-field" for="program-description">Mô tả chương trình thực tập<textarea id="program-description" name="program_description" maxlength="2000"></textarea></label>
+            <label class="ei-field" for="culture">Điểm nổi bật / văn hóa<textarea id="culture" name="culture" maxlength="2000" placeholder="Mỗi dòng một ý, VD: Mentor 1-1"></textarea><small>Mỗi dòng là một thẻ trên trang công ty.</small></label>
+            <label class="ei-field" for="mentors">Đội ngũ mentor<textarea id="mentors" name="mentors" maxlength="3000" placeholder="Tên | Chức danh | Chuyên môn (mỗi người một dòng)"></textarea></label>
+            <div class="ei-grid-2">
+              <label class="ei-field" for="hr-email">Email tuyển dụng<input id="hr-email" name="hr_email" type="email"></label>
+              <label class="ei-field" for="hotline">Hotline nhân sự<input id="hotline" name="hotline"></label>
+            </div>
+            <div class="ei-actions"><button type="submit" class="ei-button ei-button-primary">Lưu nội dung</button><a class="ei-button" id="view-company" href="/pages/company/">Xem trang công ty</a></div>
+          </form>
+        </section>
+
+        <section class="ei-card" aria-labelledby="docs-title">
+          <h2 id="docs-title">Giấy tờ thẩm định</h2>
+          <p class="ei-muted">Tải lên giấy phép kinh doanh (GPKD) hoặc giấy chứng nhận đăng ký thuế. Tệp chỉ quản trị viên và quản lý công ty xem được.</p>
+          <ul id="documents" class="ei-list"></ul>
+          <form id="document-form" class="ei-form" novalidate>
+            <div class="ei-grid-2">
+              <label class="ei-field" for="doc-type">Loại giấy tờ
+                <select id="doc-type" name="doc_type">
+                  <option value="business_license">Giấy phép kinh doanh</option><option value="tax_certificate">Giấy chứng nhận đăng ký thuế</option>
+                  <option value="authorization_letter">Giấy ủy quyền</option><option value="other">Khác</option>
+                </select>
+              </label>
+              <label class="ei-field" for="doc-file">Tệp (PDF/PNG/JPG, ≤ 10MB)<input id="doc-file" name="file" type="file" accept="application/pdf,image/png,image/jpeg" required></label>
+            </div>
+            <div class="ei-actions">
+              <button type="submit" class="ei-button">Tải lên</button>
+              <button type="button" class="ei-button ei-button-primary" id="submit-verification">Gửi thẩm định</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="ei-card" aria-labelledby="team-title">
+          <h2 id="team-title">Đội ngũ tuyển dụng</h2>
+          <p class="ei-muted">Thành viên phải có tài khoản nhà tuyển dụng trên Internships.io.</p>
+          <ul id="members" class="ei-list"></ul>
+          <form id="member-form" class="ei-form" novalidate>
+            <div class="ei-grid-2">
+              <label class="ei-field" for="member-email">Email thành viên<input id="member-email" name="email" type="email" required placeholder="recruiter@congty.vn"></label>
+              <label class="ei-field" for="member-role">Vai trò
+                <select id="member-role" name="role"><option value="recruiter">Nhà tuyển dụng</option><option value="admin">Quản lý</option><option value="owner">Chủ sở hữu</option></select>
+              </label>
+            </div>
+            <div class="ei-actions"><button type="submit" class="ei-button">Thêm thành viên</button></div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

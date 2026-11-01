@@ -1,6 +1,6 @@
 export function renderSiteFooter() {
   document.querySelectorAll('body > footer, footer.internships-footer, footer.itviec-footer, footer.workspace-footer').forEach(footer => footer.remove());
-  const workspacePages = ['candidates', 'employer', 'post-job', 'messages', 'cv-builder', 'profile'];
+  const workspacePages = ['candidates', 'employer', 'post-job', 'company-settings', 'messages', 'cv-builder', 'profile', 'applications'];
   if (workspacePages.includes(document.body.dataset.page || '')) {
     const footer = document.createElement('footer');
     footer.className = 'workspace-footer';

@@ -3,19 +3,11 @@ import { label, routes, destination } from '../navigation';
 import { read, write } from '../storage';
 import { requireSignIn } from '../auth';
 import { apply, saveForm } from '../forms';
-import { bind, button, compose, download, esc, field, itemContext, record, schedule, share, toggle, upload, value, video } from '../ui/actions';
+import { bind, compose, download, field, itemContext, record, schedule, share, toggle, upload, value, video } from '../ui/actions';
 
-/** Demo banner ("Đổi vai trò", "Hoạt động demo"). Runs before module page setup. */
-export function setupDemoNotice() {
+/** Icon ligature spans are decorative for screen readers. */
+export function markDecorativeIcons() {
   document.querySelectorAll('.material-symbols-outlined').forEach(icon=>{if(icon.tagName!=='BUTTON')icon.setAttribute('aria-hidden','true');});
-  const note=document.createElement('aside');note.className='demo-notice';note.setAttribute('aria-label','Chế độ trải nghiệm');
-  const text=document.createElement('span');text.textContent='Bản trải nghiệm · dữ liệu lưu trên trình duyệt';note.append(text,button('Đổi vai trò',()=>{
-    dialog('Chọn vai trò trải nghiệm','<label>Vai trò<select name="role"><option value="student">Sinh viên</option><option value="recruiter">Nhà tuyển dụng</option><option value="university">Trường đại học</option></select></label>','Bắt đầu trải nghiệm',form=>{const role=value(form,'role');write('demo-session',{role});location.assign(role==='recruiter'?routes.employer:role==='university'?routes.university:routes.jobs);});
-  }),button('Hoạt động demo',()=>{
-    const groups=['outbox','appointments','inquiries','offers'];
-    const content=groups.map((key,i)=>`<h3>${['Thư đã gửi thử','Lịch hẹn','Yêu cầu liên hệ','Thư mời nhận việc'][i]}</h3><ul>${read<Record<string,unknown>[]>('demo:'+key,[]).map(x=>`<li>${esc(String(x.subject||x.title||x.name||x.person||'Yêu cầu'))} · ${esc(String(x.time||''))}</li>`).join('')||'<li>Chưa có hoạt động.</li>'}</ul>`).join('');
-    dialog('Hoạt động đã thực hiện',content,'Đóng');
-  }));document.body.append(note);
 }
 
 /** "…" (more_horiz / more_vert) buttons must not submit forms. Modules attach the actual menus. */
@@ -35,13 +27,15 @@ export function controlLabel(b: HTMLButtonElement) {
 }
 
 /**
- * Generic handling for every button the modules did not bind, matched by visible label or icon.
+ * Generic handling for every design-HTML button the modules did not bind, matched by visible label or icon.
+ * Buttons created at runtime by modules are never touched (they lack data-design-button).
  * Runs AFTER module page setup: anything a module already bound (data-app-control) is skipped,
  * so a module takes over a button by binding it first.
  */
 export function setupCommonControls(page:string) {
   const nativeIds=['toggle-password','toggle-pw','faq-toggle','btn-contact-career','close-modal','cancel-modal','closeDrawerBtn'];
   document.querySelectorAll<HTMLButtonElement>('button').forEach((b,i)=>{
+    if(!('designButton' in b.dataset))return; // created by a module, which owns its behaviour
     if(b.dataset.appControl||b.closest('dialog')||b.matches('.role-btn')||nativeIds.includes(b.id))return;
     if(b.type==='submit'&&b.form)return;
     const text=label(b), icon=b.querySelector('.material-symbols-outlined')?.textContent?.trim()|| (b.classList.contains('material-symbols-outlined')?b.textContent?.trim():'')||'', design=b.dataset.designClick||'';
@@ -67,7 +61,7 @@ export function setupCommonControls(page:string) {
     const href=destination(text);if(href){bind(b,()=>location.assign(href));return;}
     // Secondary calls to action use an editable request with an observable local result.
     b.dataset.demoFallback='true';
-    bind(b,()=>dialog(text||b.title||'Tùy chọn',field('name','Tên yêu cầu',text||b.title||'Yêu cầu')+'<label>Ghi chú<textarea name="note" placeholder="Nhập nội dung để thử quy trình..."></textarea></label>','Lưu yêu cầu demo',form=>{record('inquiries',{name:value(form,'name'),note:value(form,'note')});toast('Đã lưu. Xem lại trong Hoạt động demo.');}));
+    bind(b,()=>dialog(text||b.title||'Tùy chọn',field('name','Tên yêu cầu',text||b.title||'Yêu cầu')+'<label>Ghi chú<textarea name="note" placeholder="Nhập nội dung để thử quy trình..."></textarea></label>','Lưu yêu cầu demo',form=>{record('inquiries',{name:value(form,'name'),note:value(form,'note')});toast('Đã lưu yêu cầu trên trình duyệt.');}));
   });
   // Keep informational/footer destinations in the preview instead of sending users to unrelated pages.
   document.querySelectorAll<HTMLAnchorElement>('footer a').forEach(a=>{

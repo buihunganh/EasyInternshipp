@@ -11,5 +11,9 @@
   {"slug":"company","title":"TechNova Solutions","url":"/pages/company/"},
   {"slug":"cv-builder","title":"Tạo và hoàn thiện CV","url":"/pages/cv-builder/"},
   {"slug":"profile","title":"Hồ sơ cá nhân","url":"/pages/profile/"},
-  {"slug":"university","title":"Đại học Bách Khoa TP.HCM","url":"/pages/university/"}
+  {"slug":"university","title":"Đại học Bách Khoa TP.HCM","url":"/pages/university/"},
+  {"slug":"company-settings","title":"Hồ sơ doanh nghiệp","url":"/pages/company-settings/"},
+  {"slug":"applications","title":"Đơn ứng tuyển của tôi","url":"/pages/applications/"},
+  {"slug":"cv","title":"CV công khai","url":"/pages/cv/"},
+  {"slug":"reset-password","title":"Đặt lại mật khẩu","url":"/pages/reset-password/"}
 ]

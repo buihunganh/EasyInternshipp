@@ -135,23 +135,21 @@ same key silently overwrite each other.
 - Existing keys keep their names. If you need a key another module owns, agree with its owner and
   move the shape (and a read/write helper, if useful) into `core/models.ts`, as was done for `demo:jobs`.
 
-Current keys and their owners:
+Most data now lives in Supabase (accounts, jobs, companies, profiles, CVs, applications, saved jobs, job alerts, follows, reports, notifications).
+The keys below are what is still in `localStorage`:
 
 | Key(s) | Owner | Also used by |
 |---|---|---|
-| `demo-session` | core (`auth.ts`) | accounts writes it on sign-in |
-| `applications`, `application-details` | core (`forms.ts` → `apply()`) | account menu |
-| `saved-jobs` | core (generic bookmark), account menu | jobs |
+| `sb-<project>-auth-token` | Supabase Auth (`core/session.ts`) | — never read or write it directly |
 | `form:<page>` | core (`saveForm` / `restoreForm`) | |
-| `reports` | core (`report.ts`) | admin reads; messages and community write |
-| `notification-settings`, `job-alert` | core | |
-| `demo:outbox`, `demo:appointments`, `demo:inquiries`, `demo:offers` | core (`ui/actions.ts` → `record()`) | university, recruiting |
-| `demo:jobs` (shape in `core/models.ts`) | recruiting | jobs |
-| `demo:editing-job`, `demo:job-description`, `demo:pipeline`, `demo:stages` | recruiting | |
-| `demo:cv-*`, `demo:avatar` | profile-cv | |
-| `demo:chat:*` | messages | |
-| `demo:posts`, `demo:comments:*`, `demo:like:*`, `demo:save-post:*`, `saved-post:*` | community | |
-| `admin:v1` (sessionStorage `internships:admin-session`) | admin | |
+| `cv-draft:<cvId>`, `cv-draft:new` | profile-cv (unsaved CV builder edits) | |
+| `reports` | core (`report.ts`, only for pages without a real target id) | community |
+| `demo:outbox`, `demo:appointments`, `demo:inquiries`, `demo:offers` | core (`ui/actions.ts` → `record()`) | university, recruiting (candidates board) |
+| `demo:pipeline`, `demo:stages` | recruiting (candidates board, until Phase 7) | |
+| `demo:chat:*` | messages (until Phase 8) | |
+| `demo:posts`, `demo:comments:*`, `demo:like:*`, `demo:save-post:*`, `saved-post:*` | community (until Phase 9) | |
+
+The flash message across redirects uses `sessionStorage['internships:flash']` (`core/auth.ts` → `flash()`).
 
 Update this table in the same PR when you add a key.
 

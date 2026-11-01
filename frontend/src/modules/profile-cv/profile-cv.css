@@ -1,0 +1,13 @@
+/* profile-cv module: public CV page, CV builder toolbar, profile skill chips */
+body[data-page=cv] .site-header button{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer}
+.public-cv-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.public-cv-sheet{display:grid;background:#fff;border:1px solid var(--ui-border);border-radius:var(--ui-radius-card);padding:40px;max-width:820px;width:100%;box-sizing:border-box;margin:0 auto;box-shadow:0 8px 24px #25324a14}
+@media (max-width:640px){.public-cv-sheet{padding:20px}}
+.cv-toolbar{margin-bottom:16px}
+.cv-toolbar select,.cv-toolbar input:not([type=checkbox]){min-height:40px;padding:6px 10px;border:1px solid var(--ui-border);border-radius:var(--ui-radius-control);font:inherit;background:var(--ui-surface);color:var(--ui-text)}
+.cv-toolbar input:not([type=checkbox]){min-width:180px}
+.profile-skill-remove{border:0;background:transparent;color:inherit;cursor:pointer;font-size:14px;line-height:1;padding:0 2px}
+@media print{
+  body[data-page=cv]>*:not(#demo-print-region){display:none!important}
+  #demo-print-region{display:block!important}
+}

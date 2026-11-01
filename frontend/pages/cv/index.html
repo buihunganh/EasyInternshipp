@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV | Internships.io</title>
+  <meta name="description" content="CV công khai trên Internships.io.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+  <link rel="stylesheet" href="/src/modules/profile-cv/profile-cv.css">
+</head>
+<body data-page="cv">
+  <header></header>
+  <main class="ei-page">
+    <div class="ei-card public-cv-bar">
+      <div>
+        <span class="ei-muted">CV công khai</span>
+        <h1 id="cv-title">Đang tải CV...</h1>
+        <p class="ei-muted" id="cv-updated"></p>
+      </div>
+      <div class="ei-actions">
+        <button type="button" class="ei-button" id="cv-file" hidden>Mở tệp PDF</button>
+        <button type="button" class="ei-button ei-button-primary" id="cv-print">In / Lưu PDF</button>
+      </div>
+    </div>
+    <article id="a4-cv-sheet" class="public-cv-sheet" aria-label="Nội dung CV"></article>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
