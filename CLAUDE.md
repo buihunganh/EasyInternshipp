@@ -9,7 +9,7 @@ Internships.io is a Vietnamese internship platform for students, recruiters, uni
 - `frontend/` is the Vite app. It talks to Supabase through `core/supabase.ts` (auth, data, storage).
 - `backend/supabase/` holds the Supabase schema (migrations, RLS, RPCs, storage, analytics). Permissions and business rules live there; the UI only hides what a user can't do.
 
-`IMPLEMENTATION_PLAN.md` tracks the migration from the old localStorage demo; its "Progress" table says which phases are live. Phases 0–6 are done: accounts, roles, job discovery, company settings, posting, employer dashboard, admin moderation, student profile, CV builder, applying and My Applications use real data. The candidates board, messages, community and university pages still run on local demo data (`core/storage.ts`, `core/ui/actions.ts` → `record()`).
+`IMPLEMENTATION_PLAN.md` tracks the migration from the old localStorage demo; its "Progress" table says which phases are live. Phases 0–8 are done: accounts, roles, job discovery, company settings, posting, employer dashboard, admin moderation, student profile, CV builder, applying, My Applications, the candidates board (ATS pipeline, interviews, scorecards, offers), messages and notifications use real data. The community and university pages still run on local demo data (`core/storage.ts`, `core/ui/actions.ts` → `record()`).
 
 Environment: `.env.local` at the repo root holds `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (bundled) and `SUPABASE_SERVICE_ROLE_KEY` (scripts and tests only; never prefix it with `VITE_`). See `.env.example`. Vite reads it via `envDir` in `frontend/vite.config.js`. Demo accounts from `npm run db:seed` all use the password `Demo@2026`: `admin@`, `employer@`, `hr.vng@`, `design@`, `newco@`, `officer@`, `student@demo.internships.io`.
 
@@ -39,10 +39,10 @@ The browser tests are standalone Node scripts in `frontend/tests/` that drive Ch
 
 | Command | Script | Covers |
 |---|---|---|
-| `npm run test:e2e` | `e2e/accounts.e2e.mjs`, `e2e/discovery.e2e.mjs`, `e2e/posting.e2e.mjs`, `e2e/apply.e2e.mjs` | Real-data flows: sign-up/login/guards/logout/admin login; search, filters, job and company pages, save, report; company → GPKD → verify → post → reject → resubmit → approve → apply, dashboard actions, live edit re-moderation; no-CV student → CV → apply → My Applications (RSVP, offer, withdraw), profile, public CV, job alerts |
+| `npm run test:e2e` | `e2e/accounts.e2e.mjs`, `e2e/discovery.e2e.mjs`, `e2e/posting.e2e.mjs`, `e2e/apply.e2e.mjs`, `e2e/hiring.e2e.mjs`, `e2e/hiring-loop.e2e.mjs`, `e2e/messaging.e2e.mjs` | Real-data flows: sign-up/login/guards/logout/admin login; search, filters, job and company pages, save, report; company → GPKD → verify → post → reject → resubmit → approve → apply, dashboard actions, live edit re-moderation; no-CV student → CV → apply → My Applications (RSVP, offer, withdraw), profile, public CV, job alerts; candidate board → CV viewed → stage move → interview → scorecard → offer → chat message, file, mute → student RSVP from the chat card, reply, notifications, accept offer |
 | `npm test` | `smoke-test.mjs` | Every page in `frontend/src/design-manifest.json` as the right role: HTTP 200, `data-page`, broken images, mobile overflow, a few interactions |
 | `npm run test:account` | `account-test.mjs` | Account menu on every signed-in page, notification preferences, saved jobs, logout, contextual menus |
-| `npm run test:demo` | `demo-test.mjs` | Pages still on demo data: CV builder, candidate board, messages, community, university contact |
+| `npm run test:demo` | `demo-test.mjs` | Pages still on demo data (community, university contact) plus the CV builder editor |
 | `npm run test:admin` | `admin-test.mjs` | Real admin console: login rules, tabs, filters, HTML escaping (XSS) of reports, audit, mobile |
 | `npm run test:design` | `design-system-test.mjs` | Token colors and radius on every page, no horizontal overflow at 390px |
 | `npm run test:buttons` | `button-audit.mjs` | Clicks every visible non-header/footer button on every page (throwaway accounts) and fails on runtime errors |

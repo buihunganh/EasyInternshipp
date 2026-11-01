@@ -38,13 +38,14 @@ try {
   assert.deepEqual(await titles(), ['Product Design (UI/UX) Intern']);
   step('work-type filter narrows to the remote job');
 
-  // Stipend slider: at least 10 million → only the 12M and 14M jobs
+  // Stipend slider: at least 10 million → the seeded 12M and 14M jobs stay, the seeded ≤9M jobs go
+  // (the shared dev project may hold extra jobs people created by hand, so don't assert an exact count)
   await page.click('button:has-text("Thiết lập lại")');
   await page.waitForFunction(() => document.querySelectorAll('#job-results article').length >= 4);
   await page.$eval('input[type=range]', el => { el.value = '10'; el.dispatchEvent(new Event('input', { bubbles: true })); });
-  await page.waitForFunction(() => document.querySelectorAll('#job-results article').length === 2);
+  await page.waitForFunction(() => { const t = document.getElementById('job-results')?.textContent || ''; return !/Data Analyst Intern|Product Design/.test(t) && /Backend Developer Intern/.test(t) && /Software Engineering Intern/.test(t); });
   list = await titles();
-  assert.deepEqual(new Set(list), new Set(['Backend Developer Intern (Golang / Java)', 'Software Engineering Intern (Full-stack)']));
+  for (const t of ['Backend Developer Intern (Golang / Java)', 'Software Engineering Intern (Full-stack)']) assert.ok(list.includes(t), `${t} missing from ≥10M results`);
   step('stipend slider filters by minimum allowance');
 
   // Quick chip with no matches shows the empty state

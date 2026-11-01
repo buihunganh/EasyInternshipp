@@ -47,12 +47,10 @@ try {
   await page.locator('form button[type=submit]').click();
   await page.locator('#job-results .app-state-empty').waitFor();
 
-  // Pages still on local demo data keep working
+  // Messages are real data now (Phase 8): a new student has no conversations yet → empty inbox, input disabled
   await page.goto(base + '/pages/messages/'); await ready(page);
-  await page.locator('input[placeholder^="Nhập tin nhắn"]').fill('Xin chào, tôi muốn tìm hiểu vị trí thực tập.');
-  await page.locator('input[placeholder^="Nhập tin nhắn"]').press('Enter');
-  assert.equal(await page.locator('.app-chat-message').count(), 1);
-  await page.reload(); await ready(page); assert.equal(await page.locator('.app-chat-message').count(), 1);
+  assert.equal(await page.locator('section h2').first().textContent(), 'Chưa chọn cuộc trò chuyện');
+  assert.equal(await page.locator('input[placeholder^="Chọn một cuộc trò chuyện"]').isDisabled(), true);
   await page.goto(base + '/pages/cv-builder/'); await ready(page);
   await page.locator('#input-fullname').fill('Nguyễn Văn An');
   await page.getByRole('button', { name: /Lưu & Cập nhật/ }).click();

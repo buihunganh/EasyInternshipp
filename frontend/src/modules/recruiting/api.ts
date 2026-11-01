@@ -324,9 +324,9 @@ export async function saveEvaluation(applicationId: string, score: number, crite
     }).eq('id', existing.id));
     return existing.id;
   }
+  // evaluator_id comes from its column default (auth.uid()); clients may not write it
   return unwrap(await supabase.from('evaluations').insert({
     application_id: applicationId,
-    evaluator_id: currentUid,
     score,
     criteria,
     comment: comment || null,
@@ -363,6 +363,11 @@ export const withdrawOffer = (offerId: string, reason: string) =>
 
 export const rateIntern = (applicationId: string, rating: number, comment?: string) =>
   rpc('rate_intern', { p_application: applicationId, p_rating: rating, p_comment: comment || null });
+
+/** Post a text message as the signed-in recruiter (sender_id defaults to auth.uid()). */
+export async function sendTextMessage(conversationId: string, body: string) {
+  unwrap(await supabase.from('messages').insert({ conversation_id: conversationId, kind: 'text', body }));
+}
 
 export const startConversation = (withUser: string, companyId?: string) =>
   rpc<string>('start_conversation', { p_with_user: withUser, p_company: companyId || null });

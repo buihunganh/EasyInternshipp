@@ -7,21 +7,19 @@ import { dialog, toast } from '../../core/ui/feedback';
 import { bind, csv, esc, field, value } from '../../core/ui/actions';
 import { showError } from '../../core/errors';
 import {
-  applicationStatusLabel, formatDate, formatDateTime, formatVnd, relativeTime, rsvpStatusLabel
+  applicationStatusLabel, formatDate, formatDateTime, formatVnd, localDateTimeInput, relativeTime, rsvpStatusLabel
 } from '../../core/format';
 import { el, stateBlock } from '../../core/render';
 import { initialsAvatar } from '../../core/layout/siteHeader';
 import { publicUrl } from '../../core/supabase';
 import type { CvContent } from '../../core/models';
-import { sendMessage } from '../messages/api';
 import {
   companyJobs, createPipelineStage, cvSignedUrl, getApplicationDetail, getJobApplications,
   getPipelineStages, markApplicationViewed, moveApplicationStage, myCompany,
   rateIntern, saveEvaluation, scheduleInterview, searchCandidates, sendOffer,
   startConversation, updateApplicationStatus, updateInterview, updatePipelineStage,
   uploadOfferLetter, withdrawOffer, type ApplicationDetail, type DashboardJob,
-  type JobApplication, type MyCompany, type PipelineStage,
-} from './api';
+  type JobApplication, type MyCompany, type PipelineStage, sendTextMessage } from './api';
 
 const DEFAULT_STAGES = ['Hồ sơ mới nộp', 'Sàng lọc & Test', 'Phỏng vấn', 'Đã gửi thư mời', 'Đã nhận việc'];
 
@@ -58,6 +56,8 @@ export async function setupCandidates() {
   const boardEl = document.querySelector('.candidate-board') as HTMLElement | null;
   const drawerEl = document.getElementById('candidateDrawer') as HTMLElement | null;
   const filterSelects = [...document.querySelectorAll<HTMLSelectElement>('.candidate-filters select')];
+  // The design export pre-selects sample filters (match > 90%, ĐH Bách Khoa, Năm 4…); start from "all" so no applicant is hidden
+  filterSelects.forEach(sel => { sel.querySelectorAll('option').forEach(o => o.removeAttribute('selected')); sel.selectedIndex = 0; });
   const resetFiltersBtn = document.querySelector('.candidate-filters [class*="cursor-pointer"]') as HTMLElement | null;
 
   // Clone column and card templates from initial static HTML
@@ -158,11 +158,13 @@ export async function setupCandidates() {
 
       // 2: Study Year
       const yearIdx = filterSelects[2]?.selectedIndex ?? 0;
-      const gradYear = app.student?.student_profile?.graduation_year;
-      const studyYear = app.student?.student_profile?.study_year;
-      if (yearIdx === 1 && studyYear !== 3) return false;
-      if (yearIdx === 2 && studyYear !== 4 && gradYear !== 2024) return false;
-      if (yearIdx === 3 && (gradYear ?? 9999) > new Date().getFullYear()) return false;
+      // Study year is derived from the graduation year (final-year students graduate this academic year)
+      const gradYear = app.student?.student_profile?.graduation_year ?? null;
+      const now = new Date();
+      const finalYear = now.getMonth() >= 7 ? now.getFullYear() + 1 : now.getFullYear();
+      if (yearIdx === 1 && gradYear !== finalYear + 1) return false;
+      if (yearIdx === 2 && gradYear !== finalYear) return false;
+      if (yearIdx === 3 && (gradYear === null || gradYear >= finalYear)) return false;
 
       // 3: Tech Stack / Skills
       const skillVal = filterSelects[3]?.value;
@@ -270,6 +272,16 @@ export async function setupCandidates() {
       }, 'Chuyển vòng');
       bind(moveBtn, () => promptMoveStage(app));
       c.append(moveBtn);
+    }
+
+    // Scorecards (BR-29): the design only has a "Đánh giá" button on one sample card, so add it to every card
+    if (![...c.querySelectorAll('button')].some(b => /Đánh giá/.test(label(b)))) {
+      const scoreBtn = el('button', {
+        type: 'button',
+        className: 'px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[12px] text-on-surface transition-colors',
+      }, 'Đánh giá');
+      bind(scoreBtn, () => promptEvaluation(app));
+      c.append(scoreBtn);
     }
 
     return c;
@@ -524,7 +536,7 @@ export async function setupCandidates() {
         bind(scheduleInterviewBtn, () => {
           dialog(`Cập nhật lịch PV — ${name}`, `
             <p>Trạng thái: <strong>${rsvpStatusLabel[activeInterview.rsvp] || activeInterview.rsvp}</strong></p>
-            ${activeInterview.proposed_at ? `<p class="ei-chip-warning">Ứng viên đề xuất đổi sang: <strong>${formatDateTime(activeInterview.proposed_at)}</strong> (${activeInterview.rsvp_note || ''})</p>` : ''}
+            ${activeInterview.proposed_at ? `<p class="ei-chip-warning">Ứng viên đề xuất đổi sang: <strong>${formatDateTime(activeInterview.proposed_at)}</strong> (${esc(activeInterview.rsvp_note || '')})</p>` : ''}
             <label>Thời gian mới (nếu đổi)
               <input type="datetime-local" name="scheduled_at">
             </label>
@@ -568,7 +580,7 @@ export async function setupCandidates() {
               </select>
             </label>
             <label>Thời gian phỏng vấn
-              <input type="datetime-local" name="scheduled_at" required value="${defaultTime.toISOString().slice(0, 16)}">
+              <input type="datetime-local" name="scheduled_at" required value="${localDateTimeInput(defaultTime)}">
             </label>
             <label>Link phòng họp (nếu trực tuyến)
               <input type="url" name="meeting_url" placeholder="https://meet.google.com/..." value="https://meet.google.com/sample-meet">
@@ -595,7 +607,7 @@ export async function setupCandidates() {
               if (notes) {
                 try {
                   const convId = await startConversation(app.student_id, company?.id);
-                  await sendMessage(convId, `Ghi chú phỏng vấn: ${notes}`);
+                  await sendTextMessage(convId, `Ghi chú phỏng vấn: ${notes}`);
                 } catch { /* ignore */ }
               }
               toast('Đã lên lịch và gửi thông báo phỏng vấn.');
@@ -828,7 +840,7 @@ export async function setupCandidates() {
         dialog('Gửi email tự động loạt', `
           <p>Gửi tới <strong>${filtered.length} ứng viên</strong> trong danh sách lọc hiện tại:</p>
           <div class="p-xs bg-surface-container-low rounded-lg text-label-sm max-h-24 overflow-y-auto mb-2">
-            ${emails.join(', ') || 'Chưa có email nào'}
+            ${esc(emails.join(', ')) || 'Chưa có email nào'}
           </div>
           <label>Tiêu đề email
             <input type="text" name="subject" required value="Thông báo tiến trình tuyển dụng — ${esc(currentJob.title)}">

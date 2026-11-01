@@ -6,7 +6,7 @@ import { bind, button, field, normal, schedule, upload, value, video } from '../
 import { publicUrl } from '../../core/supabase';
 import { showError } from '../../core/errors';
 import { esc, el } from '../../core/render';
-import { formatDateTime, relativeTime, formatBytes } from '../../core/format';
+import { formatDateTime, relativeTime, formatBytes, localDateTimeInput } from '../../core/format';
 import { reportContent } from '../../core/report';
 import { routes, companyHref, jobHref } from '../../core/navigation';
 import {
@@ -16,7 +16,7 @@ import {
   type ConversationItem, type MessageItem, type ConversationContextData
 } from './api';
 
-export function setupMessages() {
+export async function setupMessages() {
   const root = document.querySelector<HTMLElement>('main[data-page="messages"], body[data-page="messages"] main');
   const input = document.querySelector<HTMLInputElement>('input[placeholder^="Nhập tin nhắn"]')!;
   const stream = document.querySelector<HTMLElement>('.overflow-y-auto.space-y-md')!;
@@ -321,7 +321,7 @@ export function setupMessages() {
     }
 
     // Bind action buttons in header
-    const companyBtn = section.querySelector<HTMLButtonElement>('button:has(.material-symbols-outlined:contains("apartment"))') ||
+    const companyBtn = [...section.querySelectorAll<HTMLButtonElement>('button')].find(b => b.querySelector('.material-symbols-outlined')?.textContent?.trim() === 'apartment') ||
       [...section.querySelectorAll<HTMLButtonElement>('button')].find(b => b.textContent?.includes('Hồ sơ'));
     if (companyBtn) {
       if (recruiter && activeContext?.application) {
@@ -350,7 +350,7 @@ export function setupMessages() {
     const moreBtn = section.querySelector<HTMLButtonElement>('button[title="Thêm tuỳ chọn"]') ||
       [...section.querySelectorAll<HTMLButtonElement>('button')].find(b => b.querySelector('.material-symbols-outlined')?.textContent?.trim() === 'more_vert');
     if (moreBtn && activeConv) {
-      moreBtn.setAttribute('aria-label', 'Tuỳ chọn cuộc trò chuyện');
+      moreBtn.setAttribute('aria-label', 'Tùy chọn cuộc trò chuyện');
       attachMenu(moreBtn, () => [
         {
           label: activeConv!.is_muted ? 'Bật thông báo cuộc trò chuyện' : 'Tắt thông báo cuộc trò chuyện',
@@ -645,7 +645,7 @@ export function setupMessages() {
   }
 
   function promptReschedule(interviewId: string) {
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 16);
+    const tomorrow = localDateTimeInput(new Date(Date.now() + 86400000));
     const modal = dialog('Đề xuất thời gian phỏng vấn mới', `
       <p class="app-muted mb-3">Vui lòng chọn thời gian bạn có thể tham gia và gửi kèm lý do cho nhà tuyển dụng.</p>
       <label class="ei-field">Thời gian mong muốn *
@@ -1067,5 +1067,5 @@ export function setupMessages() {
   });
 
   // Start data loading
-  void loadData();
+  await loadData();
 }

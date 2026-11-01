@@ -20,6 +20,12 @@ export function relativeTime(value: string | Date | null | undefined) {
   return 'vừa xong';
 }
 
+/** Value for an <input type="datetime-local"> in the browser's local time (toISOString() would give UTC). */
+export function localDateTimeInput(value: Date | string) {
+  const d = new Date(value);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+}
+
 export function formatVnd(amount: number | null | undefined) {
   if (amount == null) return '';
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(amount);

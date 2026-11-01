@@ -66,11 +66,8 @@ try {
   assert.notEqual(await page.evaluate(() => localStorage.getItem('internships:form:cv-builder')), null);
   await page.setViewportSize({ width: 1280, height: 900 });
 
-  // Contextual menus on pages still using demo data
+  // Contextual menus on pages still using demo data (the conversation menu is covered by e2e/hiring.e2e.mjs)
   await setSession(page, sessions.student);
-  await page.goto(base + '/pages/messages/'); await ready(page);
-  await page.getByRole('button', { name: 'Tùy chọn cuộc trò chuyện' }).click(); await page.getByRole('menuitem', { name: 'Tắt thông báo cuộc trò chuyện' }).click(); await page.reload(); await ready(page);
-  assert.match(await page.locator('#conversation-status').textContent(), /Đã tắt thông báo/);
   await page.goto(base + '/pages/community/'); await ready(page);
   await page.getByRole('button', { name: 'Tùy chọn bài viết' }).first().click(); await page.getByRole('menuitem', { name: 'Báo cáo bài viết' }).click(); await page.getByRole('dialog', { name: 'Báo cáo nội dung' }).waitFor();
   assert.deepEqual(errors, []);

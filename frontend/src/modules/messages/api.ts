@@ -2,7 +2,7 @@
 // interview RSVPs and participant preferences.
 import { supabase, signedUrl, type Database, type Enums, type Tables } from '../../core/supabase';
 import { toAppError, unwrap } from '../../core/errors';
-import { currentSession } from '../../core/session';
+import { currentRole, currentSession } from '../../core/session';
 
 const uid = () => currentSession()?.user.id ?? '';
 
@@ -164,18 +164,16 @@ export async function listMessages(conversationId: string): Promise<MessageItem[
   }));
 }
 
+// sender_id comes from its column default (auth.uid()); clients may not write it (column grants, migration 05)
 export async function sendMessage(conversationId: string, body: string) {
-  const currentUid = uid();
   return unwrap(await supabase.from('messages').insert({
     conversation_id: conversationId,
-    sender_id: currentUid,
     kind: 'text',
     body,
   }).select().single());
 }
 
 export async function uploadMessageAttachment(conversationId: string, file: File) {
-  const currentUid = uid();
   const safe = file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w.-]+/g, '-');
   const path = `${conversationId}/${Date.now()}-${safe}`;
   const { error } = await supabase.storage.from('message-attachments').upload(path, file, { contentType: file.type });
@@ -183,7 +181,6 @@ export async function uploadMessageAttachment(conversationId: string, file: File
 
   return unwrap(await supabase.from('messages').insert({
     conversation_id: conversationId,
-    sender_id: currentUid,
     kind: 'file',
     body: file.name,
     attachment_name: file.name,
@@ -284,7 +281,7 @@ export async function getConversationContext(conv: ConversationItem): Promise<Co
   }
 
   let studentData: ConversationContextData['student'] = null;
-  const studentUid = conv.other_user?.role === 'student' ? conv.other_user.id : (currentSession()?.user.role === 'student' ? uid() : null);
+  const studentUid = conv.other_user?.role === 'student' ? conv.other_user.id : (currentRole() === 'student' ? uid() : null);
   if (studentUid) {
     const { data } = await supabase.from('student_profiles')
       .select('user_id, major, graduation_year, gpa, university:universities(name)')
