@@ -4,7 +4,7 @@
 > with every business rule enforced by the database and verified by automated tests.
 >
 > Status at the time of writing (2026-10-31): the backend schema is done and deployed
-> (`supabase/migrations/2026103100000{1..8}`). The frontend still uses localStorage only.
+> (`backend/supabase/migrations/2026103100000{1..8}`). The frontend still uses localStorage only.
 
 ---
 
@@ -24,7 +24,7 @@
 | ID | Decision | Default | Needed by |
 |---|---|---|---|
 | D1 | Keep the offline localStorage demo as a fallback? | **No.** Replace it; keeping both doubles every feature | P2 |
-| D2 | Demo data for presentations | **Yes.** `scripts/seed-demo.mjs` creates one account per role, a verified company, jobs, applications | P1 |
+| D2 | Demo data for presentations | **Yes.** `backend/scripts/seed-demo.mjs` creates one account per role, a verified company, jobs, applications | P1 |
 | D3 | Test database | **A second free Supabase project** used only by tests (Docker is not installed) | P1 |
 | D4 | Hosting for the static site | **Vercel** (any static host works: Netlify, Cloudflare Pages) | P14 |
 | D5 | Transactional e-mail (status updates, job alerts) | **Resend** through Supabase Edge Functions; in-app notifications work without it | P12 |
@@ -38,10 +38,10 @@
 
 ```
  Browser (Vite multi-page app, vanilla TypeScript, existing HTML/Tailwind design)
- ├─ pages/*/index.html ─ src/main.ts ─ features/*   (UI behaviour, rendering)
+ ├─ frontend/pages/*/index.html ─ src/main.ts ─ src/modules/*   (UI behaviour, rendering)
  │                                       │
  │                                       ▼
- │                                    src/api/*      (ONLY place that calls Supabase)
+ │                                    modules/<name>/api.ts   (ONLY place that calls Supabase)
  │                                       │  supabase-js v2 (typed with database.types.ts)
  ▼                                       ▼
  Supabase project
@@ -59,7 +59,7 @@
    actions a user can't take; it never *grants* them.
 2. Every status change goes through an RPC (`submit_job`, `apply_to_job`, `send_offer`…).
    Direct table writes are only for owner-editable content (profile fields, CV content, posts…).
-3. Only `src/api/*` imports the Supabase client. Pages and features call typed API functions.
+3. Only each module's `api.ts` imports the Supabase client (`core/supabase.ts`). Pages and features call typed API functions.
 4. No `service_role` key in the frontend, ever. CI fails if the built bundle contains it (P14).
 
 ---
@@ -121,7 +121,7 @@ Each addition gets DB tests in the same phase. Regenerate `database.types.ts` af
 Every new page follows the checklist in `CLAUDE.md` ("Adding a page"): routes, design manifest,
 `privatePages`, `safeReturnPath`, and workspace footer. New pages have no generated Tailwind file, so they
 use classes that already exist in a reused generated stylesheet or hand-written CSS in
-`src/styles/pages/<page>.css` built on `tokens.css`.
+`frontend/src/modules/<module>/<page>.css` built on `tokens.css`.
 
 ### 5.3 Existing pages: data source after the change
 
@@ -157,46 +157,46 @@ Size estimates are for one developer working full time, in days.
 
 ### Phase 1 — Backend completion & test infrastructure (3 d)
 1. Write migration `…000009_ui_alignment.sql` (§5.1) and push it to dev and test.
-2. Move the PGlite harness into the repo: `supabase/tests/db.test.mjs`, `npm run test:db`
+2. Move the PGlite harness into the repo: `backend/supabase/tests/db.test.mjs`, `npm run test:db`
    (devDependency `@electric-sql/pglite`). Extend it for every new RPC/column.
-3. `npx supabase gen types typescript --project-id <dev-ref> > src/lib/database.types.ts`
+3. `npx supabase gen types typescript --project-id <dev-ref> > frontend/src/core/database.types.ts`
    and add `npm run db:types`.
-4. `scripts/seed-demo.mjs` (D2): uses the service key from `.env.local` / `.env.test.local` to create
+4. `backend/scripts/seed-demo.mjs` (D2): uses the service key from `.env.local` / `.env.test.local` to create
    users with `auth.admin.createUser` (metadata carries the role), then **signs in as each user and
    calls the real RPCs** (create company → admin verifies → post job → admin approves → apply…).
    The seed therefore doubles as a smoke test of the workflows. Idempotent (skips existing e-mails).
    Demo accounts: `student@demo…`, `employer@demo…`, `officer@demo…`, `admin@demo…`.
-5. `scripts/reset-test-db.mjs`: wipes the test project (`supabase db reset --linked` against the
+5. `backend/scripts/reset-test-db.mjs`: wipes the test project (`supabase db reset --linked` against the
    test project, then seed), used before full E2E runs.
 
 **Rules:** all BR covered by `T-DB` (§7) pass in `npm run test:db`.
-**Done when:** `npm run test:db` and `node scripts/seed-demo.mjs` succeed against the test project.
+**Done when:** `npm run test:db` and `node backend/scripts/seed-demo.mjs` succeed against the test project.
 
 ### Phase 2 — Frontend foundation (3 d)
 Files:
 ```
-src/lib/supabase.ts         createClient<Database>(import.meta.env.VITE_SUPABASE_URL, …ANON_KEY)
-src/lib/database.types.ts   generated
-src/lib/session.ts          getSession(), currentProfile() {id, role, status, full_name, avatar},
-                            onAuthChange(), cached per page load
-src/lib/errors.ts           AppError; maps PostgREST/Postgres codes: 42501 → "Bạn không có quyền…",
-                            P0001/P0002 → database message as-is (already Vietnamese), network → retry toast
-src/lib/format.ts           vi-VN dates (Asia/Ho_Chi_Minh), VND currency, relative time
-src/lib/render.ts           cloneTemplate(el), renderList(container, template, items, fill),
-                            loading / empty / error states (consistent across pages)
-src/api/*.ts                one module per process (auth, profiles, cvs, jobs, applications,
-                            recruiting, messages, community, notifications, university, admin)
-src/vite-env.d.ts           ImportMetaEnv typing
+frontend/src/core/supabase.ts       createClient<Database>(import.meta.env.VITE_SUPABASE_URL, …ANON_KEY)
+frontend/src/core/database.types.ts generated
+frontend/src/core/session.ts        getSession(), currentProfile() {id, role, status, full_name, avatar},
+                                    onAuthChange(), cached per page load
+frontend/src/core/errors.ts         AppError; maps PostgREST/Postgres codes: 42501 → "Bạn không có quyền…",
+                                    P0001/P0002 → database message as-is (already Vietnamese), network → retry toast
+frontend/src/core/format.ts         vi-VN dates (Asia/Ho_Chi_Minh), VND currency, relative time
+frontend/src/core/render.ts         cloneTemplate(el), renderList(container, template, items, fill),
+                                    loading / empty / error states (consistent across pages)
+frontend/src/modules/<name>/api.ts  one per module (accounts, profile-cv, jobs, applications, recruiting,
+                                    messages, community, notifications, university, admin); new modules as needed
+frontend/src/vite-env.d.ts          ImportMetaEnv typing
 .env.example
 ```
 Changes:
 - `main.ts`: `await initSession()` before `setupAccess(page)` (the session is restored from storage
   asynchronously), then run page setup.
-- `lib/auth.ts`: `isSignedIn()`, `currentRole()` from session. Page guards become role-aware:
+- `core/auth.ts`: `isSignedIn()`, `currentRole()` from session. Page guards become role-aware:
   employer pages → employer, `/pages/applications/` → student, portal → university officer,
   admin → admin. Wrong role → redirect to that role's home with a toast.
 - Remove the demo layer: `demo-session`, "Đổi vai trò", "Hoạt động demo", the demo notice bar, and
-  `adminSession.ts`. `lib/storage.ts` stays for UI-only preferences.
+  `adminSession.ts`. `core/storage.ts` stays for UI-only preferences.
 - `navigation.ts`: links to jobs, companies, and applications use ids (`?id=`), not titles.
 - Install `@supabase/supabase-js`.
 
@@ -396,7 +396,7 @@ officer certifies → the public verify page shows the certificate.
 ## 7. Business rules traceability
 
 Enforcement layer: **DB** = constraint/trigger, **RPC** = workflow function, **RLS** = row/column
-security, **UI** = client-side guidance only. Tests: `T-DB` = `supabase/tests/db.test.mjs`,
+security, **UI** = client-side guidance only. Tests: `T-DB` = `backend/supabase/tests/db.test.mjs`,
 `T-E2E` = Playwright spec name.
 
 | ID | Rule | Source diagram | Enforced in | Tests | Phase |
@@ -480,10 +480,10 @@ tests/e2e/
   university.spec.ts            BR-17, 40..42
   admin.spec.ts                 BR-03, 38, 39, 44
   permissions.spec.ts           direct REST calls with other users' tokens must fail (all tables)
-  design.spec.ts                adapted from scripts/design-system-test.mjs
+  design.spec.ts                adapted from frontend/tests/design-system-test.mjs
 ```
 Each test creates its own users with unique e-mails, so tests are independent and can run in parallel.
-The old `scripts/*-test.mjs` are deleted as their spec replacements land.
+The old `frontend/tests/*-test.mjs` are deleted as their spec replacements land.
 
 ### 8.3 Golden path (must stay green from M2 onward)
 1. Employer signs up → creates a company → uploads GPKD → submits verification.
@@ -512,7 +512,7 @@ The old `scripts/*-test.mjs` are deleted as their spec replacements land.
 
 ## 9. Frontend conventions (apply in every phase)
 
-- **Data access:** only `src/api/*` imports `supabase`. API functions return typed results or throw `AppError`.
+- **Data access:** only `modules/<name>/api.ts` imports `supabase` (through `core/supabase.ts`). API functions return typed results or throw `AppError`.
 - **Errors:** `try { … } catch (e) { showError(e) }`, where `showError` uses `errors.ts` → toast/inline message.
 - **Rendering:** user content goes through `textContent` or `esc()`; never interpolate raw strings into
   `innerHTML`. Lists use `cloneTemplate` from existing markup to keep the generated Tailwind classes.
