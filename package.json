@@ -1,17 +1,22 @@
 {
-  "name": "internships-io-frontend",
+  "name": "internships-io",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1",
-    "test": "node scripts/smoke-test.mjs",
-    "test:account": "node scripts/account-test.mjs",
-    "test:demo": "node scripts/demo-test.mjs",
-    "test:admin": "node scripts/admin-test.mjs",
-    "test:design": "node scripts/design-system-test.mjs"
+    "dev": "vite frontend --host 127.0.0.1",
+    "build": "tsc -p frontend && vite build frontend",
+    "preview": "vite preview frontend --host 127.0.0.1",
+    "test": "node frontend/tests/smoke-test.mjs",
+    "test:account": "node frontend/tests/account-test.mjs",
+    "test:demo": "node frontend/tests/demo-test.mjs",
+    "test:admin": "node frontend/tests/admin-test.mjs",
+    "test:design": "node frontend/tests/design-system-test.mjs",
+    "test:buttons": "node frontend/tests/button-audit.mjs",
+    "db:new": "npx supabase --workdir backend migration new",
+    "db:push": "npx supabase --workdir backend db push",
+    "db:migrations": "npx supabase --workdir backend migration list",
+    "db:link": "npx supabase --workdir backend link"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
