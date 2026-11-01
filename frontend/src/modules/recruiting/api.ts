@@ -145,3 +145,248 @@ export async function replaceQuestions(jobId: string, questions: QuestionInput[]
     if (q.ideal_answer.trim()) unwrap(await supabase.from('screening_question_keys').insert({ question_id: row.id, ideal_answer: q.ideal_answer.trim() }));
   }
 }
+
+// --- ATS Pipeline, Interviews, Scorecards, Offers (Phase 7) -----------------------
+
+export type PipelineStage = Tables<'pipeline_stages'>;
+
+export async function getPipelineStages(jobId: string): Promise<PipelineStage[]> {
+  return unwrap(await supabase.from('pipeline_stages').select('*').eq('job_id', jobId).order('position'));
+}
+
+export async function updatePipelineStage(id: string, name: string) {
+  unwrap(await supabase.from('pipeline_stages').update({ name }).eq('id', id));
+}
+
+export async function createPipelineStage(jobId: string, name: string, position: number) {
+  return unwrap(await supabase.from('pipeline_stages').insert({ job_id: jobId, name, position }).select('id').single()).id;
+}
+
+export async function deletePipelineStage(id: string) {
+  unwrap(await supabase.from('pipeline_stages').delete().eq('id', id));
+}
+
+export interface StudentProfileData {
+  major: string | null;
+  graduation_year: number | null;
+  study_year?: number | null;
+  gpa: number | null;
+  headline: string | null;
+  bio: string | null;
+  city: string | null;
+  verification_status: string;
+  links: Record<string, unknown> | null;
+  university: { id: string; name: string; short_name: string } | null;
+}
+
+export interface ApplicantProfile {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+  avatar_path: string | null;
+  student_profile: StudentProfileData | null;
+}
+
+export async function getJobApplications(jobId: string) {
+  const [appsRes, scoresRes] = await Promise.all([
+    supabase.from('applications')
+      .select(`
+        id, job_id, student_id, status, stage_id, score, knockout_passed,
+        cv_id, cv_snapshot, cv_file_path, viewed_at, rejection_reason, withdrawal_reason, hired_at, applied_at,
+        student:profiles!applications_student_id_fkey(
+          id, full_name, email, avatar_path,
+          student_profile:student_profiles!student_profiles_user_id_fkey(
+            major, graduation_year, gpa, headline, bio, city, verification_status, links,
+            university:universities(id, name, short_name)
+          )
+        )
+      `)
+      .eq('job_id', jobId)
+      .order('applied_at', { ascending: false }),
+    rpc<Database['public']['Functions']['application_match_scores']['Returns']>('application_match_scores', { p_job: jobId }).catch(() => [])
+  ]);
+
+  const apps = unwrap(appsRes);
+  const scoreMap = new Map<string, number>();
+  for (const s of (scoresRes ?? [])) {
+    if (s.match_score !== null) scoreMap.set(s.application_id, s.match_score);
+  }
+
+  return apps.map(app => {
+    const student = app.student as unknown as ApplicantProfile | null;
+    return {
+      ...app,
+      student,
+      match_score: scoreMap.get(app.id) ?? null,
+    };
+  });
+}
+export type JobApplication = Awaited<ReturnType<typeof getJobApplications>>[number];
+
+export async function getApplicationDetail(applicationId: string) {
+  const [appRes, answersRes, historyRes, interviewsRes, offersRes, evalRes] = await Promise.all([
+    supabase.from('applications')
+      .select(`
+        *,
+        student:profiles!applications_student_id_fkey(
+          id, full_name, email, avatar_path,
+          student_profile:student_profiles!student_profiles_user_id_fkey(
+            major, graduation_year, gpa, headline, bio, city, verification_status, links,
+            university:universities(id, name, short_name)
+          )
+        ),
+        job:jobs(id, title, company_id)
+      `)
+      .eq('id', applicationId)
+      .single(),
+    supabase.from('application_answers')
+      .select('question_id, answer, passed, question:screening_questions(question, kind, is_required, is_knockout, options)')
+      .eq('application_id', applicationId),
+    supabase.from('application_status_history')
+      .select('id, from_status, to_status, note, changed_at, changer:profiles(full_name)')
+      .eq('application_id', applicationId)
+      .order('changed_at', { ascending: true }),
+    supabase.from('interviews')
+      .select('*')
+      .eq('application_id', applicationId)
+      .order('scheduled_at', { ascending: false }),
+    supabase.from('offers')
+      .select('*')
+      .eq('application_id', applicationId)
+      .order('created_at', { ascending: false }),
+    supabase.from('evaluations')
+      .select('id, application_id, evaluator_id, score, criteria, comment, created_at, evaluator:profiles(full_name)')
+      .eq('application_id', applicationId)
+      .order('created_at', { ascending: false }),
+  ]);
+
+  return {
+    application: unwrap(appRes),
+    answers: unwrap(answersRes),
+    history: unwrap(historyRes),
+    interviews: unwrap(interviewsRes),
+    offers: unwrap(offersRes),
+    evaluations: unwrap(evalRes),
+  };
+}
+export type ApplicationDetail = Awaited<ReturnType<typeof getApplicationDetail>>;
+
+export const markApplicationViewed = (applicationId: string) =>
+  rpc('mark_application_viewed', { p_application: applicationId });
+
+export const updateApplicationStatus = (applicationId: string, status: Enums<'application_status'>, note?: string) =>
+  rpc('update_application_status', { p_application: applicationId, p_status: status, p_note: note || null });
+
+export const moveApplicationStage = (applicationId: string, stageId: string) =>
+  rpc('move_application_stage', { p_application: applicationId, p_stage: stageId });
+
+export interface ScheduleInterviewParams {
+  scheduled_at: string;
+  duration_minutes?: number;
+  mode?: Enums<'interview_mode'>;
+  meeting_url?: string;
+  location?: string;
+}
+export const scheduleInterview = (applicationId: string, params: ScheduleInterviewParams) =>
+  rpc<string>('schedule_interview', {
+    p_application: applicationId,
+    p_scheduled_at: params.scheduled_at,
+    p_duration_minutes: params.duration_minutes ?? 45,
+    p_mode: params.mode ?? 'online',
+    p_meeting_url: params.meeting_url || null,
+    p_location: params.location || null,
+  });
+
+export interface UpdateInterviewParams {
+  status?: Enums<'interview_status'>;
+  scheduled_at?: string;
+  meeting_url?: string;
+  location?: string;
+}
+export const updateInterview = (interviewId: string, params: UpdateInterviewParams) =>
+  rpc('update_interview', {
+    p_interview: interviewId,
+    p_status: params.status || null,
+    p_scheduled_at: params.scheduled_at || null,
+    p_meeting_url: params.meeting_url || null,
+    p_location: params.location || null,
+  });
+
+export async function saveEvaluation(applicationId: string, score: number, criteria: Record<string, number>, comment?: string) {
+  const currentUid = uid();
+  const existing = unwrapMaybe(await supabase.from('evaluations')
+    .select('id').eq('application_id', applicationId).eq('evaluator_id', currentUid).maybeSingle());
+  if (existing) {
+    unwrap(await supabase.from('evaluations').update({
+      score,
+      criteria,
+      comment: comment || null,
+    }).eq('id', existing.id));
+    return existing.id;
+  }
+  return unwrap(await supabase.from('evaluations').insert({
+    application_id: applicationId,
+    evaluator_id: currentUid,
+    score,
+    criteria,
+    comment: comment || null,
+  }).select('id').single()).id;
+}
+
+export async function uploadOfferLetter(applicationId: string, file: File) {
+  const ext = (file.name.split('.').pop() || 'pdf').toLowerCase();
+  const path = `${applicationId}/offer-${Date.now()}.${ext}`;
+  const { error } = await supabase.storage.from('offer-letters').upload(path, file, { contentType: file.type });
+  if (error) throw toAppError(error);
+  return path;
+}
+
+export interface SendOfferParams {
+  start_date: string;
+  expires_at: string;
+  stipend_amount?: number;
+  letter_path?: string;
+  terms?: string;
+}
+export const sendOffer = (applicationId: string, params: SendOfferParams) =>
+  rpc<string>('send_offer', {
+    p_application: applicationId,
+    p_start_date: params.start_date,
+    p_expires_at: params.expires_at,
+    p_stipend_amount: params.stipend_amount || null,
+    p_letter_path: params.letter_path || null,
+    p_terms: params.terms || null,
+  });
+
+export const withdrawOffer = (offerId: string, reason: string) =>
+  rpc('withdraw_offer', { p_offer: offerId, p_reason: reason });
+
+export const rateIntern = (applicationId: string, rating: number, comment?: string) =>
+  rpc('rate_intern', { p_application: applicationId, p_rating: rating, p_comment: comment || null });
+
+export const startConversation = (withUser: string, companyId?: string) =>
+  rpc<string>('start_conversation', { p_with_user: withUser, p_company: companyId || null });
+
+export interface SearchCandidatesParams {
+  query?: string;
+  skillIds?: number[];
+  universityId?: string;
+  city?: string;
+  graduationYear?: number;
+  limit?: number;
+  offset?: number;
+}
+export async function searchCandidates(params: SearchCandidatesParams) {
+  return rpc<Database['public']['Functions']['search_candidates']['Returns']>('search_candidates', {
+    p_query: params.query || null,
+    p_skill_ids: params.skillIds?.length ? params.skillIds : null,
+    p_university_id: params.universityId || null,
+    p_city: params.city || null,
+    p_graduation_year: params.graduationYear || null,
+    p_limit: params.limit ?? 20,
+    p_offset: params.offset ?? 0,
+  });
+}
+
+export const cvSignedUrl = (path: string) => signedUrl('cvs', path);
+export const offerLetterSignedUrl = (path: string) => signedUrl('offer-letters', path);

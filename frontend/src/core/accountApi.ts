@@ -41,6 +41,14 @@ export async function latestNotifications(limit = 10) {
     .order('created_at', { ascending: false }).limit(limit));
 }
 
+export async function listAllNotifications(unreadOnly = false) {
+  let query = supabase.from('notifications')
+    .select('id, type, title, body, link, read_at, created_at')
+    .order('created_at', { ascending: false });
+  if (unreadOnly) query = query.is('read_at', null);
+  return unwrap(await query);
+}
+
 export async function markNotificationsRead(ids?: string[]) {
   let query = supabase.from('notifications').update({ read_at: new Date().toISOString() }).is('read_at', null);
   if (ids) query = query.in('id', ids);

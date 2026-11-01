@@ -42,3 +42,30 @@ export const jobStatusLabel: Record<string, string> = {
 export const verifyStatusLabel: Record<string, string> = {
   unverified: 'Chưa xác thực', pending: 'Chờ thẩm định', verified: 'Đã xác thực', rejected: 'Bị từ chối', revoked: 'Đã thu hồi',
 };
+
+export const applicationStatusLabel: Record<string, string> = {
+  applied: 'Mới nộp',
+  cv_viewed: 'NTD đã xem CV',
+  screening: 'Đang sàng lọc',
+  shortlisted: 'Đã chọn lọc',
+  interviewing: 'Đang phỏng vấn',
+  offered: 'Đã gửi offer',
+  hired: 'Đã nhận việc',
+  rejected: 'Bị từ chối',
+  withdrawn: 'Đã rút đơn',
+  offer_declined: 'Từ chối offer',
+};
+
+export const rsvpStatusLabel: Record<string, string> = {
+  pending: 'Chờ phản hồi',
+  accepted: 'Đã xác nhận',
+  declined: 'Đã từ chối',
+  reschedule_requested: 'Đề xuất đổi giờ',
+};
+
+export function formatBytes(bytes: number | null | undefined): string {
+  if (!bytes || bytes <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`;
+}

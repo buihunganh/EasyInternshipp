@@ -1,14 +1,17 @@
-// Employer dashboard (Phase 5): own jobs with status, counts and lifecycle actions; KPI tiles;
-// today's interviews. Talent matching and university portals come in later phases.
+// Employer dashboard (Phase 5, updated Phase 7): own jobs with status, counts and lifecycle actions; KPI tiles;
+// today's interviews; AI top matching candidates; talent search dialog.
 import { flash } from '../../core/auth';
 import { label, routes, jobHref } from '../../core/navigation';
 import { dialog, toast } from '../../core/ui/feedback';
-import { bind, csv } from '../../core/ui/actions';
+import { bind, csv, value } from '../../core/ui/actions';
 import { showError } from '../../core/errors';
 import { formatDateTime, formatStipend, jobStatusLabel, relativeTime, verifyStatusLabel, workTypeLabel } from '../../core/format';
 import { el, stateBlock } from '../../core/render';
+import { initialsAvatar } from '../../core/layout/siteHeader';
+import { publicUrl } from '../../core/supabase';
 import {
-  applicationStats, changeJobStatus, companyJobs, deleteDraft, duplicateJob, myCompany, submitJob, todayInterviews,
+  applicationStats, changeJobStatus, companyJobs, deleteDraft, duplicateJob, myCompany,
+  searchCandidates, startConversation, submitJob, todayInterviews,
   type DashboardJob, type MyCompany,
 } from './api';
 
@@ -76,15 +79,14 @@ export async function setupDashboard() {
   document.querySelectorAll<HTMLButtonElement>('main section button').forEach(b => {
     const text = label(b);
     if (/^Đăng tin tuyển dụng$/.test(text)) bind(b, () => location.assign(routes['post-job']));
-    if (/Tìm kiếm hồ sơ sinh viên/.test(text)) bind(b, () => dialog('Tìm kiếm ứng viên', '<p>Tính năng tìm kiếm sinh viên chủ động sẽ có trong bản cập nhật quản lý ứng viên.</p>', 'Đã hiểu'));
+    if (/Tìm kiếm hồ sơ sinh viên/.test(text)) bind(b, () => openTalentSearch(company.id));
   });
 
   const jobSection = document.querySelectorAll('main section')[1] as HTMLElement;
   const toolbar = jobSection.firstElementChild as HTMLElement;
   const list = toolbar.nextElementSibling as HTMLElement;
   const template = list.firstElementChild!.cloneNode(true) as HTMLElement;
-  const tabBar = toolbar.querySelector('button')!.parentElement as HTMLElement;   // the row that holds the status tabs
-  // The design's first tab is styled as selected, the second as unselected
+  const tabBar = toolbar.querySelector('button')!.parentElement as HTMLElement;
   const activeTab = tabBar.children[0].cloneNode(true) as HTMLButtonElement;
   const idleTab = (tabBar.children[1] ?? tabBar.children[0]).cloneNode(true) as HTMLButtonElement;
   const search = toolbar.querySelector<HTMLInputElement>('input');
@@ -104,6 +106,7 @@ export async function setupDashboard() {
       const interviews = await todayInterviews(company!.id).catch(() => []);
       renderKpis(jobs, stats, interviews.length);
       renderInterviews(interviews);
+      void renderTalentMatching(company!.id);
       if (department) {
         const departments = [...new Set(jobs.map(j => j.department).filter(Boolean))] as string[];
         const current = department.value;
@@ -147,7 +150,6 @@ export async function setupDashboard() {
       meta?.after(el('div', { className: 'ei-banner ei-banner-danger', style: 'margin-top:8px' } as never, `Lý do từ chối: ${job.rejection_reason}`));
     }
 
-    // Actions: replace the design's three icon buttons with the ones this status allows
     const actionsBox = c.querySelector('button[title="Sao chép tin"]')?.parentElement as HTMLElement | null;
     const iconTemplate = actionsBox?.firstElementChild as HTMLButtonElement | null;
     if (actionsBox && iconTemplate) {
@@ -169,7 +171,6 @@ export async function setupDashboard() {
       actionsBox.replaceChildren(...buttons);
     }
 
-    // Metrics row
     const metrics = c.lastElementChild as HTMLElement;
     const cells = [...metrics.children] as HTMLElement[];
     const jobStats = stats.filter(s => s.job_id === job.id);
@@ -230,8 +231,138 @@ export async function setupDashboard() {
     }));
     const all = cardBox.querySelector<HTMLButtonElement>(':scope > button');
     if (all) bind(all, () => location.assign(routes.candidates));
-    // Talent matching (Phase 7) and university portals (Phase 10) are not wired yet
-    [...(aside?.children ?? [])].slice(1).forEach(card => { (card as HTMLElement).hidden = true; });
+  }
+
+  async function renderTalentMatching(companyId: string) {
+    const aside = document.querySelector('main aside');
+    const matchCard = aside?.children[1] as HTMLElement | null;
+    if (!matchCard) return;
+
+    // Only verified companies can search candidates
+    if (company!.verification_status !== 'verified') {
+      matchCard.hidden = true;
+      return;
+    }
+    matchCard.hidden = false;
+
+    try {
+      const candidates = await searchCandidates({ limit: 3 });
+      const listBox = matchCard.querySelector('.space-y-3') as HTMLElement | null;
+      if (!listBox) return;
+      if (!candidates.length) {
+        listBox.replaceChildren(el('p', { className: 'ei-muted text-label-sm' }, 'Chưa có ứng viên mới bật chế độ tìm việc.'));
+        return;
+      }
+      listBox.replaceChildren(...candidates.map(c => {
+        const item = el('div', { className: 'p-4 rounded-xl bg-surface-container-low flex flex-col gap-3' },
+          el('div', { className: 'flex items-start gap-3' },
+            el('img', {
+              className: 'w-11 h-11 rounded-full object-cover shrink-0 shadow-sm',
+              src: publicUrl('avatars', c.avatar_path) || initialsAvatar(c.full_name || 'SV'),
+              alt: c.full_name || 'SV'
+            }),
+            el('div', { className: 'min-w-0 flex-1' },
+              el('div', { className: 'flex items-center justify-between' },
+                el('h4', { className: 'font-label-md text-label-md text-on-surface font-bold truncate' }, c.full_name || 'Sinh viên'),
+                el('span', { className: 'px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold' },
+                  c.is_verified ? 'Đã xác thực' : 'Sẵn sàng')
+              ),
+              el('p', { className: 'font-body-sm text-body-sm text-on-surface-variant truncate' }, `${c.major || 'Chuyên ngành'} • ${c.university_name || ''}`)
+            )
+          ),
+          el('div', { className: 'flex flex-wrap gap-1.5' },
+            ...(c.skills || []).slice(0, 3).map(sk => el('span', { className: 'px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded font-label-sm text-label-sm' }, sk))
+          ),
+          el('button', {
+            type: 'button',
+            className: 'w-full py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-dim transition-colors flex items-center justify-center gap-1.5 shadow-sm',
+          }, el('span', { className: 'material-symbols-outlined text-[18px]' }, 'send'), 'Nhắn tin cho ứng viên')
+        );
+        const contactBtn = item.querySelector('button');
+        if (contactBtn) {
+          bind(contactBtn, async () => {
+            try {
+              const convId = await startConversation(c.user_id, companyId);
+              location.assign(`${routes.messages}?workspace=employer&conversation=${convId}`);
+            } catch (err) { showError(err); }
+          });
+        }
+        return item;
+      }));
+    } catch {
+      matchCard.hidden = true;
+    }
+    // University portal card (Phase 10) is hidden for now
+    const uniCard = aside?.children[2] as HTMLElement | null;
+    if (uniCard) uniCard.hidden = true;
+  }
+
+  function openTalentSearch(companyId: string) {
+    dialog('Tìm kiếm hồ sơ sinh viên', `
+      <div class="flex flex-col gap-sm">
+        <label>Từ khóa (Tên, chuyên ngành, kỹ năng...)
+          <input type="text" name="query" placeholder="vd: React, NodeJS, Bách Khoa...">
+        </label>
+        <div class="grid grid-cols-2 gap-sm">
+          <label>Tỉnh / Thành phố
+            <input type="text" name="city" placeholder="vd: TP. Hồ Chí Minh">
+          </label>
+          <label>Năm tốt nghiệp
+            <input type="number" name="grad_year" placeholder="vd: 2025">
+          </label>
+        </div>
+      </div>
+      <div id="dashboard-talent-results" style="margin-top:16px; max-height:280px; overflow-y:auto;">
+        <p class="ei-muted">Nhập từ khóa và bấm Tìm kiếm để khám phá ứng viên đã bật chế độ tìm việc.</p>
+      </div>
+    `, 'Tìm kiếm', async form => {
+      const resultsEl = document.getElementById('dashboard-talent-results');
+      if (!resultsEl) return;
+      resultsEl.innerHTML = '<p class="ei-muted">Đang tìm kiếm...</p>';
+      const q = value(form, 'query');
+      const cty = value(form, 'city');
+      const yr = Number(value(form, 'grad_year')) || undefined;
+
+      try {
+        const hits = await searchCandidates({ query: q, city: cty, graduationYear: yr, limit: 15 });
+        if (!hits.length) {
+          resultsEl.innerHTML = '<p class="ei-muted">Không tìm thấy sinh viên nào phù hợp.</p>';
+          return;
+        }
+        resultsEl.replaceChildren(
+          ...hits.map(student => {
+            const card = el('div', { className: 'p-sm bg-surface-container-low rounded-xl mb-2 flex items-center justify-between' },
+              el('div', { className: 'flex items-center gap-sm' },
+                el('img', {
+                  className: 'w-10 h-10 rounded-full object-cover',
+                  src: publicUrl('avatars', student.avatar_path) || initialsAvatar(student.full_name || 'SV'),
+                  alt: student.full_name || 'SV'
+                }),
+                el('div', {},
+                  el('strong', { className: 'font-label-md text-on-surface' }, student.full_name || 'Sinh viên'),
+                  el('p', { className: 'font-body-sm text-on-surface-variant' }, `${student.major || 'Chuyên ngành'} • ${student.university_name || ''}`),
+                  el('div', { className: 'flex gap-1 mt-0.5' }, ...(student.skills || []).slice(0, 3).map(sk => el('span', { className: 'ei-chip ei-chip-draft', style: 'font-size:10px' } as never, sk)))
+                )
+              ),
+              el('button', {
+                type: 'button',
+                className: 'px-sm py-1 rounded bg-primary text-on-primary font-label-sm text-[12px] flex items-center gap-1',
+              }, el('span', { className: 'material-symbols-outlined text-[16px]' }, 'chat'), 'Nhắn tin')
+            );
+            const chatBtn = card.querySelector('button');
+            if (chatBtn) {
+              chatBtn.addEventListener('click', async () => {
+                try {
+                  const convId = await startConversation(student.user_id, companyId);
+                  location.assign(`${routes.messages}?workspace=employer&conversation=${convId}`);
+                } catch (err) { showError(err); }
+              });
+            }
+            return card;
+          })
+        );
+      } catch (err) { showError(err, resultsEl); }
+    });
   }
 
   search?.addEventListener('input', render);

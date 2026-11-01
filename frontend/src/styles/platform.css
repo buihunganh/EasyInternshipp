@@ -30,9 +30,9 @@
 .ei-chip-draft,.ei-chip-paused,.ei-chip-unverified{background:var(--ui-subtle);color:var(--ui-muted)}
 
 /* Cards, forms and buttons for pages without generated Tailwind */
-.ei-page{max-width:1080px;margin:0 auto;padding:96px 20px 48px;display:grid;gap:20px}
+.ei-page{width:100%;box-sizing:border-box;max-width:1080px;margin:0 auto;padding:96px 20px 48px;display:grid;gap:20px;align-content:start}
 .ei-page-narrow{max-width:480px}
-.ei-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:var(--ui-radius-card);padding:24px;display:grid;gap:16px}
+.ei-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:var(--ui-radius-card);padding:24px;display:grid;gap:16px;align-content:start}
 .ei-card h1,.ei-card h2,.ei-card h3{margin:0;color:var(--ui-text)}
 .ei-card h1{font-size:var(--ui-title-size,28px)}
 .ei-card h2{font-size:20px}

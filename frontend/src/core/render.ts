@@ -63,3 +63,14 @@ export function el<K extends keyof HTMLElementTagNameMap>(tag: K, props: Partial
   for (const child of children) if (child !== null && child !== undefined && child !== false) node.append(child);
   return node;
 }
+
+/** Escape HTML characters in strings for safe interpolation. */
+export function esc(str: unknown): string {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}

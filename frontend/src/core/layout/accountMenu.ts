@@ -4,7 +4,7 @@ import { dialog, toast } from '../ui/feedback';
 import { applications, jobHref, routes } from '../navigation';
 import { flash } from '../auth';
 import { currentProfile, currentRole, roleLabel, signOut } from '../session';
-import { publicUrl } from '../supabase';
+import { publicUrl, supabase, type Tables } from '../supabase';
 import { showError } from '../errors';
 import { relativeTime } from '../format';
 import { el } from '../render';
@@ -65,6 +65,11 @@ async function settings(){
 export async function notifications(){
   const modal=dialog('Thông báo','<div class="app-notification-list"><p class="app-muted">Đang tải...</p></div>','Cài đặt thông báo',settings);
   modal.querySelector('.app-dialog-actions>button[type=button]')!.textContent='Đóng';
+  const actions = modal.querySelector('.app-dialog-actions')!;
+  const viewAllBtn = el('button', { type: 'button', className: 'app-btn-secondary' }, 'Xem tất cả →');
+  viewAllBtn.addEventListener('click', () => { modal.close(); location.assign(routes.notifications); });
+  actions.prepend(viewAllBtn);
+
   const list=modal.querySelector<HTMLElement>('.app-notification-list')!;
   try {
     const items = await latestNotifications();
@@ -104,6 +109,16 @@ export function avatarUrl() {
   return publicUrl('avatars', currentProfile()?.avatar_path) || '';
 }
 
+function updateBadges(count: number) {
+  document.querySelectorAll<HTMLElement>('[data-app-control="notifications"]').forEach(trigger => {
+    trigger.querySelectorAll('.app-notification-badge').forEach(b => b.remove());
+    if (count > 0) {
+      trigger.style.position ||= 'relative';
+      trigger.append(el('span', { className: 'app-notification-badge', 'aria-label': `${count} thông báo chưa đọc` }, count > 9 ? '9+' : String(count)));
+    }
+  });
+}
+
 export function setupAccount(page:string){
   if(['login','register','reset-password'].includes(page)) return;
   const profile = currentProfile();
@@ -126,10 +141,24 @@ export function setupAccount(page:string){
     trigger.dataset.appControl='notifications';trigger.setAttribute('aria-label','Thông báo');
     if(trigger.tagName!=='BUTTON'){trigger.tabIndex=0;trigger.setAttribute('role','button');trigger.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();void notifications();}});}
     trigger.addEventListener('click',()=>{void notifications();});
-    unreadNotificationCount().then(count=>{
-      if(!count)return;
-      trigger.style.position ||= 'relative';
-      trigger.append(el('span',{className:'app-notification-badge','aria-label':`${count} thông báo chưa đọc`},count>9?'9+':String(count)));
-    }).catch(()=>{});
+    unreadNotificationCount().then(updateBadges).catch(()=>{});
+  });
+
+  // Realtime notifications for the current user
+  const notifChannel = supabase.channel(`user-notifications:${profile.id}`)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'notifications',
+      filter: `user_id=eq.${profile.id}`
+    }, payload => {
+      const n = payload.new as Tables<'notifications'>;
+      toast(n.title + (n.body ? `: ${n.body}` : ''));
+      unreadNotificationCount().then(updateBadges).catch(() => {});
+    })
+    .subscribe();
+
+  window.addEventListener('pagehide', () => {
+    void supabase.removeChannel(notifChannel);
   });
 }

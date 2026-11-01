@@ -15,5 +15,6 @@
   {"slug":"company-settings","title":"Hồ sơ doanh nghiệp","url":"/pages/company-settings/"},
   {"slug":"applications","title":"Đơn ứng tuyển của tôi","url":"/pages/applications/"},
   {"slug":"cv","title":"CV công khai","url":"/pages/cv/"},
+  {"slug":"notifications","title":"Thông báo hệ thống","url":"/pages/notifications/"},
   {"slug":"reset-password","title":"Đặt lại mật khẩu","url":"/pages/reset-password/"}
 ]

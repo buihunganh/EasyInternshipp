@@ -9,7 +9,7 @@ export const routes: Record<string, string> = {
   'post-job': '/pages/post-job/', 'job-detail': '/pages/job-detail/', company: '/pages/company/',
   'cv-builder': '/pages/cv-builder/', profile: '/pages/profile/', university: '/pages/university/',
   'company-settings': '/pages/company-settings/', 'reset-password': '/pages/reset-password/',
-  applications: '/pages/applications/', cv: '/pages/cv/'
+  applications: '/pages/applications/', cv: '/pages/cv/', notifications: '/pages/notifications/'
 };
 /** Links to jobs and companies use ids (`?id=<uuid>`). */
 export const jobHref = (id: string) => '/pages/job-detail/?id=' + encodeURIComponent(id);
@@ -35,6 +35,7 @@ export function destination(text: string): string | undefined {
   if (/bách khoa|hcmut|cổng đối tác trường/i.test(text)) return routes.university;
   if (/internships.io|^việc làm$|tìm việc|tất cả việc làm/i.test(text)) return routes.jobs;
   if (/intern|chi tiết công việc|xem chi tiết/i.test(text)) return routes['job-detail'];
+  if (/thông báo|tất cả thông báo/i.test(text)) return routes.notifications;
 }
 /** "Đơn ứng tuyển": the student's My Applications page. */
 export function applications() {
@@ -48,19 +49,18 @@ export function setupNavigation() {
     if (/đơn ứng tuyển/i.test(text)) { a.addEventListener('click', e => {e.preventDefault(); applications();}); return; }
     const href = destination(text);
     if (href) a.href = workspaceHref(href);
-    else a.addEventListener('click', e => {e.preventDefault(); dialog(text || 'Thông tin', '<p>Nội dung này đang chờ kết nối dữ liệu từ hệ thống.</p>', 'Đóng');});
+    else a.addEventListener('click', e => {
+      e.preventDefault();
+      dialog('Đang phát triển', `<p>Tính năng "<strong>${text || 'Liên kết'}</strong>" đang được hoàn thiện theo lộ trình và sẽ sớm có mặt.</p>`, 'Đóng');
+    });
   });
-  document.querySelectorAll<HTMLElement>('header img').forEach(img => {
-    if(!/logo/i.test(img.getAttribute('alt') || ''))return;
-    const target = img.closest<HTMLElement>('.cursor-pointer') || img;
-    target.style.cursor = 'pointer';
-    target.addEventListener('click', () => location.assign('/'));
+  document.querySelectorAll<HTMLAnchorElement>('header nav a, header .site-header-nav a').forEach(a => {
+    const text = label(a);
+    const href = destination(text);
+    if (href) a.href = workspaceHref(href);
   });
-  const mobile = document.createElement('nav'); mobile.className = 'app-mobile-nav'; mobile.setAttribute('aria-label','Điều hướng trên điện thoại');
-  const items = isRecruiterWorkspace()
-    ? [['employer','dashboard','Tổng quan'],['candidates','group','Ứng viên'],['post-job','add_circle','Đăng tin'],['messages','chat','Tin nhắn']]
-    : [['jobs','work','Việc làm'],['community','forum','Cộng đồng'],['messages','chat','Tin nhắn'],['profile','person','Hồ sơ']];
-  mobile.innerHTML = items.filter(([key]) => isSignedIn() || !['messages', 'profile'].includes(key)).map(([key,icon,name])=>`<a href="${workspaceHref(routes[key])}" ${key === document.body.dataset.page ? 'aria-current="page"' : ''}><span class="material-symbols-outlined">${icon}</span>${name}</a>`).join('');
-  document.body.append(mobile);
-  if (isSignedIn() && new URLSearchParams(location.search).get('view') === 'applications') location.replace(routes.applications);
+  document.querySelectorAll<HTMLElement>('[data-action="link"]').forEach(el => {
+    const href = el.dataset.href;
+    if (href) el.addEventListener('click', () => { location.assign(workspaceHref(href)); });
+  });
 }

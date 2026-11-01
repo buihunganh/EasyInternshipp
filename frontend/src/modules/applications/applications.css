@@ -1,6 +1,6 @@
 /* /pages/applications/ (applications module) */
 body[data-page=applications] .site-header button{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer}
-.apps-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.apps-tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .apps-tabs button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--ui-border);border-radius:var(--ui-radius-control);background:var(--ui-surface);color:var(--ui-text);font:600 14px var(--ui-font);cursor:pointer}
 .apps-tabs button[aria-selected=true]{background:var(--ui-primary);border-color:var(--ui-primary);color:var(--ui-surface)}
 .apps-tabs button[aria-selected=true] .ei-chip{background:#ffffff33;color:inherit}

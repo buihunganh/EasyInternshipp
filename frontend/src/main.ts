@@ -20,6 +20,7 @@ import { recruiting } from './modules/recruiting';
 import { messages } from './modules/messages';
 import { community } from './modules/community';
 import { university } from './modules/university';
+import { notifications } from './modules/notifications';
 import './styles/demo.css';
 import './styles/platform.css';
 
@@ -33,6 +34,7 @@ const modules: FeatureModule[] = [
   messages,
   community,
   university,
+  notifications,
 ];
 
 async function main() {

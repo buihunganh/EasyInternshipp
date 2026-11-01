@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông báo hệ thống | Internships.io</title>
+  <meta name="description" content="Danh sách thông báo về việc làm, đơn ứng tuyển, tin nhắn tuyển dụng và hoạt động hệ thống.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+</head>
+<body data-page="notifications">
+  <header></header>
+  <main class="ei-page" id="notifications-page">
+    <div class="ei-card">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <span class="ei-muted">Trung tâm thông báo</span>
+          <h1>Thông báo của bạn</h1>
+          <p class="ei-muted">Cập nhật về hồ sơ ứng tuyển, tin nhắn nhà tuyển dụng và lịch phỏng vấn.</p>
+        </div>
+        <div class="ei-actions">
+          <button type="button" class="ei-button" id="mark-all-read-btn">
+            <span class="material-symbols-outlined">done_all</span> Đánh dấu tất cả đã đọc
+          </button>
+        </div>
+      </div>
+      <div class="apps-tabs flex gap-2 mt-4" role="tablist" aria-label="Lọc thông báo">
+        <button type="button" role="tab" id="tab-all" aria-selected="true" class="ei-button ei-button-primary">Tất cả</button>
+        <button type="button" role="tab" id="tab-unread" aria-selected="false" class="ei-button">Chưa đọc</button>
+      </div>
+    </div>
+    <section class="ei-card">
+      <ul class="ei-list" id="notifications-list"></ul>
+    </section>
+  </main>
+  <footer></footer>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -58,11 +58,35 @@ button{cursor:pointer} :focus-visible{outline:2px solid var(--ui-primary);outlin
 }
 @media(max-width:767px){.internships-footer{min-height:0}.internships-footer .itviec-footer-inner{min-height:0;width:100%;max-width:none;box-sizing:border-box;padding:38px 24px 18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 22px}.internships-footer .itviec-brand-block{grid-column:1/-1;align-items:flex-start;text-align:left}.internships-footer .itviec-contact{grid-column:1/-1}.internships-footer .itviec-footer-bottom{grid-column:1/-1;margin-top:20px;flex-wrap:wrap;gap:8px;font-size:11px;padding-top:18px}.internships-footer .itviec-footer-rings{display:none}}
 
+/* Base full-height document layout and sticky footer */
+html {
+  min-height: 100%;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body[data-page] {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+/* The workspace and site footers use margin-top: auto to stick to the bottom without stretching main content */
+body[data-page=messages] main {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+}
+
 /* Compact footer for task-oriented pages. */
-.workspace-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 28px;border-top:1px solid var(--ui-border);background:#f8fafc;color:var(--ui-muted);font:12px/1.5 Inter,sans-serif}
+.workspace-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 28px;border-top:1px solid var(--ui-border);background:#f8fafc;color:var(--ui-muted);font:12px/1.5 Inter,sans-serif;margin-top:auto;flex-shrink:0}
 .workspace-footer a{color:var(--ui-muted);text-decoration:none}.workspace-footer a:hover{text-decoration:underline}.workspace-footer a:first-child{font-weight:600}
+.internships-footer, .admin-login-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
 body[data-page=candidates]>.workspace-footer{margin-left:224px}
-body[data-page=employer]>.workspace-footer{margin-left:256px}
+body[data-page=employer]>.workspace-footer{margin-left:224px}
 @media(max-width:767px){body>.workspace-footer{margin-left:0!important;padding:16px;justify-content:center}.workspace-footer span{order:3;width:100%;text-align:center}}
 
 /* Shared recruiter navigation on overview and candidate management. */
