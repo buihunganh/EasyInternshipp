@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T10:00:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="dfd-level2-community" name="DFD Level 2 - Process 7.0 Cộng đồng">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="950" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="DFD Level 2 — Process 7.0: Diễn đàn &amp; Cộng đồng Sinh viên" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="550" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- External Entities -->
+        <mxCell id="guest" value="GUEST" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff3e0;fontColor=#e65100;strokeColor=#ef6c00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="candidate" value="CANDIDATE" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e3f2fd;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <mxCell id="p71" value="7.1&#xa;Tìm kiếm &amp; Duyệt&#xa;Bài viết / Tài liệu" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="120" width="150" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p72" value="7.2&#xa;Đăng bài &amp;&#xa;Hỏi đáp Ẩn danh" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="310" width="150" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p73" value="7.3&#xa;Tương tác (Thích,&#xa;Bình luận, Lưu tài liệu)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="500" width="150" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p74" value="7.4&#xa;Báo cáo Vi phạm &amp;&#xa;Kiểm duyệt nội dung" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="690" width="150" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Stores -->
+        <mxCell id="d6" value="D6  Posts" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="335" width="170" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7" value="D7  Reports" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="715" width="170" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Search & Browse (7.1) -->
+        <mxCell id="df_guest_browse" value="Từ khóa, Chủ đề (Review, Đề test)" style="fontSize=9;fontColor=#e65100;" edge="1" source="guest" target="p71" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_d6_p71" value="Đọc danh sách bài viết &amp; tài liệu công khai" style="fontSize=9;fontColor=#616161;" edge="1" source="d6" target="p71" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="160"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p71_resp" value="Feed bài viết theo tabs (Mới nhất, Cựu SV)" style="fontSize=9;fontColor=#e65100;dashed=1;" edge="1" source="p71" target="guest" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="180"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Post & Q&A (7.2) -->
+        <mxCell id="df_cand_post" value="Nội dung bài viết, Chế độ ẩn danh, File đề thi" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p72" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="350"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p72_d6" value="Ghi nhận bài viết mới / Đề tài thảo luận" style="fontSize=9;fontColor=#616161;" edge="1" source="p72" target="d6" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p72_cand" value="Xác nhận đăng bài thành công" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p72" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="390"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Interaction (7.3) -->
+        <mxCell id="df_cand_react" value="Thích bài viết, Soạn bình luận, Lưu tài liệu" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p73" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="520"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p73_d6" value="Cập nhật lượt thích, Ghi nhận bình luận mới" style="fontSize=9;fontColor=#616161;" edge="1" source="p73" target="d6" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_d6_p73" value="Đọc danh sách phản hồi / bình luận" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d6" target="p73" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="560"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p73_cand" value="Cập nhật số đếm tương tác &amp; luồng thảo luận" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p73" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="560"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Report Violations (7.4) -->
+        <mxCell id="df_cand_report" value="Báo cáo bài viết (spam, quấy rối, thông tin sai)" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p74" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="690"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p74_d7" value="Lưu bản ghi báo cáo vi phạm" style="fontSize=9;fontColor=#616161;" edge="1" source="p74" target="d7" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p74_d6" value="Đánh dấu cờ kiểm duyệt / Ẩn bài viết" style="fontSize=9;fontColor=#616161;" edge="1" source="p74" target="d6" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="640"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p74_cand" value="Thông báo tiếp nhận báo cáo" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p74" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="740"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

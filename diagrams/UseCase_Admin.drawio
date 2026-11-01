@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T12:45:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="usecase-admin" name="Use Case - Quản trị viên">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Use Case Diagram — Phân hệ Quản trị viên &amp; Kiểm duyệt An toàn (Admin &amp; Trust Safety Module)&#xa;Hệ thống Tuyển dụng Thực tập EasyInternshipp (Internships.io)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="700" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- System Boundary -->
+        <mxCell id="boundary" value="EasyInternshipp — Administrator &amp; System Trust Subsystem" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#c62828;strokeWidth=2;dashed=1;fontSize=13;fontStyle=1;fontColor=#b71c1c;verticalAlign=top;spacingTop=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="270" y="80" width="1150" height="1260" as="geometry"/>
+        </mxCell>
+
+        <!-- Actor -->
+        <mxCell id="admin" value="Quản trị viên&#xa;(Administrator / Moderator)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#fce4ec;strokeColor=#c62828;fontSize=12;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="60" y="580" width="45" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 1: Xác thực Quản trị & Dashboard ===== -->
+        <mxCell id="grp1" value="1. Xác thực Quản trị &amp; Giám sát Chỉ số" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="120" width="1060" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_adm_login" value="Đăng nhập tài khoản Quản trị viên" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="150" width="230" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_adm_logout" value="Đăng xuất khỏi hệ thống quản trị" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="610" y="150" width="220" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_adm_dashboard" value="Dashboard giám sát KPI &amp; Lưu lượng hệ thống" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="150" width="260" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_adm_config" value="Cấu hình tham số hệ thống &amp; Tỷ lệ hoa hồng / gói tin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="580" y="225" width="280" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 2: Kiểm duyệt Tin tuyển dụng ===== -->
+        <mxCell id="grp2" value="2. Kiểm duyệt &amp; Quản lý Tin Tuyển dụng" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="330" width="1060" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_mod_queue" value="Quản lý Hàng đợi tin chờ duyệt (Moderation Queue)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="370" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_approve_job" value="Phê duyệt tin tuyển dụng (Approve Job)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="370" width="250" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_reject_job" value="Từ chối tin tuyển dụng kèm lý do (Reject with Reason)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="370" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_takedown_job" value="Khóa / Gỡ bỏ tin tuyển dụng vi phạm khẩn cấp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="650" y="450" width="270" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 3: Thẩm định Doanh nghiệp & Trust Safety ===== -->
+        <mxCell id="grp3" value="3. Thẩm định Pháp nhân Doanh nghiệp &amp; Cấp huy hiệu" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="560" width="1060" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_verify_company" value="Thẩm định Giấy phép GPKD &amp; Mã số thuế doanh nghiệp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="600" width="290" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_grant_badge" value="Cấp Huy hiệu Tích xanh Doanh nghiệp Xác thực" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="600" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_revoke_badge" value="Thu hồi huy hiệu / Yêu cầu bổ sung hồ sơ pháp lý" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="990" y="600" width="260" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_fraud_detect" value="Giám sát cảnh báo tin lừa đảo / Thu phí sinh viên trái phép" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="650" y="675" width="310" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 4: Quản lý Người dùng & Báo cáo Vi phạm ===== -->
+        <mxCell id="grp4" value="4. Quản lý Tài khoản Người dùng &amp; Xử lý Báo cáo" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="780" width="1060" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_manage_users" value="Quản lý danh sách tài khoản (Sinh viên / Nhà tuyển dụng)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="340" y="820" width="290" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_suspend_user" value="Khóa tài khoản vi phạm (Suspend) / Mở khóa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="820" width="260" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_handle_reports" value="Xử lý báo cáo vi phạm nội dung &amp; khiếu nại" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="820" width="260" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_comm_mod" value="Kiểm duyệt &amp; Gỡ bỏ bài viết cộng đồng vi phạm" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="670" y="895" width="280" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 5: Nhật ký Kiểm toán & Sự kiện ===== -->
+        <mxCell id="grp5" value="5. Nhật ký Kiểm toán Hệ thống &amp; Sự kiện Tuyển dụng" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="1000" width="1060" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_audit_log" value="Tra cứu &amp; Xuất Nhật ký kiểm toán (Audit Trail Log)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="1050" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_career_fair_cfg" value="Khởi tạo &amp; Điều phối Sự kiện Ngày hội việc làm" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="1050" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_uni_sync" value="Giám sát liên thông dữ liệu Cổng trường Đại học" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="980" y="1050" width="270" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ASSOCIATIONS ===== -->
+        <!-- Auth & Dashboard -->
+        <mxCell id="a_a1" edge="1" source="admin" target="uc_adm_login" parent="1" style="strokeColor=#c62828;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="180" y="240"/><mxPoint x="320" y="170"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_a2" edge="1" source="admin" target="uc_adm_dashboard" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="270"/><mxPoint x="840" y="170"/></Array></mxGeometry></mxCell>
+        <!-- Moderation -->
+        <mxCell id="a_a3" edge="1" source="admin" target="uc_mod_queue" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="410"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_a4" edge="1" source="admin" target="uc_approve_job" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="230" y="440"/><mxPoint x="630" y="400"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_a5" edge="1" source="admin" target="uc_reject_job" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="240" y="470"/><mxPoint x="930" y="400"/></Array></mxGeometry></mxCell>
+        <!-- Verification -->
+        <mxCell id="a_a6" edge="1" source="admin" target="uc_verify_company" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_a7" edge="1" source="admin" target="uc_grant_badge" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- Users & Reports -->
+        <mxCell id="a_a8" edge="1" source="admin" target="uc_manage_users" parent="1" style="strokeColor=#c62828;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_a9" edge="1" source="admin" target="uc_suspend_user" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_a10" edge="1" source="admin" target="uc_handle_reports" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- Audit & Events -->
+        <mxCell id="a_a11" edge="1" source="admin" target="uc_audit_log" parent="1" style="strokeColor=#c62828;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="180" y="860"/><mxPoint x="320" y="1070"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_a12" edge="1" source="admin" target="uc_career_fair_cfg" parent="1" style="strokeColor=#c62828;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="890"/><mxPoint x="640" y="1070"/></Array></mxGeometry></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

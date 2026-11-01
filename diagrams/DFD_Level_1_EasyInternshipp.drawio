@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T12:15:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="dfd-level1" name="DFD Level 1">
+    <mxGraphModel dx="2200" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2300" pageHeight="1650" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="DFD Level 1 — Sơ đồ Luồng Dữ liệu Mức 1 Toàn diện &amp; Cân bằng&#xa;Hệ thống Tuyển dụng Thực tập EasyInternshipp (Internships.io)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="700" y="20" width="600" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- External Entities -->
+        <mxCell id="candidate" value="CANDIDATE&#xa;(Sinh viên / Ứng viên)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e3f2fd;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="450" width="160" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="employer" value="EMPLOYER&#xa;(Nhà tuyển dụng / DN)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e8f5e9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="2020" y="380" width="160" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="admin" value="ADMINISTRATOR&#xa;(Quản trị viên)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fce4ec;fontColor=#b71c1c;strokeColor=#c62828;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="1450" width="160" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="guest" value="GUEST&#xa;(Khách vãng lai)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff3e0;fontColor=#e65100;strokeColor=#ef6c00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Processes (1.0 to 9.0) -->
+        <mxCell id="p1" value="1.0&#xa;Quản lý&#xa;Tài khoản &amp; Xác thực" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="100" width="165" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2" value="2.0&#xa;Quản lý&#xa;Hồ sơ &amp; CV" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="430" width="165" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3" value="3.0&#xa;Quản lý&#xa;Việc làm &amp; Gợi ý" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="100" width="165" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4" value="4.0&#xa;Quản lý&#xa;Ứng tuyển (2 chiều)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="430" width="165" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5" value="5.0&#xa;Quản lý Tuyển dụng&#xa;(ATS Doanh nghiệp)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="270" width="175" height="105" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6" value="6.0&#xa;Nhắn tin &amp;&#xa;Trao đổi Trực tiếp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8eaf6;fontColor=#283593;strokeColor=#3f51b5;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="270" width="165" height="105" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7" value="7.0&#xa;Cộng đồng &amp;&#xa;Diễn đàn Sinh viên" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="780" width="165" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8" value="8.0&#xa;Thông báo &amp;&#xa;Cổng trường ĐH" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;fontColor=#004d40;strokeColor=#00796b;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="780" width="165" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p9" value="9.0&#xa;Quản trị Hệ thống&#xa;&amp; Kiểm duyệt Trust" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffcdd2;fontColor=#b71c1c;strokeColor=#c62828;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="1150" width="175" height="105" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Stores (D1 to D10) -->
+        <mxCell id="d1" value="D1  Users &amp; Profiles" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="375" y="280" width="180" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d2" value="D2  Jobs (Tin tuyển dụng)" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="130" width="175" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d3" value="D3  Applications &amp; Offers" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="745" y="620" width="180" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d4" value="D4  CVs &amp; Templates" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="375" y="620" width="175" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d5" value="D5  Messages &amp; Video Calls" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="440" width="185" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d6" value="D6  Community Posts" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="375" y="960" width="175" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7" value="D7  Reports &amp; Violations" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="745" y="960" width="180" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d8" value="D8  Admin &amp; Audit Logs" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="1180" width="180" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d9" value="D9  Saved Jobs" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="100" width="160" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="d10" value="D10  Pipeline &amp; Evaluations" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="440" width="180" height="32" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== INPUT FLOWS ===== -->
+        <!-- Guest Flows -->
+        <mxCell id="df_g_p1" value="Đăng ký tài khoản" style="fontSize=9;fontColor=#e65100;" edge="1" source="guest" target="p1" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_g_p3" value="Từ khóa tìm việc &amp; Lọc" style="fontSize=9;fontColor=#e65100;" edge="1" source="guest" target="p3" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="240" y="130"/><mxPoint x="730" y="130"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_g_p7" value="Xem bài viết chia sẻ" style="fontSize=9;fontColor=#e65100;" edge="1" source="guest" target="p7" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="150"/><mxPoint x="220" y="800"/></Array></mxGeometry></mxCell>
+
+        <!-- Candidate Flows -->
+        <mxCell id="df_c_p1" value="Đăng nhập / Đổi mật khẩu" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p1" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="280" y="460"/><mxPoint x="280" y="180"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_c_p2" value="Hồ sơ cá nhân &amp; Soạn CV" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_c_p3" value="Tìm kiếm &amp; Lưu job (Bookmark)" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p3" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="320" y="480"/><mxPoint x="320" y="240"/><mxPoint x="740" y="240"/><mxPoint x="740" y="180"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_c_p4" value="Nộp đơn, Phản hồi Offer, Xác nhận lịch, Rút đơn" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_c_p6" value="Tin nhắn &amp; Đính kèm" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p6" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="340" y="510"/><mxPoint x="340" y="360"/><mxPoint x="1080" y="360"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_c_p7" value="Đăng bài, Bình luận, Tố cáo" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p7" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="120" y="820"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_c_p8" value="Đăng ký Job Alert &amp; Career Fair" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p8" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="140" y="850"/><mxPoint x="740" y="850"/></Array></mxGeometry></mxCell>
+
+        <!-- Employer Flows -->
+        <mxCell id="df_e_p1" value="Đăng nhập &amp; Hồ sơ GPKD" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p1" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1950" y="80"/><mxPoint x="530" y="80"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_e_p5" value="Gửi tin duyệt, Pipeline Kanban, Đánh giá, Gửi Offer" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_e_p6" value="Tin nhắn &amp; Lời mời phỏng vấn" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p6" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1800" y="390"/><mxPoint x="1800" y="320"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_e_p8" value="Đăng ký gian hàng Career Fair" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p8" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1980" y="820"/></Array></mxGeometry></mxCell>
+
+        <!-- Admin Flows -->
+        <mxCell id="df_a_p9" value="Phê duyệt tin, Thẩm định DN, Khóa TK, Xử lý vi phạm" style="fontSize=9;fontColor=#b71c1c;" edge="1" source="admin" target="p9" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_a_p8" value="Tạo &amp; Điều phối sự kiện Career Fair" style="fontSize=9;fontColor=#b71c1c;" edge="1" source="admin" target="p8" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="950" y="1450"/><mxPoint x="950" y="870"/></Array></mxGeometry></mxCell>
+
+        <!-- ===== PROCESS ↔ STORE FLOWS ===== -->
+        <mxCell id="df_p1_d1" value="Lưu/Đọc Users &amp; Profiles" style="fontSize=9;fontColor=#616161;" edge="1" source="p1" target="d1" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p2_d4" value="Lưu/Đọc CVs" style="fontSize=9;fontColor=#616161;" edge="1" source="p2" target="d4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p3_d2" value="Đọc tin tuyển dụng Active" style="fontSize=9;fontColor=#616161;" edge="1" source="d2" target="p3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p3_d9" value="Lưu/Đọc Bookmark" style="fontSize=9;fontColor=#616161;" edge="1" source="p3" target="d9" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p3_d7" value="Gửi tố cáo tin xấu" style="fontSize=9;fontColor=#616161;" edge="1" source="p3" target="d7" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="930" y="240"/><mxPoint x="930" y="940"/><mxPoint x="850" y="940"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p4_d3" value="Lưu/Cập nhật đơn &amp; Offers" style="fontSize=9;fontColor=#616161;" edge="1" source="p4" target="d3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p4_d4" value="Đọc CV nộp" style="fontSize=9;fontColor=#616161;" edge="1" source="d4" target="p4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p5_d2" value="Tạo tin chờ duyệt / Đóng tin" style="fontSize=9;fontColor=#616161;" edge="1" source="p5" target="d2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p5_d10" value="Lưu/Cập nhật Pipeline &amp; Điểm số" style="fontSize=9;fontColor=#616161;" edge="1" source="p5" target="d10" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p5_d3" value="Đọc đơn &amp; Ghi nhận Offer / Từ chối" style="fontSize=9;fontColor=#616161;" edge="1" source="p5" target="d3" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1350" y="580"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p6_d5" value="Lưu tin nhắn &amp; Cuộc gọi video" style="fontSize=9;fontColor=#616161;" edge="1" source="p6" target="d5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p7_d6" value="Lưu/Đọc bài viết &amp; bình luận" style="fontSize=9;fontColor=#616161;" edge="1" source="p7" target="d6" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p7_d7" value="Lưu báo cáo vi phạm cộng đồng" style="fontSize=9;fontColor=#616161;" edge="1" source="p7" target="d7" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p8_d2" value="Đọc tin mới để quét Job Alert" style="fontSize=9;fontColor=#616161;" edge="1" source="d2" target="p8" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1650" y="160"/><mxPoint x="1650" y="800"/><mxPoint x="930" y="800"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p9_d2" value="Duyệt / Từ chối tin" style="fontSize=9;fontColor=#b71c1c;" edge="1" source="p9" target="d2" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1720" y="1170"/><mxPoint x="1720" y="140"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p9_d1" value="Xác thực pháp nhân DN" style="fontSize=9;fontColor=#b71c1c;" edge="1" source="p9" target="d1" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="320" y="1200"/><mxPoint x="320" y="300"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p9_d7" value="Đọc &amp; Cập nhật xử lý báo cáo" style="fontSize=9;fontColor=#b71c1c;" edge="1" source="p9" target="d7" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p9_d8" value="Ghi nhật ký Audit Log" style="fontSize=9;fontColor=#b71c1c;" edge="1" source="p9" target="d8" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- ===== OUTPUT FLOWS (BACK TO ACTORS - BALANCED) ===== -->
+        <!-- P1 Outputs -->
+        <mxCell id="df_p1_g" value="Kết quả tạo tài khoản" style="fontSize=9;fontColor=#e65100;dashed=1;" edge="1" source="p1" target="guest" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="280" y="110"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p1_c" value="Token, Thông tin phiên, Kết quả đăng nhập" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p1" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="250" y="210"/><mxPoint x="250" y="470"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p1_e" value="Token phiên, Trạng thái tài khoản DN" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p1" target="employer" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="550" y="60"/><mxPoint x="2000" y="60"/></Array></mxGeometry></mxCell>
+
+        <!-- P2 Output -->
+        <mxCell id="df_p2_c" value="Hồ sơ xem trước, Tải file PDF CV" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p2" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="270" y="520"/></Array></mxGeometry></mxCell>
+
+        <!-- P3 Outputs -->
+        <mxCell id="df_p3_g" value="Kết quả tìm kiếm &amp; Chi tiết JD" style="fontSize=9;fontColor=#e65100;dashed=1;" edge="1" source="p3" target="guest" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="640" y="90"/><mxPoint x="220" y="90"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p3_c" value="Kết quả tìm kiếm, Việc làm gợi ý (% match)" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p3" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="690" y="210"/><mxPoint x="260" y="260"/><mxPoint x="260" y="490"/></Array></mxGeometry></mxCell>
+
+        <!-- P4 Output -->
+        <mxCell id="df_p4_c" value="Tiến độ đơn (Đã xem CV), Thư mời Offer, Lịch PV" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p4" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="600" y="490"/><mxPoint x="230" y="490"/></Array></mxGeometry></mxCell>
+
+        <!-- P5 Output -->
+        <mxCell id="df_p5_e" value="Danh sách ứng viên, Phản hồi Offer/Lịch, Báo cáo ATS" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p5" target="employer" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1850" y="350"/></Array></mxGeometry></mxCell>
+
+        <!-- P6 Outputs -->
+        <mxCell id="df_p6_c" value="Tin nhắn mới, Lời mời gọi video" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p6" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1070" y="390"/><mxPoint x="360" y="390"/><mxPoint x="220" y="510"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p6_e" value="Tin nhắn mới, Trả lời của ứng viên" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p6" target="employer" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1750" y="300"/></Array></mxGeometry></mxCell>
+
+        <!-- P7 Outputs -->
+        <mxCell id="df_p7_g" value="Bài viết cộng đồng công khai" style="fontSize=9;fontColor=#e65100;dashed=1;" edge="1" source="p7" target="guest" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="840"/><mxPoint x="200" y="160"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p7_c" value="Danh sách bài viết &amp; phản hồi thảo luận" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p7" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="240" y="790"/><mxPoint x="240" y="530"/></Array></mxGeometry></mxCell>
+
+        <!-- P8 Outputs -->
+        <mxCell id="df_p8_c" value="Email Job Alert, Vé tham gia Career Fair, Báo cáo ĐH" style="fontSize=9;fontColor=#004d40;dashed=1;" edge="1" source="p8" target="candidate" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="670" y="820"/><mxPoint x="200" y="550"/></Array></mxGeometry></mxCell>
+        <mxCell id="df_p8_e" value="Xác nhận gian hàng Career Fair, Danh sách SV kết nối" style="fontSize=9;fontColor=#004d40;dashed=1;" edge="1" source="p8" target="employer" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1950" y="850"/></Array></mxGeometry></mxCell>
+
+        <!-- P9 Outputs -->
+        <mxCell id="df_p9_a" value="Kết quả xử lý, Thống kê KPI, Nhật ký Audit Log" style="fontSize=9;fontColor=#b71c1c;dashed=1;" edge="1" source="p9" target="admin" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="df_p9_e" value="Kết quả duyệt tin &amp; Thẩm định GPKD" style="fontSize=9;fontColor=#b71c1c;dashed=1;" edge="1" source="p9" target="employer" parent="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1900" y="1180"/><mxPoint x="1900" y="440"/></Array></mxGeometry></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

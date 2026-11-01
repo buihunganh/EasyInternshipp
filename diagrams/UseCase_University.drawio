@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T12:50:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="usecase-university" name="Use Case - Cơ sở Giáo dục">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Use Case Diagram — Phân hệ Cơ sở Giáo dục &amp; Ban Hướng nghiệp ĐH (University Career Center Module)&#xa;Hệ thống Tuyển dụng Thực tập EasyInternshipp (Internships.io) — Mô hình Chuẩn Handshake" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;fontColor=#004d40;" vertex="1" parent="1">
+          <mxGeometry x="360" y="20" width="760" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- System Boundary -->
+        <mxCell id="boundary" value="EasyInternshipp — University Career Center &amp; Academic Subsystem" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00796b;strokeWidth=2;dashed=1;fontSize=13;fontStyle=1;fontColor=#00796b;verticalAlign=top;spacingTop=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="270" y="80" width="1150" height="1260" as="geometry"/>
+        </mxCell>
+
+        <!-- Actor -->
+        <mxCell id="university" value="Cán bộ Hướng nghiệp ĐH&#xa;(University Career Officer)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=12;fontStyle=1;fontColor=#004d40;" vertex="1" parent="1">
+          <mxGeometry x="60" y="580" width="45" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 1: Xác thực & Hồ sơ Trường ĐH ===== -->
+        <mxCell id="grp1" value="1. Xác thực &amp; Quản trị Cổng trường Đại học" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="120" width="1060" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_login" value="Đăng nhập Cổng Đại học an toàn (SSO / Edu Mail)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="150" width="260" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_logout" value="Đăng xuất khỏi phiên làm việc Cổng ĐH" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="640" y="150" width="240" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_profile" value="Quản lý hồ sơ Trường / Khoa / Ngành đào tạo" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="150" width="260" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_staff" value="Phân quyền Cán bộ phụ trách thực tập theo Khoa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="630" y="225" width="270" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 2: Quản lý & Xác thực Sinh viên Thực tập ===== -->
+        <mxCell id="grp2" value="2. Xác thực Sinh viên &amp; Giám sát Thực tập Chính khóa" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="330" width="1060" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_verify_student" value="Xác thực danh tính &amp; MSSV của sinh viên trực thuộc" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="370" width="280" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_approve_roster" value="Phê duyệt Danh sách sinh viên đủ điều kiện thực tập" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="660" y="370" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_track_placement" value="Giám sát tiến độ ứng tuyển &amp; Trạng thái nhận việc sinh viên" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="370" width="280" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_certify_report" value="Chứng thực &amp; Đóng dấu điện tử Báo cáo kết quả thực tập" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="450" width="300" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 3: Mạng lưới Doanh nghiệp Đối tác ===== -->
+        <mxCell id="grp3" value="3. Mạng lưới Doanh nghiệp Đối tác &amp; Tin Tuyển dụng Liên kết" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="560" width="1060" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_partner_dir" value="Quản lý Danh bạ Doanh nghiệp đối tác liên kết thực tập" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="600" width="290" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_exclusive_jobs" value="Tiếp nhận &amp; Thẩm định tin thực tập dành riêng cho trường" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="600" width="300" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_mou_mgmt" value="Quản lý thỏa thuận hợp tác thực tập &amp; tuyển dụng (MOU)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="990" y="600" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_feedback_emp" value="Gửi khảo sát &amp; Thu thập đánh giá từ Nhà tuyển dụng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="660" y="675" width="280" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 4: Sự kiện Career Fair & Thống kê Việc làm ===== -->
+        <mxCell id="grp4" value="4. Sự kiện Ngày hội việc làm &amp; Thống kê Tỷ lệ Việc làm" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="780" width="1060" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_career_fair" value="Đăng cai &amp; Tổ chức Ngày hội việc làm sinh viên trường" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="820" width="290" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_approve_booth" value="Kiểm duyệt Gian hàng doanh nghiệp tham gia Career Fair" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="820" width="290" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_employment_stats" value="Xuất báo cáo Thống kê việc làm sinh viên (Báo cáo Bộ GD&amp;ĐT)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="820" width="290" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_u_export_excel" value="Xuất dữ liệu theo dõi thực tập theo Khoa ra Excel/PDF" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="670" y="895" width="280" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ASSOCIATIONS ===== -->
+        <!-- Auth & Org -->
+        <mxCell id="a_u1" edge="1" source="university" target="uc_u_login" parent="1" style="strokeColor=#00796b;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="180" y="240"/><mxPoint x="320" y="170"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_u2" edge="1" source="university" target="uc_u_profile" parent="1" style="strokeColor=#00796b;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="270"/><mxPoint x="880" y="170"/></Array></mxGeometry></mxCell>
+        <!-- Student verification -->
+        <mxCell id="a_u3" edge="1" source="university" target="uc_verify_student" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="420"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_u4" edge="1" source="university" target="uc_approve_roster" parent="1" style="strokeColor=#00796b;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="230" y="450"/><mxPoint x="640" y="400"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_u5" edge="1" source="university" target="uc_track_placement" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="240" y="480"/><mxPoint x="930" y="400"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_u6" edge="1" source="university" target="uc_certify_report" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- Employers -->
+        <mxCell id="a_u7" edge="1" source="university" target="uc_partner_dir" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_u8" edge="1" source="university" target="uc_exclusive_jobs" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- Career Fair & Stats -->
+        <mxCell id="a_u9" edge="1" source="university" target="uc_u_career_fair" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="180" y="780"/><mxPoint x="320" y="840"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_u10" edge="1" source="university" target="uc_u_approve_booth" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="810"/><mxPoint x="640" y="840"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_u11" edge="1" source="university" target="uc_u_employment_stats" parent="1" style="strokeColor=#00796b;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="840"/><mxPoint x="950" y="840"/></Array></mxGeometry></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

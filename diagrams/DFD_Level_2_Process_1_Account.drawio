@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T10:00:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="dfd-level2-account" name="DFD Level 2 - Process 1.0 Quản lý Tài khoản">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="950" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="DFD Level 2 — Process 1.0: Quản lý Tài khoản &amp; Xác thực" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="540" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- External Entities -->
+        <mxCell id="guest" value="GUEST" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff3e0;fontColor=#e65100;strokeColor=#ef6c00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="candidate" value="CANDIDATE" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e3f2fd;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="employer" value="EMPLOYER" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e8f5e9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <mxCell id="p11" value="1.1&#xa;Đăng ký&#xa;Tài khoản" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="120" width="140" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p12" value="1.2&#xa;Đăng nhập &amp;&#xa;Xác thực" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="340" width="140" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p13" value="1.3&#xa;Quản lý Phiên &amp;&#xa;Đổi vai trò" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="520" width="140" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p14" value="1.4&#xa;Quên mật khẩu &amp;&#xa;Đặt lại mật khẩu" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="700" width="140" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Stores -->
+        <mxCell id="d1" value="D1  Users" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="720" y="360" width="180" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Registration (1.1) -->
+        <mxCell id="df_reg_input" value="Thông tin đăng ký (email, pass, role)" style="fontSize=9;fontColor=#e65100;" edge="1" source="guest" target="p11" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p11_d1_check" value="Kiểm tra email trùng lặp" style="fontSize=9;fontColor=#616161;" edge="1" source="p11" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="160"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p11_d1_save" value="Ghi nhận User mới" style="fontSize=9;fontColor=#616161;" edge="1" source="p11" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="210"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p11_resp" value="Thông báo kết quả đăng ký" style="fontSize=9;fontColor=#e65100;dashed=1;" edge="1" source="p11" target="guest" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="190"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Login & Auth (1.2) -->
+        <mxCell id="df_c_login" value="Email, Mật khẩu / SSO" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p12" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_e_login" value="Email, Mật khẩu / SSO" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p12" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="470"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p12_d1" value="Đọc &amp; xác thực mật khẩu / role" style="fontSize=9;fontColor=#616161;" edge="1" source="p12" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_d1_p12" value="Thông tin phiên / User profile" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d1" target="p12" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="400"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p12_c_resp" value="Token phiên, Đăng nhập thành công" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p12" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="340"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p12_e_resp" value="Token phiên, Đăng nhập thành công" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p12" target="employer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="520"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Session & Role switch (1.3) -->
+        <mxCell id="df_role_switch" value="Yêu cầu đổi vai trò / Đăng xuất" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p13" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="440"/>
+              <mxPoint x="250" y="540"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p13_d1" value="Cập nhật quyền hạn hiện tại" style="fontSize=9;fontColor=#616161;" edge="1" source="p13" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="540"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p13_resp" value="Xác nhận đổi vai trò / Phiên kết thúc" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p13" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="570"/>
+              <mxPoint x="180" y="470"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Password Reset (1.4) -->
+        <mxCell id="df_c_pwd" value="Yêu cầu đặt lại mật khẩu" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p14" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="730"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p14_d1" value="Kiểm tra email &amp; cập nhật hash mật khẩu" style="fontSize=9;fontColor=#616161;" edge="1" source="p14" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="730"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p14_resp" value="Gửi link reset / Xác nhận đổi mật khẩu" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p14" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="770"/>
+              <mxPoint x="100" y="500"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

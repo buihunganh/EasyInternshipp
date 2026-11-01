@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T10:00:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="dfd-level2-messages" name="DFD Level 2 - Process 6.0 Nhắn tin">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="950" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="DFD Level 2 — Process 6.0: Hệ thống Nhắn tin &amp; Trao đổi Trực tiếp" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;fontColor=#1a237e;" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="560" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- External Entities -->
+        <mxCell id="candidate" value="CANDIDATE" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e3f2fd;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="employer" value="EMPLOYER" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e8f5e9;fontColor=#1b5e20;strokeColor=#2e7d32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <mxCell id="p61" value="6.1&#xa;Quản lý Danh sách&#xa;Cuộc trò chuyện" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="110" width="150" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p62" value="6.2&#xa;Gửi / Nhận Tin nhắn&#xa;&amp; Đính kèm Tệp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="300" width="150" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p63" value="6.3&#xa;Xếp lịch Phỏng vấn&#xa;&amp; Video Call" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="490" width="150" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="p64" value="6.4&#xa;Lưu trữ, Tắt thông báo&#xa;&amp; Báo cáo vi phạm" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;fontColor=#0d47a1;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="680" width="150" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Stores -->
+        <mxCell id="d5" value="D5  Messages" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="325" width="170" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7" value="D7  Reports" style="shape=partialRectangle;top=0;left=0;right=0;bottom=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;fontSize=11;fontStyle=1;fontColor=#424242;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="780" y="705" width="170" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Flows: Chat List (6.1) -->
+        <mxCell id="df_cand_list" value="Yêu cầu danh sách chat / Tìm kiếm" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p61" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="150"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_d5_p61" value="Đọc hội thoại gần nhất &amp; số tin chưa đọc" style="fontSize=9;fontColor=#616161;" edge="1" source="d5" target="p61" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="170"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p61_cand" value="Danh sách hội thoại &amp; trạng thái online" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p61" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="200"/>
+              <mxPoint x="180" y="260"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Send/Receive (6.2) -->
+        <mxCell id="df_cand_msg" value="Soạn tin nhắn / Đính kèm file" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p62" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_emp_msg" value="Trả lời tin nhắn / Phản hồi nhanh" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p62" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="440"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p62_d5" value="Lưu nội dung tin nhắn, file, timestamp" style="fontSize=9;fontColor=#616161;" edge="1" source="p62" target="d5" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_d5_p62" value="Đọc lịch sử tin nhắn" style="fontSize=9;fontColor=#616161;dashed=1;" edge="1" source="d5" target="p62" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="370"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p62_cand" value="Đẩy tin nhắn mới đến Candidate" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p62" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="330"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p62_emp" value="Đẩy tin nhắn mới đến Employer" style="fontSize=9;fontColor=#1b5e20;dashed=1;" edge="1" source="p62" target="employer" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="480"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Interview Proposal & Video Call (6.3) -->
+        <mxCell id="df_emp_invite" value="Đề xuất thời gian phỏng vấn / Mở Video Call" style="fontSize=9;fontColor=#1b5e20;" edge="1" source="employer" target="p63" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p63_d5" value="Lưu lịch hẹn &amp; link phòng họp" style="fontSize=9;fontColor=#616161;" edge="1" source="p63" target="d5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="520"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p63_cand" value="Thẻ mời phỏng vấn &amp; Tham gia Video Call" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p63" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="370"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Data Flows: Archive & Report (6.4) -->
+        <mxCell id="df_user_archive" value="Lưu trữ / Tắt thông báo / Báo cáo vi phạm" style="fontSize=9;fontColor=#0d47a1;" edge="1" source="candidate" target="p64" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="690"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p64_d5" value="Cập nhật trạng thái hội thoại" style="fontSize=9;fontColor=#616161;" edge="1" source="p64" target="d5" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="660"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="df_p64_d7" value="Ghi nhận báo cáo quấy rối / vi phạm" style="fontSize=9;fontColor=#616161;" edge="1" source="p64" target="d7" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="df_p64_resp" value="Xác nhận lưu trữ / Báo cáo thành công" style="fontSize=9;fontColor=#0d47a1;dashed=1;" edge="1" source="p64" target="candidate" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="750"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

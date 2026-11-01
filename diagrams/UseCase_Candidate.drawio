@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-02T12:35:00.000Z" agent="EasyInternshipp Analysis" version="24.0.0" type="device">
+  <diagram id="usecase-candidate" name="Use Case - Sinh viên &amp; Ứng viên">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1450" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Use Case Diagram — Phân hệ Sinh viên / Ứng viên (Candidate &amp; Guest Module)&#xa;Hệ thống Tuyển dụng Thực tập EasyInternshipp (Internships.io)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;fontColor=#0d47a1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="680" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- System Boundary -->
+        <mxCell id="boundary" value="EasyInternshipp — Candidate &amp; Student Subsystem" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1565c0;strokeWidth=2;dashed=1;fontSize=13;fontStyle=1;fontColor=#1565c0;verticalAlign=top;spacingTop=8;align=center;" vertex="1" parent="1">
+          <mxGeometry x="270" y="80" width="1120" height="1320" as="geometry"/>
+        </mxCell>
+
+        <!-- Actors -->
+        <mxCell id="guest" value="Khách vãng lai&#xa;(Guest)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#fff3e0;strokeColor=#ef6c00;fontSize=12;fontStyle=1;fontColor=#e65100;" vertex="1" parent="1">
+          <mxGeometry x="60" y="200" width="45" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="candidate" value="Sinh viên / Ứng viên&#xa;(Candidate / Student)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=12;fontStyle=1;fontColor=#0d47a1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="700" width="45" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Generalization: Candidate -> Guest -->
+        <mxCell id="gen_candidate_guest" style="endArrow=block;endSize=16;endFill=0;strokeColor=#424242;strokeWidth=1.5;" edge="1" source="candidate" target="guest" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="gen_label" value="Kế thừa hành vi Guest" style="text;html=1;fontSize=10;fontStyle=2;fillColor=none;strokeColor=none;fontColor=#424242;" vertex="1" parent="1">
+          <mxGeometry x="5" y="440" width="130" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 1: Xác thực & Tài khoản ===== -->
+        <mxCell id="grp1" value="1. Tài khoản &amp; Xác thực" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="120" width="480" height="210" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_register" value="Đăng ký tài khoản sinh viên" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ef6c00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="340" y="150" width="190" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_login" value="Đăng nhập hệ thống &amp; SSO" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ef6c00;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="150" width="190" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_logout" value="Đăng xuất khỏi hệ thống" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="340" y="210" width="190" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_reset_pw" value="Đặt lại mật khẩu (Quên MK)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="570" y="210" width="190" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_pref" value="Thiết lập nhận Job Alert &amp; Nghề nghiệp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="450" y="270" width="230" height="42" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 2: Hồ sơ & CV Builder ===== -->
+        <mxCell id="grp2" value="2. Hồ sơ cá nhân &amp; Quản lý CV" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="840" y="120" width="510" height="210" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_profile" value="Quản lý hồ sơ cá nhân (Bio, Kỹ năng, Học vấn)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="870" y="150" width="240" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_cv_builder" value="Tạo CV trực tuyến (CV Builder)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="150" width="190" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_upload_cv" value="Tải lên CV có sẵn (PDF / Word)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="870" y="215" width="210" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_share_cv" value="Xuất file PDF &amp; Chia sẻ Public Link CV" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="215" width="220" height="42" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 3: Tìm kiếm & Khám phá Việc làm ===== -->
+        <mxCell id="grp3" value="3. Tìm kiếm &amp; Khám phá Việc làm" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="360" width="1040" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_search" value="Tìm kiếm &amp; Lọc việc làm đa tiêu chí" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ef6c00;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="400" width="220" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_view_job" value="Xem chi tiết JD, phụ cấp &amp; đãi ngộ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ef6c00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="600" y="400" width="220" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_save_job" value="Lưu việc làm quan tâm (Bookmark)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="860" y="400" width="210" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_recommend" value="Xem việc làm gợi ý tương thích (% Match)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="400" width="220" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_report_job" value="Báo cáo tin tuyển dụng vi phạm / giả mạo" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ef6c00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="600" y="475" width="240" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 4: Ứng tuyển & Theo dõi Tiến độ (Quy trình 2 chiều) ===== -->
+        <mxCell id="grp4" value="4. Ứng tuyển &amp; Tương tác 2 chiều (Bidirectional ATS)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="580" width="1040" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_apply" value="Nộp hồ sơ ứng tuyển việc làm" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="620" width="210" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_answer_q" value="Trả lời câu hỏi sàng lọc (Screening)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="700" width="210" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_track" value="Theo dõi tiến độ đơn &amp; Nhận tín hiệu 'NTD đã xem CV'" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="620" width="260" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_rsvp" value="Xác nhận / Đề xuất dời lịch phỏng vấn (RSVP)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="700" width="260" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_offer_resp" value="Phản hồi Thư mời Offer (Đồng ý / Từ chối kèm lý do)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1565c0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="620" width="270" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_withdraw" value="Rút hồ sơ ứng tuyển đã nộp" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="910" y="700" width="210" height="42" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 5: Giao tiếp & Cộng đồng ===== -->
+        <mxCell id="grp5" value="5. Giao tiếp &amp; Diễn đàn Cộng đồng" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="840" width="1040" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_chat" value="Nhắn tin trực tiếp 1-1 với Nhà tuyển dụng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#3f51b5;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="880" width="230" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_video_call" value="Tham gia phỏng vấn trực tuyến (WebRTC Video)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#3f51b5;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="610" y="880" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_comm_post" value="Đăng bài chia sẻ kinh nghiệm / Hỏi đáp ẩn danh" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="890" y="880" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_comm_react" value="Tương tác bài viết (Thích, Bình luận, Lưu tài liệu)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="460" y="950" width="250" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_comm_report" value="Báo cáo bài viết vi phạm chuẩn mực" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="760" y="950" width="230" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Nhóm 6: Sự kiện & Cổng trường ĐH ===== -->
+        <mxCell id="grp6" value="6. Sự kiện Nghề nghiệp &amp; Cổng kết nối Trường Đại học" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#9e9e9e;dashed=1;align=left;spacingLeft=10;verticalAlign=top;fontStyle=1;fontColor=#616161;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="1060" width="1040" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_career_fair" value="Đăng ký &amp; Tham gia Ngày hội việc làm (Career Fair)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1110" width="260" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_uni_verify" value="Liên kết MSSV &amp; Xác thực sinh viên trường ĐH" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="660" y="1110" width="250" height="46" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_uni_report" value="Xuất Báo cáo thực tập có mã chứng thực điện tử" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00796b;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="1110" width="250" height="46" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ASSOCIATIONS: GUEST ===== -->
+        <mxCell id="a_g1" edge="1" source="guest" target="uc_register" parent="1" style="strokeColor=#ef6c00;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_g2" edge="1" source="guest" target="uc_login" parent="1" style="strokeColor=#ef6c00;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_g3" edge="1" source="guest" target="uc_search" parent="1" style="strokeColor=#ef6c00;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_g4" edge="1" source="guest" target="uc_view_job" parent="1" style="strokeColor=#ef6c00;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_g5" edge="1" source="guest" target="uc_report_job" parent="1" style="strokeColor=#ef6c00;"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- ===== ASSOCIATIONS: CANDIDATE ===== -->
+        <!-- Auth & CV -->
+        <mxCell id="a_c_login" edge="1" source="candidate" target="uc_login" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_c_logout" edge="1" source="candidate" target="uc_logout" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_c_profile" edge="1" source="candidate" target="uc_profile" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="320"/><mxPoint x="830" y="180"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_builder" edge="1" source="candidate" target="uc_cv_builder" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="350"/><mxPoint x="1100" y="190"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_upload" edge="1" source="candidate" target="uc_upload_cv" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="240" y="380"/><mxPoint x="840" y="240"/></Array></mxGeometry></mxCell>
+        <!-- Search & Bookmark -->
+        <mxCell id="a_c_save" edge="1" source="candidate" target="uc_save_job" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="250" y="520"/><mxPoint x="820" y="440"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_rec" edge="1" source="candidate" target="uc_recommend" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="260" y="550"/><mxPoint x="1050" y="440"/></Array></mxGeometry></mxCell>
+        <!-- Apply & Track -->
+        <mxCell id="a_c_apply" edge="1" source="candidate" target="uc_apply" parent="1" style="strokeColor=#1565c0;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_c_track" edge="1" source="candidate" target="uc_track" parent="1" style="strokeColor=#1565c0;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_c_rsvp" edge="1" source="candidate" target="uc_rsvp" parent="1" style="strokeColor=#1565c0;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a_c_offer" edge="1" source="candidate" target="uc_offer_resp" parent="1" style="strokeColor=#1565c0;strokeWidth=1.5;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="760"/><mxPoint x="850" y="650"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_withdraw" edge="1" source="candidate" target="uc_withdraw" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="240" y="780"/><mxPoint x="880" y="730"/></Array></mxGeometry></mxCell>
+        <!-- Comms -->
+        <mxCell id="a_c_chat" edge="1" source="candidate" target="uc_chat" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="180" y="850"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_video" edge="1" source="candidate" target="uc_video_call" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="890"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_post" edge="1" source="candidate" target="uc_comm_post" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="220" y="930"/></Array></mxGeometry></mxCell>
+        <!-- Uni & Events -->
+        <mxCell id="a_c_fair" edge="1" source="candidate" target="uc_career_fair" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="160" y="1050"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_uni_ver" edge="1" source="candidate" target="uc_uni_verify" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="180" y="1100"/></Array></mxGeometry></mxCell>
+        <mxCell id="a_c_uni_rep" edge="1" source="candidate" target="uc_uni_report" parent="1" style="strokeColor=#1565c0;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="200" y="1150"/></Array></mxGeometry></mxCell>
+
+        <!-- ===== STEREOTYPES (<<extend>> / <<include>>) ===== -->
+        <!-- Đính kèm CV mở rộng Nộp đơn -->
+        <mxCell id="ext_cv_apply" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" edge="1" source="uc_cv_builder" target="uc_apply" parent="1" style="dashed=1;strokeColor=#1565c0;fontSize=10;fontColor=#1565c0;">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1225" y="580"/><mxPoint x="490" y="580"/></Array></mxGeometry>
+        </mxCell>
+        <!-- Trả lời câu hỏi sàng lọc là một phần mở rộng khi tin yêu cầu -->
+        <mxCell id="ext_ans_apply" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" edge="1" source="uc_answer_q" target="uc_apply" parent="1" style="dashed=1;strokeColor=#1565c0;fontSize=10;fontColor=#1565c0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

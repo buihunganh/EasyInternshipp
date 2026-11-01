@@ -4,3 +4,8 @@ test-results/
 .vite/
 *.log
 /docs/
+
+# Local environment (Supabase keys)
+.env
+.env.local
+.env.*.local
