@@ -1,6 +1,6 @@
 // Account-level data used by the shared header / account menu on every page.
 import { supabase, type Tables } from './supabase';
-import { unwrap } from './errors';
+import { unwrap, unwrapMaybe } from './errors';
 import { currentSession } from './session';
 
 const uid = () => currentSession()?.user.id ?? '';
@@ -69,4 +69,22 @@ export async function myCompanies() {
       member_role: Tables<'company_members'>['member_role'];
       company: Pick<Tables<'companies'>, 'id' | 'name' | 'slug' | 'logo_path' | 'verification_status' | 'verification_note'>;
     }[];
+}
+
+/** Signed-in student's summary for the home page profile card (one round of parallel requests). */
+export async function studentSummary() {
+  const id = uid();
+  const [profile, student, skills, cvs, applications, saved] = await Promise.all([
+    supabase.from('profiles').select('full_name, email, avatar_path').eq('id', id).single(),
+    supabase.from('student_profiles').select('headline, bio, university_id, student_code, major, gpa, links, verification_status, graduation_year, university:universities(name, short_name)').eq('user_id', id).maybeSingle(),
+    supabase.from('student_skills').select('skill_id', { count: 'exact', head: true }).eq('student_id', id),
+    supabase.from('cvs').select('id', { count: 'exact', head: true }).eq('student_id', id),
+    supabase.from('applications').select('id', { count: 'exact', head: true }).eq('student_id', id),
+    supabase.from('saved_jobs').select('job_id', { count: 'exact', head: true }).eq('student_id', id),
+  ]);
+  for (const r of [skills, cvs, applications, saved]) if (r.error) unwrap(r);
+  return {
+    profile: unwrap(profile), student: unwrapMaybe(student),
+    skillCount: skills.count ?? 0, cvCount: cvs.count ?? 0, applicationCount: applications.count ?? 0, savedCount: saved.count ?? 0,
+  };
 }

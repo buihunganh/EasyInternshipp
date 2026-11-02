@@ -58,6 +58,7 @@ export interface ConversationContextData {
     company_size?: string | null;
     address?: string | null;
     city?: string | null;
+    industry?: { name: string } | null;
   } | null;
   application: {
     id: string;
@@ -233,7 +234,7 @@ export async function getConversationContext(conv: ConversationItem): Promise<Co
 
   if (conv.company_id) {
     const { data } = await supabase.from('companies')
-      .select('id, name, slug, logo_path, company_size, address, city')
+      .select('id, name, slug, logo_path, company_size, address, city, industry:industries(name)')
       .eq('id', conv.company_id)
       .maybeSingle();
     if (data) companyData = data;

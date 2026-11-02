@@ -24,6 +24,10 @@ import {
 const DEFAULT_STAGES = ['Hồ sơ mới nộp', 'Sàng lọc & Test', 'Phỏng vấn', 'Đã gửi thư mời', 'Đã nhận việc'];
 
 export async function setupCandidates() {
+  // The design's sample KPIs (86 / 32 / 8 / 3) and "Cập nhật 15 phút trước bởi Mai Phương" must never show
+  document.querySelectorAll('.candidate-metrics > div .my-sm > span').forEach(span => { span.textContent = '–'; });
+  const updatedLine = [...document.querySelectorAll<HTMLElement>('main span')].find(sp => /^Cập nhật .* trước bởi/.test(sp.textContent?.trim() || ''));
+  if (updatedLine) updatedLine.textContent = '';
   const company = await myCompany().catch(error => { showError(error); return null; });
   if (!company) {
     flash('Hãy tạo hồ sơ doanh nghiệp trước khi truy cập quản lý ứng viên.');
@@ -215,7 +219,25 @@ export async function setupCandidates() {
     // Match score chip
     const matchEl = c.querySelector('.font-label-sm.font-bold, .font-label-sm.font-medium, [class*="Match"]') as HTMLElement | null;
     if (matchEl) {
-      matchEl.textContent = app.match_score != null ? `${app.match_score}% Match` : 'Mới nộp';
+      matchEl.textContent = app.match_score != null ? `${app.match_score}% Match` : 'Chưa có % phù hợp';
+    }
+
+    // Skills (from the CV submitted with the application) instead of the design's sample chips
+    const snapshot = app.cv_snapshot as unknown as Partial<CvContent> | null;
+    const skillRow = c.querySelector<HTMLElement>('.flex.flex-wrap.gap-1');
+    const skillChip = skillRow?.firstElementChild;
+    if (skillRow && skillChip) {
+      const skills = (snapshot?.skills ?? []).filter(Boolean).slice(0, 4);
+      skillRow.replaceChildren(...skills.map(sk => { const chip = skillChip.cloneNode(true) as HTMLElement; chip.textContent = sk; return chip; }));
+      skillRow.hidden = !skills.length;
+    }
+
+    // CV row: an uploaded PDF or the online CV, never the design's sample file name
+    const cvName = [...c.querySelectorAll<HTMLElement>('span.truncate')].find(sp => /\.pdf$|CV/i.test(sp.textContent || ''));
+    if (cvName) {
+      cvName.textContent = app.cv_file_path ? (app.cv_file_path.split('/').pop() || 'CV đính kèm.pdf') : 'CV trực tuyến';
+      const icon = cvName.previousElementSibling;
+      if (icon && !app.cv_file_path) icon.textContent = 'description';
     }
 
     // GPA & Year
@@ -909,6 +931,7 @@ export async function setupCandidates() {
         getJobApplications(currentJob.id),
       ]);
       renderBoard();
+      if (updatedLine) updatedLine.textContent = `Cập nhật lúc ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
       // If URL had application param or drawer was previously open
       const urlApp = params.get('application');
       if (urlApp) void openDrawer(urlApp);

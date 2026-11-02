@@ -96,3 +96,28 @@ export async function applyToJob(jobId: string, cvId: string, coverLetter: strin
 export async function createJobAlert(fields: { name: string; keywords: string | null; city: string | null; industry_id: number | null }) {
   unwrap(await supabase.from('job_alerts').insert({ ...fields, frequency: 'daily' }));   // student_id defaults to auth.uid()
 }
+
+// --- Home page side widgets ------------------------------------------------------------------
+/** Verified companies with the most open (active, unexpired) jobs. */
+export async function featuredCompanies(limit = 3) {
+  const today = new Date().toISOString().slice(0, 10);
+  const jobs = unwrap(await supabase.from('jobs').select('company_id').eq('status', 'active')
+    .or(`deadline.is.null,deadline.gte.${today}`).limit(1000));
+  const counts = new Map<string, number>();
+  for (const j of jobs) counts.set(j.company_id, (counts.get(j.company_id) ?? 0) + 1);
+  const ids = [...counts.keys()];
+  if (!ids.length) return [];
+  const companies = unwrap(await supabase.from('companies').select('id, name, logo_path').eq('verification_status', 'verified').in('id', ids));
+  return companies.map(c => ({ ...c, open_jobs: counts.get(c.id) ?? 0 })).sort((a, b) => b.open_jobs - a.open_jobs).slice(0, limit);
+}
+
+export async function followedCompanyIds() {
+  if (!currentSession()) return new Set<string>();
+  return new Set(unwrap(await supabase.from('company_follows').select('company_id')).map(r => r.company_id));
+}
+
+/** Next published events (career fairs, workshops), soonest first. */
+export async function upcomingEvents(limit = 2) {
+  return unwrap(await supabase.from('events').select('id, title, starts_at, location, is_virtual, university:organizer_university_id(name, short_name)')
+    .eq('status', 'published').gte('ends_at', new Date().toISOString()).order('starts_at').limit(limit));
+}

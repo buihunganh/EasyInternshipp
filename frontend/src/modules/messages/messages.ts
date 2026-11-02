@@ -6,6 +6,7 @@ import { bind, button, field, normal, schedule, upload, value, video } from '../
 import { publicUrl } from '../../core/supabase';
 import { showError } from '../../core/errors';
 import { esc, el } from '../../core/render';
+import { initialsAvatar } from '../../core/layout/siteHeader';
 import { formatDateTime, relativeTime, formatBytes, localDateTimeInput } from '../../core/format';
 import { reportContent } from '../../core/report';
 import { routes, companyHref, jobHref } from '../../core/navigation';
@@ -15,6 +16,12 @@ import {
   subscribeToMessages, getConversationContext, getInterview, respondInterview,
   type ConversationItem, type MessageItem, type ConversationContextData
 } from './api';
+
+/** Replace a button's label text while keeping its child elements (dots, icons). */
+function setIconlessText(button: HTMLElement, text: string) {
+  const node = [...button.childNodes].find(n => n.nodeType === Node.TEXT_NODE && n.textContent!.trim());
+  if (node) node.textContent = ` ${text} `; else button.append(text);
+}
 
 export async function setupMessages() {
   const root = document.querySelector<HTMLElement>('main[data-page="messages"], body[data-page="messages"] main');
@@ -32,6 +39,38 @@ export async function setupMessages() {
   const recruiter = isRecruiterWorkspace() || currentRole() === 'employer';
   const myUid = currentSession()?.user.id ?? '';
 
+  // --- Remove the design's sample content that has no real data behind it -----------------
+  const topBar = grid.previousElementSibling;   // breadcrumb + trust badges, right above the 3-column grid
+  const crumbs = topBar?.firstElementChild;
+  const crumbCurrent = crumbs?.lastElementChild as HTMLElement | null | undefined;
+  if (crumbCurrent) crumbCurrent.textContent = 'Tin nhắn tuyển dụng';
+  const trustRow = topBar?.children[1];   // "Hệ thống … xác minh" | "Tỉ lệ phản hồi HR: 98% …"
+  if (trustRow && /Tỉ lệ phản hồi/.test(trustRow.textContent || '')) [...trustRow.children].slice(1).forEach(c => c.remove());
+  const tabs = [...leftAside.querySelectorAll<HTMLButtonElement>('button')].filter(b => /Tất cả|Chưa đọc|Phỏng vấn|Lưu trữ/.test(b.textContent || ''));
+  tabs.forEach(b => b.childNodes.forEach(n => { if (n.nodeType === Node.TEXT_NODE) n.textContent = n.textContent!.replace(/\s*\(\d+\)/, ''); }));
+  const allTab = tabs.find(b => /Tất cả/.test(b.textContent || ''));
+  tabs.find(b => /Phỏng vấn/.test(b.textContent || ''))?.remove();   // conversations have no interview filter
+  [...leftAside.querySelectorAll('span')].find(sp => /Đang tìm thực tập/.test(sp.textContent || ''))?.closest('.m-xs')?.remove();   // static status footer
+  const header = section.firstElementChild as HTMLElement;   // chat header
+  header.querySelector('.relative > span.absolute')?.remove();   // fake "online" dot on the avatar
+  [...header.querySelectorAll('span')].find(sp => sp.textContent?.trim() === 'Đang online')?.remove();
+  const subbar = section.children[1] as HTMLElement;   // "Đang thảo luận: <job>" bar
+  subbar.querySelector('.font-mono')?.remove();   // design job code "TN-2024-FE"
+  const headerAvatar = header.querySelector<HTMLImageElement>('img');
+  const headerSubtitle = header.querySelector<HTMLElement>('.text-on-surface-variant');
+  const headerActions = header.lastElementChild as HTMLElement;
+  const headerTick = header.querySelector<HTMLElement>('h2 + .material-symbols-outlined');   // "verified" tick next to the name
+  /** Show or hide everything that only makes sense with an open conversation. */
+  function showThreadChrome(on: boolean) {
+    if (headerAvatar) headerAvatar.parentElement!.hidden = !on;
+    if (headerSubtitle) headerSubtitle.hidden = !on;
+    headerActions.hidden = !on;
+    if (headerTick) headerTick.hidden = !on;
+    subbar.hidden = !on;
+    if (rightAside) (rightAside as HTMLElement).hidden = !on;
+  }
+  showThreadChrome(false);
+
   let conversations: ConversationItem[] = [];
   let activeConv: ConversationItem | null = null;
   let activeContext: ConversationContextData | null = null;
@@ -43,6 +82,7 @@ export async function setupMessages() {
   const statusEl = document.createElement('p');
   statusEl.id = 'conversation-status';
   statusEl.className = 'app-conversation-status';
+  statusEl.hidden = true;
   section.children[1]?.after(statusEl);
 
   // Mobile conversation switcher button
@@ -86,6 +126,7 @@ export async function setupMessages() {
         initial = conversations[0];
       }
 
+      if (allTab) setIconlessText(allTab, `Tất cả (${conversations.filter(c => !c.is_archived).length})`);
       renderConversationsList();
 
       if (initial) {
@@ -102,13 +143,14 @@ export async function setupMessages() {
     section.querySelector('h2')!.textContent = 'Chưa chọn cuộc trò chuyện';
     input.placeholder = 'Chọn một cuộc trò chuyện để bắt đầu nhắn tin...';
     input.disabled = true;
+    showThreadChrome(false);
+    if (crumbCurrent) crumbCurrent.textContent = 'Tin nhắn tuyển dụng';
     stream.innerHTML = `
       <div class="h-full flex flex-col items-center justify-center text-center p-xl text-on-surface-variant">
         <span class="material-symbols-outlined text-[48px] text-outline-variant mb-2">forum</span>
         <h3 class="font-headline-md text-on-surface mb-1">Hộp thư tuyển dụng</h3>
         <p class="font-body-md max-w-sm">Chọn một cuộc trò chuyện từ danh sách bên trái hoặc ứng tuyển việc làm để bắt đầu trao đổi với nhà tuyển dụng.</p>
       </div>`;
-    if (rightAside) rightAside.classList.add('opacity-40');
   }
 
   function renderConversationsList() {
@@ -149,7 +191,7 @@ export async function setupMessages() {
 
       const avatarSrc = conv.other_user?.avatar_path
         ? publicUrl('avatars', conv.other_user.avatar_path)
-        : (conv.company?.logo_path ? publicUrl('company-assets', conv.company.logo_path) : '/assets/images/41410c47c78c26aa.png');
+        : (conv.company?.logo_path ? publicUrl('company-assets', conv.company.logo_path) : initialsAvatar(partnerName));
 
       const timeStr = conv.last_message_at ? relativeTime(conv.last_message_at) : '';
 
@@ -158,7 +200,6 @@ export async function setupMessages() {
         <div class="flex items-start gap-sm pl-2">
           <div class="relative shrink-0">
             <img class="w-11 h-11 rounded-full object-cover shadow-sm" src="${esc(avatarSrc)}" alt="${esc(partnerName)}">
-            <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary shadow-sm"></span>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between">
@@ -222,12 +263,14 @@ export async function setupMessages() {
 
     // Update Header
     section.querySelector('h2')!.textContent = partnerName;
-    const headerAvatar = section.querySelector<HTMLImageElement>('.backdrop-blur-md img');
+    if (crumbCurrent) crumbCurrent.textContent = partnerName;
     if (headerAvatar) {
       headerAvatar.src = target.other_user?.avatar_path
         ? publicUrl('avatars', target.other_user.avatar_path)
-        : (target.company?.logo_path ? publicUrl('company-assets', target.company.logo_path) : '/assets/images/2ec498645c3d7186.png');
+        : (target.company?.logo_path ? publicUrl('company-assets', target.company.logo_path) : initialsAvatar(partnerName));
+      headerAvatar.alt = partnerName;
     }
+    showThreadChrome(true);
 
     // Load messages and context
     try {
@@ -292,9 +335,10 @@ export async function setupMessages() {
     }
 
     // Sub-bar (job vacancy info)
-    const subbar = section.children[1];
     if (subbar) {
       const app = activeContext?.application;
+      const statusBox = subbar.querySelector<HTMLElement>('.text-tertiary');
+      if (statusBox) statusBox.hidden = !app;
       if (app) {
         subbar.classList.remove('hidden');
         const titleEl = subbar.querySelector('.font-semibold');
@@ -689,7 +733,6 @@ export async function setupMessages() {
 
   function renderContextSidebar() {
     if (!rightAside || !activeConv) return;
-    rightAside.classList.remove('opacity-40');
 
     const company = activeContext?.company || activeConv.company;
     const student = activeContext?.student;
@@ -703,7 +746,7 @@ export async function setupMessages() {
         // Employer view: show Candidate Overview
         const gpaStr = student?.gpa ? `GPA: ${student.gpa.toFixed(2)} / 4.0` : 'GPA chưa cập nhật';
         const uniStr = student?.university_name || 'Chưa cập nhật trường';
-        const majorStr = student?.major || 'Chuyên ngành CNTT';
+        const majorStr = student?.major || 'Chưa cập nhật chuyên ngành';
         overviewCard.innerHTML = `
           <div class="flex items-start justify-between">
             <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary font-headline-lg text-[20px] shadow-sm">
@@ -743,9 +786,9 @@ export async function setupMessages() {
         // Student view: show Company Overview
         const comp = activeContext?.company;
         const companyName = comp?.name || activeConv.company?.name || 'Doanh nghiệp tuyển dụng';
-        const address = comp?.address || 'TP. Hồ Chí Minh';
-        const size = comp?.company_size || '50 - 150 nhân sự';
-        const industry = 'Công nghệ thông tin / Phần mềm';
+        const address = comp?.address || comp?.city || 'Chưa cập nhật địa chỉ';
+        const size = comp?.company_size || 'Chưa cập nhật';
+        const industry = comp?.industry?.name || 'Chưa cập nhật lĩnh vực';
 
         overviewCard.innerHTML = `
           <div class="flex items-start justify-between">
@@ -787,6 +830,7 @@ export async function setupMessages() {
 
     // Pipeline tracker (Card 2)
     const pipelineTracker = rightAside.children[1] as HTMLElement;
+    if (pipelineTracker) pipelineTracker.hidden = !app;   // never leave the design's sample pipeline visible
     if (pipelineTracker && app) {
       const stepIndex = ['applied', 'cv_viewed'].includes(app.status)
         ? 2

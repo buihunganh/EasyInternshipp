@@ -10,11 +10,11 @@ import { showError } from '../../core/errors';
 import { formatDateTime } from '../../core/format';
 import { publicUrl } from '../../core/supabase';
 import { el } from '../../core/render';
+import { initialsAvatar } from '../../core/layout/siteHeader';
 import type { CvContent } from '../../core/models';
 import { cvFileUrl, deleteCv, getMyProfile, myCvs, saveCv, setCvFlags, uploadAvatar, uploadCvFile, type CvRow } from './api';
 
 type Extra = { id: string; kind: string; title: string; detail: string };
-const DEFAULT_AVATAR = '/assets/images/20d745aa4fbeee4e.png';
 const colors: Record<string, string> = { 'Modern Blue': '#3f5baa', Teal: '#087f76', 'Navy Emerald': '#193a51', Charcoal: '#30343b' };
 
 export async function setupCvBuilder() {
@@ -45,6 +45,8 @@ export async function setupCvBuilder() {
   let removed: string[] = stored.editor?.removed ?? [];
   let theme: CvContent['theme'] = stored.theme ?? 'modern';
   let color = stored.color ?? '#3f5baa';
+  // No photo yet → initials, never the design's sample portrait
+  const DEFAULT_AVATAR = initialsAvatar(stored.personal?.name || me?.profile.full_name || 'CV');
   let avatar = stored.avatar || publicUrl('avatars', me?.profile.avatar_path) || DEFAULT_AVATAR;
   let zoom = 100;
   let dirty = false;
@@ -88,7 +90,50 @@ export async function setupCvBuilder() {
   const awards = () => removed.includes('awards') ? [] : [...awardSection.querySelectorAll(':scope>div:last-of-type>div')].filter(e => !e.classList.contains('demo-cv-extra-editor')).map(e => e.textContent?.replace(/\s+/g, ' ').trim() || '').filter(Boolean);
   const projectFields = () => [...projectSection.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input,textarea')];
 
+  // --- Design badges that must reflect the real CV, not the sample one ----------------------------
+  const textSpan = (re: RegExp) => [...main.querySelectorAll<HTMLElement>('span')].find(sp => re.test(sp.textContent?.trim() || ''));
+  textSpan(/^sync\s*Đã đồng bộ tự động/)?.remove();   // the toolbar status shows the real save state
+  const meterValue = textSpan(/^Độ hoàn thiện CV:$/)?.nextElementSibling as HTMLElement | null | undefined;
+  const meterBar = main.querySelector<HTMLElement>('div[class*="w-[85%]"]');
+  meterBar?.classList.remove('w-[85%]');
+  const hintRow = textSpan(/Thông tin chuẩn xác/)?.parentElement;
+  const [infoHint, projectHint, nextHint] = [...(hintRow?.children ?? [])] as HTMLElement[];
+  const doneBadge = textSpan(/^check\s*Hoàn thành$/);
+  const verifiedBadge = textSpan(/^school\s*ĐHBK đã duyệt$/);
+  if (verifiedBadge) {
+    const uni = me?.student?.university as { short_name?: string; name?: string } | null | undefined;
+    const ok = me?.student?.verification_status === 'verified';
+    verifiedBadge.hidden = !ok;
+    if (ok) verifiedBadge.lastChild!.textContent = ` ${uni?.short_name || 'Trường'} đã xác thực`;
+  }
+  const summaryInput = inputEl('summary') as HTMLTextAreaElement | null;
+  if (summaryInput) summaryInput.maxLength = 500;
+  const summaryCounter = summaryInput?.nextElementSibling as HTMLElement | null | undefined;
+  const setHint = (hint: HTMLElement | undefined, text: string) => { if (!hint) return; const last = [...hint.childNodes].reverse().find(n => n.nodeType === Node.TEXT_NODE && n.textContent!.trim()); if (last) last.textContent = ` ${text} `; };
+
+  function renderMeter() {
+    const pf = projectFields();
+    const projects = (removed.includes('project') || !pf[0]?.value ? 0 : 1) + extras.filter(x => x.kind === 'project').length;
+    const skills = skillTags().length + extras.filter(x => x.kind === 'skill').length;
+    const personal = ['fullname', 'title', 'email', 'phone', 'location'].every(n => input(n).trim());
+    const checks: [boolean, string][] = [
+      [personal, 'Điền đủ thông tin liên hệ'], [!!(input('github') || input('linkedin')), 'Thêm GitHub/LinkedIn'],
+      [input('summary').trim().length >= 50, 'Viết tóm tắt bản thân'], [!!input('school') && !!input('major'), 'Thêm học vấn'],
+      [projects > 0, 'Thêm dự án'], [skills >= 3, 'Thêm ít nhất 3 kỹ năng'], [avatar !== DEFAULT_AVATAR, 'Thêm ảnh chân dung'],
+    ];
+    const percent = Math.round(100 * checks.filter(c => c[0]).length / checks.length);
+    if (meterValue) meterValue.textContent = `${percent}%`;
+    if (meterBar) meterBar.style.width = `${percent}%`;
+    setHint(infoHint, personal ? 'Thông tin liên hệ đầy đủ' : 'Thiếu thông tin liên hệ');
+    setHint(projectHint, `${projects} dự án`);
+    const next = checks.find(c => !c[0]);
+    setHint(nextHint, next ? `Gợi ý: ${next[1]} (+${100 - percent}%)` : 'CV đã đầy đủ');
+    if (doneBadge) doneBadge.hidden = !personal;
+    if (summaryCounter && summaryInput) summaryCounter.textContent = `${summaryInput.value.length} / 500 ký tự`;
+  }
+
   function sync() {
+    renderMeter();
     const pf = projectFields();
     const projectHidden = removed.includes('project');
     if (project) project.hidden = projectHidden;

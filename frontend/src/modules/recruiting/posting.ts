@@ -9,6 +9,7 @@ import { showError, toAppError } from '../../core/errors';
 import { formatStipend, jobStatusLabel, workTypeLabel } from '../../core/format';
 import { el } from '../../core/render';
 import { publicUrl } from '../../core/supabase';
+import { initialsAvatar } from '../../core/layout/siteHeader';
 import {
   getJobForEdit, listIndustries, myCompany, replaceQuestions, saveJob, submitJob, syncSkills,
   type EditableJob, type JobFields, type QuestionInput,
@@ -187,12 +188,17 @@ export async function setupPosting() {
     const counter = document.getElementById('title-counter');
     if (counter) counter.textContent = `${f.title.length} / 200 ký tự`;
     if (preview) {
-      const card = preview.firstElementChild?.nextElementSibling as HTMLElement | null;
+      // aside > widget 1 > [header row, simulated job card]
+      const card = preview.firstElementChild?.children[1] as HTMLElement | undefined;
       if (card) {
         const logo = card.querySelector('img');
-        if (logo) { logo.src = publicUrl('company-assets', company!.logo_path) || logo.src; logo.alt = company!.name; }
+        if (logo) { logo.src = publicUrl('company-assets', company!.logo_path) || initialsAvatar(company!.name); logo.alt = company!.name; }
         const companyName = card.querySelector('img + div p');
         if (companyName) companyName.textContent = company!.name;
+        const companyNote = companyName?.nextElementSibling as HTMLElement | null;   // "Doanh nghiệp đối tác trường học"
+        if (companyNote) { const icon = companyNote.firstElementChild; companyNote.replaceChildren(...(icon ? [icon] : []), ` ${company!.verification_status === 'verified' ? 'Doanh nghiệp đã xác thực' : 'Doanh nghiệp chưa xác thực'}`); }
+        const urgent = card.firstElementChild?.lastElementChild as HTMLElement | null;   // "Tuyển gấp" badge: no such field
+        if (urgent && urgent.tagName === 'SPAN') urgent.hidden = true;
         const h3 = card.querySelector('h3'); if (h3) h3.textContent = f.title || 'Tên vị trí tuyển dụng';
         const salary = h3?.nextElementSibling?.children;
         if (salary?.length) { salary[0].textContent = f.stipend_min || f.stipend_max ? `${formatStipend(f.stipend_min, f.stipend_max)} / tháng` : 'Thỏa thuận'; if (salary[1]) salary[1].textContent = workTypeLabel[f.work_type ?? 'onsite']; }
@@ -204,11 +210,41 @@ export async function setupPosting() {
       }
     }
     // Quality score (client-side guidance only)
-    const checks = [f.title.length >= 10, (f.description ?? "").length >= 50, !!(f.stipend_min || f.stipend_max), tagTexts(skillsHost).length > 0, (f.perks ?? []).length > 0, questions.length > 0, !!f.address];
-    const score = Math.round(100 * checks.filter(Boolean).length / checks.length);
+    const checks: [boolean, string][] = [
+      [f.title.length >= 10, 'Chức danh rõ ràng (từ 10 ký tự)'],
+      [(f.description ?? '').length >= 50, 'Mô tả công việc đủ chi tiết (từ 50 ký tự)'],
+      [!!(f.stipend_min || f.stipend_max), 'Có khoảng phụ cấp thực tập rõ ràng'],
+      [tagTexts(skillsHost).length > 0, 'Đã thêm kỹ năng chuyên môn yêu cầu'],
+      [(f.perks ?? []).length > 0, 'Đã chọn đặc quyền cho thực tập sinh'],
+      [questions.length > 0, 'Có câu hỏi sàng lọc ứng viên'],
+      [!!f.address, 'Có địa chỉ làm việc thực tế'],
+    ];
+    const done = checks.filter(c => c[0]).length;
+    const score = Math.round(100 * done / checks.length);
     const gauge = [...document.querySelectorAll('aside svg + span')].find(Boolean) as HTMLElement | undefined;
     if (gauge) gauge.firstChild!.textContent = String(score);
     document.querySelectorAll<SVGPathElement>('aside svg path[stroke-dasharray]').forEach(p => p.setAttribute('stroke-dasharray', `${score}, 100`));
+    const scoreWidget = preview?.children[1] as HTMLElement | undefined;
+    if (scoreWidget) {
+      const rank = scoreWidget.firstElementChild?.lastElementChild as HTMLElement | null;
+      if (rank) rank.textContent = score >= 85 ? 'Hạng Tốt' : score >= 55 ? 'Hạng Khá' : 'Cần bổ sung';
+      const summary = scoreWidget.children[1]?.lastElementChild?.children;
+      if (summary?.length === 2) {
+        summary[0].textContent = done === checks.length ? 'Tin đã sẵn sàng hút ứng viên' : `Còn ${checks.length - done} mục nên bổ sung`;
+        summary[1].textContent = 'Gợi ý tham khảo, không ảnh hưởng đến kiểm duyệt';
+      }
+      const tips = scoreWidget.children[2] as HTMLElement | undefined;
+      const tipTemplate = tips?.firstElementChild as HTMLElement | null;
+      if (tips && tipTemplate) tips.replaceChildren(...checks.map(([ok, text]) => {
+        const row = tipTemplate.cloneNode(true) as HTMLElement;
+        const [icon, label] = [...row.children] as HTMLElement[];
+        icon.textContent = ok ? 'check_circle' : 'radio_button_unchecked';
+        icon.classList.toggle('text-tertiary', ok); icon.classList.toggle('text-on-surface-variant', !ok);
+        row.classList.toggle('text-on-surface', ok); row.classList.toggle('text-on-surface-variant', !ok);
+        label.textContent = text;
+        return row;
+      }));
+    }
   }
 
   // --- Save / submit ------------------------------------------------------------------------

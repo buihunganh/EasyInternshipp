@@ -58,4 +58,8 @@ async function main() {
   document.body.dataset.ready = 'true';   // tests wait for this
 }
 
-main().catch(error => console.error(error));
+main().catch(error => {
+  console.error(error);
+  // Reveal the page (app.css hides data pages until data-ready) without signalling success to the tests
+  document.body.dataset.ready = 'error';
+});

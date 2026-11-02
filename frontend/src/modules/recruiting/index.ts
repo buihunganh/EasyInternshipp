@@ -13,6 +13,6 @@ export const recruiting: FeatureModule = {
     if (page === 'employer') await setupDashboard();
     else if (page === 'post-job') await setupPosting();
     else if (page === 'company-settings') await setupCompanySettings();
-    else setupCandidates();
+    else await setupCandidates();
   },
 };

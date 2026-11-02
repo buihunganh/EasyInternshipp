@@ -10,6 +10,7 @@ import { showError } from '../../core/errors';
 import { formatDate, relativeTime } from '../../core/format';
 import { el, stateBlock } from '../../core/render';
 import { initialsAvatar } from '../../core/layout/siteHeader';
+import { profileCompleteness } from '../../core/profileCompleteness';
 import type { CvContent } from '../../core/models';
 import {
   addSkill, cvFileUrl, getMyProfile, listUniversities, myCvs, recentApplications, removeSkill, requestVerification,
@@ -29,22 +30,15 @@ const setIconText = (node: Element | null | undefined, text: string) => {
 
 /** Profile completeness (client-side guidance only). */
 export function completeness(me: MyProfile, cv: CvRow | undefined) {
-  const s = me.student;
-  const checks: [boolean, string][] = [
-    [!!me.profile.avatar_path, 'Thêm ảnh đại diện'], [!!s?.headline, 'Thêm tiêu đề hồ sơ'], [(s?.bio ?? '').length >= 50, 'Viết giới thiệu bản thân (≥ 50 ký tự)'],
-    [!!s?.university_id, 'Chọn trường'], [!!s?.student_code, 'Nhập MSSV'], [!!s?.major, 'Nhập chuyên ngành'], [s?.gpa != null, 'Nhập GPA'],
-    [me.skills.length >= 3, 'Thêm ít nhất 3 kỹ năng'], [!!cv, 'Tạo CV'], [!!(s?.links as Record<string, string> | null)?.github || !!(s?.links as Record<string, string> | null)?.linkedin, 'Thêm liên kết GitHub/LinkedIn'],
-    [s?.verification_status === 'verified', 'Xác thực tài khoản sinh viên'],
-  ];
-  const done = checks.filter(([ok]) => ok).length;
-  return { percent: Math.round(100 * done / checks.length), next: checks.find(([ok]) => !ok)?.[1] ?? null };
+  return profileCompleteness({ avatar_path: me.profile.avatar_path, student: me.student, skillCount: me.skills.length, hasCv: !!cv });
 }
 
 export async function setupProfilePage() {
   let me: MyProfile, cvs: CvRow[];
+  const universitiesLoad = listUniversities().catch(() => []);   // fetched in parallel with the profile
   try { [me, cvs] = await Promise.all([getMyProfile(), myCvs()]); }
   catch (error) { showError(error); return; }
-  const universities = await listUniversities().catch(() => []);
+  const universities = await universitiesLoad;
 
   // List templates from the design markup, captured on the first render (lists are replaced afterwards)
   let projectTemplate: HTMLElement | undefined, activityTemplate: HTMLElement | undefined, skillChip: HTMLElement | undefined, courseChip: HTMLElement | undefined;

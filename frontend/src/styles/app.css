@@ -201,3 +201,9 @@ body[data-page=jobs] .home-feed article{min-width:0;overflow-wrap:anywhere}
 @media(min-width:1200px){body[data-page=jobs] .home-layout{grid-template-columns:240px minmax(0,1fr) 300px}body[data-page=jobs] .home-discovery{grid-column:auto;display:flex}}
 @media(min-width:1200px) and (min-height:850px){body[data-page=jobs] .home-discovery{position:sticky;top:88px}}
 @media(max-width:767px){body[data-page=jobs] .home-container{padding:20px 16px}.home-layout{gap:20px}}
+/* Pages whose design HTML holds placeholder data (e.g. "Nguyễn Minh Thư") stay hidden until main.ts has
+   rendered the real data and set body[data-ready]; this avoids a flash of demo content. */
+:is(body[data-page=jobs],body[data-page=profile],body[data-page=cv-builder],body[data-page=job-detail],body[data-page=company],body[data-page=employer],body[data-page=candidates],body[data-page=messages]):not([data-ready]) main{visibility:hidden}
+:is(body[data-page=jobs],body[data-page=profile],body[data-page=cv-builder],body[data-page=job-detail],body[data-page=company],body[data-page=employer],body[data-page=candidates],body[data-page=messages]):not([data-ready])::after{content:"";position:fixed;top:50%;left:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border:3px solid #dbe1ff;border-top-color:var(--ui-primary,#3f5baa);border-radius:50%;animation:app-page-spin .8s linear infinite;z-index:100}
+@keyframes app-page-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){body::after{animation-duration:2.4s}}
