@@ -8,6 +8,8 @@ import { listSavedJobs, setJobSaved } from '../../core/accountApi';
 import { showError } from '../../core/errors';
 import { formatDate, formatDateTime, formatVnd, relativeTime, workTypeLabel } from '../../core/format';
 import { el, stateBlock } from '../../core/render';
+import { publicUrl } from '../../core/supabase';
+import { initialsAvatar } from '../../core/layout/siteHeader';
 import {
   createAlert, deleteAlert, listAlerts, listApplications, listIndustries, offerLetterUrl, respondInterview, respondOffer,
   setAlertActive, statusHistory, withdraw, type MyApplication,
@@ -21,7 +23,15 @@ const underReview = ['applied', 'cv_viewed', 'shortlisted', 'interviewing'];
 const closed = ['hired', 'rejected', 'withdrawn', 'offer_declined'];
 const rsvpLabel: Record<string, string> = { pending: 'Chờ bạn xác nhận', accepted: 'Bạn đã xác nhận', reschedule_requested: 'Bạn đã đề xuất đổi lịch', declined: 'Bạn đã từ chối' };
 const modeLabel: Record<string, string> = { online: 'Trực tuyến', onsite: 'Tại văn phòng', phone: 'Qua điện thoại' };
-const chip = (status: string, text: string) => el('span', { className: `ei-chip ei-chip-${status}` }, text);
+const chipKind: Record<string, string> = { applied: 'neutral', cv_viewed: 'accent', shortlisted: 'accent', interviewing: 'accent', offered: 'success', hired: 'success', rejected: 'danger', withdrawn: 'neutral', offer_declined: 'neutral', active: 'success', paused: 'neutral' };
+const chip = (status: string, text: string) => el('span', { className: `ui-chip ui-chip--${chipKind[status] ?? 'neutral'}` }, text);
+/** initialsAvatar takes the last two words: feed it the first two words that start with a letter, punctuation stripped */
+const companyInitialsName = (name = '') => name.split(/\s+/).map(w => w.replace(/^[^\p{L}\p{N}]+/u, '')).filter(w => /^\p{L}/u.test(w)).slice(0, 2).join(' ') || '?';
+const icon = (name: string) => el('span', { className: 'material-symbols-outlined' }, name);
+const emptyState = (iconName: string, title: string, cta?: HTMLElement) =>
+  el('li', { className: 'ui-empty', role: 'status' }, el('span', { className: 'ui-empty__icon' }, icon(iconName)), el('h3', {}, title), ...(cta ? [cta] : []));
+const skeletonRows = (n = 3) => Array.from({ length: n }, () => el('li', { className: 'apps-skeleton', 'aria-hidden': 'true' },
+  el('span', { className: 'ui-skeleton ui-skeleton--logo' }), el('span', { className: 'apps-skeleton__text' }, el('span', { className: 'ui-skeleton ui-skeleton--title' }), el('span', { className: 'ui-skeleton ui-skeleton--text' }))));
 const localInputValue = (d: Date) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
 export async function setupApplicationsPage() {
@@ -46,38 +56,48 @@ export async function setupApplicationsPage() {
 
   // --- Applications ---------------------------------------------------------------------------
   async function load() {
-    list.replaceChildren(stateBlock('loading'));
+    list.replaceChildren(...skeletonRows());
     try { apps = await listApplications(); render(); }
     catch (error) { list.replaceChildren(stateBlock('error', undefined, () => void load())); showError(error); }
   }
 
+  const matches = (a: MyApplication, f: string) => !f || (f === 'active' ? underReview.includes(a.status) : f === 'closed' ? closed.includes(a.status) : a.status === f);
+  const pills = [...document.querySelectorAll<HTMLButtonElement>('#app-pills [data-filter]')];
+  pills.forEach(p => bind(p, () => { filter.value = p.dataset.filter ?? ''; render(); }));
+
   function render() {
     document.getElementById('count-applications')!.textContent = String(apps.length);
     const f = filter.value;
-    const visible = apps.filter(a => !f || (f === 'active' ? underReview.includes(a.status) : f === 'closed' ? closed.includes(a.status) : a.status === f));
+    pills.forEach(p => { p.setAttribute('aria-pressed', String((p.dataset.filter ?? '') === f)); p.querySelector('.apps-pill__n')!.textContent = String(apps.filter(a => matches(a, p.dataset.filter ?? '')).length); });
+    const visible = apps.filter(a => matches(a, f));
+    pills.forEach(p => { p.hidden = !apps.length; });
     if (!apps.length) {
-      list.replaceChildren(el('li', { className: 'app-state' }, el('p', {}, 'Bạn chưa nộp đơn ứng tuyển nào.'), el('a', { className: 'ei-button ei-button-primary', href: routes.jobs }, 'Tìm việc ngay')));
+      list.replaceChildren(emptyState('work', 'Bạn chưa nộp đơn ứng tuyển nào.', el('a', { className: 'ui-btn ui-btn--primary ui-btn--md', href: routes.jobs }, 'Tìm việc ngay')));
       return;
     }
-    list.replaceChildren(...(visible.length ? visible.map(item) : [stateBlock('empty', 'Không có đơn nào ở trạng thái này.')]));
+    list.replaceChildren(...(visible.length ? visible.map(item) : [emptyState('filter_list', 'Không có đơn nào ở trạng thái này.')]));
   }
 
   function item(app: MyApplication) {
-    const job = app.job as { id: string; title: string; city: string | null; status: string; company: { id: string; name: string } | null } | null;
+    const job = app.job as { id: string; title: string; city: string | null; status: string; company: { id: string; name: string; logo_path: string | null } | null } | null;
     const interviews = [...(app.interviews ?? [])].sort((a, b) => b.round - a.round);
     const offers = [...(app.offers ?? [])].sort((a, b) => b.sent_at.localeCompare(a.sent_at));
-    const badges = el('div', { className: 'apps-badges' }, chip(app.status, applicationStatusLabel[app.status] ?? app.status));
-    if (app.viewed_at && app.status !== 'cv_viewed') badges.append(chip('cv_viewed', 'NTD đã xem CV'));
+    const next = el('p', { className: 'apps-next' });
+    if (app.viewed_at && app.status !== 'cv_viewed') next.append(el('span', {}, icon('visibility'), 'NTD đã xem CV'));
     const pendingInterview = interviews.find(i => i.status === 'scheduled' && i.rsvp === 'pending' && new Date(i.scheduled_at) > new Date());
-    if (pendingInterview) badges.append(chip('interviewing', 'Cần xác nhận lịch phỏng vấn'));
-    if (offers.some(o => o.status === 'sent')) badges.append(chip('offered', 'Thư mời chờ phản hồi'));
+    if (pendingInterview) next.append(el('span', { className: 'is-action' }, icon('event'), 'Cần xác nhận lịch phỏng vấn'));
+    if (offers.some(o => o.status === 'sent')) next.append(el('span', { className: 'is-action' }, icon('mail'), 'Thư mời chờ phản hồi'));
 
-    const toggle = el('button', { type: 'button', className: 'ei-button', 'aria-expanded': String(opened.has(app.id)) }, opened.has(app.id) ? 'Thu gọn' : 'Xem chi tiết');
-    const head = el('div', { className: 'apps-item-head' },
-      el('div', {},
-        el('h3', {}, job ? el('a', { href: jobHref(job.id) }, job.title) : 'Tin tuyển dụng đã gỡ'),
-        el('p', { className: 'ei-muted' }, job?.company ? el('a', { href: companyHref(job.company.id) }, job.company.name) : '', ` · Nộp ${formatDate(app.applied_at)} · cập nhật ${relativeTime(app.status_changed_at)}`)),
-      el('div', { className: 'apps-badges' }, badges, toggle));
+    const toggle = el('button', { type: 'button', className: 'ui-btn ui-btn--tertiary ui-btn--sm', 'aria-expanded': String(opened.has(app.id)) }, opened.has(app.id) ? 'Thu gọn' : 'Xem chi tiết');
+    const company = job?.company;
+    const logo = el('img', { className: 'ui-logo', src: publicUrl('company-assets', company?.logo_path) || initialsAvatar(companyInitialsName(company?.name)), alt: '', width: 48, height: 48 });
+    const head = el('div', { className: 'apps-item-head' }, logo,
+      el('div', { className: 'apps-item-body' },
+        el('h3', { className: 'ui-row__title' }, job ? el('a', { href: jobHref(job.id) }, job.title) : 'Tin tuyển dụng đã gỡ'),
+        company ? el('p', { className: 'ui-row__subtitle' }, el('a', { href: companyHref(company.id) }, company.name)) : null,
+        el('p', { className: 'ui-meta' }, el('span', {}, `Nộp ${formatDate(app.applied_at)}`), el('span', {}, `cập nhật ${relativeTime(app.status_changed_at)}`)),
+        next.childElementCount ? next : null),
+      el('div', { className: 'apps-item-side' }, chip(app.status, applicationStatusLabel[app.status] ?? app.status), toggle));
     const detail = el('div', { className: 'apps-detail', hidden: !opened.has(app.id) });
     const li = el('li', { className: 'apps-item', id: `application-${app.id}`, 'data-application-id': app.id } as never, head, detail);
     bind(toggle, () => {
@@ -103,13 +123,13 @@ export async function setupApplicationsPage() {
         el('p', { className: 'ei-muted' }, offer.status === 'sent' ? `Hạn phản hồi: ${formatDateTime(offer.expires_at)}` : offer.status === 'accepted' ? 'Bạn đã chấp nhận thư mời.' : `Bạn đã từ chối${offer.response_note ? `: ${offer.response_note}` : ''}.`));
       const actions = el('div', { className: 'ei-actions' });
       if (offer.letter_path) {
-        const letter = el('button', { type: 'button', className: 'ei-button' }, 'Xem thư mời (PDF)');
+        const letter = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, 'Xem thư mời (PDF)');
         bind(letter, async () => { try { window.open(await offerLetterUrl(offer.letter_path!), '_blank', 'noopener'); } catch (error) { showError(error); } });
         actions.append(letter);
       }
       if (offer.status === 'sent' && new Date(offer.expires_at) > new Date()) {
-        const accept = el('button', { type: 'button', className: 'ei-button ei-button-primary' }, 'Chấp nhận offer');
-        const decline = el('button', { type: 'button', className: 'ei-button ei-button-danger' }, 'Từ chối');
+        const accept = el('button', { type: 'button', className: 'ui-btn ui-btn--primary ui-btn--sm' }, 'Chấp nhận offer');
+        const decline = el('button', { type: 'button', className: 'ui-btn ui-btn--danger ui-btn--sm' }, 'Từ chối');
         bind(accept, () => dialog('Chấp nhận thư mời?', '<p>Đơn ứng tuyển sẽ chuyển sang "Đã nhận việc". Các nhà tuyển dụng khác không bị ảnh hưởng.</p>', 'Chấp nhận', async () => {
           await respondOffer(offer.id, true, null); toast('Chúc mừng! Bạn đã nhận việc.'); await load();
         }, { keepOpen: true }));
@@ -131,9 +151,9 @@ export async function setupApplicationsPage() {
         el('p', { className: 'ei-muted' }, iv.status !== 'scheduled' ? ({ completed: 'Đã phỏng vấn', cancelled: 'Đã hủy', no_show: 'Vắng mặt' } as Record<string, string>)[iv.status] ?? iv.status
           : `${rsvpLabel[iv.rsvp] ?? iv.rsvp}${iv.proposed_at ? ` · đề xuất ${formatDateTime(iv.proposed_at)}` : ''}${iv.rsvp_note ? ` · "${iv.rsvp_note}"` : ''}`));
       if (upcoming && iv.rsvp !== 'declined') {
-        const accept = el('button', { type: 'button', className: 'ei-button ei-button-primary' }, 'Xác nhận tham gia');
-        const propose = el('button', { type: 'button', className: 'ei-button' }, 'Đề xuất giờ khác');
-        const decline = el('button', { type: 'button', className: 'ei-button ei-button-danger' }, 'Từ chối');
+        const accept = el('button', { type: 'button', className: 'ui-btn ui-btn--primary ui-btn--sm' }, 'Xác nhận tham gia');
+        const propose = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, 'Đề xuất giờ khác');
+        const decline = el('button', { type: 'button', className: 'ui-btn ui-btn--danger ui-btn--sm' }, 'Từ chối');
         bind(accept, async () => { try { await respondInterview(iv.id, 'accepted', null, null); toast('Đã xác nhận lịch phỏng vấn.'); await load(); } catch (error) { showError(error); } });
         bind(propose, () => dialog('Đề xuất thời gian khác', `<label>Thời gian đề xuất<input type="datetime-local" name="when" required min="${localInputValue(new Date(Date.now() + 3600000))}"></label><label>Ghi chú<textarea name="note" maxlength="500" placeholder="VD: Em có lịch thi buổi sáng"></textarea></label>`, 'Gửi đề xuất', async form => {
           const when = (form.elements.namedItem('when') as HTMLInputElement).value;
@@ -162,7 +182,7 @@ export async function setupApplicationsPage() {
 
     // Withdraw (only while under review, BR-27)
     if (underReview.includes(app.status)) {
-      const button = el('button', { type: 'button', className: 'ei-button ei-button-danger' }, 'Rút đơn ứng tuyển');
+      const button = el('button', { type: 'button', className: 'ui-btn ui-btn--danger ui-btn--sm' }, 'Rút đơn ứng tuyển');
       bind(button, () => dialog('Rút đơn ứng tuyển?', '<p>Nhà tuyển dụng sẽ được thông báo. Bạn không thể nộp lại cho vị trí này.</p><label>Lý do (không bắt buộc)<textarea name="reason" maxlength="1000"></textarea></label>', 'Rút đơn', async form => {
         await withdraw(app.id, (form.elements.namedItem('reason') as HTMLTextAreaElement).value.trim()); toast('Đã rút đơn ứng tuyển.'); await load();
       }, { keepOpen: true }));
@@ -179,14 +199,17 @@ export async function setupApplicationsPage() {
     try {
       const saved = await listSavedJobs();
       document.getElementById('count-saved')!.textContent = String(saved.length);
-      if (!saved.length) { box.replaceChildren(el('li', { className: 'app-state' }, el('p', {}, 'Chưa có việc làm đã lưu.'), el('a', { className: 'ei-button', href: routes.jobs }, 'Khám phá việc làm'))); return; }
+      if (!saved.length) { box.replaceChildren(emptyState('bookmark', 'Chưa có việc làm đã lưu.', el('a', { className: 'ui-btn ui-btn--secondary ui-btn--md', href: routes.jobs }, 'Khám phá việc làm'))); return; }
       box.replaceChildren(...saved.map(s => {
-        const remove = el('button', { type: 'button', className: 'ei-button' }, 'Bỏ lưu');
+        const remove = el('button', { type: 'button', className: 'ui-btn ui-btn--tertiary ui-btn--sm' }, 'Bỏ lưu');
         bind(remove, async () => { try { await setJobSaved(s.job_id, false); await loadSaved(); } catch (error) { showError(error); } });
         const active = s.job?.status === 'active';
-        return el('li', { className: 'ei-row' },
-          el('span', {}, el('a', { href: jobHref(s.job_id) }, el('strong', {}, s.job?.title ?? 'Tin đã gỡ')), el('br'), el('small', { className: 'ei-muted' }, `${s.job?.company?.name ?? ''} · lưu ${relativeTime(s.created_at)}${active ? '' : ' · không còn nhận hồ sơ'}`)),
-          remove);
+        return el('li', { className: 'ui-row apps-row' },
+          el('div', { className: 'ui-row__body' },
+            el('h3', { className: 'ui-row__title' }, el('a', { href: jobHref(s.job_id) }, s.job?.title ?? 'Tin đã gỡ')),
+            el('p', { className: 'ui-row__subtitle' }, s.job?.company?.name ?? ''),
+            el('p', { className: 'ui-meta' }, el('span', {}, `Lưu ${relativeTime(s.created_at)}`), ...(active ? [] : [el('span', {}, 'không còn nhận hồ sơ')]))),
+          el('div', { className: 'ui-row__actions' }, remove));
       }));
     } catch (error) { showError(error, box); }
   }
@@ -199,17 +222,18 @@ export async function setupApplicationsPage() {
     try {
       const alerts = await listAlerts();
       document.getElementById('count-alerts')!.textContent = String(alerts.length);
-      if (!alerts.length) { box.replaceChildren(el('li', { className: 'ei-muted' }, 'Chưa có thông báo việc làm.')); return; }
+      if (!alerts.length) { box.replaceChildren(emptyState('notifications_active', 'Chưa có thông báo việc làm.')); return; }
       box.replaceChildren(...alerts.map(a => {
-        const toggle = el('button', { type: 'button', className: 'ei-button' }, a.is_active ? 'Tạm dừng' : 'Bật lại');
-        const remove = el('button', { type: 'button', className: 'ei-button ei-button-danger' }, 'Xóa');
+        const toggle = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, a.is_active ? 'Tạm dừng' : 'Bật lại');
+        const remove = el('button', { type: 'button', className: 'ui-btn ui-btn--danger ui-btn--sm' }, 'Xóa');
         bind(toggle, async () => { try { await setAlertActive(a.id, !a.is_active); await loadAlerts(); } catch (error) { showError(error); } });
         bind(remove, async () => { try { await deleteAlert(a.id); await loadAlerts(); } catch (error) { showError(error); } });
         const criteria = [a.keywords, a.city, industries.find(i => i.id === a.industry_id)?.name, a.work_type ? workTypeLabel[a.work_type] : '', a.min_stipend ? `từ ${a.min_stipend / 1e6} triệu` : ''].filter(Boolean).join(' · ') || 'Mọi tin mới';
-        return el('li', { className: 'ei-row' },
-          el('span', {}, el('strong', {}, a.name), ' ', chip(a.is_active ? 'active' : 'paused', a.is_active ? 'Đang bật' : 'Tạm dừng'), el('br'),
-            el('small', { className: 'ei-muted' }, `${criteria} · ${({ daily: 'hằng ngày', weekly: 'hằng tuần', instant: 'ngay khi có tin' } as Record<string, string>)[a.frequency]}`)),
-          el('span', { className: 'ei-actions' }, toggle, remove));
+        return el('li', { className: 'ui-row apps-row' },
+          el('div', { className: 'ui-row__body' },
+            el('h3', { className: 'ui-row__title' }, a.name, ' ', chip(a.is_active ? 'active' : 'paused', a.is_active ? 'Đang bật' : 'Tạm dừng')),
+            el('p', { className: 'ui-row__subtitle' }, `${criteria} · ${({ daily: 'hằng ngày', weekly: 'hằng tuần', instant: 'ngay khi có tin' } as Record<string, string>)[a.frequency]}`)),
+          el('div', { className: 'ui-row__actions' }, toggle, remove));
       }));
     } catch (error) { showError(error, box); }
   }

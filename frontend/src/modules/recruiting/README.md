@@ -6,10 +6,11 @@
 |---|---|
 | `index.ts` | `shortcuts`; `controls` → dashboard / posting / company settings / candidates |
 | `api.ts` | company (create, update, logo/cover, documents, verification, members), jobs (list, stats, lifecycle RPCs, save, skills, questions), today's interviews |
-| `dashboard.ts` | employer dashboard: KPIs, status tabs, job cards with pause / resume / close / duplicate / delete / submit, CSV export, today's interviews |
+| `dashboard.ts` | employer dashboard (own markup, ids `employer-*`): stat strip, pill filters, job table rows (`[data-job-id]`) with pause / resume / close / duplicate / delete / submit, CSV export, today's interviews |
 | `posting.ts` | post-job form → draft insert/update, `ensure_skill` skills, screening questions + answer keys, `submit_job`, rejection reason, live-edit warning, live preview, quality score |
 | `companySettings.ts` + `company-settings.css` | create/edit company, page content (`companies.profile`), GPKD upload + `submit_company_verification`, team members |
-| `pipeline.ts` + `candidates.css` | candidate board — **still demo data** (Phase 7) |
+| `pipeline.ts` + `candidates.css` | candidate board — real ATS pipeline (Phase 7): KPI tiles count by kanban column name, drawer actions, scorecards, offers, talent search, CSV export |
+| `recruiting.css` | UI refresh styles: employer dashboard (`rc-*` classes, stat strip, job table) and post-job restyle; linked from employer and post-job |
 | `shortcuts.ts` | "Xem CV" preview, "Chat 1-1", applicant links |
 
 **Data:** `companies`, `company_members`, `company_documents` (+ storage `company-documents/<company_id>/`, `company-assets/<company_id>/`), `jobs`, `job_skills`, `screening_questions` / `screening_question_keys`, `applications` (counts), RPC `company_interviews`.

@@ -1,0 +1,26 @@
+/* /pages/notifications/ (notifications module): one card, hairline rows, unread = soft accent background + dot. */
+[hidden]{display:none!important}
+body[data-page=notifications] .site-header button{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer}
+.notif-col{max-width:760px;width:100%;margin:0 auto}
+.notif-head{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:var(--ui-space-3);padding:var(--ui-space-4)}
+.notif-eyebrow{display:block;font-size:var(--ui-text-xs);font-weight:500;color:var(--ui-faint)}
+.notif-head h1{margin:2px 0 0;font-size:var(--ui-text-2xl);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--ui-text)}
+.notif-head p{margin:var(--ui-space-1) 0 0;font-size:var(--ui-text-sm);color:var(--ui-muted)}
+.ui-card--flush>.ui-tabs{padding:0 var(--ui-space-2);border-top:1px solid var(--ui-border)}
+.ui-card--flush>.ui-list{border-top:0}
+.notif{align-items:flex-start;cursor:pointer;border-top:0}
+.notif:focus-visible{outline:0;box-shadow:inset var(--ui-focus)}
+.notif__icon{background:var(--ui-sunken);color:var(--ui-muted)}
+.notif__icon .material-symbols-outlined{font-size:20px}
+.notif.is-unread{background:var(--ui-primary-soft)}
+.notif.is-unread:hover{background:var(--ui-primary-soft);box-shadow:inset 0 0 0 1px var(--ui-border)}
+.notif.is-unread .notif__icon{background:var(--ui-surface);color:var(--ui-primary)}
+.notif__title{margin:0;font-size:var(--ui-text-sm);font-weight:500;line-height:1.4;color:var(--ui-text)}
+.notif.is-unread .notif__title{font-weight:600}
+.notif .ui-row__subtitle{font-size:var(--ui-text-sm)}
+.notif__dot{align-self:center;flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--ui-primary)}
+.notif-skeleton{display:flex;align-items:center;gap:var(--ui-space-3);padding:var(--ui-space-3) var(--ui-space-4)}
+.notif-skeleton>span:last-child{flex:1;display:grid;gap:var(--ui-space-2)}
+.notif-skeleton .ui-skeleton--text{width:75%}
+#notifications-list>.ui-empty{padding:var(--ui-space-8) var(--ui-space-4)}
+@media(max-width:767px){.notif-col{max-width:none}.notif-head h1{font-size:var(--ui-text-xl)}}

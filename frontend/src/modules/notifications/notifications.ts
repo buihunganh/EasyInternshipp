@@ -1,6 +1,6 @@
 import { listAllNotifications, markNotificationsRead, unreadNotificationCount } from '../../core/accountApi';
 import { relativeTime } from '../../core/format';
-import { el, showState } from '../../core/render';
+import { el } from '../../core/render';
 import { showError } from '../../core/errors';
 import { bind } from '../../core/ui/actions';
 import { toast } from '../../core/ui/feedback';
@@ -28,40 +28,31 @@ export function setupNotifications() {
     verification: 'verified',
   };
 
+  const icon = (name: string) => el('span', { className: 'material-symbols-outlined' }, name);
+  const skeletons = () => Array.from({ length: 4 }, () => el('li', { className: 'notif-skeleton', 'aria-hidden': 'true' },
+    el('span', { className: 'ui-skeleton ui-skeleton--avatar' }), el('span', {}, el('span', { className: 'ui-skeleton ui-skeleton--title' }), el('span', { className: 'ui-skeleton ui-skeleton--text' }))));
+
   async function render() {
-    showState(listEl, 'loading', 'Đang tải thông báo...');
+    listEl.replaceChildren(...skeletons());
     try {
       const items = await listAllNotifications(unreadOnly);
       listEl.replaceChildren();
 
       if (!items.length) {
-        showState(listEl, 'empty', unreadOnly ? 'Không có thông báo chưa đọc nào.' : 'Bạn chưa có thông báo nào.');
+        listEl.append(el('li', { className: 'ui-empty', role: 'status' }, el('span', { className: 'ui-empty__icon' }, icon('notifications')),
+          el('h3', {}, unreadOnly ? 'Không có thông báo chưa đọc nào.' : 'Bạn chưa có thông báo nào.')));
         return;
       }
 
       items.forEach(n => {
         const isUnread = !n.read_at;
-        const iconName = iconMap[n.type] || 'notifications';
-
-        const li = el('li', {
-          className: `ei-list-row cursor-pointer transition-all ${isUnread ? 'bg-primary/5 font-medium' : ''}`,
-          tabIndex: 0,
-          role: 'button',
-        },
-          el('div', { className: 'flex items-start gap-3 w-full p-2' },
-            el('div', { className: `w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isUnread ? 'bg-primary/10 text-primary' : 'bg-surface-container text-on-surface-variant'}` },
-              el('span', { className: 'material-symbols-outlined text-[20px]' }, iconName)
-            ),
-            el('div', { className: 'flex-1 min-w-0' },
-              el('div', { className: 'flex items-center justify-between gap-2' },
-                el('h3', { className: `font-label-md text-[14px] ${isUnread ? 'text-primary font-bold' : 'text-on-surface'}` }, n.title),
-                el('span', { className: 'text-[12px] text-on-surface-variant shrink-0' }, relativeTime(n.created_at))
-              ),
-              n.body ? el('p', { className: 'text-[13px] text-on-surface-variant mt-0.5' }, n.body) : null
-            ),
-            isUnread ? el('span', { className: 'w-2 h-2 rounded-full bg-primary shrink-0 self-center' }) : null
-          )
-        );
+        const li = el('li', { className: `ui-row notif${isUnread ? ' is-unread' : ''}`, tabIndex: 0, role: 'button' },
+          el('span', { className: 'ui-avatar notif__icon' }, icon(iconMap[n.type] || 'notifications')),
+          el('div', { className: 'ui-row__body' },
+            el('h3', { className: 'notif__title' }, n.title),
+            n.body ? el('p', { className: 'ui-row__subtitle' }, n.body) : null,
+            el('span', { className: 'ui-meta' }, relativeTime(n.created_at))),
+          isUnread ? el('span', { className: 'notif__dot', 'aria-label': 'Chưa đọc' }) : null);
 
         bind(li, async () => {
           try {
@@ -99,19 +90,14 @@ export function setupNotifications() {
   }
 
   if (tabAll && tabUnread) {
-    bind(tabAll, () => {
-      unreadOnly = false;
-      tabAll.classList.add('ei-button-primary');
-      tabUnread.classList.remove('ei-button-primary');
+    const select = (unread: boolean) => {
+      unreadOnly = unread;
+      tabAll.setAttribute('aria-selected', String(!unread));
+      tabUnread.setAttribute('aria-selected', String(unread));
       void render();
-    });
-
-    bind(tabUnread, () => {
-      unreadOnly = true;
-      tabUnread.classList.add('ei-button-primary');
-      tabAll.classList.remove('ei-button-primary');
-      void render();
-    });
+    };
+    bind(tabAll, () => select(false));
+    bind(tabUnread, () => select(true));
   }
 
   void render();

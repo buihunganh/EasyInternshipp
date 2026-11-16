@@ -1,0 +1,422 @@
+/* accounts.css — module styles for login, register, reset-password pages.
+   Uses only var(--ui-*) tokens; module-prefixed classes. */
+
+/* ── Auth page canvas ────────────────────────────────────────────── */
+.accounts-page {
+  min-height: 100vh;
+  background: var(--ui-page);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Minimal header for auth pages ───────────────────────────────── */
+.accounts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ui-space-4) var(--ui-space-6);
+  background: var(--ui-surface);
+  border-bottom: 1px solid var(--ui-border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--ui-header-h);
+  box-sizing: border-box;
+}
+.accounts-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  text-decoration: none;
+  color: var(--ui-text);
+  flex-shrink: 0;
+}
+.accounts-header__brand img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+.accounts-header__wordmark {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ui-text);
+  letter-spacing: -0.01em;
+}
+.accounts-header__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-4);
+}
+.accounts-header__link {
+  font-size: var(--ui-text-sm);
+  font-weight: 500;
+  color: var(--ui-muted);
+  text-decoration: none;
+  transition: color var(--ui-fast) var(--ui-ease);
+}
+.accounts-header__link:hover { color: var(--ui-text); }
+
+/* ── Auth card (centered white card) ─────────────────────────────── */
+.accounts-canvas {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--ui-header-h) + var(--ui-space-6)) var(--ui-space-4) var(--ui-space-6);
+}
+.accounts-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--ui-surface);
+  border-radius: var(--ui-radius-card);
+  box-shadow: var(--ui-shadow-card);
+  padding: var(--ui-space-6) var(--ui-space-7);
+  box-sizing: border-box;
+}
+@media (max-width: 480px) {
+  .accounts-card { padding: var(--ui-space-6) var(--ui-space-4); max-width: 100%; border-radius: 0; box-shadow: none; }
+  .accounts-canvas { padding-top: calc(var(--ui-header-h) + var(--ui-space-3)); align-items: flex-start; }
+}
+
+.accounts-card__title {
+  margin: 0 0 var(--ui-space-2);
+  font-size: var(--ui-text-2xl);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ui-text);
+}
+.accounts-card__subtitle {
+  margin: 0 0 var(--ui-space-5);
+  font-size: var(--ui-text-sm);
+  color: var(--ui-muted);
+  line-height: 1.5;
+}
+
+/* ── Form fields ─────────────────────────────────────────────────── */
+.accounts-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1);
+  margin-bottom: var(--ui-space-4);
+}
+.accounts-field label {
+  font-size: var(--ui-text-sm);
+  font-weight: 500;
+  color: var(--ui-text);
+}
+.accounts-field label .accounts-required { color: var(--ui-danger); }
+.accounts-field__input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.accounts-field__input-wrap .material-symbols-outlined {
+  position: absolute;
+  left: var(--ui-space-3);
+  font-size: 20px;
+  color: var(--ui-muted);
+  pointer-events: none;
+}
+.accounts-field input,
+.accounts-field select {
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--ui-space-4);
+  border: 1px solid var(--ui-border-strong);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-surface);
+  font: inherit;
+  font-size: var(--ui-text-sm);
+  color: var(--ui-text);
+  box-sizing: border-box;
+  transition: border-color var(--ui-fast) var(--ui-ease), box-shadow var(--ui-fast) var(--ui-ease);
+}
+.accounts-field input:focus,
+.accounts-field select:focus {
+  outline: none;
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 2px var(--ui-primary-soft);
+}
+.accounts-field input.accounts-has-icon,
+.accounts-field select.accounts-has-icon {
+  padding-left: 40px;
+}
+.accounts-field__hint {
+  margin: var(--ui-space-1) 0 0;
+  font-size: var(--ui-text-xs);
+  line-height: 1.5;
+  color: var(--ui-muted);
+}
+.accounts-field__hint strong { color: var(--ui-text); font-weight: 600; }
+
+/* ── Role selector (segmented) ───────────────────────────────────── */
+.accounts-role-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ui-space-1);
+  padding: var(--ui-space-1);
+  background: var(--ui-sunken);
+  border-radius: var(--ui-radius-card);
+  margin-bottom: var(--ui-space-5);
+}
+.accounts-role-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--ui-space-2) var(--ui-space-1);
+  border-radius: var(--ui-radius-media);
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--ui-text-xs);
+  font-weight: 500;
+  color: var(--ui-muted);
+  cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
+  transition: all var(--ui-fast) var(--ui-ease);
+}
+.accounts-role-btn .material-symbols-outlined { font-size: 18px; }
+.accounts-role-btn[aria-selected="true"],
+.accounts-role-btn.is-selected {
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  box-shadow: var(--ui-shadow-card);
+  font-weight: 600;
+}
+
+/* ── Social sign-in buttons ──────────────────────────────────────── */
+.accounts-social-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--ui-space-3);
+  margin-bottom: var(--ui-space-4);
+}
+@media (max-width: 420px) { .accounts-social-grid { grid-template-columns: 1fr; } }
+.accounts-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: var(--ui-control-h);
+  padding: 0 var(--ui-space-2);
+  border: 1px solid var(--ui-border-strong);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-surface);
+  font: inherit;
+  font-size: var(--ui-text-sm);
+  font-weight: 500;
+  color: var(--ui-text);
+  cursor: pointer;
+  transition: background var(--ui-fast) var(--ui-ease);
+}
+.accounts-social-btn:hover { background: var(--ui-subtle); }
+.accounts-social-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* Upcoming / disabled social sign-in buttons */
+.accounts-social-btn[aria-disabled="true"],
+.accounts-sso-btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.accounts-social-btn[aria-disabled="true"]:hover,
+.accounts-sso-btn[aria-disabled="true"]:hover {
+  background: var(--ui-surface);
+  cursor: not-allowed;
+}
+.accounts-social-btn[aria-disabled="true"] *,
+.accounts-sso-btn[aria-disabled="true"] * {
+  cursor: not-allowed;
+}
+
+/* the badge sits on the button's top-right corner so labels like "Google Workspace" stay on one line */
+.accounts-social-btn[aria-disabled="true"],
+.accounts-sso-btn[aria-disabled="true"] { position: relative; }
+.accounts-social-btn .accounts-badge-upcoming,
+.accounts-sso-btn .accounts-badge-upcoming { position: absolute; top: -8px; right: 8px; }
+.accounts-badge-upcoming {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-sunken);
+  color: var(--ui-muted);
+  border: 1px solid var(--ui-border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── SSO featured button ─────────────────────────────────────────── */
+.accounts-sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--ui-space-3) var(--ui-space-4);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-surface);
+  cursor: pointer;
+  transition: background var(--ui-fast) var(--ui-ease);
+  margin-bottom: var(--ui-space-3);
+}
+.accounts-sso-btn:hover { background: var(--ui-subtle); }
+
+/* ── Divider with text ───────────────────────────────────────────── */
+.accounts-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-3);
+  margin: var(--ui-space-4) 0;
+}
+.accounts-divider::before,
+.accounts-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ui-border);
+}
+.accounts-divider__text {
+  font-size: var(--ui-text-xs);
+  color: var(--ui-muted);
+  white-space: nowrap;
+}
+
+/* ── Primary CTA button ─────────────────────────────────────────── */
+.accounts-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-space-2);
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-primary);
+  color: var(--ui-on-accent);
+  font: inherit;
+  font-size: var(--ui-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--ui-fast) var(--ui-ease);
+}
+.accounts-submit:hover { background: var(--ui-primary-hover); }
+.accounts-submit:active { transform: translateY(1px); }
+.accounts-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+/* ── Forgot password link ────────────────────────────────────────── */
+.accounts-forgot {
+  font-size: var(--ui-text-xs);
+  font-weight: 500;
+  color: var(--ui-primary);
+  text-decoration: none;
+}
+.accounts-forgot:hover { text-decoration: underline; }
+
+/* ── Footer link ─────────────────────────────────────────────────── */
+.accounts-footer-link {
+  text-align: center;
+  margin-top: var(--ui-space-4);
+  font-size: var(--ui-text-sm);
+  color: var(--ui-muted);
+}
+.accounts-footer-link a {
+  margin-left: .3em;
+  color: var(--ui-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.accounts-footer-link a:hover { text-decoration: underline; }
+
+/* ── Security note ───────────────────────────────────────────────── */
+.accounts-security {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-2) var(--ui-space-3);
+  background: var(--ui-subtle);
+  border-radius: var(--ui-radius-media);
+  font-size: var(--ui-text-xs);
+  color: var(--ui-muted);
+  margin-top: var(--ui-space-4);
+}
+
+/* ── Register: side note for value props ─────────────────────────── */
+.accounts-aside {
+  display: none;
+}
+@media (min-width: 768px) {
+  .accounts-canvas--register { align-items: flex-start; padding-top: calc(var(--ui-header-h) + var(--ui-space-8)); }
+  .accounts-card--register { max-width: 480px; }
+}
+
+/* ── Register: password strength ─────────────────────────────────── */
+.accounts-pw-strength {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--ui-text-xs);
+  color: var(--ui-muted);
+  margin-bottom: var(--ui-space-1);
+}
+.accounts-pw-bars {
+  display: flex;
+  gap: 2px;
+  height: 4px;
+}
+.accounts-pw-bar {
+  flex: 1;
+  height: 100%;
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-sunken);
+}
+.accounts-pw-bar.is-filled { background: var(--ui-success); }
+
+/* ── Checkboxes ──────────────────────────────────────────────────── */
+.accounts-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3);
+  font-size: var(--ui-text-xs);
+  color: var(--ui-muted);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.accounts-checkbox input[type="checkbox"] {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ui-primary);
+  flex-shrink: 0;
+}
+.accounts-checkbox a { color: var(--ui-primary); font-weight: 500; }
+
+/* ── Reset password page ─────────────────────────────────────────── */
+body[data-page="reset-password"] .accounts-card {
+  max-width: 400px;
+}
+body[data-page="reset-password"] .ei-muted {
+  color: var(--ui-muted);
+  font-size: var(--ui-text-sm);
+}
+
+/* Trailing icon buttons (show/hide password) sit on the right, not under the leading icon. */
+body .accounts-field__input-wrap > button.material-symbols-outlined {
+  left: auto;
+  right: var(--ui-space-2);
+  pointer-events: auto;
+}
+/* The icon inside a trailing button flows inside the button instead of taking the leading-icon slot. */
+body .accounts-field__input-wrap button .material-symbols-outlined {
+  position: static;
+}
+/* Login: wide enough for the three role tabs without truncation. */
+body[data-page="login"] .accounts-card { max-width: 440px; }

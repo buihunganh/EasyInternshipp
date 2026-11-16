@@ -1,5 +1,6 @@
 // Home page: the job list comes from search_jobs (keyword, city, industry, stipend, work type,
-// schedule, quick chips, sort, pagination). Cards are clones of the design's first card.
+// schedule, quick chips, sort, pagination). Rows are clones of the design's first `article.jobs-row`
+// (one card, hairline rows: logo, title link, company, place, meta, deadline clock, save).
 import { isSignedIn, requireSignIn } from '../../core/auth';
 import { jobHref, label } from '../../core/navigation';
 import { bind } from '../../core/ui/actions';
@@ -14,12 +15,37 @@ import { createJobAlert, listIndustries, searchJobs, type JobHit } from './api';
 import { toast } from '../../core/ui/feedback';
 
 const PAGE_SIZE = 5;
+const DAY = 86_400_000;
 
 /** Replace an element's text while keeping its icon ligature span. */
 export function setIconText(el: Element | null | undefined, text: string) {
   if (!el) return;
   const icon = el.querySelector('.material-symbols-outlined');
   el.replaceChildren(...(icon ? [icon, document.createTextNode(` ${text}`)] : [document.createTextNode(text)]));
+}
+
+/** The deadline clock (DESIGN.md §6): "Còn N ngày", signal colour at ≤3 days. Null when there is no future deadline. */
+export function deadlineClock(deadline: string | null | undefined) {
+  if (!deadline) return null;
+  const end = new Date(deadline); end.setHours(23, 59, 59, 999);
+  const days = Math.floor((end.getTime() - Date.now()) / DAY);
+  if (days < 0) return null;
+  const clock = document.createElement('span');
+  clock.className = `ui-deadline${days <= 3 ? ' is-soon' : ''}`;
+  const icon = document.createElement('span');
+  icon.className = 'material-symbols-outlined'; icon.setAttribute('aria-hidden', 'true'); icon.textContent = 'schedule';
+  clock.append(icon, days === 0 ? 'Hạn chót hôm nay' : `Còn ${days} ngày`);
+  return clock;
+}
+
+/** Skeleton rows shaped like job rows (logo square, title bar, two text lines) while a list loads. */
+export function skeletonRows(count = 3) {
+  return Array.from({ length: count }, () => {
+    const row = document.createElement('div');
+    row.className = 'jobs-skeleton-row'; row.setAttribute('aria-hidden', 'true');
+    row.innerHTML = '<span class="ui-skeleton ui-skeleton--logo"></span><span class="jobs-skeleton-row__body"><span class="ui-skeleton ui-skeleton--title"></span><span class="ui-skeleton ui-skeleton--text" style="width:40%"></span><span class="ui-skeleton ui-skeleton--text" style="width:65%"></span></span>';
+    return row;
+  });
 }
 
 type Chip = '' | 'urgent' | 'salary' | 'school' | 'graduate' | 'remote';
@@ -29,14 +55,20 @@ export async function setupJobs() {
   const host = articles[0]?.parentElement;
   if (!host) return;
   const template = articles[0].cloneNode(true) as HTMLElement;
-  template.querySelector(':scope > .absolute')?.remove();   // the static "Nổi bật" ribbon
-  const chipTemplate = template.querySelector<HTMLElement>('.border-t span');
-  const perkTemplate = [...template.querySelectorAll<HTMLElement>('.border-t span')].find(s => s.classList.contains('bg-surface-container')) ?? chipTemplate;
   articles.forEach(a => a.remove());
   const list = document.createElement('div');
-  list.className = 'flex flex-col gap-md';
+  list.className = 'ui-list';
   list.id = 'job-results';
+  list.setAttribute('aria-live', 'polite');
   host.prepend(list);
+
+  // Mobile (<768px): the filter cards collapse behind a "Bộ lọc" pill
+  const filterToggle = document.querySelector<HTMLButtonElement>('.jobs-filter-toggle');
+  bind(filterToggle, () => {
+    const open = filterToggle!.getAttribute('aria-expanded') !== 'true';
+    filterToggle!.setAttribute('aria-expanded', String(open));
+    filterToggle!.closest('aside')?.classList.toggle('is-open', open);
+  });
 
   const form = document.querySelector<HTMLFormElement>('form')!;
   const [keyword, city] = [...form.querySelectorAll<HTMLInputElement>('input')];
@@ -105,26 +137,39 @@ export async function setupJobs() {
     const img = card.querySelector('img');
     if (img) { img.src = publicUrl('company-assets', job.company_logo_path) || initialsAvatar(job.company_name); img.alt = job.company_name; }
     const title = card.querySelector('h3')!;
-    title.textContent = job.title;
-    const meta = card.querySelector('h3')!.parentElement!.nextElementSibling!;
-    const spans = [...meta.children] as HTMLElement[];
-    if (spans[0]) spans[0].textContent = job.company_name + (job.company_verified ? ' ✓' : '');
-    setIconText(spans[2], `${job.city ?? 'Toàn quốc'} · ${workTypeLabel[job.work_type] ?? job.work_type}`);
-    setIconText(spans[4], formatStipend(job.stipend_min, job.stipend_max));
-    const excerpt = card.querySelector('p');
-    if (excerpt) excerpt.textContent = job.excerpt;
-    const tags = card.querySelector('.border-t');
-    if (tags && chipTemplate) {
-      const posted = tags.lastElementChild!.cloneNode(true) as HTMLElement;
-      posted.textContent = `Đăng ${relativeTime(job.published_at)}`;
-      const chips: HTMLElement[] = [];
-      const add = (text: string, base: HTMLElement) => { const c = base.cloneNode(true) as HTMLElement; c.textContent = text; chips.push(c); };
-      if (job.match_score != null && currentRole() === 'student') add(`${job.match_score}% phù hợp`, chipTemplate);
-      if (job.is_exclusive) add('Dành riêng cho trường', perkTemplate!);
-      if (job.deadline && new Date(job.deadline).getTime() - Date.now() < 7 * 86400000) add('🔥 Tuyển gấp', perkTemplate!);
-      job.skills.slice(0, 3).forEach(s => add(s, chipTemplate));
-      (job.perks ?? []).slice(0, 2).forEach(p => add(p, perkTemplate!));
-      tags.replaceChildren(...chips, posted);
+    const link = title.querySelector('a');
+    if (link) { link.textContent = job.title; link.href = jobHref(job.id); }
+    else title.textContent = job.title;
+    const company = card.querySelector('.jobs-row__company');
+    if (company) company.textContent = job.company_name + (job.company_verified ? ' ✓' : '');
+    const place = card.querySelector('.jobs-row__place');
+    if (place) place.textContent = `${job.city ?? 'Toàn quốc'} · ${workTypeLabel[job.work_type] ?? job.work_type}`;
+    const meta = card.querySelector('.jobs-row__meta');
+    if (meta) {
+      const item = (text: string, className = '') => { const s = document.createElement('span'); s.textContent = text; if (className) s.className = className; return s; };
+      // Match score: hidden below 30, neutral 30–69, success green from 70 (0% is not a selling point)
+      const score = job.match_score;
+      const match = score == null || score < 30 ? null
+        : item(`${score}% phù hợp`, score >= 70 ? 'jobs-row__match' : 'jobs-row__match jobs-row__match--mid');
+      meta.replaceChildren(
+        item(formatStipend(job.stipend_min, job.stipend_max), 'jobs-row__stipend'),
+        ...(match && currentRole() === 'student' ? [match] : []),
+        item(`Đăng ${relativeTime(job.published_at)}`),
+      );
+    }
+    const foot = card.querySelector('.jobs-row__foot');
+    if (foot) {
+      const chip = (text: string, variant: string) => { const c = document.createElement('span'); c.className = `ui-chip ${variant}`; c.textContent = text; return c; };
+      const clock = deadlineClock(job.deadline);
+      // "Tuyển gấp" only for 4–7 days left: at ≤3 days the signal-coloured clock already says it (one urgency marker per row)
+      const urgent = !!job.deadline && new Date(job.deadline).getTime() - Date.now() < 7 * DAY && !clock?.classList.contains('is-soon');
+      const parts: HTMLElement[] = [];
+      if (urgent) parts.push(chip('Tuyển gấp', 'ui-chip--signal'));
+      else if (job.is_exclusive) parts.push(chip('Dành riêng cho trường', 'ui-chip--neutral'));
+      if (clock) parts.push(clock);
+      if (job.skills.length) { const s = document.createElement('span'); s.className = 'jobs-row__skills'; s.textContent = job.skills.slice(0, 3).join(' · '); parts.push(s); }
+      foot.replaceChildren(...parts);
+      (foot as HTMLElement).hidden = !parts.length;
     }
     const save = card.querySelector<HTMLButtonElement>('button[title="Lưu công việc"]');
     if (save) {
@@ -143,10 +188,8 @@ export async function setupJobs() {
       });
       renderSave();
     }
-    const open = () => location.assign(jobHref(job.id));
-    title.tabIndex = 0; title.setAttribute('role', 'link');
-    title.addEventListener('keydown', e => { if (e.key === 'Enter') open(); });
-    bind(card, open);
+    // The title is a real link; a click anywhere else on the row opens the job too
+    bind(card, () => location.assign(jobHref(job.id)));
     return card;
   }
 
@@ -171,14 +214,19 @@ export async function setupJobs() {
 
   async function render(scroll = false) {
     const mine = ++token;
-    showState(list, 'loading');
+    list.setAttribute('aria-busy', 'true');
+    list.replaceChildren(...skeletonRows(3));
     try {
       const rows = await searchJobs(args());
       if (mine !== token) return;
+      list.removeAttribute('aria-busy');
       const total = Number(rows[0]?.total_count ?? 0);
       if (count) count.textContent = total.toLocaleString('vi-VN');
-      if (!rows.length) showState(list, 'empty', 'Không có vị trí phù hợp. Hãy thay đổi hoặc thiết lập lại bộ lọc.');
-      else list.replaceChildren(...rows.map(fillCard));
+      if (!rows.length) {
+        showState(list, 'empty', 'Không có vị trí phù hợp. Hãy thay đổi hoặc thiết lập lại bộ lọc.');
+        const block = list.firstElementChild;
+        if (block instanceof HTMLElement) emptyHelp(block);
+      } else list.replaceChildren(...rows.map(fillCard));
       renderPager(total);
       const caption = range?.previousElementSibling?.lastElementChild;
       if (caption) caption.textContent = `Từ ${range!.value} triệu / tháng`;
@@ -188,12 +236,46 @@ export async function setupJobs() {
       if (scroll) document.querySelector('main')?.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
       if (mine !== token) return;
+      list.removeAttribute('aria-busy');
       showState(list, 'error', undefined, () => void render());
       showError(error);
     }
   }
 
   const restart = () => { page = 1; void render(); };
+
+  /** "Thiết lập lại": clear the keyword, city and every filter, then re-run the search. */
+  function resetFilters() {
+    if (keyword) keyword.value = ''; if (city) city.value = '';
+    checks.forEach(c => { c.checked = false; }); industry.value = ''; if (range) range.value = '0'; chip = '';
+    quickButtons.forEach(b => { const all = /^Tất cả$/.test(label(b)); b.classList.remove('demo-selected'); b.setAttribute('aria-pressed', String(all)); });
+    restart();
+  }
+
+  /** Empty-state help: a reset button and three suggested searches (buttons, not links). */
+  function emptyHelp(host: HTMLElement) {
+    const actions = document.createElement('div');
+    actions.className = 'jobs-empty-actions';
+    const reset = document.createElement('button');
+    reset.type = 'button'; reset.className = 'ui-btn ui-btn--neutral ui-btn--sm'; reset.textContent = 'Xóa từ khóa và bộ lọc';
+    bind(reset, resetFilters);
+    const suggest = document.createElement('div');
+    suggest.className = 'jobs-empty-suggest';
+    const hint = document.createElement('span');
+    hint.className = 'jobs-empty-suggest__label'; hint.textContent = 'Thử tìm:';
+    const pills = document.createElement('div');
+    pills.className = 'ui-pills';
+    ['Frontend', 'Marketing', 'Data'].forEach(term => {
+      const pill = document.createElement('button');
+      pill.type = 'button'; pill.className = 'ui-pill'; pill.textContent = term;
+      bind(pill, () => { if (keyword) keyword.value = term; restart(); });   // same as the "Tìm kiếm" submit
+      pills.append(pill);
+    });
+    suggest.append(hint, pills);
+    actions.append(reset, suggest);
+    host.append(actions);
+  }
+
   form.addEventListener('submit', e => { e.preventDefault(); restart(); });
   [...checks, industry, sort].forEach(el => el.addEventListener('change', restart));
   let debounce = 0;
@@ -204,15 +286,11 @@ export async function setupJobs() {
     quickButtons.forEach(x => { x.setAttribute('aria-pressed', String(x === b)); x.classList.toggle('demo-selected', x === b); });
     restart();
   }));
-  bind([...document.querySelectorAll('button')].find(b => label(b) === 'Thiết lập lại'), () => {
-    if (keyword) keyword.value = ''; if (city) city.value = '';
-    checks.forEach(c => { c.checked = false; }); industry.value = ''; if (range) range.value = '0'; chip = '';
-    quickButtons.forEach(b => { b.classList.remove('demo-selected'); b.setAttribute('aria-pressed', 'false'); });
-    restart();
-  });
+  bind([...document.querySelectorAll('button')].find(b => label(b) === 'Thiết lập lại'), resetFilters);
   if (prev) bind(prev, () => { if (page > 1) { page--; void render(true); } });
   if (next) bind(next, () => { page++; void render(true); });
-  bind(document.querySelector('button[title="Chế độ danh sách"]'), () => document.querySelector('main')?.classList.toggle('demo-compact'));
+  const compact = document.querySelector<HTMLButtonElement>('button[title="Chế độ danh sách"]');
+  bind(compact, () => compact!.setAttribute('aria-pressed', String(list.classList.toggle('jobs-compact'))));
 
   // "Nhận tin việc làm mới": a real job alert built from the current search (managed on My Applications)
   const alertButton = [...document.querySelectorAll<HTMLButtonElement>('button')].find(b => /Bật thông báo ngay/.test(label(b)));

@@ -124,8 +124,15 @@ export async function setupCandidates() {
     if (!cards.length) return;
     const total = applications.length;
     const potential = applications.filter(a => (a.match_score ?? 0) >= 80).length;
-    const interviewing = applications.filter(a => a.status === 'interviewing').length;
-    const offered = applications.filter(a => a.status === 'offered').length;
+    // Count by kanban column name ("Phỏng vấn", "Offer"/"Đã gửi thư mời"); fallback to status if no matching column
+    const interviewStage = stages.find(s => /Phỏng vấn/.test(s.name));
+    const offerStage = stages.find(s => /Offer|Đã gửi thư mời/.test(s.name));
+    const interviewing = interviewStage
+      ? applications.filter(a => a.stage_id === interviewStage.id).length
+      : applications.filter(a => a.status === 'interviewing').length;
+    const offered = offerStage
+      ? applications.filter(a => a.stage_id === offerStage.id).length
+      : applications.filter(a => a.status === 'offered').length;
 
     const values = [
       { num: String(total), label: `${total} hồ sơ` },
@@ -219,7 +226,10 @@ export async function setupCandidates() {
     // Match score chip
     const matchEl = c.querySelector('.font-label-sm.font-bold, .font-label-sm.font-medium, [class*="Match"]') as HTMLElement | null;
     if (matchEl) {
-      matchEl.textContent = app.match_score != null ? `${app.match_score}% Match` : 'Chưa có % phù hợp';
+      matchEl.textContent = app.match_score != null ? `${app.match_score}% phù hợp` : 'Chưa có % phù hợp';
+      matchEl.classList.toggle('cand-nomatch', app.match_score == null);
+      matchEl.classList.toggle('cand-match', app.match_score != null);
+      matchEl.classList.toggle('is-high', (app.match_score ?? 0) >= 85);
     }
 
     // Skills (from the CV submitted with the application) instead of the design's sample chips
@@ -304,6 +314,14 @@ export async function setupCandidates() {
       }, 'Đánh giá');
       bind(scoreBtn, () => promptEvaluation(app));
       c.append(scoreBtn);
+    }
+
+    // One compact action row: small tertiary buttons, "Chuyển vòng" is the only outlined one
+    const actionButtons = [...c.querySelectorAll<HTMLButtonElement>('button')].filter(b => /Xem CV|Chuyển vòng|Đánh giá|Chat 1-1/.test(label(b)));
+    if (actionButtons.length) {
+      const row = el('div', { className: 'cand-actions' });
+      actionButtons.forEach(b => { b.classList.toggle('cand-secondary', /Chuyển vòng/.test(label(b))); row.append(b); });
+      c.append(row);
     }
 
     return c;

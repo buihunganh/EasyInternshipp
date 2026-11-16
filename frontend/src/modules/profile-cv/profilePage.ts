@@ -8,8 +8,9 @@ import { refreshProfile } from '../../core/session';
 import { publicUrl } from '../../core/supabase';
 import { showError } from '../../core/errors';
 import { formatDate, relativeTime } from '../../core/format';
-import { el, stateBlock } from '../../core/render';
+import { el } from '../../core/render';
 import { initialsAvatar } from '../../core/layout/siteHeader';
+import { renderRailFooter } from '../../core/layout/siteFooter';
 import { profileCompleteness } from '../../core/profileCompleteness';
 import type { CvContent } from '../../core/models';
 import {
@@ -22,6 +23,10 @@ const appStatus: Record<string, string> = {
   offered: 'Nhận offer', hired: 'Đã nhận việc', rejected: 'Không phù hợp', withdrawn: 'Đã rút đơn', offer_declined: 'Từ chối offer',
 };
 const byHeading = (re: RegExp) => [...document.querySelectorAll<HTMLElement>('main section')].find(s => re.test(s.querySelector('h2')?.textContent || ''));
+/** Empty block for a profile section: icon per kind (CSS, profile-cv.css) and a link to the CV builder. */
+const profileEmpty = (kind: 'work' | 'folder', message: string) => el('div', { className: `app-state app-state-empty prof-empty prof-empty--${kind}`, role: 'status' },
+  el('p', {}, message),
+  el('a', { className: 'ui-btn ui-btn--neutral ui-btn--sm', href: routes['cv-builder'] }, 'Thêm trong CV'));
 const setIconText = (node: Element | null | undefined, text: string) => {
   if (!node) return;
   const icon = node.querySelector('.material-symbols-outlined');
@@ -64,6 +69,9 @@ export async function setupProfilePage() {
     setIconText(factSpans[0], [uni?.name, s?.major].filter(Boolean).join(' • ') || 'Chưa chọn trường');
     setIconText(factSpans[1], s?.gpa != null ? `GPA: ${s.gpa} / 4.0` : 'Chưa có GPA');
     setIconText(factSpans[2], s?.city || 'Chưa có địa điểm');
+    // "Thẻ sinh viên": university on the cover band, signal ring on the avatar while looking for an internship
+    const uniLine = document.getElementById('prof-uni'); if (uniLine) { uniLine.textContent = uni?.name || ''; uniLine.hidden = !uni?.name; }
+    document.querySelector('.prof-avatar')?.classList.toggle('is-looking', !!s?.is_looking_for_job);
     const img = document.querySelector<HTMLImageElement>('main section img');
     if (img) { img.src = publicUrl('avatars', me.profile.avatar_path) || initialsAvatar(me.profile.full_name); img.alt = me.profile.full_name; }
 
@@ -133,7 +141,7 @@ export async function setupProfilePage() {
       projectTemplate ??= list.querySelector('article')?.cloneNode(true) as HTMLElement | undefined;
       const template = projectTemplate;
       const items = content.projects ?? [];
-      if (!items.length) list.replaceChildren(stateBlock('empty', 'Chưa có dự án. Thêm dự án trong CV để hiển thị tại đây.'));
+      if (!items.length) list.replaceChildren(profileEmpty('folder', 'Chưa có dự án. Thêm dự án trong CV để hiển thị tại đây.'));
       else if (template) list.replaceChildren(...items.map(pj => {
         const a = template.cloneNode(true) as HTMLElement;
         a.querySelector('img')?.closest('div')?.remove();
@@ -153,7 +161,7 @@ export async function setupProfilePage() {
       activityTemplate ??= list.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
       const template = activityTemplate;
       const items = content.activities ?? [];
-      if (!items.length) list.replaceChildren(stateBlock('empty', 'Chưa có hoạt động. Thêm hoạt động ngoại khóa hoặc giải thưởng trong CV.'));
+      if (!items.length) list.replaceChildren(profileEmpty('work', 'Chưa có hoạt động. Thêm hoạt động ngoại khóa hoặc giải thưởng trong CV.'));
       else if (template) list.replaceChildren(...items.map(item => {
         const row = template.cloneNode(true) as HTMLElement;
         row.querySelector('h3')!.textContent = item.title;
@@ -176,7 +184,7 @@ export async function setupProfilePage() {
           bind(x, async () => { try { await removeSkill(sk.id); await reload(); } catch (error) { showError(error); } });
           c.append(' ', x); return c;
         }));
-        const add = el('button', { type: 'button', className: 'ei-button' }, '+ Thêm kỹ năng');
+        const add = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, '+ Thêm kỹ năng');
         bind(add, () => dialog('Thêm kỹ năng', '<label>Tên kỹ năng<input name="skill" required maxlength="60" placeholder="VD: React, SQL, Figma"></label>', 'Thêm', async form => {
           await addSkill((form.elements.namedItem('skill') as HTMLInputElement).value); await reload();
         }, { keepOpen: true }));
@@ -279,6 +287,7 @@ export async function setupProfilePage() {
 
   render();
   await renderApplications();
+  const rail = document.querySelector<HTMLElement>('main aside'); if (rail) renderRailFooter(rail);
 
   // Actions
   document.querySelectorAll<HTMLButtonElement>('main button').forEach(b => {

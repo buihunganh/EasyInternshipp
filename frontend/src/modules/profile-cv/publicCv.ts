@@ -26,7 +26,7 @@ export async function setupPublicCv() {
   const sheet = document.getElementById('a4-cv-sheet')!;
   const slug = new URLSearchParams(location.search).get('slug');
   const notFound = () => main.replaceChildren(el('div', { className: 'ei-page ei-page-narrow' },
-    stateBlock('empty', 'CV không tồn tại hoặc chủ sở hữu đã tắt liên kết công khai.'), el('a', { className: 'ei-button ei-button-primary', href: routes.jobs }, 'Về trang chủ')));
+    stateBlock('empty', 'CV không tồn tại hoặc chủ sở hữu đã tắt liên kết công khai.'), el('a', { className: 'ui-btn ui-btn--primary ui-btn--md', href: routes.jobs }, 'Về trang chủ')));
   if (!slug) { notFound(); return; }
   let cv: Awaited<ReturnType<typeof publicCv>> = null;
   try { cv = await publicCv(slug); } catch (error) { showError(error); }

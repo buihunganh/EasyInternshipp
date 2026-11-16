@@ -20,12 +20,14 @@ export interface DialogOptions {
 export function dialog(title: string, content: string, confirm = 'Xác nhận', action?: (form: HTMLFormElement) => unknown, options: DialogOptions = {}) {
   const previousFocus=document.activeElement as HTMLElement|null;
   const el = document.createElement('dialog'); el.className = 'app-dialog';
-  el.innerHTML = `<form><div class="app-dialog-heading"><h2></h2><button type="button" aria-label="Đóng">×</button></div><div class="app-dialog-content">${content}</div><div class="app-dialog-actions"><button type="button">Hủy</button><button type="submit" class="app-primary"></button></div></form>`;
+  el.innerHTML = `<form><div class="app-dialog-heading"><h2></h2><button type="button" class="app-dialog-close" aria-label="Đóng"><span class="material-symbols-outlined" aria-hidden="true">close</span></button></div><div class="app-dialog-content">${content}</div><div class="app-dialog-actions"><button type="button">Hủy</button><button type="submit" class="app-primary"></button></div></form>`;
   el.querySelector('h2')!.textContent = title;
   const titleId=`dialog-title-${crypto.randomUUID()}`;
   el.querySelector('h2')!.id=titleId;el.setAttribute('aria-labelledby',titleId);
   const submit = el.querySelector<HTMLButtonElement>('[type=submit]')!;
   submit.textContent = confirm;
+  // An info dialog (no action) closes either way, so a "Hủy" next to "Đóng"/"Đã hiểu" is just noise
+  if (!action) el.querySelector('.app-dialog-actions>[type=button]')?.remove();
   // Only the header "×" and the footer "Hủy" close the dialog (content may contain its own buttons)
   el.querySelectorAll('.app-dialog-heading>button,.app-dialog-actions>[type=button]').forEach(b => b.addEventListener('click', () => el.close()));
   el.addEventListener('close', () => {el.remove();if(!document.querySelector('dialog[open]'))previousFocus?.focus();});

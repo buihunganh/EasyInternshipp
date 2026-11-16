@@ -5,7 +5,8 @@
 | File | What it does |
 |---|---|
 | `index.ts` | `controls` → `setupUniversityPage` |
-| `university.ts` | partner inquiry modal, event registration, event details |
+| `university.ts` | partner inquiry modal, event registration, event details, rail footer |
+| `university.css` | styles for cover band, identity card, stats, 2-col shell, rail |
 
 **Storage:** writes `demo:inquiries` through core's `record()` (shown in the demo banner's "Hoạt động demo").
 

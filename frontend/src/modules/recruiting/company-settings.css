@@ -1,12 +1,20 @@
-/* /pages/company-settings/ (recruiting module) */
+/* /pages/company-settings/ (recruiting module): section nav card on the left, form cards in the main column. */
 .company-settings-shell{min-height:100vh}
-.company-settings-intro h1{font-size:28px}
-.company-settings-brand{display:flex;flex-wrap:wrap;gap:24px}
-.company-settings-brand figure{margin:0;display:grid;gap:8px;justify-items:start}
-.company-settings-brand figcaption{font-size:13px;color:var(--ui-muted)}
-.company-settings-brand img{width:96px;height:96px;object-fit:cover;border-radius:var(--ui-radius-card);border:1px solid var(--ui-border);background:var(--ui-subtle)}
-.company-settings-cover{width:320px;max-width:70vw;height:96px;border-radius:var(--ui-radius-card);border:1px solid var(--ui-border);background:var(--ui-subtle) center/cover no-repeat}
+body[data-page=company-settings]{background:var(--ui-page);color:var(--ui-text);font-family:var(--ui-font)}
+body[data-page=company-settings] .cs-shell{max-width:var(--ui-shell-max)}
+.cs-nav{display:flex;flex-direction:column;gap:2px;padding:var(--ui-space-2)}
+.cs-nav a{display:flex;align-items:center;min-height:40px;padding:0 var(--ui-space-3);border-radius:var(--ui-radius-control);color:var(--ui-muted);font-size:var(--ui-text-sm);font-weight:500;text-decoration:none}
+.cs-nav a:hover{background:var(--ui-subtle);color:var(--ui-text)}
+.cs-nav a:focus-visible{outline:2px solid var(--ui-primary);outline-offset:-2px}
+#company-extra:not([hidden]){display:flex;flex-direction:column;gap:var(--ui-space-2)}
+.cs-shell .ui-main>.ei-card,#company-extra>.ei-card{scroll-margin-top:calc(var(--ui-header-h) + var(--ui-space-4))}
+.company-settings-intro h1{font-size:var(--ui-text-2xl);letter-spacing:-.01em}
+.company-settings-brand{display:flex;flex-wrap:wrap;gap:var(--ui-space-6)}
+.company-settings-brand figure{margin:0;display:grid;gap:var(--ui-space-2);justify-items:start}
+.company-settings-brand figcaption{font-size:var(--ui-text-xs);color:var(--ui-muted)}
+.company-settings-brand img{width:96px;height:96px;object-fit:cover;border-radius:var(--ui-radius-media);box-shadow:var(--ui-shadow-card);background:var(--ui-subtle)}
+.company-settings-cover{width:320px;max-width:70vw;height:96px;border-radius:var(--ui-radius-media);box-shadow:var(--ui-shadow-card);background:var(--ui-subtle) center/cover no-repeat}
 .company-settings-member{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.company-settings-member select{min-height:36px;padding:4px 8px;border:1px solid var(--ui-border);border-radius:var(--ui-radius-control);font:inherit}
+.company-settings-member select{min-height:var(--ui-control-h-sm);padding:4px var(--ui-space-2);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);background:var(--ui-surface);font:inherit}
 /* Pages without a generated Tailwind file lack its button reset; the shared header expects it */
 body[data-page=company-settings] .site-header button{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer}

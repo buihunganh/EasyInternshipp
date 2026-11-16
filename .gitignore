@@ -1,11 +1,53 @@
+# ── Dependencies & build output ─────────────────────────────────────────────
 node_modules/
 dist/
-test-results/
 .vite/
-*.log
-/docs/
+*.tsbuildinfo
 
-# Local environment (Supabase keys)
+# ── Test output ─────────────────────────────────────────────────────────────
+test-results/
+playwright-report/
+blob-report/
+coverage/
+
+# ── Logs ────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Secrets: keys, tokens, certificates (never commit) ──────────────────────
+# Supabase keys live in .env.local (see .env.example). The service-role key bypasses RLS.
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+service-account*.json
+
+# ── Supabase CLI local state (project link, CLI cache, local branches) ──────
+# Created by `supabase link` / `db:*` scripts; holds the linked project and org ids.
+.temp/
+**/supabase/.temp/
+**/supabase/.branches/
+
+# ── Local tooling & agent workspaces ────────────────────────────────────────
+# Claude Code: personal settings and agent git worktrees
+.claude/settings.local.json
+.claude/worktrees/
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# ── OS files ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Local-only documents ────────────────────────────────────────────────────
+/docs/
+/CLAUDE.md
+/frontend/tests/

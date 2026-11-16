@@ -1,0 +1,252 @@
+/* Messages page ("Giấy & Mực"): one big flush card, conversation list on the left, thread in the middle, context on the right
+ * (wide screens only). Built on tokens.css and the shared ui-* components; every class here is prefixed msg-.
+ * The static design markup still carries its Tailwind classes (messages.ts finds elements through them), so these rules
+ * are scoped with extra specificity instead of removing those classes.
+ * Narrow screens (<768px) show the list or the thread: .msg-show-thread on .msg-grid (set by messages.ts) switches. */
+
+/* ── Page frame ─────────────────────────────────────────────────────────────────────────────────── */
+body[data-page=messages] main.msg-main{display:block;height:auto;min-height:0!important;overflow:visible;box-sizing:border-box;padding:calc(var(--ui-header-h) + var(--ui-space-4)) var(--ui-space-4) var(--ui-space-4);background:transparent}
+body[data-page=messages] main.msg-main>div{display:block;max-width:var(--ui-shell-max);margin:0 auto;overflow:visible}
+body[data-page=messages] main.msg-main .msg-topbar{display:none}
+body[data-page=messages] main.msg-main .msg-grid.msg-grid{display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:0;width:100%;height:calc(100dvh - var(--ui-header-h) - var(--ui-space-7) - 55px);min-height:480px;overflow:hidden;background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card)}
+body[data-page=messages] main.msg-main .msg-grid.msg-grid>*{grid-column:auto;min-width:0;min-height:0;height:100%}
+@media(min-width:1280px){
+  body[data-page=messages] main.msg-main .msg-grid.msg-grid{grid-template-columns:340px minmax(0,1fr) 280px}
+}
+
+/* ── Conversation list ──────────────────────────────────────────────────────────────────────────── */
+body[data-page=messages] main.msg-main .msg-list.msg-list{display:flex;flex-direction:column;background:var(--ui-surface);box-shadow:none;border-right:1px solid var(--ui-border);z-index:auto;overflow:hidden}
+body[data-page=messages] main.msg-main .msg-list>div:first-child{padding:var(--ui-space-4) var(--ui-space-4) var(--ui-space-2);background:transparent}
+body[data-page=messages] main.msg-main .msg-list>div:first-child>*+*{margin-top:var(--ui-space-3)}
+body[data-page=messages] main.msg-main .msg-list h2{margin:0;font-size:var(--ui-text-lg);font-weight:600;line-height:1.3;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-list>div:first-child>div:first-child>button{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-list>div:first-child>div:first-child>button:hover{background:var(--ui-subtle);color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-list>div:first-child>div:first-child>button .material-symbols-outlined{font-size:20px}
+body[data-page=messages] main.msg-main .msg-list input{height:36px;padding:0 var(--ui-space-3) 0 36px;border:0;border-radius:var(--ui-radius-control);background:var(--ui-sunken);color:var(--ui-text);font:400 var(--ui-text-sm)/1.4 var(--ui-font)}
+body[data-page=messages] main.msg-main .msg-list input::placeholder{color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-list input:focus{outline:2px solid var(--ui-primary);outline-offset:0;background:var(--ui-surface)}
+body[data-page=messages] main.msg-main .msg-list .relative>.material-symbols-outlined{left:10px;font-size:20px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-filters{display:flex;gap:var(--ui-space-2);overflow-x:auto;padding:0}
+body[data-page=messages] main.msg-main .msg-filters>button{display:inline-flex;align-items:center;gap:6px;flex:none;min-height:var(--ui-control-h-sm);box-sizing:border-box;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-pill);background:var(--ui-surface);color:var(--ui-text);font:600 var(--ui-text-sm)/1.2 var(--ui-font);white-space:nowrap;cursor:pointer}
+body[data-page=messages] main.msg-main .msg-filters>button:hover{background:var(--ui-subtle)}
+body[data-page=messages] main.msg-main .msg-filters>button[aria-pressed=true]{background:var(--ui-ink);border-color:var(--ui-ink);color:var(--ui-on-accent)}
+body[data-page=messages] main.msg-main .msg-filters>button .rounded-full{display:none}
+body[data-page=messages] main.msg-main .msg-list>div.msg-rows{flex:1;min-height:0;padding:0;overflow-y:auto;overscroll-behavior:contain}
+body[data-page=messages] main.msg-main .msg-rows>:not([hidden])~:not([hidden]){margin-top:0}
+body[data-page=messages] main.msg-main .msg-note{padding:var(--ui-space-4);color:var(--ui-muted);font-size:var(--ui-text-sm);text-align:center}
+
+body[data-page=messages] main.msg-main .msg-row{display:flex;align-items:flex-start;gap:var(--ui-space-3);padding:var(--ui-space-3) var(--ui-space-4);border-bottom:1px solid var(--ui-border);background:var(--ui-surface);cursor:pointer;transition:background-color var(--ui-fast) var(--ui-ease)}
+body[data-page=messages] main.msg-main .msg-row:hover{background:var(--ui-subtle)}
+body[data-page=messages] main.msg-main .msg-row.is-selected{background:var(--ui-primary-soft)}
+body[data-page=messages] main.msg-main .msg-row:focus-visible{outline:2px solid var(--ui-primary);outline-offset:-2px}
+body[data-page=messages] main.msg-main .msg-row__avatar{flex:none;width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--ui-sunken)}
+body[data-page=messages] main.msg-main .msg-row__body{flex:1;min-width:0}
+body[data-page=messages] main.msg-main .msg-row__top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--ui-space-2)}
+body[data-page=messages] main.msg-main .msg-row__name{margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ui-text-sm);font-weight:500;line-height:1.4;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-row.is-unread .msg-row__name{font-weight:600}
+body[data-page=messages] main.msg-main .msg-row__time{flex:none;font-size:var(--ui-text-xs);color:var(--ui-faint);font-variant-numeric:tabular-nums}
+body[data-page=messages] main.msg-main .msg-row__sub{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ui-text-xs);line-height:1.4;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-row__last{display:flex;align-items:center;gap:var(--ui-space-2);margin-top:2px}
+body[data-page=messages] main.msg-main .msg-row__snippet{flex:1;min-width:0;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ui-text-sm);line-height:1.4;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-row.is-unread .msg-row__snippet{color:var(--ui-text);font-weight:500}
+body[data-page=messages] main.msg-main .msg-row__dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--ui-primary)}
+
+/* ── Thread ─────────────────────────────────────────────────────────────────────────────────────── */
+body[data-page=messages] main.msg-main .msg-thread.msg-thread{display:flex;flex-direction:column;position:relative;background:var(--ui-surface);overflow:hidden}
+body[data-page=messages] main.msg-main .msg-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:var(--ui-space-3);min-height:64px;box-sizing:border-box;padding:var(--ui-space-2) var(--ui-space-4);background:var(--ui-surface);border-bottom:1px solid var(--ui-border);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type{display:flex;align-items:center;gap:var(--ui-space-3);min-width:0}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type img{width:40px;height:40px;border-radius:50%;object-fit:cover;box-shadow:none}
+body[data-page=messages] main.msg-main .msg-head h2{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ui-text-lg);font-weight:600;line-height:1.3;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-head h2+.material-symbols-outlined{display:none}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child{min-width:0}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child>div:last-child{font-size:var(--ui-text-xs);color:var(--ui-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child>div:last-child *{color:var(--ui-muted);font-weight:400}
+body[data-page=messages] main.msg-main .msg-head>div:last-of-type{display:flex;align-items:center;flex:none;gap:var(--ui-space-2)}
+body[data-page=messages] main.msg-main .msg-head>div[hidden]{display:none}
+body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--ui-control-h-sm);box-sizing:border-box;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-pill);background:var(--ui-surface);color:var(--ui-text);font:600 var(--ui-text-sm)/1.2 var(--ui-font);white-space:nowrap;box-shadow:none}
+body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button:hover{background:var(--ui-subtle)}
+body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button .material-symbols-outlined{font-size:18px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button[title="Thêm tuỳ chọn"]{width:32px;padding:0;border-color:transparent;border-radius:50%;background:transparent}
+body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button[title="Thêm tuỳ chọn"]:hover{background:var(--ui-subtle)}
+body[data-page=messages] main.msg-main .msg-back{display:none;flex:none;align-items:center;justify-content:center;width:40px;height:40px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-muted);cursor:pointer}
+body[data-page=messages] main.msg-main .msg-back:hover{background:var(--ui-subtle);color:var(--ui-text)}
+body[data-page=messages] main.msg-main .demo-conversation-switch{display:none}
+
+body[data-page=messages] main.msg-main .msg-subbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--ui-space-1) var(--ui-space-3);padding:var(--ui-space-2) var(--ui-space-4);background:var(--ui-subtle);border-bottom:1px solid var(--ui-border)}
+body[data-page=messages] main.msg-main .msg-subbar[hidden]{display:none}
+body[data-page=messages] main.msg-main .msg-subbar>div{display:flex;align-items:center;flex-wrap:wrap;gap:var(--ui-space-2);min-width:0;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-subbar .material-symbols-outlined{font-size:18px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-subbar .font-semibold{font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-subbar .text-tertiary{color:var(--ui-muted);font-weight:500}
+body[data-page=messages] main.msg-main .msg-subbar .text-tertiary[hidden]{display:none}
+body[data-page=messages] main.msg-main .msg-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ui-success)}
+body[data-page=messages] main.msg-main .msg-subbar .rounded-full{background:var(--ui-success)}
+body[data-page=messages] main.msg-main .app-conversation-status{margin:0}
+
+body[data-page=messages] main.msg-main .msg-stream{flex:1;min-height:0;display:flex;flex-direction:column;padding:var(--ui-space-4);overflow-y:auto;overscroll-behavior:contain;background:var(--ui-surface)}
+body[data-page=messages] main.msg-main .msg-stream>:not([hidden])~:not([hidden]){margin-top:var(--ui-space-3)}
+body[data-page=messages] main.msg-main .msg-stream>.msg-item--cont{margin-top:2px!important}
+body[data-page=messages] main.msg-main .msg-date{display:flex;justify-content:center}
+body[data-page=messages] main.msg-main .msg-date span{padding:2px var(--ui-space-3);border-radius:var(--ui-radius-pill);background:var(--ui-sunken);color:var(--ui-muted);font-size:var(--ui-text-xs);font-variant-numeric:tabular-nums}
+body[data-page=messages] main.msg-main .msg-empty{margin:auto}
+body[data-page=messages] main.msg-main .msg-item{display:flex;align-items:flex-start;gap:var(--ui-space-2);max-width:100%}
+body[data-page=messages] main.msg-main .msg-item--out{justify-content:flex-end}
+body[data-page=messages] main.msg-main .msg-item__avatar{flex:none;width:32px;height:32px;margin-top:2px;border-radius:50%;object-fit:cover;background:var(--ui-sunken)}
+body[data-page=messages] main.msg-main .msg-item--cont .msg-item__avatar{visibility:hidden}
+body[data-page=messages] main.msg-main .msg-item--cont .msg-item__meta{display:none}
+body[data-page=messages] main.msg-main .msg-item__col{display:flex;flex-direction:column;gap:2px;min-width:0;max-width:70%}
+body[data-page=messages] main.msg-main .msg-item--out .msg-item__col{align-items:flex-end}
+body[data-page=messages] main.msg-main .msg-item__meta{display:flex;align-items:baseline;gap:var(--ui-space-2)}
+body[data-page=messages] main.msg-main .msg-item__name{font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-item__time{font-size:var(--ui-text-xs);color:var(--ui-faint);font-variant-numeric:tabular-nums}
+body[data-page=messages] main.msg-main .msg-bubble{box-sizing:border-box;max-width:100%;padding:var(--ui-space-2) var(--ui-space-3);border:1px solid var(--ui-border);border-radius:var(--ui-radius-card);background:var(--ui-subtle);color:var(--ui-text);font-size:var(--ui-text-sm);line-height:1.5;overflow-wrap:anywhere}
+body[data-page=messages] main.msg-main .msg-item--out .msg-bubble{border-color:transparent;background:var(--ui-primary-soft)}
+body[data-page=messages] main.msg-main .msg-bubble p{margin:0;white-space:pre-wrap}
+body[data-page=messages] main.msg-main .msg-bubble--file{display:flex;align-items:center;gap:var(--ui-space-2)}
+body[data-page=messages] main.msg-main .msg-bubble--file>.material-symbols-outlined{flex:none;font-size:24px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-file__text{min-width:0}
+body[data-page=messages] main.msg-main .msg-file__name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+body[data-page=messages] main.msg-main .msg-file__size{font-size:var(--ui-text-xs);color:var(--ui-muted);font-variant-numeric:tabular-nums}
+
+/* Interview invite: a compact ticket */
+body[data-page=messages] main.msg-main .msg-ticket{width:calc(100% - 32px - var(--ui-space-2));max-width:460px;margin-left:calc(32px + var(--ui-space-2));box-sizing:border-box;border:1px solid var(--ui-border);border-radius:var(--ui-radius-card);background:var(--ui-surface);overflow:hidden}
+body[data-page=messages] main.msg-main .msg-ticket__head{display:flex;align-items:center;gap:var(--ui-space-2);padding:var(--ui-space-2) var(--ui-space-3);background:var(--ui-subtle);border-bottom:1px solid var(--ui-border)}
+body[data-page=messages] main.msg-main .msg-ticket__head>.material-symbols-outlined{font-size:20px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-ticket__kind{flex:1;min-width:0;font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text);text-transform:none;letter-spacing:0}
+body[data-page=messages] main.msg-main .msg-ticket__body{display:flex;flex-direction:column;gap:var(--ui-space-3);padding:var(--ui-space-3)}
+body[data-page=messages] main.msg-main .msg-ticket__title{margin:0;font-size:var(--ui-text-sm);font-weight:600;line-height:1.4;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-ticket__sub{margin:2px 0 0;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-ticket__facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ui-space-3);margin:0}
+body[data-page=messages] main.msg-main .msg-ticket__facts dt{font-size:var(--ui-text-xs);color:var(--ui-muted);text-transform:none;letter-spacing:0}
+body[data-page=messages] main.msg-main .msg-ticket__facts dd{display:flex;align-items:center;gap:6px;margin:2px 0 0;font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text);font-variant-numeric:tabular-nums}
+body[data-page=messages] main.msg-main .msg-ticket__facts dd .material-symbols-outlined{flex:none;font-size:16px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-ticket__where{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-page=messages] main.msg-main .msg-ticket__link{display:inline-block;margin-top:2px;font-size:var(--ui-text-xs)}
+body[data-page=messages] main.msg-main .msg-ticket__foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--ui-space-2);padding-top:var(--ui-space-3);border-top:1px solid var(--ui-border)}
+body[data-page=messages] main.msg-main .msg-ticket__note{display:flex;align-items:center;gap:6px;min-width:0;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-ticket__note .material-symbols-outlined{flex:none;font-size:18px}
+body[data-page=messages] main.msg-main .app-rsvp-buttons{display:flex;flex-wrap:wrap;gap:var(--ui-space-2)}
+body[data-page=messages] main.msg-main .app-rsvp-buttons:empty{display:none}
+
+/* ── Composer ───────────────────────────────────────────────────────────────────────────────────── */
+body[data-page=messages] main.msg-main .msg-composer{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"field field" "tools send";align-items:center;gap:var(--ui-space-2);padding:var(--ui-space-3) var(--ui-space-4);background:var(--ui-surface);border-top:1px solid var(--ui-border);box-shadow:none}
+body[data-page=messages] main.msg-main .msg-composer>.msg-tools,body[data-page=messages] main.msg-main .msg-composer>.msg-field{display:contents}
+body[data-page=messages] main.msg-main .msg-tools>div:first-child{grid-area:tools;display:flex;align-items:center;gap:2px}
+body[data-page=messages] main.msg-main .msg-tools>div:last-child{display:none}
+body[data-page=messages] main.msg-main .msg-tools>div:first-child>button{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-muted);cursor:pointer}
+body[data-page=messages] main.msg-main .msg-tools>div:first-child>button:hover{background:var(--ui-subtle);color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-tools>div:first-child>button .material-symbols-outlined{font-size:20px}
+body[data-page=messages] main.msg-main .msg-field>input{grid-area:field;width:100%;min-width:0;height:40px;box-sizing:border-box;padding:0 var(--ui-space-4);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-pill);background:var(--ui-surface);color:var(--ui-text);font:400 var(--ui-text-sm)/1.4 var(--ui-font)}
+body[data-page=messages] main.msg-main .msg-field>input::placeholder{color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-field>input:focus{outline:2px solid var(--ui-primary);outline-offset:1px}
+body[data-page=messages] main.msg-main .msg-field>input:disabled{background:var(--ui-sunken);cursor:not-allowed}
+body[data-page=messages] main.msg-main .msg-field>button{grid-area:send;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--ui-control-h-sm);box-sizing:border-box;padding:0 var(--ui-space-4);border:1px solid var(--ui-primary);border-radius:var(--ui-radius-pill);background:var(--ui-primary);color:var(--ui-on-accent);font:600 var(--ui-text-sm)/1.2 var(--ui-font);white-space:nowrap;box-shadow:none;cursor:pointer}
+body[data-page=messages] main.msg-main .msg-field>button:hover{background:var(--ui-primary-hover);border-color:var(--ui-primary-hover)}
+body[data-page=messages] main.msg-main .msg-field>button:active{transform:translateY(1px)}
+body[data-page=messages] main.msg-main .msg-field>button .material-symbols-outlined{font-size:18px}
+
+/* ── Context panel (wide screens) ───────────────────────────────────────────────────────────────── */
+body[data-page=messages] main.msg-main .msg-info.msg-info{display:none;flex-direction:column;padding:0;background:var(--ui-surface);box-shadow:none;border-left:1px solid var(--ui-border);overflow-y:auto;z-index:auto}
+@media(min-width:1280px){
+  body[data-page=messages] main.msg-main .msg-info.msg-info{display:flex}
+  body[data-page=messages] main.msg-main .msg-info.msg-info[hidden]{display:none}
+}
+body[data-page=messages] main.msg-main .msg-info>*{margin:0!important}
+body[data-page=messages] main.msg-main .msg-info>:not(.msg-safety){padding:var(--ui-space-4);border-bottom:1px solid var(--ui-border)}
+body[data-page=messages] main.msg-main .msg-ctx{display:flex;flex-direction:column;gap:var(--ui-space-3);background:transparent;border-radius:0}
+body[data-page=messages] main.msg-main .msg-ctx[hidden]{display:none}
+body[data-page=messages] main.msg-main .msg-ctx__id{display:flex;align-items:center;gap:var(--ui-space-3)}
+body[data-page=messages] main.msg-main .msg-ctx__mark{flex:none;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:var(--ui-radius-media);background:var(--ui-sunken);color:var(--ui-text);font-size:var(--ui-text-lg);font-weight:600}
+body[data-page=messages] main.msg-main .msg-ctx__who{min-width:0}
+body[data-page=messages] main.msg-main .msg-ctx__name{margin:0;font-size:var(--ui-text-lg);font-weight:600;line-height:1.3;color:var(--ui-text);overflow-wrap:anywhere}
+body[data-page=messages] main.msg-main .msg-ctx__sub{margin:2px 0 0;font-size:var(--ui-text-xs);color:var(--ui-muted);overflow-wrap:anywhere}
+body[data-page=messages] main.msg-main .msg-ctx>.ui-chip{align-self:flex-start}
+body[data-page=messages] main.msg-main .msg-ctx__facts{display:flex;flex-direction:column;gap:var(--ui-space-2);margin:0;padding:0;list-style:none}
+body[data-page=messages] main.msg-main .msg-ctx__facts li{display:flex;align-items:flex-start;gap:var(--ui-space-2);font-size:var(--ui-text-sm);color:var(--ui-muted);overflow-wrap:anywhere}
+body[data-page=messages] main.msg-main .msg-ctx__facts .material-symbols-outlined{flex:none;font-size:18px}
+body[data-page=messages] main.msg-main .msg-ctx__title{display:flex;align-items:center;justify-content:space-between;gap:var(--ui-space-2)}
+body[data-page=messages] main.msg-main .msg-ctx__title h4{margin:0;font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-ctx__count{font-size:var(--ui-text-xs);color:var(--ui-muted);font-variant-numeric:tabular-nums}
+body[data-page=messages] main.msg-main .msg-ctx__empty{margin:0;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-steps{display:flex;flex-direction:column;gap:var(--ui-space-3);margin:0;padding:0;list-style:none}
+body[data-page=messages] main.msg-main .msg-step{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:var(--ui-space-2);align-items:center}
+body[data-page=messages] main.msg-main .msg-step__dot{grid-row:span 2;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid var(--ui-border-strong);border-radius:50%;background:var(--ui-surface);color:var(--ui-muted);font-size:var(--ui-text-xs);font-weight:600;font-variant-numeric:tabular-nums}
+body[data-page=messages] main.msg-main .msg-step__dot .material-symbols-outlined{font-size:16px}
+body[data-page=messages] main.msg-main .msg-step.is-done .msg-step__dot{border-color:transparent;background:var(--ui-success-soft);color:var(--ui-success)}
+body[data-page=messages] main.msg-main .msg-step.is-current .msg-step__dot{border-color:var(--ui-ink);background:var(--ui-ink);color:var(--ui-on-accent)}
+body[data-page=messages] main.msg-main .msg-step__title{font-size:var(--ui-text-sm);font-weight:500;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-step.is-current .msg-step__title{font-weight:600}
+body[data-page=messages] main.msg-main .msg-step__note{font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-docs{display:flex;flex-direction:column;gap:2px;margin:0 calc(var(--ui-space-2) * -1)}
+body[data-page=messages] main.msg-main .msg-doc{display:flex;align-items:center;gap:var(--ui-space-2);padding:var(--ui-space-2);border-radius:var(--ui-radius-control);cursor:pointer}
+body[data-page=messages] main.msg-main .msg-doc:hover{background:var(--ui-subtle)}
+body[data-page=messages] main.msg-main .msg-doc:focus-visible{outline:2px solid var(--ui-primary);outline-offset:-2px}
+body[data-page=messages] main.msg-main .msg-doc>.material-symbols-outlined{flex:none;font-size:20px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-doc__text{flex:1;min-width:0}
+body[data-page=messages] main.msg-main .msg-doc__name{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ui-text-sm);font-weight:500;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-doc__meta{margin:0;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-doc__dl{color:var(--ui-faint)}
+body[data-page=messages] main.msg-main .msg-safety{display:flex;flex-direction:column;gap:var(--ui-space-2);padding:var(--ui-space-4);border-radius:0;background:var(--ui-subtle);color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-safety>div{display:flex;align-items:center;gap:var(--ui-space-2);font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text)}
+body[data-page=messages] main.msg-main .msg-safety .material-symbols-outlined{font-size:18px;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-safety p{margin:0;font-size:var(--ui-text-xs);line-height:1.5;color:var(--ui-muted)}
+body[data-page=messages] main.msg-main .msg-safety button{display:inline-flex;align-items:center;gap:4px;align-self:flex-start;padding:0;border:0;background:transparent;color:var(--ui-primary);font:600 var(--ui-text-xs)/1.4 var(--ui-font);cursor:pointer}
+body[data-page=messages] main.msg-main .msg-safety button:hover{text-decoration:underline}
+body[data-page=messages] main.msg-main .msg-safety button .material-symbols-outlined{font-size:14px;color:inherit}
+
+/* ── Tablet: list + thread ──────────────────────────────────────────────────────────────────────── */
+@media(max-width:991px){
+  body[data-page=messages] main.msg-main .msg-ticket__facts{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ── Mobile: list view → thread view ────────────────────────────────────────────────────────────── */
+@media(max-width:767px){
+  body[data-page=messages] main.msg-main{padding:var(--ui-header-h-mobile) 0 0}
+  body[data-page=messages] main.msg-main .msg-grid.msg-grid{grid-template-columns:minmax(0,1fr);height:calc(100dvh - var(--ui-header-h-mobile) - var(--ui-tabbar-h) - env(safe-area-inset-bottom));min-height:0;border-radius:0;box-shadow:none}
+  body[data-page=messages] main.msg-main .msg-grid.msg-grid .msg-thread{display:none}
+  body[data-page=messages] main.msg-main .msg-grid.msg-grid.msg-show-thread .msg-thread{display:flex}
+  body[data-page=messages] main.msg-main .msg-grid.msg-grid.msg-show-thread .msg-list{display:none}
+  body[data-page=messages] main.msg-main .msg-list.msg-list{border-right:0}
+  body[data-page=messages] main.msg-main .msg-row{min-height:64px}
+  body[data-page=messages] main.msg-main .msg-back{display:inline-flex}
+  body[data-page=messages] main.msg-main .msg-head{padding:var(--ui-space-2) var(--ui-space-3)}
+  body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button:not([title="Thêm tuỳ chọn"]){width:40px;height:40px;padding:0;border-color:transparent;border-radius:50%}
+  body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button:not([title="Thêm tuỳ chọn"])>span:not(.material-symbols-outlined){display:none}
+  body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button[title="Thêm tuỳ chọn"]{width:40px;height:40px}
+  body[data-page=messages] main.msg-main .msg-subbar{padding:var(--ui-space-2) var(--ui-space-3)}
+  body[data-page=messages] main.msg-main .msg-stream{padding:var(--ui-space-3)}
+  body[data-page=messages] main.msg-main .msg-item__col{max-width:82%}
+  body[data-page=messages] main.msg-main .msg-ticket{width:100%;margin-left:0}
+  body[data-page=messages] main.msg-main .msg-composer{padding:var(--ui-space-2) var(--ui-space-3)}
+  body[data-page=messages] main.msg-main .msg-tools>div:first-child>button{width:40px;height:40px}
+  body[data-page=messages] main.msg-main .msg-field>input{height:44px}
+  body[data-page=messages]>.workspace-footer{display:none}
+}
+body[data-page=messages] main.msg-main .msg-stream>*{flex:none}
+
+/* Review fixes: header crowding, filter pills, job code */
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type{flex:1}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child{flex:1;min-width:0}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child>div:first-child{display:flex;align-items:center;gap:var(--ui-space-2);min-width:0}
+body[data-page=messages] main.msg-main .msg-head h2{flex:1 1 auto;min-width:0}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type span.rounded-full{flex:none;white-space:nowrap}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child>div:last-child>*{white-space:nowrap}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type>div:last-child>div:last-child{display:block;max-width:100%}
+@media(max-width:1099px){
+  body[data-page=messages] main.msg-main .msg-head>div:first-of-type span.rounded-full{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+body[data-page=messages] main.msg-main .msg-filters{flex-wrap:wrap;overflow:visible}
+body[data-page=messages] main.msg-main .msg-subbar .font-mono{font:400 var(--ui-text-xs)/1.4 var(--ui-font);color:var(--ui-faint);background:transparent;padding:0}
+body[data-page=messages] main.msg-main .msg-stream{padding-bottom:var(--ui-space-6)}
+body[data-page=messages] main.msg-main .msg-head>div:first-of-type span.rounded-full{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+body[data-page=messages] main.msg-main .msg-thread.msg-thread{container-type:inline-size}
+@container (max-width:640px){
+  body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button:not([title="Thêm tuỳ chọn"]){width:36px;height:36px;padding:0;border-color:transparent;border-radius:50%}
+  body[data-page=messages] main.msg-main .msg-head>div:last-of-type>button:not([title="Thêm tuỳ chọn"])>span:not(.material-symbols-outlined){display:none}
+}
+
+/* No open conversation: the context panel is hidden, so give its column back; the send button looks disabled */
+@media(min-width:1280px){
+  body[data-page=messages] main.msg-main .msg-grid.msg-grid:has(>.msg-info[hidden]){grid-template-columns:340px minmax(0,1fr)}
+}
+body[data-page=messages] main.msg-main .msg-field:has(>input:disabled)>button{opacity:.5;pointer-events:none}

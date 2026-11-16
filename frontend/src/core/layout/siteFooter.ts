@@ -1,20 +1,75 @@
+import { dialog } from '../ui/feedback';
+
+/** Footer links shared by the page footer and the right-rail footer. `null` = page not built yet. */
+const footerLinks: [label: string, href: string | null][] = [
+  ['Về chúng tôi', null],
+  ['Trợ giúp', null],
+  ['Điều khoản', null],
+  ['Quyền riêng tư', null],
+  ['Dành cho nhà tuyển dụng', '/pages/register/'],
+  ['Đối tác nhà trường', '/pages/university/'],
+  ['Cộng đồng', '/pages/community/'],
+  ['Quản trị hệ thống', '/pages/admin-login/'],
+];
+
+const workspacePages = ['candidates', 'employer', 'post-job', 'company-settings', 'messages', 'cv-builder', 'profile', 'applications', 'notifications', 'reset-password'];
+
+function linkRow(className: string) {
+  const nav = document.createElement('nav');
+  nav.className = className;
+  nav.setAttribute('aria-label', 'Liên kết chân trang');
+  for (const [label, href] of footerLinks) {
+    const a = document.createElement('a');
+    a.textContent = label;
+    a.href = href ?? '#';
+    if (!href) {
+      a.dataset.footerPending = '';
+      // Registered before core/navigation.ts so its generic "#" handling never runs on these links
+      a.addEventListener('click', event => {
+        event.preventDefault(); event.stopImmediatePropagation();
+        dialog(label, `<p>Trang "${label}" đang được hoàn thiện và sẽ sớm có mặt.</p>`, 'Đóng');
+      });
+    }
+    nav.append(a);
+  }
+  return nav;
+}
+
+function copyright() {
+  const p = document.createElement('p');
+  p.className = 'site-footer-copy';
+  p.innerHTML = `<span class="site-footer-brand" aria-hidden="true">i</span><span>Internships.io © ${new Date().getFullYear()}</span>`;
+  return p;
+}
+
+/**
+ * Page footer. Public pages: a centred, small muted link row plus copyright (no dark mega-footer).
+ * Task pages (workspacePages) keep the slim `.workspace-footer` bar.
+ */
 export function renderSiteFooter() {
-  document.querySelectorAll('body > footer, footer.internships-footer, footer.itviec-footer, footer.workspace-footer').forEach(footer => footer.remove());
-  const workspacePages = ['candidates', 'employer', 'post-job', 'company-settings', 'messages', 'cv-builder', 'profile', 'applications', 'notifications', 'reset-password'];
+  document.querySelectorAll('body > footer, footer.internships-footer, footer.itviec-footer, footer.workspace-footer, footer.site-footer').forEach(footer => footer.remove());
+  const footer = document.createElement('footer');
   if (workspacePages.includes(document.body.dataset.page || '')) {
-    const footer = document.createElement('footer');
     footer.className = 'workspace-footer';
     footer.innerHTML = `<a href="/" aria-label="Internships.io — Trang chủ">Internships.io</a><span>© ${new Date().getFullYear()} Internships.io</span><a href="mailto:partner@internships.io">Liên hệ hỗ trợ</a>`;
-    document.body.append(footer);
-    return;
+  } else {
+    footer.className = 'site-footer';
+    footer.append(linkRow('site-footer-links'), copyright());
   }
-  const footer = document.createElement('footer'); footer.className = 'internships-footer';
-  footer.innerHTML = `<div class="itviec-footer-rings" aria-hidden="true"></div><div class="itviec-footer-inner">
-    <div class="itviec-brand-block"><a class="internships-logo" href="/" aria-label="Internships.io home"><span class="internships-logo-mark"></span><span>Internships.io</span></a><p class="internships-tagline"><strong>KẾT NỐI TƯƠNG LAI NGHỀ NGHIỆP<br>SINH VIÊN</strong><small>BUILD YOU THEN BUILD IMPACT</small></p><div class="itviec-socials"><a href="#" aria-label="Website"><span class="material-symbols-outlined">language</span></a><a href="#" aria-label="Facebook"><span class="material-symbols-outlined">public</span></a><a href="#" aria-label="Youtube"><span class="material-symbols-outlined">play_circle</span></a></div></div>
-    <div class="itviec-footer-column"><h3>Về Internships.io</h3><a href="/">Trang Chủ</a><a href="/pages/profile/">Về chúng tôi</a><a href="/pages/job-detail/">Dịch vụ AI Matching sinh viên</a><a href="/pages/community/">Liên hệ</a><a href="/">Tất cả vị trí thực tập</a><a href="/pages/community/">Câu hỏi thường gặp</a></div>
-    <div class="itviec-footer-column"><h3>Chiến dịch &amp; Cộng đồng</h3><a href="/pages/community/">Chuyện thực tập</a><a href="/pages/community/">Cuộc thi viết CV &amp; Chia sẻ</a><a href="/">Vị trí thực tập nổi bật</a><a href="/pages/community/">Khảo sát lương thực tập sinh hàng năm</a><a href="/pages/university/">Mạng lưới đối tác Trường ĐH</a></div>
-    <div class="itviec-footer-column"><h3>Điều khoản chung</h3><a href="/pages/login/">Chính sách bảo mật</a><a href="/pages/login/">Quy chế hoạt động</a><a href="/pages/community/">Giải quyết khiếu nại</a><a href="/pages/login/">Thỏa thuận sử dụng</a><a href="/pages/community/">Thông cáo báo chí</a></div>
-    <div class="itviec-footer-column itviec-contact"><h3>Dành cho nhà tuyển dụng</h3><p>Bạn muốn đăng tin tuyển thực tập sinh?<br>Liên hệ tại:</p><a href="tel:+84977460519">Hồ Chí Minh: <b>(+84) 977 460 519</b></a><a href="tel:+84983131351">Hà Nội: <b>(+84) 983 131 351</b></a><a href="mailto:partner@internships.io">Email: partner@internships.io</a><a class="footer-contact-link" href="/pages/community/">Gửi thông tin liên hệ <span class="material-symbols-outlined">arrow_forward</span></a></div>
-    <div class="itviec-footer-bottom"><span>Copyright © Internships.io JSC</span><b>|</b><span>Mã số thuế: 0312192258</span></div></div>`;
   document.body.append(footer);
+}
+
+/**
+ * Right-rail footer (LinkedIn pattern): the same links, compact, at the bottom of a page's right rail.
+ * On ≥992px the page footer is hidden while a rail footer exists; below that the rail footer hides instead.
+ * Phase 2 pages call this from their module once the rail is in the DOM: `renderRailFooter(railElement)`.
+ */
+export function renderRailFooter(container: HTMLElement) {
+  container.querySelector(':scope > .rail-footer')?.remove();
+  const block = document.createElement('div');
+  block.className = 'rail-footer';
+  block.append(linkRow('rail-footer-links'), copyright());
+  container.append(block);
+  document.body.classList.add('has-rail-footer');
+  return block;
 }

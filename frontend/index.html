@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><title>Việc làm thực tập | Internships.io</title><meta name="description" content="Việc làm thực tập — Nền tảng kết nối sinh viên và doanh nghiệp."><link rel="stylesheet" href="/src/styles/generated/jobs.css"><link rel="stylesheet" href="/src/styles/app.css"><link rel="stylesheet" href="/src/styles/tokens.css"><link rel="stylesheet" href="/src/styles/design-system.css"></head><body data-page="jobs" class="bg-background font-body-md text-on-background"><div class="min-h-screen bg-background text-on-background flex flex-col">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><title>Việc làm thực tập | Internships.io</title><meta property="og:site_name" content="Internships.io"><meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:title" content="Việc làm thực tập | Internships.io"><meta property="og:description" content="Việc làm thực tập — Nền tảng kết nối sinh viên và doanh nghiệp."><meta name="twitter:card" content="summary"><meta name="description" content="Việc làm thực tập — Nền tảng kết nối sinh viên và doanh nghiệp."><link rel="stylesheet" href="/src/styles/generated/jobs.css"><link rel="stylesheet" href="/src/styles/app.css"><link rel="stylesheet" href="/src/styles/tokens.css"><link rel="stylesheet" href="/src/styles/design-system.css"><link rel="stylesheet" href="/src/modules/jobs/jobs.css"></head><body data-page="jobs" class="bg-background font-body-md text-on-background"><div class="jobs-page">
 <!-- Global Top Navigation Bar -->
 <header class="sticky top-0 h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 px-lg flex items-center justify-between">
 <div class="flex items-center gap-xl">
@@ -34,477 +34,201 @@
 </div>
 </div>
 </header>
-<!-- Compact Hero & Quick Search Bar -->
-<section class="bg-gradient-to-r from-surface-container-high via-surface-container to-surface-container-high border-b border-outline-variant/30 py-lg px-lg">
-<div class="max-w-content mx-auto flex flex-col items-center text-center">
-<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs tracking-tight">
-        Tìm kiếm cơ hội <span class="text-primary font-bold">thực tập chất lượng</span> tiếp theo của bạn
-      </h1>
-<p class="font-body-sm text-body-sm text-on-surface-variant mb-md max-w-2xl">
-        Kết nối trực tiếp sinh viên tài năng với hơn 1,200+ doanh nghiệp công nghệ &amp; tập đoàn hàng đầu Việt Nam.
-      </p>
-<!-- Search Controls -->
-<form class="w-full max-w-4xl bg-surface-container-lowest p-xs rounded-xl shadow-md flex flex-col sm:flex-row items-center gap-xs transition-shadow hover:shadow-lg focus-within:ring-2 focus-within:ring-primary/20 border border-outline-variant/40">
-<div class="flex-1 flex items-center bg-surface w-full px-md py-sm rounded-lg">
-<span class="material-symbols-outlined text-outline-variant mr-sm">search</span>
-<input class="w-full bg-transparent border-none outline-none font-body-sm text-on-surface placeholder:text-on-surface-variant/70 focus:ring-0" placeholder="Chức danh, vị trí (VD: Frontend, UI/UX, Data)..." type="text" value="Thực tập sinh">
-</div>
-<div class="flex-1 flex items-center bg-surface w-full px-md py-sm rounded-lg border-t sm:border-t-0 sm:border-l border-outline-variant/40">
-<span class="material-symbols-outlined text-outline-variant mr-sm">location_on</span>
-<input class="w-full bg-transparent border-none outline-none font-body-sm text-on-surface placeholder:text-on-surface-variant/70 focus:ring-0" placeholder="Địa điểm (TP.HCM, Hà Nội, Remote)..." type="text" value="TP. Hồ Chí Minh">
-</div>
-<button class="w-full sm:w-auto bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md px-xl py-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-xs font-semibold" type="submit">
-<span class="material-symbols-outlined text-[18px]">search</span>
-          Tìm kiếm
-        </button>
+<!-- Jobs home ("Giấy & Mực"): search on top, then filters rail | job list | discovery rail. Enhanced by modules/jobs. -->
+<div class="ui-shell jobs-home">
+<!-- Search card (top of the main column; first on mobile) -->
+<section class="ui-card jobs-search" aria-label="Tìm kiếm việc làm">
+<h1 class="jobs-search__title">Tìm kiếm cơ hội thực tập chất lượng tiếp theo của bạn</h1>
+<form class="jobs-search__form">
+<label class="jobs-search__field">
+<span class="material-symbols-outlined">search</span>
+<input placeholder="Chức danh, vị trí (VD: Frontend, UI/UX, Data)..." type="text" value="Thực tập sinh">
+</label>
+<label class="jobs-search__field">
+<span class="material-symbols-outlined">location_on</span>
+<input placeholder="Địa điểm (TP.HCM, Hà Nội, Remote)..." type="text" value="TP. Hồ Chí Minh">
+</label>
+<button class="ui-btn ui-btn--primary jobs-search__submit" type="submit">Tìm kiếm</button>
 </form>
-<!-- Filter Quick Pills -->
-<div class="flex flex-wrap items-center justify-center gap-xs mt-md">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-xs">Bộ lọc nhanh:</span>
-<button class="bg-primary text-on-primary font-label-sm px-md py-xs rounded-full font-medium shadow-xs transition-all">Tất cả</button>
-<button class="bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm px-md py-xs rounded-full border border-outline-variant/30 flex items-center gap-[2px] transition-colors"><span class="material-symbols-outlined text-error text-[15px]">local_fire_department</span> Tuyển gấp</button>
-<button class="bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm px-md py-xs rounded-full border border-outline-variant/30 transition-colors">💼 Phụ cấp &gt; 8 triệu</button>
-<button class="bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm px-md py-xs rounded-full border border-outline-variant/30 transition-colors">🎓 ĐHQG &amp; Bách Khoa</button>
-<button class="bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm px-md py-xs rounded-full border border-outline-variant/30 transition-colors">🏢 Remote / Hybrid</button>
-<button class="bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm px-md py-xs rounded-full border border-outline-variant/30 transition-colors">⭐ Thực tập tốt nghiệp</button>
-</div>
+<div class="ui-pills jobs-quick">
+<span class="jobs-quick__label">Bộ lọc nhanh:</span>
+<button class="ui-pill" type="button" aria-pressed="true">Tất cả</button>
+<button class="ui-pill" type="button" aria-pressed="false">Tuyển gấp</button>
+<button class="ui-pill" type="button" aria-pressed="false">Phụ cấp &gt; 8 triệu</button>
+<button class="ui-pill" type="button" aria-pressed="false">ĐHQG &amp; Bách Khoa</button>
+<button class="ui-pill" type="button" aria-pressed="false">Remote / Hybrid</button>
+<button class="ui-pill" type="button" aria-pressed="false">Thực tập tốt nghiệp</button>
 </div>
 </section>
-<!-- 3-Column LinkedIn Architecture Layout Container -->
-<div class="home-container max-w-content mx-auto w-full px-md lg:px-lg py-lg">
-<div class="home-layout flex flex-col lg:flex-row gap-lg items-start">
-<!-- ================= 1. LEFT SIDEBAR (~270px) ================= -->
-<aside class="home-filters w-full lg:w-[270px] flex-shrink-0 flex flex-col gap-md">
-<!-- Student Profile Card -->
-<div data-auth-only hidden class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm relative overflow-hidden">
-<div class="h-16 -mx-md -mt-md bg-gradient-to-r from-primary/80 to-primary-container relative">
-<span class="absolute top-2 right-2 bg-surface/90 text-primary font-label-sm px-xs py-[2px] rounded text-[11px] font-semibold">Sinh viên</span>
+<!-- ================= Left rail: profile, filters, job alert ================= -->
+<aside class="home-filters ui-rail" aria-label="Bộ lọc">
+<button class="ui-pill jobs-filter-toggle" type="button" aria-expanded="false" aria-controls="jobs-filter-panel"><span class="material-symbols-outlined">tune</span>Bộ lọc</button>
+<!-- Signed-in student's profile card: built by core/layout/profileCard.ts (same card as the community page) -->
+<div data-auth-only hidden></div>
+<!-- Filters -->
+<div class="ui-card jobs-filters" id="jobs-filter-panel">
+<div class="ui-card__header">
+<h2 class="ui-card__title ui-card__title--sm">Bộ lọc việc làm</h2>
 </div>
-<div class="flex flex-col items-center text-center pb-xs border-b border-outline-variant/30">
-<img alt="Nguyễn Minh Thư" class="w-16 h-16 rounded-full object-cover border-4 border-surface shadow-sm mb-xs" src="/assets/images/33290a779af11a09.png">
-<h3 class="font-label-md text-on-surface font-bold">Nguyễn Minh Thư</h3>
-<p class="font-body-sm text-[12px] text-on-surface-variant leading-tight mt-[2px]">Năm 4 • Khoa KHMT &amp; KT Máy tính</p>
-<p class="font-label-sm text-[11px] text-primary font-medium mt-[2px]">ĐH Bách Khoa TP.HCM (GPA 3.65/4.0)</p>
+<fieldset class="jobs-filters__group">
+<legend class="jobs-filters__label">Hình thức thực tập</legend>
+<label class="jobs-check"><input type="checkbox"> <span>Thực tập tốt nghiệp</span></label>
+<label class="jobs-check"><input type="checkbox"> <span>Bán thời gian <span class="jobs-nowrap">(Part-time)</span></span></label>
+<label class="jobs-check"><input type="checkbox"> <span>Toàn thời gian <span class="jobs-nowrap">(Full-time)</span></span></label>
+</fieldset>
+<fieldset class="jobs-filters__group">
+<legend class="jobs-filters__label">Chế độ làm việc</legend>
+<label class="jobs-check"><input type="checkbox"> <span>Tại văn phòng <span class="jobs-nowrap">(On-site)</span></span></label>
+<label class="jobs-check"><input type="checkbox"> <span>Linh hoạt <span class="jobs-nowrap">(Hybrid)</span></span></label>
+<label class="jobs-check"><input type="checkbox"> <span>Từ xa <span class="jobs-nowrap">(100% Remote)</span></span></label>
+</fieldset>
+<div class="jobs-filters__group">
+<div class="jobs-filters__range-head">
+<span class="jobs-filters__label">Phụ cấp hỗ trợ</span>
+<span class="jobs-filters__range-value">Từ 0 triệu / tháng</span>
 </div>
-<!-- Quick Stats -->
-<div class="py-sm space-y-xs text-[13px] border-b border-outline-variant/30">
-<div class="flex justify-between items-center text-on-surface-variant">
-<span class="">Đơn ứng tuyển:</span>
-<span class="font-bold text-primary">14 việc</span>
+<input class="jobs-filters__range" type="range" value="0">
+<div class="jobs-filters__ticks"><span>0</span><span>10 triệu</span><span>20 triệu</span></div>
 </div>
-<div class="flex justify-between items-center text-on-surface-variant">
-<span class="">Việc làm đã lưu:</span>
-<span class="font-bold text-on-surface">8 việc</span>
-</div>
-<div class="mt-xs">
-<div class="flex justify-between text-[11px] text-on-surface-variant mb-1">
-<span class="">Độ hoàn thiện hồ sơ</span>
-<span class="font-semibold text-secondary">85%</span>
-</div>
-<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 85%"></div>
-</div>
-</div>
-</div>
-<a class="mt-sm w-full block text-center py-xs bg-surface-container hover:bg-surface-container-high text-primary font-label-sm font-semibold rounded transition-colors" href="#">
-            Xem hồ sơ cá nhân
-          </a>
-</div>
-<!-- Advanced Filters Widget -->
-<div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm space-y-md">
-<div class="flex items-center justify-between pb-xs border-b border-outline-variant/30">
-<span class="font-label-md text-on-surface font-bold flex items-center gap-xs">
-<span class="material-symbols-outlined text-[18px] text-primary">tune</span> Bộ lọc việc làm
-            </span>
-<button class="text-label-sm text-primary hover:underline font-medium">Thiết lập lại</button>
-</div>
-<!-- Job Type -->
-<div class="space-y-xs">
-<span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Hình thức thực tập</span>
-<div class="flex flex-col gap-xs text-[13px]">
-<label class="flex items-center gap-sm cursor-pointer hover:text-primary transition-colors">
-<input checked="" class="accent-primary" type="checkbox"> Thực tập tốt nghiệp
-              </label>
-<label class="flex items-center gap-sm cursor-pointer hover:text-primary transition-colors">
-<input checked="" class="accent-primary" type="checkbox"> Bán thời gian (Part-time)
-              </label>
-<label class="flex items-center gap-sm cursor-pointer hover:text-primary transition-colors">
-<input class="accent-primary" type="checkbox"> Toàn thời gian (Full-time)
-              </label>
-</div>
-</div>
-<!-- Workplace Type -->
-<div class="space-y-xs">
-<span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Chế độ làm việc</span>
-<div class="flex flex-col gap-xs text-[13px]">
-<label class="flex items-center gap-sm cursor-pointer hover:text-primary transition-colors">
-<input checked="" class="accent-primary" type="checkbox"> Tại văn phòng (On-site)
-              </label>
-<label class="flex items-center gap-sm cursor-pointer hover:text-primary transition-colors">
-<input checked="" class="accent-primary" type="checkbox"> Linh hoạt (Hybrid)
-              </label>
-<label class="flex items-center gap-sm cursor-pointer hover:text-primary transition-colors">
-<input class="accent-primary" type="checkbox"> Từ xa (100% Remote)
-              </label>
-</div>
-</div>
-<!-- Salary / Allowance Range Slider -->
-<div class="space-y-xs">
-<div class="flex justify-between items-center text-[12px]">
-<span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Phụ cấp hỗ trợ</span>
-<span class="font-bold text-primary">5tr - 15tr VNĐ</span>
-</div>
-<input class="w-full accent-primary cursor-pointer" type="range" value="60">
-<div class="flex justify-between text-[10px] text-on-surface-variant">
-<span class="">3 triệu</span>
-<span class="">8 triệu</span>
-<span class="">20+ triệu</span>
-</div>
-</div>
-<!-- Industry Field -->
-<div class="space-y-xs">
-<span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Lĩnh vực / Chuyên ngành</span>
-<select class="w-full bg-surface-container border border-outline-variant/50 rounded-md p-xs text-[13px] text-on-surface font-body-sm focus:outline-none focus:ring-1 focus:ring-primary">
+<div class="jobs-filters__group">
+<label class="jobs-filters__label" for="jobs-industry">Lĩnh vực / Chuyên ngành</label>
+<select class="jobs-select" id="jobs-industry">
 <option>CNTT / Phát triển Phần mềm</option>
 <option>Thiết kế UI/UX &amp; Sản phẩm</option>
 <option>Phân tích Dữ liệu &amp; AI</option>
-<option>Marketing số &amp; Truyền thông</option>
-<option>Tài chính / Đầu tư</option>
 </select>
 </div>
+<div class="ui-card__footer"><button type="button">Thiết lập lại</button></div>
 </div>
-<!-- Job Alert Subscription Card -->
-<div class="bg-surface-container-high/60 rounded-xl p-md border border-outline-variant/30 space-y-xs">
-<div class="flex items-center gap-xs text-primary font-label-md font-bold">
-<span class="material-symbols-outlined text-[18px]">forward_to_inbox</span> Nhận tin việc làm mới
-          </div>
-<p class="text-[12px] text-on-surface-variant leading-relaxed">Nhận thông báo việc làm thực tập phù hợp theo ngành học vào 8:00 mỗi sáng.</p>
-<input class="w-full text-[12px] bg-surface-container-lowest border border-outline-variant/40 rounded p-xs outline-none focus:ring-1 focus:ring-primary" placeholder="Email của bạn..." type="email">
-<button class="w-full mt-xs bg-primary hover:bg-on-primary-fixed-variant text-on-primary text-[12px] font-semibold py-xs rounded transition-colors">
-            Bật thông báo ngay
-          </button>
+<!-- Job alert -->
+<div class="ui-card jobs-alert">
+<h2 class="jobs-alert__title"><span class="material-symbols-outlined">notifications</span>Nhận tin việc làm mới</h2>
+<p class="jobs-alert__text">Nhận thông báo việc làm thực tập phù hợp theo ngành học vào 8:00 mỗi sáng.</p>
+<input class="jobs-alert__email" placeholder="Email của bạn..." type="email">
+<button class="ui-btn ui-btn--secondary ui-btn--sm ui-btn--block" type="button">Bật thông báo ngay</button>
 </div>
 </aside>
-<!-- ================= 2. CENTER FEED (~650px - 700px) ================= -->
-<main class="home-feed flex-1 max-w-full lg:max-w-[700px] flex flex-col gap-md">
-<!-- Feed Header Toolbar -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm bg-surface-container-lowest p-md rounded-xl border border-outline-variant/40 shadow-sm">
-<div>
-<h2 class="font-headline-md text-[18px] text-on-surface font-bold">
-<span class="text-primary">1,245</span> Vị trí thực tập đang tuyển
-            </h2>
-<p class="text-[12px] text-on-surface-variant mt-[2px]">Cập nhật liên tục từ các doanh nghiệp đối tác xác thực</p>
+<!-- ================= Main: job list ================= -->
+<main class="home-feed ui-main">
+<div class="ui-card ui-card--flush jobs-results">
+<div class="jobs-results__header">
+<div class="jobs-results__heading">
+<h2 class="jobs-results__title"><span>1,245</span> Vị trí thực tập đang tuyển</h2>
+<p class="jobs-results__subtitle">Cập nhật liên tục từ các doanh nghiệp đối tác xác thực</p>
 </div>
-<div class="flex items-center gap-xs text-[13px]">
-<span class="text-on-surface-variant">Sắp xếp:</span>
-<select class="bg-surface-container border border-outline-variant/40 rounded-md px-sm py-xs text-[13px] font-medium text-on-surface cursor-pointer focus:ring-1 focus:ring-primary focus:outline-none">
+<div class="jobs-results__tools">
+<label class="jobs-results__sort-label" for="jobs-sort">Sắp xếp:</label>
+<select class="jobs-select jobs-select--sm" id="jobs-sort">
 <option>Phù hợp nhất với bạn</option>
 <option>Mới nhất hôm nay</option>
 <option>Phụ cấp (Cao đến thấp)</option>
 <option>Được xem nhiều nhất</option>
 </select>
-<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface-container transition-colors" title="Chế độ danh sách">
-<span class="material-symbols-outlined text-[20px]">view_list</span>
-</button>
+<button class="ui-btn ui-btn--icon ui-btn--sm" type="button" title="Chế độ danh sách"><span class="material-symbols-outlined">view_list</span></button>
 </div>
 </div>
-<!-- Job Cards List (Compact, balanced & elegant) -->
-<div class="flex flex-col gap-md">
-<!-- Job Card 1: Promoted / Featured -->
-<article class="bg-surface-container-lowest rounded-xl p-md border-l-4 border-l-primary border border-outline-variant/40 shadow-sm hover:shadow-md hover:border-outline transition-all duration-200 group cursor-pointer relative">
-<div class="absolute top-0 right-0 bg-primary text-on-primary font-label-sm text-[11px] px-sm py-[2px] rounded-bl-lg font-semibold flex items-center gap-[2px]">
-<span class="material-symbols-outlined text-[13px]">star</span> Nổi bật
-            </div>
-<div class="flex items-start gap-md">
-<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border border-outline-variant/30">
-<img alt="TechNova Solutions" class="w-full h-full object-cover" src="/assets/images/44db1a3fc9d9bd51.png">
+<div class="jobs-results__body">
+<!-- Job row (the first one is the template for every result) -->
+<article class="ui-row jobs-row">
+<img alt="TechNova Solutions" class="ui-logo jobs-row__logo" src="/assets/images/44db1a3fc9d9bd51.png">
+<div class="ui-row__body">
+<h3 class="ui-row__title jobs-row__title"><a href="/pages/job-detail/">Software Engineering Intern (Full-stack)</a></h3>
+<p class="ui-row__subtitle jobs-row__company">TechNova Solutions</p>
+<p class="ui-row__subtitle jobs-row__place">Quận 7, TP.HCM · Hybrid</p>
+<p class="ui-meta jobs-row__meta"><span class="jobs-row__stipend">8 - 12 Triệu VNĐ</span><span>Đăng 2 giờ trước</span></p>
+<div class="jobs-row__foot"><span class="ui-deadline"><span class="material-symbols-outlined">schedule</span>Còn 12 ngày</span><span class="jobs-row__skills">ReactJS · TypeScript</span></div>
 </div>
-<div class="flex-1 min-w-0">
-<div class="flex items-start justify-between gap-sm pr-12">
-<h3 class="font-headline-md text-[17px] text-primary group-hover:underline font-bold truncate">
-                    Software Engineering Intern (Full-stack)
-                  </h3>
-<button class="text-outline hover:text-primary transition-colors p-xs -mt-1 -mr-1 rounded-full hover:bg-surface-container" title="Lưu công việc">
-<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
-</button>
-</div>
-<div class="flex items-center gap-xs text-[13px] text-on-surface-variant font-medium mt-[2px] flex-wrap">
-<span class="text-on-surface font-semibold">TechNova Solutions</span>
-<span class="">•</span>
-<span class="flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">location_on</span> Quận 7, TP.HCM (Hybrid)</span>
-<span class="">•</span>
-<span class="text-secondary font-bold flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">payments</span> 8 - 12 Triệu VNĐ</span>
-</div>
-<p class="font-body-sm text-[13px] text-on-surface-variant mt-xs line-clamp-2 leading-relaxed">
-                  Tham gia phát triển hạ tầng Microservices phục vụ hơn 5 triệu người dùng. Được kèm cặp 1-on-1 bởi Senior Staff Engineer, hỗ trợ tài liệu và dấu mộc thực tập chuẩn chỉ.
-                </p>
-<div class="flex items-center gap-xs flex-wrap mt-sm pt-xs border-t border-outline-variant/20">
-<span class="bg-secondary-container text-on-secondary-container font-label-sm px-sm py-[2px] rounded text-[11px] font-semibold">ReactJS</span>
-<span class="bg-secondary-container text-on-secondary-container font-label-sm px-sm py-[2px] rounded text-[11px] font-semibold">TypeScript</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Có Mentor 1-on-1</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Dấu mộc đồ án</span>
-<span class="ml-auto text-[11px] text-on-surface-variant">Đăng 2 giờ trước</span>
-</div>
-</div>
+<div class="ui-row__actions">
+<button class="ui-btn ui-btn--icon" type="button" title="Lưu công việc"><span class="material-symbols-outlined">bookmark_border</span></button>
 </div>
 </article>
-<!-- Job Card 2: Urgent hiring -->
-<article class="bg-surface-container-lowest rounded-xl p-md border-l-4 border-l-error border border-outline-variant/40 shadow-sm hover:shadow-md transition-all duration-200 group cursor-pointer relative">
-<div class="flex items-start gap-md">
-<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border border-outline-variant/30">
-<img alt="VNG Corporation" class="w-full h-full object-cover" src="/assets/images/501f223c5c7bbe4e.png">
+<article class="ui-row jobs-row">
+<img alt="VNG Corporation" class="ui-logo jobs-row__logo" src="/assets/images/501f223c5c7bbe4e.png">
+<div class="ui-row__body">
+<h3 class="ui-row__title jobs-row__title"><a href="/pages/job-detail/">Backend Developer Intern (Golang / Java)</a></h3>
+<p class="ui-row__subtitle jobs-row__company">VNG Corporation</p>
+<p class="ui-row__subtitle jobs-row__place">TP.HCM · Tại văn phòng</p>
+<p class="ui-meta jobs-row__meta"><span class="jobs-row__stipend">10 - 14 Triệu VNĐ</span><span>Đăng hôm nay</span></p>
+<div class="jobs-row__foot"><span class="ui-deadline is-soon"><span class="material-symbols-outlined">schedule</span>Còn 3 ngày</span><span class="jobs-row__skills">Golang</span></div>
 </div>
-<div class="flex-1 min-w-0">
-<div class="flex items-start justify-between gap-sm">
-<h3 class="font-headline-md text-[17px] text-primary group-hover:underline font-bold truncate">
-                    Backend Developer Intern (Golang / Java)
-                  </h3>
-<button class="text-outline hover:text-primary transition-colors p-xs -mt-1 -mr-1 rounded-full hover:bg-surface-container" title="Lưu công việc">
-<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
-</button>
-</div>
-<div class="flex items-center gap-xs text-[13px] text-on-surface-variant font-medium mt-[2px] flex-wrap">
-<span class="text-on-surface font-semibold">VNG Corporation</span>
-<span class="">•</span>
-<span class="flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">location_on</span> VNG Campus, Q.7 (On-site)</span>
-<span class="">•</span>
-<span class="text-secondary font-bold flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">payments</span> 10 - 14 Triệu VNĐ</span>
-</div>
-<p class="font-body-sm text-[13px] text-on-surface-variant mt-xs line-clamp-2 leading-relaxed">
-                  Tham gia khối nền tảng dữ liệu lớn và cổng thanh toán ZaloPay. Làm việc trực tiếp với hệ thống phân tán, xử lý lưu lượng hàng triệu RPS. Cấp Macbook Pro M3 và bao ăn trưa.
-                </p>
-<div class="flex items-center gap-xs flex-wrap mt-sm pt-xs border-t border-outline-variant/20">
-<span class="bg-error-container text-on-error-container font-label-sm px-sm py-[2px] rounded text-[11px] font-bold flex items-center gap-[2px]">
-<span class="material-symbols-outlined text-[13px]">local_fire_department</span> Tuyển gấp 3 vị trí
-                  </span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Golang</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Cơm trưa</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Cấp Macbook</span>
-<span class="ml-auto text-[11px] text-on-surface-variant">Đăng hôm nay</span>
-</div>
-</div>
+<div class="ui-row__actions">
+<button class="ui-btn ui-btn--icon" type="button" title="Lưu công việc"><span class="material-symbols-outlined">bookmark_border</span></button>
 </div>
 </article>
-<!-- Job Card 3: Design / Remote -->
-<article class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm hover:shadow-md hover:border-l-4 hover:border-l-primary-fixed-dim transition-all duration-200 group cursor-pointer relative">
-<div class="flex items-start gap-md">
-<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border border-outline-variant/30">
-<img alt="DesignWorks Studio" class="w-full h-full object-cover" src="/assets/images/242a53f77c45f1d2.png">
+<article class="ui-row jobs-row">
+<img alt="DesignWorks Studio" class="ui-logo jobs-row__logo" src="/assets/images/242a53f77c45f1d2.png">
+<div class="ui-row__body">
+<h3 class="ui-row__title jobs-row__title"><a href="/pages/job-detail/">Product Design (UI/UX) Intern</a></h3>
+<p class="ui-row__subtitle jobs-row__company">DesignWorks Studio</p>
+<p class="ui-row__subtitle jobs-row__place">Toàn quốc · 100% Từ xa (Remote)</p>
+<p class="ui-meta jobs-row__meta"><span class="jobs-row__stipend">6 - 9 Triệu VNĐ</span><span>Đăng 1 ngày trước</span></p>
+<div class="jobs-row__foot"><span class="ui-deadline"><span class="material-symbols-outlined">schedule</span>Còn 20 ngày</span><span class="jobs-row__skills">Figma · Wireframing</span></div>
 </div>
-<div class="flex-1 min-w-0">
-<div class="flex items-start justify-between gap-sm">
-<h3 class="font-headline-md text-[17px] text-primary group-hover:underline font-bold truncate">
-                    Product Design (UI/UX) Intern
-                  </h3>
-<button class="text-outline hover:text-primary transition-colors p-xs -mt-1 -mr-1 rounded-full hover:bg-surface-container" title="Lưu công việc">
-<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
-</button>
-</div>
-<div class="flex items-center gap-xs text-[13px] text-on-surface-variant font-medium mt-[2px] flex-wrap">
-<span class="text-on-surface font-semibold">DesignWorks Studio</span>
-<span class="">•</span>
-<span class="flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">public</span> 100% Từ xa (Remote)</span>
-<span class="">•</span>
-<span class="text-secondary font-bold flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">payments</span> 6 - 9 Triệu VNĐ</span>
-</div>
-<p class="font-body-sm text-[13px] text-on-surface-variant mt-xs line-clamp-2 leading-relaxed">
-                  Xây dựng bộ thư viện UI Kit, tham gia phỏng vấn người dùng thực tế và hoàn thiện luồng thanh toán ứng dụng Fintech. Thích hợp cho sinh viên đam mê thiết kế giao diện tương tác hiện đại.
-                </p>
-<div class="flex items-center gap-xs flex-wrap mt-sm pt-xs border-t border-outline-variant/20">
-<span class="bg-primary-fixed text-on-primary-fixed font-label-sm px-sm py-[2px] rounded text-[11px] font-semibold">Figma</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Wireframing</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Review Portfolio</span>
-<span class="ml-auto text-[11px] text-on-surface-variant">Đăng 1 ngày trước</span>
-</div>
-</div>
-</div>
-</article>
-<!-- Job Card 4: Quantitative / Data -->
-<article class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm hover:shadow-md hover:border-l-4 hover:border-l-primary-fixed-dim transition-all duration-200 group cursor-pointer relative">
-<div class="flex items-start gap-md">
-<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border border-outline-variant/30">
-<img alt="FinEdge Capital" class="w-full h-full object-cover" src="/assets/images/501f223c5c7bbe4e.png">
-</div>
-<div class="flex-1 min-w-0">
-<div class="flex items-start justify-between gap-sm">
-<h3 class="font-headline-md text-[17px] text-primary group-hover:underline font-bold truncate">
-                    Quantitative / Data Analyst Intern
-                  </h3>
-<button class="text-outline hover:text-primary transition-colors p-xs -mt-1 -mr-1 rounded-full hover:bg-surface-container" title="Lưu công việc">
-<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
-</button>
-</div>
-<div class="flex items-center gap-xs text-[13px] text-on-surface-variant font-medium mt-[2px] flex-wrap">
-<span class="text-on-surface font-semibold">FinEdge Capital</span>
-<span class="">•</span>
-<span class="flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">location_on</span> Cầu Giấy, Hà Nội</span>
-<span class="">•</span>
-<span class="text-secondary font-bold flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">payments</span> 7 - 10 Triệu VNĐ</span>
-</div>
-<p class="font-body-sm text-[13px] text-on-surface-variant mt-xs line-clamp-2 leading-relaxed">
-                  Xây dựng dashboard chỉ số định lượng, trực quan hóa xu hướng chứng khoán và kiểm thử thuật toán giao dịch. Yêu cầu nền tảng toán thống kê và tư duy phân tích tốt.
-                </p>
-<div class="flex items-center gap-xs flex-wrap mt-sm pt-xs border-t border-outline-variant/20">
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px] font-semibold">Python</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px] font-semibold">SQL</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Ưu tiên Bách Khoa/Kinh tế</span>
-<span class="ml-auto text-[11px] text-on-surface-variant">Đăng 3 ngày trước</span>
-</div>
-</div>
-</div>
-</article>
-<!-- Job Card 5: Marketing & Growth -->
-<article class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm hover:shadow-md hover:border-l-4 hover:border-l-primary-fixed-dim transition-all duration-200 group cursor-pointer relative">
-<div class="flex items-start gap-md">
-<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex-shrink-0 flex items-center justify-center overflow-hidden border border-outline-variant/30">
-<img alt="EcoLife Innovations" class="w-full h-full object-cover" src="/assets/images/90ebc4c30d7a763b.png">
-</div>
-<div class="flex-1 min-w-0">
-<div class="flex items-start justify-between gap-sm">
-<h3 class="font-headline-md text-[17px] text-primary group-hover:underline font-bold truncate">
-                    Marketing &amp; Growth Intern
-                  </h3>
-<button class="text-outline hover:text-primary transition-colors p-xs -mt-1 -mr-1 rounded-full hover:bg-surface-container" title="Lưu công việc">
-<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
-</button>
-</div>
-<div class="flex items-center gap-xs text-[13px] text-on-surface-variant font-medium mt-[2px] flex-wrap">
-<span class="text-on-surface font-semibold">EcoLife Innovations</span>
-<span class="">•</span>
-<span class="flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">location_on</span> Quận 1, TP.HCM (Hybrid)</span>
-<span class="">•</span>
-<span class="text-secondary font-bold flex items-center gap-[2px]"><span class="material-symbols-outlined text-[15px]">payments</span> 5 - 7 Triệu VNĐ</span>
-</div>
-<p class="font-body-sm text-[13px] text-on-surface-variant mt-xs line-clamp-2 leading-relaxed">
-                  Lên ý tưởng chiến dịch truyền thông đa kênh cho dự án môi trường xanh, quản trị cộng đồng và theo dõi chuyển đổi organic traffic qua kênh TikTok/Fanpage.
-                </p>
-<div class="flex items-center gap-xs flex-wrap mt-sm pt-xs border-t border-outline-variant/20">
-<span class="bg-tertiary-container text-on-tertiary-container font-label-sm px-sm py-[2px] rounded text-[11px] font-semibold">Content / SEO</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">GenZ Marketing</span>
-<span class="bg-surface-container text-on-surface font-label-sm px-sm py-[2px] rounded text-[11px]">Thưởng hiệu quả</span>
-<span class="ml-auto text-[11px] text-on-surface-variant">Đăng 4 ngày trước</span>
-</div>
-</div>
+<div class="ui-row__actions">
+<button class="ui-btn ui-btn--icon" type="button" title="Lưu công việc"><span class="material-symbols-outlined">bookmark_border</span></button>
 </div>
 </article>
 </div>
-<!-- Balanced Pagination -->
-<div class="mt-md py-sm flex items-center justify-center gap-xs bg-surface-container-lowest rounded-xl border border-outline-variant/40">
-<button class="w-9 h-9 rounded-lg flex items-center justify-center text-outline-variant hover:bg-surface-container hover:text-on-surface transition-colors cursor-not-allowed" disabled="">
-<span class="material-symbols-outlined text-[18px]">chevron_left</span>
-</button>
-<button class="w-9 h-9 rounded-lg flex items-center justify-center bg-primary text-on-primary font-bold text-sm shadow-sm">1</button>
-<button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors text-sm font-medium">2</button>
-<button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors text-sm font-medium">3</button>
-<span class="px-xs text-on-surface-variant text-sm">...</span>
-<button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors text-sm font-medium">24</button>
-<button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-[18px]">chevron_right</span>
-</button>
+<!-- Pagination -->
+<div class="jobs-pager">
+<button class="jobs-pager__btn" type="button" disabled=""><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="jobs-pager__btn" type="button">1</button>
+<button class="jobs-pager__btn" type="button">2</button>
+<button class="jobs-pager__btn" type="button">3</button>
+<button class="jobs-pager__btn" type="button"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
 </div>
 </main>
-<!-- ================= 3. RIGHT SIDEBAR (~300px) ================= -->
-<aside class="home-discovery w-full lg:w-[300px] flex-shrink-0 flex flex-col gap-md">
-<!-- Top Hiring Companies -->
-<div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm space-y-md">
-<div class="flex items-center justify-between pb-xs border-b border-outline-variant/30">
-<span class="font-label-md text-on-surface font-bold flex items-center gap-xs">
-<span class="material-symbols-outlined text-[18px] text-primary">corporate_fare</span> Doanh nghiệp nổi bật
-            </span>
-<a class="text-[12px] text-primary hover:underline font-medium" href="#">Tất cả</a>
+<!-- ================= Right rail: discovery ================= -->
+<aside class="home-discovery ui-rail" aria-label="Khám phá">
+<!-- Featured companies (homeSidebar.ts: header div, then the list div) -->
+<div class="ui-card jobs-rail-card">
+<div class="jobs-rail-card__header">
+<h2 class="jobs-rail-card__title">Doanh nghiệp nổi bật</h2>
+<a class="ui-link jobs-rail-card__more" href="#">Tất cả</a>
 </div>
-<div class="space-y-sm">
-<!-- Company 1 -->
-<div class="flex items-center justify-between gap-sm">
-<div class="flex items-center gap-sm min-w-0">
-<img alt="TechNova" class="w-9 h-9 rounded-md object-cover border border-outline-variant/30 flex-shrink-0" src="/assets/images/44db1a3fc9d9bd51.png">
-<div class="min-w-0">
-<p class="text-[13px] font-bold text-on-surface truncate">TechNova Solutions</p>
-<p class="text-[11px] text-on-surface-variant">24 vị trí tuyển</p>
+<div class="jobs-company-list">
+<div class="jobs-company-item">
+<div class="jobs-company-item__main">
+<img alt="TechNova" class="ui-logo ui-logo--sm" src="/assets/images/44db1a3fc9d9bd51.png">
+<div class="jobs-company-item__text">
+<p class="jobs-company-item__name">TechNova Solutions</p>
+<p class="jobs-company-item__meta">3 vị trí tuyển</p>
 </div>
 </div>
-<button class="px-sm py-[3px] border border-primary text-primary hover:bg-primary hover:text-on-primary rounded text-[11px] font-semibold transition-colors flex-shrink-0">
-                + Theo dõi
-              </button>
-</div>
-<!-- Company 2 -->
-<div class="flex items-center justify-between gap-sm">
-<div class="flex items-center gap-sm min-w-0">
-<img alt="VNG" class="w-9 h-9 rounded-md object-cover border border-outline-variant/30 flex-shrink-0" src="/assets/images/501f223c5c7bbe4e.png">
-<div class="min-w-0">
-<p class="text-[13px] font-bold text-on-surface truncate">VNG Corporation</p>
-<p class="text-[11px] text-on-surface-variant">35 vị trí tuyển</p>
-</div>
-</div>
-<button class="px-sm py-[3px] border border-primary text-primary hover:bg-primary hover:text-on-primary rounded text-[11px] font-semibold transition-colors flex-shrink-0">
-                + Theo dõi
-              </button>
-</div>
-<!-- Company 3 -->
-<div class="flex items-center justify-between gap-sm">
-<div class="flex items-center gap-sm min-w-0">
-<img alt="DesignWorks" class="w-9 h-9 rounded-md object-cover border border-outline-variant/30 flex-shrink-0" src="/assets/images/242a53f77c45f1d2.png">
-<div class="min-w-0">
-<p class="text-[13px] font-bold text-on-surface truncate">DesignWorks Studio</p>
-<p class="text-[11px] text-on-surface-variant">12 vị trí tuyển</p>
-</div>
-</div>
-<button class="px-sm py-[3px] border border-primary text-primary hover:bg-primary hover:text-on-primary rounded text-[11px] font-semibold transition-colors flex-shrink-0">
-                + Theo dõi
-              </button>
+<button class="ui-btn ui-btn--neutral ui-btn--sm jobs-follow" type="button">+ Theo dõi</button>
 </div>
 </div>
 </div>
-<!-- Career Tools & Prep -->
-<div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm space-y-sm">
-<span class="font-label-md text-on-surface font-bold flex items-center gap-xs pb-xs border-b border-outline-variant/30">
-<span class="material-symbols-outlined text-[18px] text-primary">psychology</span> Cẩm nang &amp; Công cụ thi tuyển
-          </span>
-<div class="space-y-xs">
-<a class="block p-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group" href="#">
-<div class="flex items-center justify-between">
-<span class="text-[13px] font-bold text-on-surface group-hover:text-primary transition-colors">Luyện phỏng vấn chuẩn STAR</span>
-<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
-</div>
-<p class="text-[11px] text-on-surface-variant mt-[2px]">Ngân hàng 100+ câu hỏi kinh điển từ Big Tech &amp; FinTech</p>
+<!-- Career prep -->
+<div class="ui-card jobs-rail-card">
+<h2 class="jobs-rail-card__title">Cẩm nang &amp; Công cụ thi tuyển</h2>
+<div class="jobs-link-list">
+<a class="jobs-link-item" href="#">
+<span class="jobs-link-item__title">Luyện phỏng vấn chuẩn STAR</span>
+<span class="jobs-link-item__meta">Ngân hàng câu hỏi kinh điển từ Big Tech &amp; FinTech</span>
 </a>
-<a class="block p-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors group" href="#">
-<div class="flex items-center justify-between">
-<span class="text-[13px] font-bold text-on-surface group-hover:text-primary transition-colors">Huy hiệu kỹ năng Verified</span>
-<span class="bg-tertiary-container text-on-tertiary-container text-[10px] px-xs rounded font-bold">+40% liên hệ</span>
-</div>
-<p class="text-[11px] text-on-surface-variant mt-[2px]">Làm bài test React, Python, Data để nhận chứng chỉ</p>
+<a class="jobs-link-item" href="#">
+<span class="jobs-link-item__title">Huy hiệu kỹ năng Verified</span>
+<span class="jobs-link-item__meta">Làm bài test React, Python, Data để nhận chứng chỉ</span>
 </a>
 </div>
 </div>
-<!-- Upcoming Campus Job Fairs -->
-<div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant/40 shadow-sm space-y-sm">
-<span class="font-label-md text-on-surface font-bold flex items-center gap-xs pb-xs border-b border-outline-variant/30">
-<span class="material-symbols-outlined text-[18px] text-primary">event</span> Sự kiện tuyển dụng sắp tới
-          </span>
-<div class="space-y-sm text-[12px]">
-<div class="border-l-2 border-primary pl-sm py-0.5">
-<p class="font-bold text-on-surface">HCMUT Career Fair 2025</p>
-<p class="text-on-surface-variant text-[11px]">15 Tháng 4, 2025 • ĐH Bách Khoa TP.HCM</p>
+<!-- Upcoming events (homeSidebar.ts: heading, then the list div; items hold two <p>) -->
+<div class="ui-card jobs-rail-card">
+<h2 class="jobs-rail-card__title">Sự kiện tuyển dụng sắp tới</h2>
+<div class="jobs-event-list">
+<div class="jobs-event-item">
+<p class="jobs-event-item__title">HCMUT Career Fair</p>
+<p class="jobs-event-item__meta">ĐH Bách Khoa TP.HCM</p>
 </div>
-<div class="border-l-2 border-secondary pl-sm py-0.5">
-<p class="font-bold text-on-surface">Workshop: Chinh phục Nhà tuyển dụng IT</p>
-<p class="text-on-surface-variant text-[11px]">Thứ Bảy, 20:00 • Trực tuyến qua Zoom</p>
+<div class="jobs-event-item">
+<p class="jobs-event-item__title">Workshop: Chinh phục Nhà tuyển dụng IT</p>
+<p class="jobs-event-item__meta">Trực tuyến</p>
 </div>
 </div>
-</div>
-<!-- Mini Footer -->
-<div class="px-xs text-[11px] text-on-surface-variant space-y-xs">
-<div class="flex flex-wrap gap-x-sm gap-y-1">
-<a class="hover:underline" href="#">Về chúng tôi</a>
-<a class="hover:underline" href="#">Điều khoản dịch vụ</a>
-<a class="hover:underline" href="#">Bảo mật</a>
-<a class="hover:underline" href="#">Trợ giúp</a>
-</div>
-<p class="">© 2025 Internships.io. Bản quyền thuộc về nền tảng kết nối sinh viên.</p>
 </div>
 </aside>
-</div>
 </div>
 </div>
 

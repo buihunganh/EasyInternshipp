@@ -177,7 +177,37 @@ export async function setupAuthForms(page: string) {
 
 /** Password strength, forgot password, social sign-in placeholders. Runs in the controls phase. */
 export function setupAuthPage() {
-  const pw=document.querySelector<HTMLInputElement>('#password');pw?.addEventListener('input',()=>{const strength=document.getElementById('strength-text');if(strength)strength.textContent=pw.value.length<8?'Cần ít nhất 8 ký tự':pw.value.length<12?'Khá':'Tốt';});
+  const pw = document.querySelector<HTMLInputElement>('#password');
+  const strength = document.getElementById('strength-text');
+  const strengthRow = strength?.closest<HTMLElement>('.accounts-pw-strength');
+  const updateStrength = () => {
+    if (!pw || !strength) return;
+    if (!pw.value) {
+      if (strengthRow) strengthRow.style.display = 'none';
+      strength.textContent = '';
+      return;
+    }
+    if (strengthRow) strengthRow.style.display = 'flex';
+    strength.textContent = pw.value.length < 8 ? 'Cần ít nhất 8 ký tự' : pw.value.length < 12 ? 'Khá' : 'Tốt';
+  };
+  if (pw && strength) {
+    updateStrength();
+    pw.addEventListener('input', updateStrength);
+  }
+  // Password visibility: one handler in the module (it preempts the design script's own toggle) that flips the
+  // icon and keeps the accessible name in sync: "Hiện mật khẩu" when hidden, "Ẩn mật khẩu" when shown.
+  document.querySelectorAll<HTMLButtonElement>('#toggle-password, #toggle-pw').forEach(toggle => {
+    if (!pw) return;
+    const icon = toggle.id === 'toggle-password' ? toggle.querySelector('.material-symbols-outlined') : toggle;
+    const paintLabel = () => toggle.setAttribute('aria-label', pw.type === 'password' ? 'Hiện mật khẩu' : 'Ẩn mật khẩu');
+    paintLabel();
+    bind(toggle, () => {
+      const reveal = pw.type === 'password';
+      pw.type = reveal ? 'text' : 'password';
+      if (icon) icon.textContent = reveal ? 'visibility_off' : 'visibility';
+      paintLabel();
+    });
+  });
   document.querySelectorAll<HTMLAnchorElement>('a').forEach(a=>{
     if(!/quên mật khẩu/i.test(label(a)))return;
     bind(a,()=>dialog('Lấy lại mật khẩu',field('email','Email đăng ký','','email')+'<p class="app-muted">Chúng tôi sẽ gửi đường dẫn đặt lại mật khẩu đến email này.</p>','Gửi email',async form=>{
@@ -190,6 +220,7 @@ export function setupAuthPage() {
     const text=label(b);
     if(!/Google|GitHub Dev|SSO|Email trường/.test(text))return;
     b.setAttribute('aria-label',controlLabel(b));
+    b.setAttribute('aria-disabled','true');
     const provider=/GitHub/.test(text)?'GitHub':/Google/.test(text)?'Google':'SSO trường';
     bind(b,()=>dialog(`Đăng nhập bằng ${provider}`,`<p>Đăng nhập bằng ${provider} sẽ sớm được hỗ trợ.</p><p class="app-muted">Hiện tại vui lòng đăng nhập bằng email và mật khẩu.</p>`,'Đã hiểu'));
   });

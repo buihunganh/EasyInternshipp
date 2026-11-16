@@ -24,7 +24,7 @@ export function renderRecruiterSidebar(page: string) {
   sidebar.innerHTML = `
     <div>
       <a class="recruiter-brand" href="/pages/employer/" aria-label="Internships.io — Tổng quan tuyển dụng">
-        <img src="/assets/images/a06f0f33c8f6a3ab.png" alt="" width="32" height="32">
+        <span class="recruiter-mark" aria-hidden="true">i</span>
         <span><strong>Internships.io</strong><small>Recruiter Hub</small></span>
       </a>
       <p class="recruiter-nav-label">Tuyển dụng & nhân sự</p>

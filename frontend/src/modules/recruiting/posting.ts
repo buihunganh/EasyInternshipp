@@ -336,7 +336,7 @@ export async function setupPosting() {
     else if (/Hủy bỏ/.test(text)) bind(b, () => dialog('Hủy thay đổi?', '<p>Các thay đổi chưa lưu sẽ bị bỏ.</p>', 'Hủy thay đổi', () => location.assign(jobId ? `${location.pathname}?id=${jobId}` : routes.employer)));
     else if (/Thêm câu hỏi/.test(text)) bind(b, questionDialog);
     else if (/Khung chuẩn|Đồ án tốt nghiệp|Chuyển đổi ngành/.test(text)) bind(b, () => {
-      editor.innerText = `📌 Trách nhiệm công việc chính:\n- Tham gia phát triển sản phẩm cùng mentor\n- Thực hành dự án thực tế và báo cáo tiến độ hằng tuần\n\n🎯 Yêu cầu năng lực ứng viên:\n- Nền tảng kiến thức chuyên ngành vững\n- Tinh thần ham học hỏi, chủ động\n\n(${text})`;
+      editor.innerText = `Trách nhiệm công việc chính:\n- Tham gia phát triển sản phẩm cùng mentor\n- Thực hành dự án thực tế và báo cáo tiến độ hằng tuần\n\nYêu cầu năng lực ứng viên:\n- Nền tảng kiến thức chuyên ngành vững\n- Tinh thần ham học hỏi, chủ động\n\n(${text})`;
       refresh();
     });
     else if (icon && (/format_/.test(icon) || ['link', 'code'].includes(icon))) {

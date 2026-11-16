@@ -187,7 +187,7 @@ export async function setupCvBuilder() {
     document.querySelectorAll('.demo-cv-extra-editor').forEach(e => e.remove());
     const places: Record<string, HTMLElement | undefined> = { school: schoolSection, project: projectSection, skill: skillsSection, award: awardSection };
     extras.forEach(x => {
-      const row = el('div', { className: 'demo-card demo-cv-extra-editor' }, el('strong', {}, x.title), x.detail ? el('p', {}, x.detail) : null);
+      const row = el('div', { className: `demo-card demo-cv-extra-editor cvb-extra cvb-extra--${x.kind}` }, el('strong', {}, x.title), x.detail ? el('p', {}, x.detail) : null);
       row.append(button('Sửa', () => edit(x.kind, x)), button('Xóa', () => { extras = extras.filter(e => e.id !== x.id); renderExtras(); changed(); }));
       places[x.kind]?.append(row);
     });
@@ -251,19 +251,20 @@ export async function setupCvBuilder() {
   picker.append(...cvs.map(c => new Option(`${c.title}${c.is_default ? ' (mặc định)' : ''}`, c.id)), new Option('+ Tạo CV mới', 'new'));
   picker.value = current?.id ?? 'new';
   const titleInput = el('input', { 'aria-label': 'Tên CV', value: current?.title ?? (cvs.length ? `CV ${cvs.length + 1}` : 'CV của tôi'), maxLength: 120, 'data-cv-toolbar': 'true' } as never) as HTMLInputElement;
-  const status = el('span', { className: 'ei-muted', role: 'status' });
-  const defaultBtn = el('button', { type: 'button', className: 'ei-button' }, 'Đặt làm mặc định');
+  const status = el('span', { className: 'ei-muted cvb-status', role: 'status' });
+  const defaultBtn = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, 'Đặt làm mặc định');
   const publicBox = el('input', { type: 'checkbox', 'data-cv-toolbar': 'true' } as never) as HTMLInputElement;
-  const publicLabel = el('label', { className: 'ei-button' }, publicBox, ' Công khai');
-  const copyBtn = el('button', { type: 'button', className: 'ei-button' }, 'Sao chép liên kết');
+  const publicLabel = el('label', { className: 'ui-btn ui-btn--neutral ui-btn--sm' }, publicBox, ' Công khai');
+  const copyBtn = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, 'Sao chép liên kết');
   const fileInput = el('input', { type: 'file', accept: 'application/pdf', hidden: true, 'data-cv-toolbar': 'true' } as never) as HTMLInputElement;
-  const fileLabel = el('label', { className: 'ei-button' }, fileInput, 'Tải PDF lên');
-  const fileLink = el('button', { type: 'button', className: 'ei-button' }, 'Mở PDF đã tải');
-  const deleteBtn = el('button', { type: 'button', className: 'ei-button ei-button-danger' }, 'Xóa CV');
-  const toolbar = el('div', { className: 'ei-card cv-toolbar', 'data-cv-toolbar-box': 'true', 'aria-label': 'Quản lý CV' } as never,
-    el('div', { className: 'ei-actions' }, picker, titleInput, status),
-    el('div', { className: 'ei-actions' }, defaultBtn, publicLabel, copyBtn, fileLabel, fileLink, deleteBtn));
-  main.prepend(toolbar);
+  const fileLabel = el('label', { className: 'ui-btn ui-btn--neutral ui-btn--sm' }, fileInput, 'Tải PDF lên');
+  const fileLink = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm' }, 'Mở PDF đã tải');
+  const deleteBtn = el('button', { type: 'button', className: 'ui-btn ui-btn--danger ui-btn--sm' }, 'Xóa CV');
+  const toolbar = el('div', { className: 'ui-card cv-toolbar', 'data-cv-toolbar-box': 'true', 'aria-label': 'Quản lý CV' } as never,
+    el('div', { className: 'cvb-row' }, picker, titleInput, defaultBtn, publicLabel, copyBtn, fileLabel, fileLink, deleteBtn, status));
+  // Inside the page container, right under the title row (not above the workflow trail)
+  const headerBand = main.querySelector('section.sticky');
+  if (headerBand) headerBand.after(toolbar); else main.prepend(toolbar);
 
   function renderToolbar() {
     const exists = !!current;

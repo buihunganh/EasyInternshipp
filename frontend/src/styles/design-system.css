@@ -1,25 +1,272 @@
-/* Shared visual rules over page-specific generated utilities. Layout stays local. */
-body[data-page]{font-family:var(--ui-font);color:var(--ui-text);background-color:var(--ui-page)}
-body[data-page] main.bg-background,body[data-page] main.bg-surface{background-color:var(--ui-page)}
-body[data-page] .text-on-surface,body[data-page] .text-on-background{color:var(--ui-text)}
-body[data-page] .text-on-surface-variant{color:var(--ui-muted)}
+/* Theme bridge ("Giấy & Mực", see DESIGN.md). The page HTML is a static design export whose Tailwind is
+   precompiled per page with Material-3 colour names (bg-primary, text-on-surface-variant, …) that have a
+   different hex value on every page. Everything below re-points those utilities at the --ui-* tokens, so every
+   page shares one palette, type scale, radius and elevation. Scoped under body[data-page]; layout stays local.
+   The colour block (§3) is generated from the real class list of styles/generated/*.css. */
+
+/* 1. Base ---------------------------------------------------------------------------------------------- */
+body[data-page]{font-family:var(--ui-font);font-size:var(--ui-text-sm);line-height:1.5;color:var(--ui-text);background-color:var(--ui-page);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body[data-page] :is(main,body>div,body>div>div.min-h-screen):is(.bg-surface,.bg-background){background-color:var(--ui-page)}
+body[data-page] :is(h1,h2,h3,h4){line-height:1.3;letter-spacing:0}
+body[data-page] h1{letter-spacing:-.01em}
+body[data-page] :is(.font-bold,.font-extrabold,.font-black){font-weight:600}
+body[data-page] .uppercase:not(#a4-cv-sheet *){text-transform:none;letter-spacing:.01em}
+body[data-page] :is(.tracking-wider,.tracking-widest){letter-spacing:.02em}
+body[data-page] .text-justify{text-align:left}
+body[data-page] :is(.tabular-nums,time){font-variant-numeric:tabular-nums}
+
+/* 2. Type: one family, the DESIGN.md §3 scale -------------------------------------------------------- */
+body[data-page] :is(.font-display-lg,.font-headline-lg,.font-headline-md,.font-body-md,.font-body-sm,.font-label-md,.font-label-sm,.font-sans,.font-serif){font-family:var(--ui-font)}
+body[data-page] button:not(.material-symbols-outlined),body[data-page] :is(input,select,textarea){font-family:var(--ui-font)}
+body[data-page] .text-display-lg{font-size:28px;line-height:1.25;font-weight:600;letter-spacing:-.01em}
+body[data-page] .text-headline-lg{font-size:var(--ui-text-2xl);line-height:1.3;font-weight:600;letter-spacing:-.01em}
+body[data-page] .text-headline-md{font-size:var(--ui-text-xl);line-height:1.3;font-weight:600;letter-spacing:0}
+body[data-page] .text-body-lg{font-size:var(--ui-text-md);line-height:1.6}
+body[data-page] .text-body-md{font-size:var(--ui-text-sm);line-height:1.5}
+body[data-page] .text-body-sm{font-size:var(--ui-text-sm);line-height:1.5}
+body[data-page] .text-label-md{font-size:var(--ui-text-sm);line-height:1.4;font-weight:500;letter-spacing:0}
+body[data-page] .text-label-sm{font-size:var(--ui-text-xs);line-height:1.4;font-weight:500;letter-spacing:.01em}
+@media(max-width:767px){body[data-page] .text-display-lg{font-size:24px}body[data-page] .text-headline-lg{font-size:22px}}
+
+/* 3. Colour bridge (generated) ------------------------------------------------------------------------ */
+body[data-page] .ring-primary-container\/60{--tw-ring-color:color-mix(in srgb,var(--ui-primary-soft) 60%,transparent)}
+body[data-page] .focus-within\:ring-primary\/20:focus-within,
+body[data-page] .ring-primary\/20{--tw-ring-color:color-mix(in srgb,var(--ui-primary) 20%,transparent)}
+body[data-page] .ring-outline-variant{--tw-ring-color:var(--ui-border)}
+body[data-page] .focus\:ring-primary:focus,
+body[data-page] .group:hover .group-hover\:ring-primary,
+body[data-page] .ring-primary{--tw-ring-color:var(--ui-primary)}
+body[data-page] .ring-surface,
+body[data-page] .ring-surface-container-lowest{--tw-ring-color:var(--ui-surface)}
+body[data-page] .accent-primary,
+body[data-page] .accent-secondary{accent-color:var(--ui-primary)}
+body[data-page] .bg-secondary\/15{background-color:color-mix(in srgb,var(--ui-ink) 15%,transparent)}
+body[data-page] .bg-secondary\/20{background-color:color-mix(in srgb,var(--ui-ink) 20%,transparent)}
+body[data-page] .bg-inverse-surface\/60{background-color:color-mix(in srgb,var(--ui-ink) 60%,transparent)}
+body[data-page] .bg-inverse-surface\/80{background-color:color-mix(in srgb,var(--ui-ink) 80%,transparent)}
+body[data-page] .bg-error-container\/20,
+body[data-page] .bg-primary-container\/20,
+body[data-page] .bg-tertiary-container\/20{background-color:color-mix(in srgb,var(--ui-on-accent) 20%,transparent)}
+body[data-page] .bg-primary\/10,
+body[data-page] .group:hover .group-hover\:bg-primary\/10{background-color:color-mix(in srgb,var(--ui-primary) 10%,transparent)}
+body[data-page] .bg-primary\/20,
+body[data-page] .hover\:bg-primary\/20:hover{background-color:color-mix(in srgb,var(--ui-primary) 20%,transparent)}
+body[data-page] .bg-primary\/5,
+body[data-page] .hover\:bg-primary\/5:hover{background-color:color-mix(in srgb,var(--ui-primary) 5%,transparent)}
+body[data-page] .bg-tertiary\/10{background-color:color-mix(in srgb,var(--ui-success) 10%,transparent)}
+body[data-page] .bg-tertiary\/15{background-color:color-mix(in srgb,var(--ui-success) 15%,transparent)}
+body[data-page] .bg-tertiary\/20{background-color:color-mix(in srgb,var(--ui-success) 20%,transparent)}
+body[data-page] .bg-on-primary\/10,
+body[data-page] .bg-surface-container-lowest\/10{background-color:color-mix(in srgb,var(--ui-surface) 10%,transparent)}
+body[data-page] .bg-surface-container-lowest\/15{background-color:color-mix(in srgb,var(--ui-surface) 15%,transparent)}
+body[data-page] .bg-on-primary\/20,
+body[data-page] .bg-surface\/20{background-color:color-mix(in srgb,var(--ui-surface) 20%,transparent)}
+body[data-page] .bg-on-surface\/10{background-color:color-mix(in srgb,var(--ui-text) 10%,transparent)}
+body[data-page] .bg-outline{background-color:var(--ui-border-strong)}
+body[data-page] .bg-outline-variant,
+body[data-page] .bg-outline-variant\/30,
+body[data-page] .bg-outline-variant\/40{background-color:var(--ui-border)}
+body[data-page] .bg-error-container,
+body[data-page] .bg-error-container\/30,
+body[data-page] .hover\:bg-error-container\/50:hover{background-color:var(--ui-danger-soft)}
+body[data-page] .bg-error{background-color:var(--ui-danger)}
+body[data-page] .bg-secondary-dim,
+body[data-page] .hover\:bg-secondary-dim:hover{background-color:var(--ui-ink-hover)}
+body[data-page] .bg-inverse-surface,
+body[data-page] .bg-secondary{background-color:var(--ui-ink)}
+body[data-page] .bg-background{background-color:var(--ui-page)}
+body[data-page] .hover\:bg-on-primary-fixed-variant:hover,
+body[data-page] .hover\:bg-primary-dim:hover,
+body[data-page] .hover\:bg-primary\/90:hover{background-color:var(--ui-primary-hover)}
+body[data-page] .bg-primary-container,
+body[data-page] .bg-primary-container\/30,
+body[data-page] .bg-primary-container\/40,
+body[data-page] .bg-primary-fixed,
+body[data-page] .bg-primary-fixed\/40,
+body[data-page] .hover\:bg-primary-container:hover,
+body[data-page] .hover\:bg-primary-container\/80:hover,
+body[data-page] .peer:checked ~ .peer-checked\:bg-primary-container{background-color:var(--ui-primary-soft)}
+body[data-page] .after\:bg-primary::after,
+body[data-page] .bg-primary,
+body[data-page] .group:hover .group-hover\:bg-primary,
+body[data-page] .hover\:bg-primary:hover{background-color:var(--ui-primary)}
+body[data-page] .bg-surface-container,
+body[data-page] .bg-surface-container-low,
+body[data-page] .bg-surface-container-low\/50,
+body[data-page] .bg-surface-container-low\/60,
+body[data-page] .focus\:bg-surface-container:focus,
+body[data-page] .hover\:bg-surface-container-low:hover,
+body[data-page] .hover\:bg-surface-container:hover{background-color:var(--ui-subtle)}
+body[data-page] .bg-tertiary-container,
+body[data-page] .bg-tertiary-container\/30,
+body[data-page] .bg-tertiary-container\/40,
+body[data-page] .bg-tertiary-container\/50,
+body[data-page] .bg-tertiary-fixed{background-color:var(--ui-success-soft)}
+body[data-page] .bg-tertiary,
+body[data-page] .hover\:bg-tertiary-dim:hover,
+body[data-page] .peer:checked ~ .peer-checked\:bg-tertiary{background-color:var(--ui-success)}
+body[data-page] .before\:bg-surface-container-highest::before,
+body[data-page] .bg-secondary-container,
+body[data-page] .bg-secondary-container\/40,
+body[data-page] .bg-secondary-container\/50,
+body[data-page] .bg-secondary-container\/60,
+body[data-page] .bg-secondary-container\/70,
+body[data-page] .bg-secondary-fixed,
+body[data-page] .bg-secondary-fixed\/30,
+body[data-page] .bg-surface-container-high,
+body[data-page] .bg-surface-container-high\/40,
+body[data-page] .bg-surface-container-high\/60,
+body[data-page] .bg-surface-container-highest,
+body[data-page] .bg-surface-dim,
+body[data-page] .bg-surface-variant,
+body[data-page] .bg-surface-variant\/20,
+body[data-page] .hover\:bg-secondary-fixed:hover,
+body[data-page] .hover\:bg-surface-container-high:hover,
+body[data-page] .hover\:bg-surface-container-highest:hover,
+body[data-page] .hover\:bg-surface-variant:hover{background-color:var(--ui-sunken)}
+body[data-page] .after\:bg-surface-container-lowest::after,
+body[data-page] .bg-on-primary,
+body[data-page] .bg-surface,
+body[data-page] .bg-surface-container-lowest,
+body[data-page] .bg-surface-container-lowest\/50,
+body[data-page] .bg-surface-container-lowest\/80,
+body[data-page] .bg-surface-container-lowest\/90,
+body[data-page] .bg-surface\/80,
+body[data-page] .bg-surface\/85,
+body[data-page] .bg-surface\/90,
+body[data-page] .focus-within\:bg-surface-container-lowest:focus-within,
+body[data-page] .focus\:bg-surface-container-lowest:focus,
+body[data-page] .hover\:bg-surface-bright:hover,
+body[data-page] .hover\:bg-surface-container-lowest:hover{background-color:var(--ui-surface)}
+body[data-page] .bg-on-surface{background-color:var(--ui-text)}
+body[data-page] .hover\:border-primary\/20:hover{border-color:color-mix(in srgb,var(--ui-primary) 20%,transparent)}
+body[data-page] .border-secondary,
+body[data-page] .hover\:border-outline:hover{border-color:var(--ui-border-strong)}
+body[data-page] .border-outline-variant,
+body[data-page] .border-outline-variant\/20,
+body[data-page] .border-outline-variant\/30,
+body[data-page] .border-outline-variant\/40,
+body[data-page] .border-outline-variant\/50,
+body[data-page] .border-surface-container,
+body[data-page] .border-surface-container-high,
+body[data-page] .border-surface-container-highest,
+body[data-page] .border-surface-container-low{border-color:var(--ui-border)}
+body[data-page] .border-primary,
+body[data-page] .group:hover .group-hover\:border-primary{border-color:var(--ui-primary)}
+body[data-page] .border-on-primary\/15,
+body[data-page] .border-surface{border-color:var(--ui-surface)}
+body[data-page] .hover\:border-l-primary-fixed-dim:hover{border-left-color:var(--ui-border)}
+body[data-page] .border-l-error{border-left-color:var(--ui-danger)}
+body[data-page] .border-l-primary{border-left-color:var(--ui-primary)}
+body[data-page] .text-surface-container-high\/70{color:color-mix(in srgb,var(--ui-on-accent) 70%,transparent)}
+body[data-page] .text-on-primary\/80,
+body[data-page] .text-surface-container-high\/80{color:color-mix(in srgb,var(--ui-on-accent) 80%,transparent)}
+body[data-page] .text-on-primary\/90,
+body[data-page] .text-surface-container-high\/90{color:color-mix(in srgb,var(--ui-on-accent) 90%,transparent)}
+body[data-page] .hover\:text-error:hover,
+body[data-page] .text-error,
+body[data-page] .text-error-dim,
+body[data-page] .text-on-error-container{color:var(--ui-danger)}
+body[data-page] .placeholder\:text-outline-variant::placeholder,
+body[data-page] .placeholder\:text-outline::placeholder,
+body[data-page] .text-outline,
+body[data-page] .text-outline-variant{color:var(--ui-faint)}
+body[data-page] .hover\:text-secondary:hover,
+body[data-page] .placeholder\:text-on-surface-variant::placeholder,
+body[data-page] .placeholder\:text-on-surface-variant\/60::placeholder,
+body[data-page] .placeholder\:text-on-surface-variant\/70::placeholder,
+body[data-page] .text-on-surface-variant,
+body[data-page] .text-secondary,
+body[data-page] .text-secondary-dim{color:var(--ui-muted)}
+body[data-page] .group:hover .group-hover\:text-on-primary,
+body[data-page] .hover\:text-on-primary:hover,
+body[data-page] .text-inverse-on-surface,
+body[data-page] .text-on-error,
+body[data-page] .text-on-primary,
+body[data-page] .text-on-secondary,
+body[data-page] .text-on-tertiary,
+body[data-page] .text-secondary-container,
+body[data-page] .text-surface-container-highest,
+body[data-page] .text-tertiary-container{color:var(--ui-on-accent)}
+body[data-page] .hover\:text-on-primary-container:hover,
+body[data-page] .hover\:text-primary-dim:hover,
+body[data-page] .peer:checked ~ .peer-checked\:text-on-primary-container,
+body[data-page] .text-on-primary-container,
+body[data-page] .text-on-primary-fixed-variant{color:var(--ui-primary-hover)}
+body[data-page] .text-on-primary-fixed{color:var(--ui-primary-pressed)}
+body[data-page] .group:hover .group-hover\:text-primary,
+body[data-page] .hover\:text-primary:hover,
 body[data-page] .text-primary{color:var(--ui-primary)}
-body[data-page] .bg-surface-container-lowest{background-color:var(--ui-surface)}
-body[data-page] :is(button,a).bg-primary,body[data-page] .admin-primary,body[data-page] .app-dialog-actions .app-primary{background:var(--ui-primary);color:var(--ui-surface);border-color:var(--ui-primary)}
-body[data-page] :is(button,a).bg-primary:hover,body[data-page] .admin-primary:hover,body[data-page] .app-dialog-actions .app-primary:hover{background:var(--ui-primary-hover);border-color:var(--ui-primary-hover)}
-body[data-page] button:not(.rounded-full):not(.site-header-notifications):not(.role-btn),body[data-page] a.bg-primary{border-radius:var(--ui-radius-control)}
-body[data-page] button:not(.role-btn):not(.material-symbols-outlined){font-family:var(--ui-font)}
-body[data-page] :is(button,a).bg-primary,body[data-page] .admin-primary,body[data-page] .admin-actions button,body[data-page] .app-dialog-actions button{font-size:var(--ui-control-size);font-weight:500;line-height:1.5}
-body[data-page] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),body[data-page] select,body[data-page] textarea{font-family:var(--ui-font);border-radius:var(--ui-radius-control);accent-color:var(--ui-primary)}
-body[data-page] :is(input,textarea)::placeholder{color:var(--ui-muted);opacity:1}
-body[data-page] :is(input,textarea,select):focus-visible{outline:2px solid var(--ui-primary);outline-offset:2px;box-shadow:var(--ui-focus)}
-body[data-page] :is(button,a,summary,[tabindex]):focus-visible{outline:2px solid var(--ui-primary);outline-offset:3px}
+body[data-page] .hover\:text-on-tertiary-container:hover,
+body[data-page] .hover\:text-tertiary:hover,
+body[data-page] .text-on-tertiary-container,
+body[data-page] .text-on-tertiary-fixed,
+body[data-page] .text-tertiary,
+body[data-page] .text-tertiary-fixed{color:var(--ui-success)}
+body[data-page] .group:hover .group-hover\:text-on-surface,
+body[data-page] .hover\:text-on-secondary-fixed:hover,
+body[data-page] .hover\:text-on-surface:hover,
+body[data-page] .text-on-background,
+body[data-page] .text-on-secondary-container,
+body[data-page] .text-on-secondary-fixed,
+body[data-page] .text-on-surface,
+body[data-page] .text-on-surface\/80,
+body[data-page] .text-on-surface\/90{color:var(--ui-text)}
+
+/* 4. No gradients, glass, blobs or coloured shadows (DESIGN.md §7) ------------------------------------- */
+body[data-page] [class*="bg-gradient-to-"],body[data-page] [class*="bg-[radial-gradient"]{background-image:none}
+body[data-page] [class*="bg-gradient-to-"]:is(.from-primary,.from-primary-dim,.from-primary\/80){background-color:var(--ui-primary)}
+body[data-page] [class*="bg-gradient-to-"].from-tertiary{background-color:var(--ui-ink)}
+body[data-page] [class*="bg-gradient-to-"]:is(.from-inverse-surface\/80,.from-inverse-surface\/85,.from-inverse-surface\/90){background-color:var(--ui-scrim)}
+body[data-page] [class*="bg-gradient-to-"].from-surface-container-lowest{background-color:var(--ui-surface)}
+body[data-page] [class*="backdrop-blur"]{-webkit-backdrop-filter:none;backdrop-filter:none}
+body[data-page] :is(.blur-xl,.blur-2xl,.blur-3xl){display:none}
+body[data-page] :is(.shadow-sm,.shadow,.shadow-md,.shadow-inner,[class*=" shadow-["],[class^="shadow-["]){--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000}
+body[data-page] main :is(.shadow-sm,.shadow,.shadow-md):is(.bg-surface-container-lowest,.bg-surface,.bg-white):not(.border){--tw-shadow:var(--ui-shadow-card)}
+body[data-page] :is(.shadow-lg,.shadow-xl,.shadow-2xl){--tw-shadow:var(--ui-shadow-overlay);--tw-shadow-colored:var(--ui-shadow-overlay)}
+body[data-page] :is(.hover\:shadow-sm,.hover\:shadow,.hover\:shadow-md,.hover\:shadow-lg):hover{--tw-shadow:var(--ui-shadow-raised)}
+body[data-page] :is(.focus\:shadow-md:focus,.focus-within\:shadow-md:focus-within){--tw-shadow:0 0 #0000}
+body[data-page] [class*="focus:shadow-["]:focus{--tw-shadow:var(--ui-focus)}
+/* Cards never get a coloured left border */
+body[data-page] .border-l-4,body[data-page] .hover\:border-l-4:hover{border-left-width:1px;border-left-color:var(--ui-border)}
+
+/* 5. Shape ------------------------------------------------------------------------------------------- */
+body[data-page] main :is(.rounded-xl,.rounded-2xl,.rounded-3xl),body[data-page] :is(.admin-stat,.admin-table-wrap,.admin-overview article,.admin-login-card,.candidate-board>div>div:not(:first-child)){border-radius:var(--ui-radius-card)}
+body[data-page] main .rounded-t-2xl{border-top-left-radius:var(--ui-radius-card);border-top-right-radius:var(--ui-radius-card)}
+body[data-page] main img:is(.rounded-lg,.rounded-xl,.rounded-md):not(.rounded-full){border-radius:var(--ui-radius-media)}
+
+/* 6. Controls ---------------------------------------------------------------------------------------- */
+/* Primary: filled accent pill (one per view). The admin console and dialogs share it. */
+body[data-page] :is(button,a).bg-primary,body[data-page] .admin-primary,body[data-page] .app-dialog-actions .app-primary{background-color:var(--ui-primary);color:var(--ui-on-accent);border-color:var(--ui-primary);border-radius:var(--ui-radius-pill);font-size:var(--ui-control-size);font-weight:600;line-height:1.4;transition:background-color var(--ui-fast) var(--ui-ease),transform var(--ui-fast) var(--ui-ease)}
+body[data-page] :is(button,a).bg-primary:hover,body[data-page] .admin-primary:hover,body[data-page] .app-dialog-actions .app-primary:hover{background-color:var(--ui-primary-hover);border-color:var(--ui-primary-hover)}
+body[data-page] :is(button,a).bg-primary:active,body[data-page] .admin-primary:active,body[data-page] .app-dialog-actions .app-primary:active{background-color:var(--ui-primary-pressed);transform:translateY(1px)}
+/* Secondary: outline pill */
+body[data-page] :is(button,a).border.border-primary:not(.bg-primary){border-radius:var(--ui-radius-pill);color:var(--ui-primary);font-weight:600}
+body[data-page] :is(button,a).border.border-primary:not(.bg-primary):hover{background-color:var(--ui-primary-soft);box-shadow:inset 0 0 0 1px var(--ui-primary)}
+body[data-page] .admin-actions button,body[data-page] .app-dialog-actions button{font-size:var(--ui-control-size);font-weight:600;line-height:1.4}
+body[data-page] button:active:not(:disabled):not([class*="translate-"]):not([class*="scale-"]){transform:translateY(1px)}
+body[data-page] :is(button,a).material-symbols-outlined:active,body[data-page] .site-header :is(button,a):active{transform:none}
+
+/* Inputs */
+body[data-page] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),body[data-page] select,body[data-page] textarea{border-radius:var(--ui-radius-control);border-color:var(--ui-border-strong);accent-color:var(--ui-primary);color:var(--ui-text)}
+body[data-page] :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:var(--ui-primary)}
+body[data-page] :is(input,textarea)::placeholder{color:var(--ui-faint);opacity:1}
+body[data-page] :is(input,textarea,select):focus-visible{outline:2px solid var(--ui-primary);outline-offset:0;border-color:var(--ui-primary)}
+body[data-page] :is(button,a,summary,[tabindex]):focus-visible{outline:2px solid var(--ui-primary);outline-offset:2px}
 body[data-page] :is(button,input,select,textarea):disabled{opacity:.55;cursor:not-allowed}
 body[data-page] :is(input,textarea,select)[aria-invalid=true]{border-color:var(--ui-danger);outline-color:var(--ui-danger)}
-body[data-page] main .rounded-xl,body[data-page] :is(.admin-stat,.admin-table-wrap,.admin-overview article,.admin-login-card,.candidate-board>div>div:not(:first-child)){border-radius:var(--ui-radius-card)}
-body[data-page] :is(.site-header-nav,.recruiter-sidebar nav,.admin-sidebar nav) a[aria-current=page],body[data-page] .app-mobile-nav a[aria-current=page]{background:var(--ui-primary-soft);color:var(--ui-primary)!important;border-radius:var(--ui-radius-control)}
-body[data-page] :is(.site-header,.admin-top,.admin-login-top){background:var(--ui-surface);border-bottom-color:var(--ui-border);color:var(--ui-text)}
+body[data-page] a:not([class]):hover{text-decoration:underline}
+
+/* 7. Shells owned by other modules (colours only) ------------------------------------------------------ */
+body[data-page] :is(.recruiter-sidebar,.admin-sidebar) nav a[aria-current=page]{background:var(--ui-primary-soft);color:var(--ui-primary)!important;border-radius:var(--ui-radius-control)}
+body[data-page] :is(.admin-top,.admin-login-top){background:var(--ui-surface);border-bottom-color:var(--ui-border);color:var(--ui-text)}
 body[data-page] :is(.recruiter-sidebar,.admin-sidebar){border-right-color:var(--ui-border)}
-body[data-page] :is(.workspace-footer,.admin-footer,.admin-login-footer){color:var(--ui-muted);font-size:12px}
+body[data-page] :is(.workspace-footer,.admin-footer,.admin-login-footer){color:var(--ui-muted);font-size:var(--ui-text-xs)}
 body[data-page=admin] .admin-heading h1,body[data-page=candidates] .candidate-workspace h1{font-size:var(--ui-title-size);line-height:1.3;color:var(--ui-text)}
-@media(max-width:767px){body[data-page=admin] .admin-heading h1,body[data-page=candidates] .candidate-workspace h1{font-size:23px}}
+@media(max-width:767px){body[data-page=admin] .admin-heading h1,body[data-page=candidates] .candidate-workspace h1{font-size:22px}}
+@media(prefers-reduced-motion:reduce){body[data-page] *,body[data-page] *::before,body[data-page] *::after{transition-duration:0ms!important;animation-duration:0ms!important}}
+/* In-page cards never float: big shadows become the hairline ring; only fixed/absolute overlays keep depth */
+body[data-page] main :is(.shadow-lg,.shadow-xl,.shadow-2xl):not(.fixed):not(.absolute){--tw-shadow:var(--ui-shadow-card);--tw-shadow-colored:var(--ui-shadow-card)}
+/* Solid tertiary (green) buttons would be a second accent: they become ink */
+body[data-page] :is(button,a):is(.bg-tertiary,.bg-tertiary-dim){background-color:var(--ui-ink);color:var(--ui-on-accent)}
+body[data-page] :is(button,a):is(.hover\:bg-tertiary-dim:hover){background-color:var(--ui-ink-hover)}

@@ -28,9 +28,10 @@ export async function reviewCompany(company: string, decision: 'verified' | 'rej
 
 // --- Jobs ----------------------------------------------------------------------
 export async function listJobs(status: Enums<'job_status'> | '' = 'pending_approval') {
+  const ascending = status === 'pending_approval';
   let query = supabase.from('jobs')
     .select('id, title, status, city, work_type, stipend_min, stipend_max, deadline, description, requirements, rejection_reason, submitted_at, published_at, company:companies(id, name, verification_status)')
-    .order('submitted_at', { ascending: false, nullsFirst: false }).limit(200);
+    .order('submitted_at', { ascending, nullsFirst: false }).limit(200);
   query = status ? query.eq('status', status) : query.neq('status', 'draft');
   return unwrap(await query);
 }
@@ -77,4 +78,58 @@ export async function listAudit() {
   return unwrap(await supabase.from('audit_logs')
     .select('id, action, target_table, target_id, reason, created_at, actor_role, actor:profiles(full_name, email)')
     .order('created_at', { ascending: false }).limit(200));
+}
+
+export type TargetReference = {
+  target_table?: string;
+  target_type?: string;
+  target_id: string | null;
+};
+
+export async function resolveTargetNames(targets: TargetReference[]): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  const jobIds = new Set<string>();
+  const companyIds = new Set<string>();
+  const profileIds = new Set<string>();
+
+  for (const t of targets) {
+    if (!t.target_id) continue;
+    const table = t.target_table || (
+      t.target_type === 'job' ? 'jobs' :
+      t.target_type === 'company' ? 'companies' :
+      t.target_type === 'user' ? 'profiles' :
+      t.target_type
+    );
+    if (table === 'jobs' || table === 'job') jobIds.add(t.target_id);
+    else if (table === 'companies' || table === 'company') companyIds.add(t.target_id);
+    else if (table === 'profiles' || table === 'user' || table === 'profile') profileIds.add(t.target_id);
+  }
+
+  // Batches of 100 ids keep each `?id=in.(…)` URL well under proxy limits. On failure the UUID is kept.
+  const chunks = (ids: Set<string>) => { const all = [...ids]; return Array.from({ length: Math.ceil(all.length / 100) }, (_, i) => all.slice(i * 100, i * 100 + 100)); };
+  const queries: PromiseLike<unknown>[] = [
+    ...chunks(jobIds).map(ids => supabase.from('jobs').select('id, title').in('id', ids)
+      .then(({ data }) => data?.forEach(j => map.set(j.id, j.title)))),
+    ...chunks(companyIds).map(ids => supabase.from('companies').select('id, name').in('id', ids)
+      .then(({ data }) => data?.forEach(c => map.set(c.id, c.name)))),
+    ...chunks(profileIds).map(ids => supabase.from('profiles').select('id, full_name, email').in('id', ids)
+      .then(({ data }) => data?.forEach(p => map.set(p.id, p.full_name || p.email || p.id)))),
+  ];
+  await Promise.allSettled(queries);
+  return map;
+}
+
+// --- Overview activity -----------------------------------------------------------
+/** Timestamps since `sinceIso` for the overview's daily charts (only one column each; counted per day on the client). */
+export async function activitySince(sinceIso: string) {
+  const [apps, users, approvals] = await Promise.all([
+    supabase.from('applications').select('applied_at').gte('applied_at', sinceIso).limit(5000),
+    supabase.from('profiles').select('created_at').gte('created_at', sinceIso).limit(5000),
+    supabase.from('audit_logs').select('created_at').eq('action', 'job.approve').gte('created_at', sinceIso).limit(5000),
+  ]);
+  return {
+    applications: unwrap(apps).map(r => r.applied_at).filter((d): d is string => !!d),
+    signups: unwrap(users).map(r => r.created_at),
+    approvals: unwrap(approvals).map(r => r.created_at),
+  };
 }

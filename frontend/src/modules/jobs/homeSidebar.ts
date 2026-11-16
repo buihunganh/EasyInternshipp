@@ -1,11 +1,11 @@
 // Home page side widgets on real data: the signed-in student's profile card (hidden for other roles),
 // featured companies (most open jobs) with follow buttons, upcoming published events.
 import { currentRole } from '../../core/session';
-import { studentSummary } from '../../core/accountApi';
-import { profileCompleteness } from '../../core/profileCompleteness';
 import { publicUrl } from '../../core/supabase';
 import { initialsAvatar } from '../../core/layout/siteHeader';
-import { companyHref, routes } from '../../core/navigation';
+import { renderProfileCard } from '../../core/layout/profileCard';
+import { renderRailFooter } from '../../core/layout/siteFooter';
+import { companyHref } from '../../core/navigation';
 import { requireSignIn } from '../../core/auth';
 import { bind } from '../../core/ui/actions';
 import { toast } from '../../core/ui/feedback';
@@ -13,39 +13,10 @@ import { showError } from '../../core/errors';
 import { formatDateTime } from '../../core/format';
 import { featuredCompanies, followedCompanyIds, setFollowing, upcomingEvents } from './api';
 
+/** Student profile card on the job list (shared component, same as the community page). */
 export async function setupProfileCard() {
   const card = document.querySelector<HTMLElement>('aside.home-filters > [data-auth-only]');
-  if (!card) return;
-  if (currentRole() !== 'student') { card.remove(); return; }   // the card is about a student profile
-  card.hidden = true;
-  let summary: Awaited<ReturnType<typeof studentSummary>>;
-  try { summary = await studentSummary(); }
-  catch { card.remove(); return; }   // a side widget: never block the job list
-  const { profile, student: s } = summary;
-  const name = profile.full_name || profile.email || 'Sinh viên';
-  const uni = s?.university as { name?: string; short_name?: string } | null;
-
-  const [, identity, stats] = [...card.children] as HTMLElement[];
-  const img = identity?.querySelector('img');
-  if (img) { img.src = publicUrl('avatars', profile.avatar_path) || initialsAvatar(name); img.alt = name; }
-  const [h3, line1, line2] = [identity?.querySelector('h3'), ...(identity?.querySelectorAll('p') ?? [])];
-  if (h3) h3.textContent = name;
-  if (line1) line1.textContent = [s?.major, s?.graduation_year ? `Tốt nghiệp ${s.graduation_year}` : ''].filter(Boolean).join(' • ') || 'Chưa cập nhật chuyên ngành';
-  if (line2) line2.textContent = [uni?.name || 'Chưa chọn trường', s?.gpa != null ? `(GPA ${s.gpa}/4.0)` : ''].filter(Boolean).join(' ');
-
-  const rows = [...(stats?.children ?? [])] as HTMLElement[];
-  const value = (row: HTMLElement | undefined, text: string) => { const v = row?.lastElementChild; if (v) v.textContent = text; };
-  value(rows[0], `${summary.applicationCount} việc`);
-  value(rows[1], `${summary.savedCount} việc`);
-  const meter = profileCompleteness({ avatar_path: profile.avatar_path, student: s, skillCount: summary.skillCount, hasCv: summary.cvCount > 0 });
-  const meterRow = rows[2];
-  const percent = meterRow?.firstElementChild?.lastElementChild;
-  if (percent) percent.textContent = `${meter.percent}%`;
-  const bar = meterRow?.querySelector<HTMLElement>('[style*="width"]');
-  if (bar) bar.style.width = `${meter.percent}%`;
-  const link = card.querySelector<HTMLAnchorElement>(':scope > a');
-  if (link) link.href = routes.profile;
-  card.hidden = false;
+  if (card) await renderProfileCard(card, { roles: ['student'] });   // the job list card is about a student profile
 }
 
 /** Section boxes of the right-hand column, found by their heading text. */
@@ -55,7 +26,7 @@ function discoveryBox(heading: RegExp) {
 
 function emptyLine(host: HTMLElement, text: string) {
   const p = document.createElement('p');
-  p.className = 'text-[12px] text-on-surface-variant';
+  p.className = 'jobs-rail-empty';
   p.textContent = text;
   host.replaceChildren(p);
 }
@@ -111,7 +82,7 @@ export async function setupUpcomingEvents() {
   let events: Awaited<ReturnType<typeof upcomingEvents>>;
   try { events = await upcomingEvents(); }
   catch { box.hidden = true; return; }
-  if (!events.length) { emptyLine(list, 'Chưa có sự kiện sắp tới.'); return; }
+  if (!events.length) { box.hidden = true; return; }   // an empty card is noise: hide the whole "Sự kiện tuyển dụng sắp tới" box
   list.replaceChildren(...events.map((e, i) => {
     const item = templates[i % templates.length].cloneNode(true) as HTMLElement;
     const [title, meta] = [...item.querySelectorAll('p')];
@@ -122,8 +93,11 @@ export async function setupUpcomingEvents() {
   }));
 }
 
-/** The mini footer's copyright year. */
-export function setupMiniFooter() {
-  const copy = [...document.querySelectorAll('aside.home-discovery > div:last-child p')].find(p => /©/.test(p.textContent || ''));
-  if (copy) copy.textContent = copy.textContent!.replace(/© \d{4}/, `© ${new Date().getFullYear()}`);
+/** LinkedIn-style footer links at the bottom of the right rail (hides the page footer on wide screens). */
+export function setupRailFooter() {
+  // "Cẩm nang & Công cụ thi tuyển" (interview practice, verified skill badges) has no feature behind it yet.
+  const careerPrep = discoveryBox(/Cẩm nang/);
+  if (careerPrep) careerPrep.hidden = true;
+  const rail = document.querySelector<HTMLElement>('aside.home-discovery');
+  if (rail) renderRailFooter(rail);
 }

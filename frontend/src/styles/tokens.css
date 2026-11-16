@@ -1,24 +1,86 @@
-﻿/* Shared design tokens. All new components should use these variables. */
+﻿@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+/* "Giấy & Mực" design tokens (see DESIGN.md §2–3). This is the ONLY file allowed to hold raw colour values.
+   Every component uses var(--ui-*). Legacy names (--ui-control-size, --ui-title-size, --ui-focus) are kept. */
 :root{
-  --ui-primary:#3f5baa;
-  --ui-primary-hover:#334b8e;
-  --ui-primary-soft:#eaf0ff;
-  --ui-text:#243157;
-  --ui-muted:#64748b;
-  --ui-page:#f6f8fb;
+  /* Canvas */
+  --ui-page:#f4f2ee;
   --ui-surface:#ffffff;
-  --ui-subtle:#f1f4f8;
-  --ui-border:#e1e7ee;
-  --ui-success:#216b50;
-  --ui-success-soft:#e6f5ef;
-  --ui-warning:#866018;
-  --ui-warning-soft:#fff4de;
-  --ui-danger:#a53a3a;
-  --ui-danger-soft:#fff0f0;
-  --ui-radius-control:8px;
-  --ui-radius-card:12px;
-  --ui-font:Inter,Arial,sans-serif;
-  --ui-control-size:14px;
-  --ui-title-size:26px;
-  --ui-focus:0 0 0 3px #3f5baa26;
+  --ui-subtle:#f8f7f5;
+  --ui-sunken:#eeebe5;
+  /* Lines */
+  --ui-border:#e3e0da;
+  --ui-border-strong:#c4bfb6;
+  /* Text */
+  --ui-text:#1c1f23;
+  --ui-muted:#5b6168;
+  --ui-faint:#6f757c;
+  --ui-on-accent:#ffffff;
+  /* Accent (one per product) — Đỏ son (Vermilion Cinnabar / Lacquer Red) */
+  --ui-primary:#b93b1d;
+  --ui-primary-hover:#9e3016;
+  --ui-primary-pressed:#832610;
+  --ui-primary-soft:#faebe5;
+  /* Signal: "đang tìm thực tập", deadline ≤3 days, "Tuyển gấp" only */
+  --ui-signal:#a35f00;
+  --ui-signal-soft:#fdf0d9;
+  /* Semantic */
+  --ui-success:#1d7348;
+  --ui-success-soft:#e4f3ea;
+  --ui-warning:#8a5a00;
+  --ui-warning-soft:#fff3d6;
+  --ui-danger:#9f1c24;
+  --ui-danger-hover:#7f141b;
+  --ui-danger-soft:#faeae8;
+  /* Ink: selected filter pills, toasts, image scrims */
+  --ui-ink:#1c1f23;
+  --ui-ink-hover:#33383e;
+  --ui-scrim:rgb(0 0 0 / .45);
+  --ui-scrim-strong:rgb(0 0 0 / .6);
+
+  /* Radius */
+  --ui-radius-control:6px;
+  --ui-radius-pill:999px;
+  --ui-radius-card:10px;
+  --ui-radius-media:6px;
+
+  /* Elevation */
+  --ui-shadow-card:0 0 0 1px var(--ui-border);
+  --ui-shadow-raised:0 0 0 1px var(--ui-border),0 4px 12px rgb(0 0 0 / .08);
+  --ui-shadow-overlay:0 0 0 1px rgb(0 0 0 / .08),0 4px 8px rgb(0 0 0 / .08),0 12px 32px rgb(0 0 0 / .14);
+
+  /* Spacing (4px grid) */
+  --ui-space-1:4px;--ui-space-2:8px;--ui-space-3:12px;--ui-space-4:16px;
+  --ui-space-5:20px;--ui-space-6:24px;--ui-space-7:32px;--ui-space-8:48px;
+
+  /* Layout */
+  --ui-header-h:56px;
+  --ui-header-h-mobile:52px;
+  --ui-tabbar-h:56px;
+  --ui-shell-max:1128px;
+  --ui-rail-left:225px;
+  --ui-rail-right:300px;
+  --ui-gutter:24px;
+
+  /* Motion */
+  --ui-ease:cubic-bezier(.2,0,0,1);
+  --ui-fast:120ms;
+  --ui-med:180ms;
+
+  /* Type */
+  --ui-font:"Be Vietnam Pro",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --ui-text-xs:12px;   /* meta, caption, label */
+  --ui-text-sm:14px;   /* body, controls */
+  --ui-text-md:15px;   /* long-form body */
+  --ui-text-lg:16px;   /* item title */
+  --ui-text-xl:20px;   /* section / card title */
+  --ui-text-2xl:24px;  /* page title */
+
+  /* Controls */
+  --ui-control-h:40px;      /* input / select / md button height */
+  --ui-control-h-sm:32px;   /* sm button, filter pill */
+  --ui-control-size:14px;   /* legacy name: control FONT size (kept for existing rules) */
+  --ui-title-size:24px;     /* legacy name: page title size */
+  --ui-focus-ring:0 0 0 2px var(--ui-surface),0 0 0 4px var(--ui-primary);
+  --ui-focus:0 0 0 2px var(--ui-primary);
 }
+@media (prefers-reduced-motion:reduce){:root{--ui-fast:0ms;--ui-med:0ms}}

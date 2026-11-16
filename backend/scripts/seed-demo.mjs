@@ -83,10 +83,22 @@ async function company(owner, admin, fields, { verify = true } = {}) {
 }
 
 /** Job posted by `owner`; approved by `admin` when status is 'active'. Returns its id. */
-async function job(owner, admin, companyId, fields, { status = 'active', skills = [], questions = [] } = {}) {
+async function job(owner, admin, companyId, fields, { status = 'active', skills = [], questions = [], deadlineDays } = {}) {
   const found = check(await service.from('jobs').select('id, status').eq('company_id', companyId).eq('title', fields.title), 'job lookup');
-  if (found[0]) return found[0].id;
-  const row = check(await owner.client.from('jobs').insert({ company_id: companyId, ...fields }).select('id').single(), `job ${fields.title}`);
+  if (found[0]) {
+    const existing = found[0];
+    if (status === 'active' && deadlineDays != null) {
+      const updates = { deadline: inDays(deadlineDays) };
+      // expire_jobs() also stamps closed_at, so clear it when the demo job goes live again
+      if (existing.status === 'expired') Object.assign(updates, { status: 'active', closed_at: null });
+      check(await service.from('jobs').update(updates).eq('id', existing.id), `refresh ${fields.title}`);
+      console.log(`refreshed deadline: ${fields.title}`);
+    }
+    return existing.id;
+  }
+  const insertFields = { company_id: companyId, ...fields };
+  if (deadlineDays != null) insertFields.deadline = inDays(deadlineDays);
+  const row = check(await owner.client.from('jobs').insert(insertFields).select('id').single(), `job ${fields.title}`);
   const ids = await skillIds(skills);
   if (ids.length) check(await owner.client.from('job_skills').insert(ids.map(skill_id => ({ job_id: row.id, skill_id }))), 'job skills');
   for (const [position, q] of questions.entries()) {
@@ -153,40 +165,40 @@ async function main() {
   const seJob = await job(employer, admin, technova, {
     title: 'Software Engineering Intern (Full-stack)', industry_id: industries['cong-nghe-thong-tin'], city: 'TP. Hồ Chí Minh',
     address: 'Quận 7, TP.HCM', work_type: 'hybrid', schedule: 'full_time', duration_months: 3, openings: 3,
-    stipend_min: 8000000, stipend_max: 12000000, deadline: inDays(30), department: 'Engineering',
+    stipend_min: 8000000, stipend_max: 12000000, department: 'Engineering',
     target_study_years: [3, 4], target_majors: ['Khoa học Máy tính', 'Kỹ thuật Phần mềm'], perks: ['Mentor 1-1', 'Laptop', 'Dấu mộc đồ án'],
     description: 'Tham gia phát triển hạ tầng microservices phục vụ hơn 5 triệu người dùng. Được kèm cặp 1-on-1 bởi Senior Staff Engineer, hỗ trợ tài liệu và dấu mộc thực tập chuẩn chỉ.',
     requirements: 'Sinh viên năm 3-4 ngành CNTT. Nắm vững JavaScript/TypeScript, React và cơ bản về REST API.',
     benefits: 'Phụ cấp 8-12 triệu, hybrid 3 ngày/tuần, cơ hội lên chính thức sau 3 tháng.',
-  }, { skills: ['React', 'TypeScript', 'Node.js'], questions: [
+  }, { deadlineDays: 30, skills: ['React', 'TypeScript', 'Node.js'], questions: [
     { question: 'Bạn có thể làm việc tối thiểu 4 ngày/tuần trong 3 tháng?', knockout: true, ideal: 'yes' },
     { question: 'Chia sẻ đường dẫn GitHub hoặc portfolio của bạn', kind: 'short_text', required: false },
   ] });
   await job(employer, admin, technova, {
     title: 'Data Analyst Intern', industry_id: industries['du-lieu'], city: 'TP. Hồ Chí Minh', work_type: 'onsite',
-    duration_months: 4, stipend_min: 7000000, stipend_max: 9000000, deadline: inDays(21), department: 'Data',
+    duration_months: 4, stipend_min: 7000000, stipend_max: 9000000, department: 'Data',
     target_study_years: [3, 4], perks: ['Mentor 1-1', 'Đào tạo Power BI'],
     description: 'Phân tích dữ liệu giao dịch, xây dựng dashboard Power BI và báo cáo hằng tuần cho đội sản phẩm. Làm việc trực tiếp với Data Lead.',
     requirements: 'Thành thạo SQL và Excel, biết Python là lợi thế.',
-  }, { skills: ['SQL', 'Excel', 'Power BI', 'Python'] });
+  }, { deadlineDays: 21, skills: ['SQL', 'Excel', 'Power BI', 'Python'] });
   await job(vng, admin, vngCo, {
     title: 'Backend Developer Intern (Golang / Java)', industry_id: industries['cong-nghe-thong-tin'], city: 'TP. Hồ Chí Minh',
     address: 'VNG Campus, Quận 7', work_type: 'onsite', duration_months: 6, openings: 5, stipend_min: 10000000, stipend_max: 14000000,
-    deadline: inDays(14), department: 'Platform', target_study_years: [3, 4], perks: ['Cấp Macbook', 'Cơm trưa'],
+    department: 'Platform', target_study_years: [3, 4], perks: ['Cấp Macbook', 'Cơm trưa'],
     description: 'Tham gia khối nền tảng dữ liệu lớn và cổng thanh toán ZaloPay. Làm việc trực tiếp với hệ thống xử lý lưu lượng hàng triệu RPS.',
     requirements: 'Nắm vững một trong Golang hoặc Java, hiểu cơ sở dữ liệu quan hệ.',
-  }, { skills: ['Go', 'Java', 'SQL', 'Docker'] });
+  }, { deadlineDays: 14, skills: ['Go', 'Java', 'SQL', 'Docker'] });
   await job(designer, admin, designCo, {
     title: 'Product Design (UI/UX) Intern', industry_id: industries['thiet-ke'], city: 'Hà Nội', work_type: 'remote',
-    duration_months: 3, stipend_min: 6000000, stipend_max: 9000000, deadline: inDays(25), department: 'Design', perks: ['Remote 100%', 'Mentor 1-1'],
+    duration_months: 3, stipend_min: 6000000, stipend_max: 9000000, department: 'Design', perks: ['Remote 100%', 'Mentor 1-1'],
     description: 'Xây dựng bộ thư viện UI Kit, tham gia phỏng vấn người dùng thực tế và hoàn thiện luồng thanh toán cho ứng dụng fintech.',
     requirements: 'Sử dụng thành thạo Figma, có portfolio tối thiểu 2 dự án.',
-  }, { skills: ['Figma', 'UI/UX Design'] });
+  }, { deadlineDays: 25, skills: ['Figma', 'UI/UX Design'] });
   await job(employer, admin, technova, {
     title: 'QA Automation Intern', industry_id: industries['cong-nghe-thong-tin'], city: 'TP. Hồ Chí Minh', work_type: 'hybrid',
-    stipend_min: 6000000, stipend_max: 8000000, deadline: inDays(40),
+    stipend_min: 6000000, stipend_max: 8000000,
     description: 'Viết test tự động cho các dịch vụ thanh toán, xây dựng pipeline CI và báo cáo chất lượng hằng tuần cho đội phát triển.',
-  }, { status: 'pending_approval', skills: ['JavaScript', 'Git'] });
+  }, { status: 'pending_approval', deadlineDays: 40, skills: ['JavaScript', 'Git'] });
   await job(employer, admin, technova, {
     title: 'Marketing Intern (bản nháp)', city: 'TP. Hồ Chí Minh', description: 'Bản nháp đang soạn.',
   }, { status: 'draft' });

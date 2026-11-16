@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+# Account, workspace and admin pages are private (login required) and have nothing to index
+Disallow: /pages/admin/
+Disallow: /pages/admin-login/
+Disallow: /pages/login/
+Disallow: /pages/register/
+Disallow: /pages/reset-password/
+Disallow: /pages/profile/
+Disallow: /pages/cv-builder/
+Disallow: /pages/applications/
+Disallow: /pages/messages/
+Disallow: /pages/notifications/
+Disallow: /pages/employer/
+Disallow: /pages/candidates/
+Disallow: /pages/post-job/
+Disallow: /pages/company-settings/

@@ -7,7 +7,7 @@
 | `index.ts` | `controls` → `setupApplicationsPage` |
 | `api.ts` | my applications (+ job, company, interviews, offers, answers), status history, `withdraw_application`, `respond_interview`, `respond_offer`, offer letter signed URL, job alerts CRUD |
 | `applicationsPage.ts` | tabs: applications (status chips, "NTD đã xem CV", timeline, interview RSVP, offer accept/decline, withdraw while under review), saved jobs, job alerts |
-| `applications.css` | page layout, application status chip colours |
+| `applications.css` | `ui-shell--left-main` layout: left section list, main card with filter pills (`#app-pills`, synced to the hidden `#app-filter`) and hairline rows (`apps-*`) |
 
 **Data:** `applications`, `application_status_history`, `interviews`, `offers`, `application_answers` (RLS: the student sees their own), `saved_jobs` (via `core/accountApi.ts`), `job_alerts` (`student_id` comes from its column default; don't send it).
 

@@ -1,0 +1,160 @@
+/* Recruiter workspace pages: employer dashboard, post-job. ("Giấy & Mực": hairline cards, tokens only.)
+   Class prefix rc- ; the recruiter sidebar and header are shared (core/layout) and not styled here. */
+
+/* ── Employer dashboard ───────────────────────────────────────────────────────────────────────────── */
+body[data-page=employer]{background:var(--ui-page);color:var(--ui-text)}
+body[data-page=employer] .rc-shell{max-width:1320px}
+.rc-main{gap:var(--ui-space-3)}
+.rc-title-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:var(--ui-space-4);padding:var(--ui-space-1) 0 var(--ui-space-2)}
+.rc-title{min-width:0;display:grid;gap:4px}
+.rc-eyebrow{display:flex;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+.rc-title h1{margin:0;font-size:var(--ui-text-2xl);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--ui-text);overflow-wrap:anywhere}
+.rc-intro{margin:0;max-width:68ch;font-size:var(--ui-text-sm);color:var(--ui-muted);line-height:1.5}
+.rc-actions{display:flex;flex-wrap:wrap;gap:var(--ui-space-2)}
+.rc-banner{margin:var(--ui-space-2) 0 0}
+
+/* Stat strip: one card, four stats divided by hairlines */
+.ui-card.rc-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:0}
+.rc-stat{display:flex;flex-direction:column;gap:2px;padding:var(--ui-space-4) var(--ui-space-5);min-width:0}
+.rc-stat+.rc-stat{border-left:1px solid var(--ui-border)}
+.rc-stat__label{font-size:var(--ui-text-xs);color:var(--ui-muted)}
+.rc-stat__value{display:flex;align-items:baseline;gap:var(--ui-space-2)}
+.rc-stat__value strong{font-size:var(--ui-text-2xl);font-weight:600;line-height:1.3;font-variant-numeric:tabular-nums;color:var(--ui-text)}
+.rc-stat__value span{font-size:var(--ui-text-xs);color:var(--ui-muted)}
+.rc-stat__foot{font-size:var(--ui-text-xs);color:var(--ui-faint)}
+
+/* Job table: hairline list inside one card */
+.rc-jobs__head{padding-bottom:var(--ui-space-2)}
+.rc-toolbar{display:flex;flex-direction:column;gap:var(--ui-space-3);padding:0 var(--ui-space-4) var(--ui-space-3)}
+.rc-tabs{flex-wrap:wrap}
+.rc-count{font-variant-numeric:tabular-nums;opacity:.7;font-weight:500}
+.rc-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,220px);gap:var(--ui-space-2)}
+.rc-input{width:100%;min-height:var(--ui-control-h-sm);padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-pill);background:var(--ui-surface);color:var(--ui-text);font:400 var(--ui-text-sm)/1.2 var(--ui-font)}
+.rc-input:focus{outline:2px solid var(--ui-primary);outline-offset:-1px;border-color:var(--ui-primary)}
+.rc-job-head,.rc-job.ui-row{display:grid;grid-template-columns:minmax(280px,2.4fr) 92px 64px 56px 64px 92px 120px;align-items:center;column-gap:var(--ui-space-3)}
+.rc-job-head{padding:var(--ui-space-2) var(--ui-space-4);border-top:1px solid var(--ui-border);border-bottom:1px solid var(--ui-border);background:var(--ui-subtle);color:var(--ui-muted);font-size:var(--ui-text-xs);font-weight:600}
+.rc-job-head span:last-child{display:block}
+.rc-job{align-items:center}
+.rc-job__main{gap:4px}
+.rc-job__main .ui-row__title{font-size:var(--ui-text-sm);overflow-wrap:anywhere}
+.rc-job__link{font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-primary)}
+.rc-job__main .ui-meta{font-size:var(--ui-text-xs)}
+.rc-cell{position:relative;min-width:0;font-size:var(--ui-text-sm);font-variant-numeric:tabular-nums;color:var(--ui-text)}
+.rc-cell strong{font-weight:600}
+.rc-cell small{color:var(--ui-success);font-size:var(--ui-text-xs)}
+.rc-cell__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.rc-job__actions{justify-content:flex-end;gap:0;width:calc(32px * 4)}
+.rc-job-list .app-state,.rc-job-list .ui-empty{box-shadow:none;border-radius:0}
+
+/* Right rail */
+.rc-side-list{display:flex;flex-direction:column}
+.rc-side-item{display:flex;flex-direction:column;gap:var(--ui-space-2);padding:var(--ui-space-3) 0}
+.rc-side-item+.rc-side-item{border-top:1px solid var(--ui-border)}
+.rc-side-item:first-child{padding-top:0}
+.rc-side-item__top,.rc-side-item__foot{display:flex;align-items:center;justify-content:space-between;gap:var(--ui-space-2)}
+.rc-side-item strong{font-weight:600;font-size:var(--ui-text-sm)}
+.rc-side-item .ui-meta{margin:0}
+.rc-side-item .ui-link{font-size:var(--ui-text-xs)}
+.rc-person{display:flex;align-items:center;gap:var(--ui-space-3);min-width:0}
+.rc-person__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rc-person__body strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-hit{align-items:center;justify-content:space-between;padding:var(--ui-space-2) 0}
+.rc-hit .rc-person__body{gap:4px}
+
+@media(max-width:1300px){
+  .rc-job-head{display:none}
+  .rc-job.ui-row{grid-template-columns:minmax(0,1fr) auto;row-gap:var(--ui-space-2)}
+  .rc-job__main{grid-column:1/-1}
+  .rc-cell{display:flex;gap:6px;align-items:baseline}
+  .rc-cell__label{position:static;width:auto;height:auto;clip:auto;color:var(--ui-muted);font-size:var(--ui-text-xs)}
+  .rc-job__actions{grid-column:1/-1;justify-content:flex-start;width:auto}
+}
+@media(max-width:767px){
+  .rc-title-row{padding:var(--ui-space-2) var(--ui-space-4) 0}
+  .rc-actions{width:100%}
+  .rc-actions .ui-btn{flex:1}
+  .ui-card.rc-stats{grid-template-columns:repeat(2,minmax(0,1fr))}   /* same specificity as the base rule, or it never applies */
+  .rc-stat:nth-child(3){border-left:0}
+  .rc-stat:nth-child(n+3){border-top:1px solid var(--ui-border)}
+  .rc-filters{grid-template-columns:1fr}
+  .rc-banner{margin-inline:var(--ui-space-4)}
+}
+
+/* ── Post-job (design markup enhanced by posting.ts; restyled in place, no DOM moves) ────────────────── */
+body[data-page=post-job]{background:var(--ui-page);color:var(--ui-text);font-family:var(--ui-font)}
+body[data-page=post-job] main{background:var(--ui-page)}
+/* Title block: plain on the canvas, no card */
+body[data-page=post-job] main>div>section{background:transparent;box-shadow:none}
+body[data-page=post-job] main>div>section>div{padding-top:var(--ui-space-6);padding-bottom:var(--ui-space-3)}
+body[data-page=post-job] main h1{font-size:var(--ui-text-2xl);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--ui-text)}
+body[data-page=post-job] main>div>section .animate-pulse{animation:none}
+body[data-page=post-job] main>div>section .uppercase,body[data-page=post-job] main .uppercase{text-transform:none!important;letter-spacing:0!important}
+/* Top actions: only the submit button at the bottom stays filled */
+body[data-page=post-job] main>div>section button{min-height:var(--ui-control-h-sm);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-pill);background:var(--ui-surface);color:var(--ui-text);font-weight:600;box-shadow:none}
+body[data-page=post-job] main>div>section button:hover{background:var(--ui-subtle)}
+/* Stepper: one hairline strip instead of four tinted cards */
+body[data-page=post-job] main>div>section .grid{gap:0;background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card);overflow:hidden;padding:0}
+body[data-page=post-job] main>div>section .grid>div{border-radius:0;background:transparent;opacity:1;padding:var(--ui-space-3) var(--ui-space-4);box-shadow:none}
+body[data-page=post-job] main>div>section .grid>div+div{border-left:1px solid var(--ui-border)}
+body[data-page=post-job] main>div>section .grid>div>div:first-child{width:28px;height:28px;font-size:var(--ui-text-sm);background:var(--ui-sunken);color:var(--ui-muted)}
+body[data-page=post-job] main>div>section .grid>div:first-child>div:first-child{background:var(--ui-ink);color:var(--ui-on-accent)}
+body[data-page=post-job] main>div>section .grid>div>div.absolute{display:none}
+body[data-page=post-job] main>div>section .grid p{margin:0;color:var(--ui-muted);font-size:var(--ui-text-xs);font-weight:500}
+body[data-page=post-job] main>div>section .grid p+p{color:var(--ui-text);font-size:var(--ui-text-sm);font-weight:600}
+/* Form sections = form cards */
+body[data-page=post-job] #jobForm{gap:var(--ui-space-3)}
+body[data-page=post-job] #jobForm>div:not(:last-child){padding:var(--ui-space-6);background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card);gap:var(--ui-space-5)}
+body[data-page=post-job] #jobForm [class~="w-8"][class~="h-8"]{display:none}
+body[data-page=post-job] #jobForm h2{margin:0;font-size:var(--ui-text-xl);font-weight:600;line-height:1.3;color:var(--ui-text)}
+body[data-page=post-job] #jobForm h2+p{margin:2px 0 0;font-size:var(--ui-text-sm);color:var(--ui-muted)}
+body[data-page=post-job] #jobForm label.font-label-md,body[data-page=post-job] #jobForm .font-label-md{font-size:var(--ui-text-sm);font-weight:500;color:var(--ui-text)}
+body[data-page=post-job] #jobForm .font-body-sm,body[data-page=post-job] #jobForm .text-label-sm{font-size:var(--ui-text-xs);color:var(--ui-muted)}
+body[data-page=post-job] #jobForm input:not([type=checkbox]):not([type=radio]),body[data-page=post-job] #jobForm select,body[data-page=post-job] #jobForm textarea{min-height:var(--ui-control-h);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);background:var(--ui-surface);color:var(--ui-text);font:400 var(--ui-text-sm)/1.4 var(--ui-font)}
+body[data-page=post-job] #jobForm input:focus,body[data-page=post-job] #jobForm select:focus,body[data-page=post-job] #jobForm textarea:focus{outline:2px solid var(--ui-primary);outline-offset:-1px;border-color:var(--ui-primary)}
+body[data-page=post-job] #jobForm .min-h-\[220px\]{border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);background:var(--ui-surface)}
+/* Option tiles (work mode, years, perks) read as selectable rows; selected = soft accent */
+body[data-page=post-job] #jobForm .bg-surface-container-low,body[data-page=post-job] #jobForm .bg-secondary-container{background:var(--ui-subtle);border-radius:var(--ui-radius-control);box-shadow:inset 0 0 0 1px var(--ui-border)}
+body[data-page=post-job] #jobForm input:checked+div{background:var(--ui-primary-soft);color:var(--ui-primary);box-shadow:inset 0 0 0 1px var(--ui-primary)}
+body[data-page=post-job] #jobForm label:has(input[type=checkbox]:checked){background:var(--ui-primary-soft);color:var(--ui-text)}
+/* Footer actions: one primary */
+body[data-page=post-job] #jobForm>div:last-child{padding:var(--ui-space-3) var(--ui-space-4);background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card);position:sticky;bottom:var(--ui-space-3);z-index:5}
+body[data-page=post-job] #jobForm>div:last-child button{min-height:var(--ui-control-h);border-radius:var(--ui-radius-pill);font-weight:600;box-shadow:none}
+body[data-page=post-job] #jobForm>div:last-child button[type=submit]{background:var(--ui-primary);border:1px solid var(--ui-primary);color:var(--ui-on-accent)}
+body[data-page=post-job] #jobForm>div:last-child button[type=submit]:hover{background:var(--ui-primary-hover)}
+/* Right summary / preview rail: sticky under the header */
+body[data-page=post-job] .post-job-preview{top:calc(var(--ui-header-h) + var(--ui-space-6));gap:var(--ui-space-3)}
+body[data-page=post-job] .post-job-preview>div{padding:var(--ui-space-4);background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card)}
+body[data-page=post-job] .post-job-preview>div:last-child{background:var(--ui-subtle);box-shadow:inset 0 0 0 1px var(--ui-border)}
+body[data-page=post-job] .post-job-preview .bg-surface-container-lowest{box-shadow:inset 0 0 0 1px var(--ui-border);border-radius:var(--ui-radius-card)}
+body[data-page=post-job] .post-job-preview h3{color:var(--ui-text);font-size:var(--ui-text-lg);font-weight:600}
+body[data-page=post-job] .post-job-preview img{border-radius:var(--ui-radius-media)}
+body[data-page=post-job] .post-job-preview .rounded-full[class*="bg-error"]{background:var(--ui-signal-soft);color:var(--ui-signal)}
+@media(max-width:767px){
+  body[data-page=post-job] #jobForm>div:not(:last-child){padding:var(--ui-space-4);border-radius:0}
+  body[data-page=post-job] main>div>section .grid{grid-template-columns:1fr 1fr}
+  body[data-page=post-job] main>div>section .grid>div:nth-child(3){border-left:0}
+  body[data-page=post-job] main>div>section .grid>div:nth-child(n+3){border-top:1px solid var(--ui-border)}
+  body[data-page=post-job] #jobForm>div:last-child{bottom:calc(var(--ui-space-2) + 56px)}
+}
+
+/* post-job: tag chips (majors, skills) and template chips stay neutral */
+body[data-page=post-job] #jobForm span.inline-flex[class*="bg-primary"],body[data-page=post-job] #jobForm span.inline-flex.rounded-md{background:var(--ui-surface);color:var(--ui-text);box-shadow:inset 0 0 0 1px var(--ui-border-strong);border-radius:var(--ui-radius-pill);padding:2px 6px 2px 12px;font-size:var(--ui-text-xs);font-weight:600}
+body[data-page=post-job] #jobForm span.inline-flex>button{border:0;background:transparent;color:var(--ui-muted);font-size:16px;min-height:0;padding:0;width:20px;height:20px;border-radius:50%}
+body[data-page=post-job] #jobForm span.inline-flex>button:hover{background:var(--ui-sunken);color:var(--ui-danger)}
+body[data-page=post-job] #jobForm .overflow-x-auto>button{background:var(--ui-surface);color:var(--ui-text);box-shadow:inset 0 0 0 1px var(--ui-border-strong);border:0;border-radius:var(--ui-radius-pill);min-height:var(--ui-control-h-sm);padding:0 var(--ui-space-3);font-weight:600}
+body[data-page=post-job] #jobForm .overflow-x-auto>button:hover{background:var(--ui-subtle)}
+body[data-page=post-job] #jobForm .material-symbols-outlined{color:inherit}
+
+/* employer: two-line job meta, quiet pipeline link, compact empty rail cards */
+.rc-meta{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ui-text-xs);line-height:1.4}
+.rc-meta--1{color:var(--ui-muted)}
+.rc-meta--2{color:var(--ui-faint)}
+.rc-job__main .rc-job__link{align-self:flex-start;margin-top:2px;color:var(--ui-muted);font-size:var(--ui-text-xs);font-weight:500;text-decoration:none}
+.rc-job__main .rc-job__link:hover{color:var(--ui-primary);text-decoration:underline}
+.rc-side-note{margin:0;font-size:var(--ui-text-sm)}
+.rc-side--empty .ui-card__footer{display:none}
+.rc-side--empty .ui-card__header{margin-bottom:var(--ui-space-2)}
+.ui-empty.rc-empty{padding:var(--ui-space-3) 0;gap:var(--ui-space-2)}
+.rc-empty .ui-empty__icon{width:40px;height:40px;margin:0}
+.rc-empty p{font-size:var(--ui-text-sm)}
+@media(max-width:1300px){.rc-meta{white-space:normal}}

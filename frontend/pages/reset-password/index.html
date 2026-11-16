@@ -3,33 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đặt lại mật khẩu | Internships.io</title>
+  <title>Đặt lại mật khẩu | Internships.io</title><meta property="og:site_name" content="Internships.io"><meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:title" content="Đặt lại mật khẩu | Internships.io"><meta property="og:description" content="Đặt mật khẩu mới cho tài khoản Internships.io."><meta name="twitter:card" content="summary">
   <meta name="description" content="Đặt mật khẩu mới cho tài khoản Internships.io.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/styles/app.css">
   <link rel="stylesheet" href="/src/styles/tokens.css">
   <link rel="stylesheet" href="/src/styles/design-system.css">
+  <link rel="stylesheet" href="/src/modules/accounts/accounts.css">
 </head>
-<body data-page="reset-password">
-  <main class="ei-page ei-page-narrow">
-    <section class="ei-card" aria-labelledby="reset-title">
-      <a href="/" class="ei-muted" aria-label="Internships.io — Trang chủ">Internships.io</a>
-      <h1 id="reset-title">Đặt lại mật khẩu</h1>
-      <p class="ei-muted">Nhập mật khẩu mới cho tài khoản của bạn (tối thiểu 8 ký tự).</p>
-      <form id="reset-password-form" class="ei-form" novalidate>
-        <label class="ei-field" for="new-password">Mật khẩu mới
-          <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="Tối thiểu 8 ký tự">
-        </label>
-        <label class="ei-field" for="confirm-new-password">Nhập lại mật khẩu
-          <input id="confirm-new-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Nhập lại mật khẩu">
-        </label>
-        <div class="ei-actions">
-          <button type="submit" class="ei-button ei-button-primary">Cập nhật mật khẩu</button>
-          <a class="ei-button" href="/pages/login/">Quay lại đăng nhập</a>
+<body data-page="reset-password" class="accounts-page bg-surface font-body-md text-on-surface antialiased">
+  <header class="accounts-header">
+    <a class="accounts-header__brand" href="/" aria-label="Internships.io — Trang chủ">
+      <span class="site-header-mark" aria-hidden="true">i</span>
+      <span class="accounts-header__wordmark">Internships.io</span>
+    </a>
+    <nav class="accounts-header__nav">
+      <a class="accounts-header__link" href="/">Quay lại Trang chủ</a>
+    </nav>
+  </header>
+  <main class="accounts-canvas">
+    <div class="accounts-card">
+      <h1 class="accounts-card__title" id="reset-title">Đặt lại mật khẩu</h1>
+      <p class="accounts-card__subtitle">Nhập mật khẩu mới cho tài khoản của bạn (tối thiểu 8 ký tự).</p>
+      <form id="reset-password-form" class="ei-form" novalidate style="display:flex;flex-direction:column;gap:var(--ui-space-3)">
+        <div class="accounts-field">
+          <label for="new-password">Mật khẩu mới</label>
+          <div class="accounts-field__input-wrap">
+            <span class="material-symbols-outlined">lock</span>
+            <input class="accounts-has-icon" id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="Tối thiểu 8 ký tự">
+          </div>
+        </div>
+        <div class="accounts-field">
+          <label for="confirm-new-password">Nhập lại mật khẩu</label>
+          <div class="accounts-field__input-wrap">
+            <span class="material-symbols-outlined">lock_reset</span>
+            <input class="accounts-has-icon" id="confirm-new-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Nhập lại mật khẩu">
+          </div>
+        </div>
+        <div style="margin-top:var(--ui-space-2);display:flex;flex-direction:column;gap:var(--ui-space-2)">
+          <button type="submit" class="accounts-submit ui-btn ui-btn--primary ui-btn--block">Cập nhật mật khẩu</button>
+          <a class="ui-btn ui-btn--tertiary ui-btn--block" style="text-align:center;text-decoration:none" href="/pages/login/">Quay lại đăng nhập</a>
         </div>
       </form>
-    </section>
+    </div>
   </main>
   <script type="module" src="/src/main.ts"></script>
 </body>

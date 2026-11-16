@@ -1,0 +1,271 @@
+/* university.css — module styles for the university partner page.
+   Uses only var(--ui-*) tokens; module-prefixed classes. */
+
+/* ── Cover band ──────────────────────────────────────────────────── */
+.university-cover {
+  width: 100%;
+  height: 200px;
+  background: var(--ui-sunken);
+  position: relative;
+}
+.university-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Identity bar (overlaps cover) ───────────────────────────────── */
+.university-identity {
+  position: relative;
+  margin-top: -48px;
+}
+.university-identity__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-5);
+}
+.university-logo {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--ui-radius-card);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-card);
+  padding: var(--ui-space-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.university-logo img { width: 100%; height: 100%; object-fit: contain; }
+.university-name {
+  margin: 0;
+  font-size: var(--ui-text-2xl);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ui-text);
+}
+.university-tagline {
+  margin: var(--ui-space-1) 0 0;
+  font-size: var(--ui-text-sm);
+  color: var(--ui-muted);
+  font-style: italic;
+}
+.university-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ui-space-4);
+  margin-top: var(--ui-space-3);
+  font-size: var(--ui-text-xs);
+  color: var(--ui-muted);
+}
+.university-meta .material-symbols-outlined { font-size: 18px; color: var(--ui-primary); }
+.university-meta a { color: var(--ui-primary); text-decoration: none; font-weight: 500; }
+.university-meta a:hover { text-decoration: underline; }
+.university-meta__sep { color: var(--ui-border-strong); }
+
+/* ── Action buttons area ─────────────────────────────────────────── */
+.university-actions {
+  display: flex;
+  gap: var(--ui-space-3);
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  .university-identity__inner { flex-direction: column; }
+  .university-logo { width: 72px; height: 72px; }
+  .university-actions { width: 100%; flex-direction: column; }
+  .university-actions button { width: 100%; }
+  .university-cover { height: 140px; }
+}
+
+/* ── Badges row ──────────────────────────────────────────────────── */
+.university-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2);
+}
+.university-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-1);
+  padding: 2px var(--ui-space-2);
+  background: var(--ui-subtle);
+  color: var(--ui-muted);
+  border-radius: var(--ui-radius-pill);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ── Stat cards ──────────────────────────────────────────────────── */
+.university-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--ui-space-4);
+}
+@media (max-width: 767px) { .university-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 768px) and (max-width: 991px) { .university-stats { grid-template-columns: repeat(2, 1fr); } }
+
+.university-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+}
+.university-stat__label {
+  font-size: var(--ui-text-xs);
+  font-weight: 500;
+  color: var(--ui-muted);
+}
+.university-stat__value {
+  font-size: var(--ui-text-2xl);
+  font-weight: 700;
+  color: var(--ui-text);
+  font-variant-numeric: tabular-nums;
+}
+.university-stat__note {
+  font-size: var(--ui-text-xs);
+  color: var(--ui-muted);
+}
+
+/* ── Section headings ────────────────────────────────────────────── */
+.university-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ui-space-4);
+}
+.university-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  margin: 0;
+  font-size: var(--ui-text-xl);
+  font-weight: 600;
+  color: var(--ui-text);
+}
+.university-section-title .material-symbols-outlined { color: var(--ui-primary); }
+
+/* ── Faculty cards ───────────────────────────────────────────────── */
+.university-faculty {
+  padding: var(--ui-space-4);
+  background: var(--ui-subtle);
+  border-radius: var(--ui-radius-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background var(--ui-fast) var(--ui-ease);
+}
+.university-faculty:hover { background: var(--ui-sunken); }
+.university-faculty__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--ui-space-4);
+  margin-top: var(--ui-space-4);
+  border-top: 1px solid var(--ui-border);
+  font-size: var(--ui-text-xs);
+  font-weight: 500;
+  color: var(--ui-muted);
+}
+
+/* ── Event rows ──────────────────────────────────────────────────── */
+.university-event {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ui-space-4);
+  padding: var(--ui-space-4);
+  background: var(--ui-subtle);
+  border-radius: var(--ui-radius-card);
+  transition: background var(--ui-fast) var(--ui-ease);
+}
+.university-event:hover { background: var(--ui-sunken); }
+.university-event__date {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--ui-radius-media);
+  background: var(--ui-primary);
+  color: var(--ui-on-accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+@media (max-width: 767px) {
+  .university-event { flex-direction: column; }
+}
+
+/* ── Company partner grid ────────────────────────────────────────── */
+.university-company {
+  padding: var(--ui-space-4);
+  background: var(--ui-subtle);
+  border-radius: var(--ui-radius-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: box-shadow var(--ui-fast) var(--ui-ease);
+}
+.university-company:hover { box-shadow: var(--ui-shadow-raised); }
+.university-company__logo {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--ui-radius-card);
+  background: var(--ui-surface);
+  padding: var(--ui-space-2);
+  box-shadow: var(--ui-shadow-card);
+  margin-bottom: var(--ui-space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.university-company__logo img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ── Contact card in right rail ──────────────────────────────────── */
+.university-contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3);
+  font-size: var(--ui-text-sm);
+  color: var(--ui-muted);
+}
+.university-contact-row .material-symbols-outlined { font-size: 20px; color: var(--ui-primary); flex-shrink: 0; margin-top: 2px; }
+.university-contact-row strong { color: var(--ui-text); }
+
+/* ── Recruiter partnership card ──────────────────────────────────── */
+.university-partner-card {
+  background: var(--ui-primary);
+  color: var(--ui-on-accent);
+  border-radius: var(--ui-radius-card);
+  padding: var(--ui-space-5);
+}
+.university-partner-card ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3);
+}
+
+/* ── Salary bar chart ────────────────────────────────────────────── */
+.university-salary-bar-track {
+  width: 100%;
+  height: 10px;
+  background: var(--ui-sunken);
+  border-radius: var(--ui-radius-pill);
+  overflow: hidden;
+}
+.university-salary-bar-fill {
+  height: 100%;
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-primary);
+}
+
+/* ── Modal adjustments ───────────────────────────────────────────── */
+#contact-modal.flex { display: flex !important; }
+#contact-modal.hidden { display: none !important; }
+#contact-modal[style*="flex"] { display: flex !important; }

@@ -1,37 +1,241 @@
-/* Desktop design utilities are compiled independently from each supplied screen. */
-.app-menu{position:fixed;z-index:150;width:300px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;background:#fff;border:1px solid #dbe1ff;border-radius:16px;padding:8px;color:var(--ui-text);box-shadow:0 16px 48px #24315726;font:14px/1.5 Inter,sans-serif;animation:app-menu-enter .12s ease-out}
-.itviec-footer{position:relative;isolation:isolate;overflow:hidden;min-height:411px;background:linear-gradient(107deg,#101010 0%,#121212 45%,#4b1019 100%);color:#c6c6ca;font:15px/1.5 Inter,Arial,sans-serif}
-.itviec-footer-inner{position:relative;z-index:1;max-width:1400px;min-height:411px;box-sizing:border-box;margin:0 auto;padding:57px 20px 20px;display:grid;grid-template-columns:210px 205px 205px 235px minmax(300px,1fr);column-gap:28px;row-gap:0}
-.itviec-brand-block{display:flex;align-items:center;flex-direction:column;text-align:center}.itviec-logo{display:inline-flex;align-items:center;color:#fff;font-size:43px;font-weight:500;letter-spacing:-3px;line-height:1;text-decoration:none}.itviec-logo span{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;margin-right:1px;border-radius:50%;background:#ed1b2f;color:#fff;font-weight:700;letter-spacing:-3px}.itviec-tagline{margin:12px 0 28px;color:#fff;font-size:12px;font-weight:700;white-space:nowrap}.itviec-socials{display:flex;gap:16px}.itviec-socials a{display:grid;place-items:center;width:38px;height:38px;border:1px solid #454545;border-radius:50%;color:#aaa;text-decoration:none;transition:all .2s}.itviec-socials a:hover{border-color:#ed1b2f;color:#fff;background:#ed1b2f}.itviec-socials .material-symbols-outlined{font-size:20px}.itviec-social-letter{font:600 22px Georgia,serif}.itviec-footer-column{display:flex;flex-direction:column;align-items:flex-start;gap:11px}.itviec-footer-column h3{margin:0 0 7px;color:#fff;font-size:16px;font-weight:700;line-height:1.3}.itviec-footer-column a{display:flex;align-items:center;gap:8px;color:#b6b7be;text-decoration:none;transition:color .2s}.itviec-footer-column a:hover{color:#fff}.itviec-contact a{white-space:nowrap}.itviec-contact .material-symbols-outlined{font-size:18px;color:#b6b7be}.itviec-footer-bottom{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:16px;margin-top:62px;padding-top:20px;border-top:1px solid #383838;color:#9b9ba5;font-size:12px}.itviec-footer-bottom b{color:#74747a;font-weight:400}.itviec-footer-rings{position:absolute;z-index:0;right:-100px;bottom:-330px;width:850px;height:610px;border-radius:50%;transform:rotate(-24deg);background:repeating-radial-gradient(ellipse at center,transparent 0 7px,#a85561 8px 9px,transparent 10px 16px);opacity:.25;pointer-events:none}
-@keyframes app-menu-enter{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.app-menu-account{display:flex;align-items:center;gap:12px;padding:12px 10px 18px;border-bottom:1px solid #ebedff;margin-bottom:6px}.app-menu-account img{width:44px;height:44px;border-radius:50%;object-fit:cover}.app-menu-account strong,.app-menu-account small{display:block}.app-menu-account strong{font-weight:700}.app-menu-account small{font-size:12px;color:#6d79a4;margin-top:3px}
-.app-menu-item{display:flex;width:100%;align-items:center;gap:12px;padding:11px 12px;text-align:left;border-radius:9px;background:transparent;color:inherit;font:inherit}.app-menu-item .material-symbols-outlined{font-size:21px;color:#6d79a4;flex-shrink:0}.app-menu-item:hover,.app-menu-item:focus-visible{background:#f2f3ff;color:var(--ui-primary)}.app-menu-item:focus-visible{outline:2px solid #acbfff;outline-offset:-2px}.app-menu-danger,.app-menu-danger .material-symbols-outlined{color:#ac3434}.app-menu-danger:hover{background:#fff1f1;color:#ac3434}.app-menu-divider{height:1px;background:#ebedff;margin:6px}
-.app-muted{color:#6d79a4;font-size:13px;margin-top:8px}.app-modal-icon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:14px;background:#fff1f1;color:#ac3434;margin-bottom:16px}.app-dialog-actions .app-danger{background:#ac3434;color:white}.app-setting-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 0;border-bottom:1px solid #ebedff}.app-setting-row strong,.app-setting-row small{display:block}.app-setting-row small{color:#6d79a4;font-size:12px;margin-top:4px}.app-dialog .app-setting-row input{width:18px;height:18px;margin:0;accent-color:var(--ui-primary);flex-shrink:0}.app-saved-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #ebedff}.app-saved-row a{font-weight:600;color:var(--ui-primary)}.app-remove-saved{color:#ac3434;white-space:nowrap;font-size:12px}.app-empty-notifications{text-align:center;padding:24px 0}.app-empty-notifications>.material-symbols-outlined{font-size:40px;color:#6d79a4;padding:18px;background:#f2f3ff;border-radius:50%;margin-bottom:14px}.app-empty-notifications h3{font-weight:600;margin-bottom:8px}.app-empty-notifications p{color:#6d79a4;font-size:13px}.app-conversation-status{padding:8px 16px;background:#ebedff;color:#515e86;font:12px/1.5 Inter,sans-serif}.app-hidden-post{display:flex;justify-content:space-between;padding:20px;background:white;border:1px solid #dbe1ff;border-radius:12px}.app-hidden-post button{color:var(--ui-primary);font-weight:600}
-@media(prefers-reduced-motion:reduce){.app-menu{animation:none}}
-/* Pixel alignment for the supplied ITviec footer template. */
-.internships-logo{display:inline-flex;align-items:center;gap:8px;color:#fff;font-size:27px;font-weight:700;letter-spacing:-1.2px;line-height:1;text-decoration:none;white-space:nowrap}.internships-logo-mark{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:var(--ui-primary);color:#fff;font-size:17px;letter-spacing:-1px;box-shadow:0 0 0 3px #3f5baa30}
-.internships-footer{background:linear-gradient(110deg,#070d20 0%,#111b3d 48%,var(--ui-text) 100%)}.internships-footer .itviec-tagline{color:#acbfff}.internships-footer .itviec-socials a:hover{border-color:var(--ui-primary);background:var(--ui-primary)}.internships-footer .itviec-footer-column a:hover{color:#acbfff}.internships-footer .itviec-contact .material-symbols-outlined{color:#98b0ff}.internships-footer .itviec-footer-rings{background:repeating-radial-gradient(ellipse at center,transparent 0 7px,#98b0ff 8px 9px,transparent 10px 16px);opacity:.18}.internships-footer .itviec-footer-bottom:before{background:#6d79a4}.internships-footer .itviec-footer-bottom{color:#98b0ff}
-.internships-footer{min-height:313px;background:#0b1428;color:#9aa9c7}.internships-footer .itviec-footer-inner{min-height:313px;max-width:1196px;padding:45px 28px 14px;grid-template-columns:205px 205px 205px 205px minmax(300px,1fr);column-gap:27px}.internships-footer .itviec-brand-block{align-items:flex-start;text-align:left}.internships-footer .internships-logo{gap:8px;font-size:17px;letter-spacing:-.6px}.internships-footer .internships-logo-mark{width:30px;height:30px;border-radius:0;background:#fff;box-shadow:none}.internships-footer .internships-tagline{margin:13px 0 20px;color:#fff;line-height:1.25}.internships-footer .internships-tagline strong{display:block;font-size:11px;letter-spacing:.15px}.internships-footer .internships-tagline small{display:block;margin-top:13px;color:#9aa9c7;font-size:10px;letter-spacing:.2px}.internships-footer .itviec-socials{gap:9px}.internships-footer .itviec-socials a{width:29px;height:29px;border-color:#33435f;color:#b7c6df}.internships-footer .itviec-socials .material-symbols-outlined{font-size:15px}.internships-footer .itviec-footer-column{gap:8px;font-size:12px}.internships-footer .itviec-footer-column h3{margin:0 0 9px;color:#fff;font-size:13px}.internships-footer .itviec-footer-column a{color:#9aa9c7}.internships-footer .itviec-contact p{margin:0 0 1px;color:#9aa9c7;font-size:11px;line-height:1.35}.internships-footer .itviec-contact a{white-space:normal}.internships-footer .itviec-contact a b{color:#fff}.internships-footer .footer-contact-link{color:#68dba9!important;font-weight:700}.internships-footer .footer-contact-link .material-symbols-outlined{color:#68dba9;font-size:16px}.internships-footer .itviec-footer-bottom{margin-top:35px;padding-top:14px;font-size:10px}.internships-footer .itviec-footer-rings{right:-72px;bottom:-260px;width:500px;height:360px;opacity:.2}
-@media(min-width:768px){.itviec-footer-inner{grid-template-columns:210px 205px 205px 205px minmax(300px,1fr);column-gap:40px}.itviec-footer-bottom{position:relative;border-top:0}.itviec-footer-bottom:before{content:"";position:absolute;left:50%;top:0;width:calc(100vw - 40px);height:1px;transform:translateX(-50%);background:#383838}}
-button,a,input,textarea,select{ -webkit-tap-highlight-color:transparent }
-.app-dialog .app-dialog-actions .app-danger{background:#ac3434;color:#fff}
-button{cursor:pointer} :focus-visible{outline:2px solid var(--ui-primary);outline-offset:3px}
+/* App shell: global nav, mobile tab bar, account menu, dialogs, toasts, footers, recruiter sidebar, and the
+   page-level layout fixes for the exported design HTML. Colours come only from tokens.css. */
+
+/* ── Base ─────────────────────────────────────────────────────────────────────────────────────────── */
+html{min-height:100%}
+html,body{margin:0;padding:0}
+body[data-page]{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ui-primary);outline-offset:2px}
 [hidden]{display:none!important}
-#app-feedback{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:200;padding:14px 22px;background:var(--ui-text);color:white;border-radius:12px;box-shadow:0 8px 32px #24315730;max-width:calc(100vw - 32px);font:14px/1.5 Inter,sans-serif}
-.app-dialog{width:min(520px,calc(100vw - 32px));padding:24px;border:1px solid #dbe1ff;border-radius:16px;background:#fff;color:var(--ui-text);font:14px/1.6 Inter,sans-serif;box-shadow:0 24px 80px #0b1c3030}
-.app-dialog::backdrop{background:#0b1c3080;backdrop-filter:blur(4px)}
-.app-dialog-heading,.app-dialog-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}.app-dialog h2{font-size:20px;font-weight:700}.app-dialog-heading button{font-size:28px}.app-dialog-content{padding:20px 0}.app-dialog-actions{justify-content:flex-end}.app-dialog-actions button{padding:10px 20px;border-radius:8px;background:#ebedff}.app-dialog-actions .app-primary{background:var(--ui-primary);color:white}.app-dialog input,.app-dialog textarea{display:block;width:100%;padding:10px;margin:8px 0 16px;border:1px solid #a4b0de;border-radius:8px}.app-dialog textarea{min-height:120px}
-.app-mobile-nav{display:none}.app-empty{padding:40px 20px;text-align:center;background:white;border-radius:12px;border:1px solid #dbe1ff}
-.app-chat-message{align-self:flex-end;margin:12px 0 12px auto;padding:12px 18px;max-width:80%;border-radius:16px 16px 0 16px;background:var(--ui-primary);color:white;overflow-wrap:anywhere}
-@media(max-width:767px){body{padding-bottom:68px}header{padding-left:16px!important;padding-right:16px!important;gap:8px}header>div{gap:12px!important}header img[alt*=Logo]{max-width:34px}h1{overflow-wrap:anywhere}.app-mobile-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:8px 4px max(8px,env(safe-area-inset-bottom));background:#ffffffed;border-top:1px solid #dbe1ff;backdrop-filter:blur(12px);z-index:70}.app-mobile-nav a{display:flex;align-items:center;flex-direction:column;gap:3px;color:var(--ui-primary);font:11px Inter,sans-serif}#app-feedback{bottom:80px}body[data-page=jobs] h1{font-size:24px}body[data-page=messages] main>div{overflow-x:auto}body[data-page=candidates] main{overflow-x:auto}}
-@media print{header,nav,button,#app-feedback,.app-mobile-nav{display:none!important}body,main{background:white!important;padding:0!important}body[data-page=cv-builder] main{padding-top:0}body[data-page=cv-builder] #cv-preview{box-shadow:none!important}}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+.sr-only,.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ── Global nav (core/layout/siteHeader.ts) ──────────────────────────────────────────────────────────── */
+body[data-page] header.site-header{position:fixed;inset:0 0 auto 0;z-index:40;height:var(--ui-header-h);box-sizing:border-box;display:block;padding:0 var(--ui-space-4);background:var(--ui-surface);border-bottom:1px solid var(--ui-border);box-shadow:none;color:var(--ui-text);font:400 var(--ui-text-sm)/1.4 var(--ui-font);-webkit-backdrop-filter:none;backdrop-filter:none}
+.site-header-inner{height:100%;max-width:var(--ui-shell-max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:var(--ui-space-4)}
+.site-header-recruiter .site-header-inner{max-width:none}
+.site-header-start{display:flex;align-items:center;gap:var(--ui-space-2);min-width:0;flex:1 1 auto}
+.site-header-brand{display:flex;align-items:center;gap:var(--ui-space-2);flex-shrink:0;color:var(--ui-text);text-decoration:none}
+.site-header-mark,.site-footer-brand,.recruiter-mark{display:inline-grid;place-items:center;flex-shrink:0;width:34px;height:34px;border-radius:var(--ui-radius-media);background:var(--ui-primary);color:var(--ui-on-accent);font:700 22px/1 var(--ui-font);letter-spacing:0}
+.site-header-wordmark{font-size:18px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.site-header-search{position:relative;display:flex;align-items:center;width:280px;max-width:100%;height:34px;margin-left:var(--ui-space-1);border-radius:var(--ui-radius-control);background:var(--ui-sunken);color:var(--ui-muted);transition:width var(--ui-med) var(--ui-ease),box-shadow var(--ui-fast) var(--ui-ease)}
+.site-header-search>.material-symbols-outlined{position:absolute;left:10px;font-size:20px;pointer-events:none}
+body[data-page] .site-header-search input{width:100%;height:100%;min-width:0;box-sizing:border-box;padding:0 10px 0 38px;border:0;border-radius:var(--ui-radius-control);background:transparent;color:var(--ui-text);font:400 var(--ui-text-sm)/1 var(--ui-font);outline:none;box-shadow:none}
+body[data-page] .site-header-search input:focus-visible{outline:none}
+.site-header-search:focus-within{width:380px;box-shadow:inset 0 0 0 2px var(--ui-text);background:var(--ui-surface)}
+.site-header-actions{display:flex;align-items:stretch;height:100%;flex-shrink:0}
+.site-header-nav{display:flex;align-items:stretch;height:100%}
+body[data-page] .site-header-link{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:72px;height:100%;box-sizing:border-box;padding:0 var(--ui-space-2);border:0;border-radius:0;background:transparent;color:var(--ui-muted);font:400 var(--ui-text-xs)/1.3 var(--ui-font);text-decoration:none;white-space:nowrap;transition:color var(--ui-fast) var(--ui-ease)}
+.site-header-link>.material-symbols-outlined{font-size:24px;line-height:1}
+.site-header-link:hover{color:var(--ui-text)}
+.site-header-link[aria-current=page]{color:var(--ui-text)}
+.site-header-link[aria-current=page]>.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+.site-header-link[aria-current=page]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ui-text)}
+.site-header-link:focus-visible{outline-offset:-2px}
+body[data-page] .site-header button.site-header-link,body[data-page] .site-header button.site-header-link .site-header-label{font-size:var(--ui-text-xs);font-weight:400;line-height:1.3}
+.site-header-account img{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.site-header-me{display:inline-flex;align-items:center}
+.site-header-chevron{font-size:18px;margin:-2px -4px -2px -1px}
+.site-header-account-text{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.site-header-notifications .app-notification-badge{top:4px;left:calc(50% + 2px);right:auto}
+.site-header-divider{align-self:stretch;width:1px;margin:0 var(--ui-space-2);background:var(--ui-border)}
+.site-header-workspace{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:96px;color:var(--ui-muted);font:400 var(--ui-text-xs)/1.3 var(--ui-font);white-space:nowrap}
+.site-header-workspace>.material-symbols-outlined{font-size:24px;line-height:1}
+.site-header-mobile-link{display:none}
+.site-header-login,.site-header-register{align-self:center;display:inline-flex;align-items:center;justify-content:center;height:40px;box-sizing:border-box;padding:0 var(--ui-space-5);border-radius:var(--ui-radius-pill);font:600 15px/1 var(--ui-font);white-space:nowrap;text-decoration:none;transition:background-color var(--ui-fast) var(--ui-ease)}
+body[data-page] .site-header-register{margin-left:var(--ui-space-2);border:0;background:transparent;color:var(--ui-muted)}
+body[data-page] .site-header-register:hover{background:var(--ui-subtle);color:var(--ui-text)}
+body[data-page] .site-header-login{margin-left:var(--ui-space-1);border:1px solid var(--ui-primary);background:var(--ui-surface);color:var(--ui-primary)}
+body[data-page] .site-header-login:hover{background:var(--ui-primary-soft);box-shadow:inset 0 0 0 1px var(--ui-primary)}
+@media(max-width:1099px){.site-header-wordmark{display:none}.site-header-search:focus-within{width:300px}}
+@media(max-width:991px){
+  body[data-page] .site-header-link{min-width:52px}
+  .site-header-nav .site-header-label,.site-header-notifications .site-header-label,.site-header-workspace .site-header-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .site-header-search{width:220px}
+  .site-header-workspace{min-width:52px}
+}
 @media(max-width:767px){
+  body[data-page] header.site-header{left:0;height:var(--ui-header-h-mobile);padding:0 var(--ui-space-3)}
+  .site-header-inner{gap:var(--ui-space-2)}
+  .site-header-start{order:2}
+  .site-header-actions{display:contents}
+  .site-header-nav,.site-header-notifications,.site-header-divider,.site-header-workspace,.site-header-register,.site-header-me{display:none!important}
+  body[data-page] .site-header-account{order:1;min-width:0;width:36px;padding:0;flex-shrink:0}
+  .site-header-account img{width:32px;height:32px}
+  .site-header:not(.site-header-guest) .site-header-brand{display:none}
+  .site-header-search,.site-header-search:focus-within{flex:1;width:auto;margin-left:0}
+  .site-header-mobile-link{order:3;display:grid;place-items:center;width:40px;height:40px;flex-shrink:0;border-radius:50%;color:var(--ui-muted);text-decoration:none}
+  .site-header-mobile-link .material-symbols-outlined{font-size:24px}
+  body[data-page] .site-header-login{order:3;height:34px;padding:0 var(--ui-space-3);font-size:var(--ui-text-sm)}
+  .site-header-recruiter .site-header-start{flex:0 1 auto}
+  .site-header-recruiter .site-header-brand{display:flex!important}
+  .site-header-recruiter .site-header-inner{justify-content:space-between}
+}
+
+/* ── Mobile bottom tab bar (rendered by siteHeader.ts) ───────────────────────────────────────────────── */
+.app-mobile-nav{display:none}
+@media(max-width:767px){
+  body.has-mobile-nav{padding-bottom:calc(var(--ui-tabbar-h) + env(safe-area-inset-bottom))}
+  .app-mobile-nav{position:fixed;left:0;right:0;bottom:0;z-index:70;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;height:calc(var(--ui-tabbar-h) + env(safe-area-inset-bottom));box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom);background:var(--ui-surface);border-top:1px solid var(--ui-border)}
+  .app-mobile-nav a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;color:var(--ui-muted);font:500 11px/1.2 var(--ui-font);text-decoration:none}
+  .app-mobile-nav a>span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .app-mobile-nav .material-symbols-outlined{font-size:24px;line-height:1}
+  .app-mobile-nav a[aria-current=page]{color:var(--ui-text)}
+  .app-mobile-nav a[aria-current=page] .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+  .app-mobile-nav a[aria-current=page]::before{content:"";position:absolute;top:-1px;left:25%;right:25%;height:2px;background:var(--ui-text)}
+}
+
+/* ── Account menu ("Tôi ▾", core/ui/menu.ts) ─────────────────────────────────────────────────────────── */
+.app-menu{position:fixed;z-index:150;width:288px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;box-sizing:border-box;padding:0 0 var(--ui-space-2);background:var(--ui-surface);border:0;border-radius:var(--ui-radius-card);color:var(--ui-text);box-shadow:var(--ui-shadow-overlay);font:400 var(--ui-text-sm)/1.5 var(--ui-font);animation:app-menu-enter var(--ui-med) var(--ui-ease)}
+@keyframes app-menu-enter{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.app-menu-account{display:flex;align-items:center;gap:var(--ui-space-3);padding:var(--ui-space-4);border-bottom:1px solid var(--ui-border);margin-bottom:var(--ui-space-2)}
+.app-menu-account img{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.app-menu-account strong,.app-menu-account small{display:block}
+.app-menu-account strong{font-size:var(--ui-text-lg);font-weight:600;line-height:1.35}
+.app-menu-account small{margin-top:2px;font-size:var(--ui-text-xs);color:var(--ui-muted)}
+.app-menu-item{display:flex;width:100%;min-height:40px;box-sizing:border-box;align-items:center;gap:var(--ui-space-3);padding:0 var(--ui-space-4);border:0;border-radius:0;background:transparent;color:var(--ui-text);font:400 var(--ui-text-sm)/1.4 var(--ui-font);text-align:left}
+.app-menu-item .material-symbols-outlined{font-size:20px;color:var(--ui-muted);flex-shrink:0}
+.app-menu-item:hover,.app-menu-item:focus-visible{background:var(--ui-subtle);color:var(--ui-text)}
+.app-menu-item:focus-visible{outline:2px solid var(--ui-primary);outline-offset:-2px}
+.app-menu-danger,.app-menu-danger .material-symbols-outlined,.app-menu-danger:hover{color:var(--ui-danger)}
+.app-menu-divider{height:1px;margin:var(--ui-space-2) 0;background:var(--ui-border)}
+
+/* ── Dialog (core/ui/feedback.ts dialog()) ──────────────────────────────────────────────────────────── */
+.app-dialog{width:min(552px,calc(100vw - 32px));max-height:calc(100dvh - 48px);box-sizing:border-box;padding:0;border:0;border-radius:var(--ui-radius-card);background:var(--ui-surface);color:var(--ui-text);font:400 var(--ui-text-sm)/1.5 var(--ui-font);box-shadow:var(--ui-shadow-overlay);overflow:hidden}
+.app-dialog[open]{animation:app-menu-enter var(--ui-med) var(--ui-ease)}
+.app-dialog::backdrop{background:var(--ui-scrim)}
+.app-dialog>form{display:flex;flex-direction:column;max-height:calc(100dvh - 48px)}
+.app-dialog-heading,.app-dialog-actions{display:flex;align-items:center;gap:var(--ui-space-3);flex-shrink:0}
+.app-dialog-heading{justify-content:space-between;min-height:56px;box-sizing:border-box;padding:var(--ui-space-2) var(--ui-space-3) var(--ui-space-2) var(--ui-space-6);border-bottom:1px solid var(--ui-border)}
+.app-dialog h2{margin:0;font-size:var(--ui-text-xl);font-weight:600;line-height:1.3}
+.app-dialog-heading>button{display:grid;place-items:center;width:40px;height:40px;flex-shrink:0;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-muted);font-size:24px;line-height:1}
+.app-dialog-heading>button:hover{background:var(--ui-subtle);color:var(--ui-text)}
+.app-dialog-heading>button .material-symbols-outlined{font-size:24px}
+.app-dialog-content{flex:1 1 auto;min-height:0;overflow-y:auto;padding:var(--ui-space-4) var(--ui-space-6) var(--ui-space-5);overflow-wrap:anywhere}
+.app-dialog-content>:first-child{margin-top:0}
+.app-dialog-content p+p{margin-top:var(--ui-space-2)}
+.app-dialog-actions{justify-content:flex-end;flex-wrap:wrap;padding:var(--ui-space-3) var(--ui-space-6);border-top:1px solid var(--ui-border)}
+body[data-page] .app-dialog-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:6px var(--ui-space-4);border:1px solid var(--ui-primary);border-radius:var(--ui-radius-pill);background:transparent;color:var(--ui-primary);font:600 var(--ui-text-sm)/1.4 var(--ui-font)}
+body[data-page] .app-dialog-actions button:hover{background:var(--ui-primary-soft);box-shadow:inset 0 0 0 1px var(--ui-primary)}
+body[data-page] .app-dialog-actions .app-primary{background:var(--ui-primary);color:var(--ui-on-accent)}
+body[data-page] .app-dialog-actions .app-primary:hover{background:var(--ui-primary-hover);box-shadow:none}
+body[data-page] .app-dialog .app-dialog-actions .app-danger{background:var(--ui-danger);border-color:var(--ui-danger);color:var(--ui-on-accent)}
+body[data-page] .app-dialog .app-dialog-actions .app-danger:hover{background:var(--ui-danger-hover);border-color:var(--ui-danger-hover)}
+.app-dialog-actions [aria-busy=true]{opacity:.7;cursor:progress}
+.app-dialog :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),textarea,select){display:block;width:100%;box-sizing:border-box;margin:6px 0 var(--ui-space-4);padding:9px var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);background:var(--ui-surface);color:var(--ui-text);font:400 var(--ui-text-sm)/1.4 var(--ui-font)}
+.app-dialog :is(input,select):not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]){min-height:var(--ui-control-h)}
+.app-dialog textarea{min-height:120px;resize:vertical}
+.app-dialog label{font-weight:500}
+.app-dialog h3{margin:var(--ui-space-3) 0;font-size:var(--ui-text-lg);font-weight:600}
+
+/* Dialog content helpers used by core and modules */
+.app-muted{margin-top:var(--ui-space-2);color:var(--ui-muted);font-size:var(--ui-text-sm)}
+.app-modal-icon{display:grid;place-items:center;width:48px;height:48px;margin-bottom:var(--ui-space-4);border-radius:50%;background:var(--ui-danger-soft);color:var(--ui-danger)}
+.app-setting-row{display:flex;align-items:center;justify-content:space-between;gap:var(--ui-space-5);padding:var(--ui-space-3) 0;border-bottom:1px solid var(--ui-border)}
+.app-setting-row:last-child{border-bottom:0}
+.app-setting-row strong,.app-setting-row small{display:block}
+.app-setting-row strong{font-weight:500}
+.app-setting-row small{margin-top:2px;color:var(--ui-muted);font-size:var(--ui-text-xs)}
+.app-dialog .app-setting-row input{width:18px;height:18px;margin:0;accent-color:var(--ui-primary);flex-shrink:0}
+.app-saved-row{display:flex;align-items:center;justify-content:space-between;gap:var(--ui-space-3);padding:var(--ui-space-3) 0;border-bottom:1px solid var(--ui-border)}
+.app-saved-row a{font-weight:600;color:var(--ui-text);text-decoration:none}.app-saved-row a:hover{color:var(--ui-primary);text-decoration:underline}
+.app-saved-row small{color:var(--ui-muted);font-weight:400}
+.app-remove-saved{padding:4px var(--ui-space-3);border:0;border-radius:var(--ui-radius-pill);background:transparent;color:var(--ui-muted);font-size:var(--ui-text-xs);font-weight:600;white-space:nowrap}
+.app-remove-saved:hover{background:var(--ui-subtle);color:var(--ui-danger)}
+.app-empty-notifications{display:grid;justify-items:center;gap:var(--ui-space-2);padding:var(--ui-space-6) 0;text-align:center}
+.app-empty-notifications>.material-symbols-outlined{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--ui-sunken);color:var(--ui-muted);font-size:28px}
+.app-empty-notifications h3{margin:var(--ui-space-2) 0 0;font-size:var(--ui-text-lg);font-weight:600}
+.app-empty-notifications p{margin:0;color:var(--ui-muted)}
+.app-conversation-status{padding:var(--ui-space-2) var(--ui-space-4);background:var(--ui-subtle);color:var(--ui-muted);font:400 var(--ui-text-xs)/1.5 var(--ui-font);border-bottom:1px solid var(--ui-border)}
+.app-hidden-post{display:flex;justify-content:space-between;align-items:center;gap:var(--ui-space-3);padding:var(--ui-space-4);background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card)}
+.app-hidden-post button{color:var(--ui-primary);font-weight:600}
+.app-empty{padding:var(--ui-space-7) var(--ui-space-5);text-align:center;background:var(--ui-surface);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-card);color:var(--ui-muted)}
+.app-chat-message{align-self:flex-end;margin:var(--ui-space-2) 0 var(--ui-space-2) auto;padding:10px 14px;max-width:80%;border-radius:16px 16px 4px 16px;background:var(--ui-primary);color:var(--ui-on-accent);overflow-wrap:anywhere;white-space:pre-wrap}
+
+/* ── Toast (#app-feedback) ─────────────────────────────────────────────────────────────────────────── */
+#app-feedback{position:fixed;left:var(--ui-space-6);bottom:var(--ui-space-6);z-index:200;box-sizing:border-box;max-width:min(420px,calc(100vw - 32px));padding:var(--ui-space-3) var(--ui-space-4);background:var(--ui-ink);color:var(--ui-on-accent);border-radius:var(--ui-radius-card);box-shadow:var(--ui-shadow-overlay);font:500 var(--ui-text-sm)/1.45 var(--ui-font);animation:app-toast-enter var(--ui-med) var(--ui-ease)}
+@keyframes app-toast-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:767px){#app-feedback{left:var(--ui-space-3);right:var(--ui-space-3);max-width:none;bottom:calc(var(--ui-tabbar-h) + env(safe-area-inset-bottom) + 12px)}}
+
+/* ── Footers (core/layout/siteFooter.ts) ────────────────────────────────────────────────────────────── */
+.site-footer{margin-top:auto;flex-shrink:0;padding:var(--ui-space-6) var(--ui-space-4) var(--ui-space-7);text-align:center;color:var(--ui-muted);font:400 var(--ui-text-xs)/1.5 var(--ui-font)}
+.site-footer-links,.rail-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--ui-space-1) var(--ui-space-4);max-width:720px;margin:0 auto}
+.site-footer-links a,.rail-footer-links a{color:var(--ui-muted);text-decoration:none}
+.site-footer-links a:hover,.rail-footer-links a:hover{color:var(--ui-primary);text-decoration:underline}
+.site-footer-copy{display:flex;align-items:center;justify-content:center;gap:6px;margin:var(--ui-space-3) 0 0;color:var(--ui-muted)}
+.site-footer-copy .site-footer-brand{width:16px;height:16px;border-radius:3px;font-size:11px}
+.rail-footer{padding:var(--ui-space-2) var(--ui-space-4);color:var(--ui-muted);font:400 var(--ui-text-xs)/1.5 var(--ui-font);text-align:center}
+.rail-footer-links{gap:2px var(--ui-space-3)}
+.rail-footer .site-footer-copy{margin-top:var(--ui-space-2)}
+@media(min-width:992px){body.has-rail-footer>.site-footer,body.has-rail-footer>*>.site-footer,body.has-rail-footer>.workspace-footer{display:none}}
+@media(max-width:991px){.rail-footer{display:none}}
+.workspace-footer{margin-top:auto;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--ui-space-3);padding:var(--ui-space-4) var(--ui-space-6);border-top:1px solid var(--ui-border);background:transparent;color:var(--ui-muted);font:400 var(--ui-text-xs)/1.5 var(--ui-font)}
+.workspace-footer a{color:var(--ui-muted);text-decoration:none}.workspace-footer a:hover{color:var(--ui-primary);text-decoration:underline}.workspace-footer a:first-child{font-weight:600;color:var(--ui-text)}
+.admin-login-footer{margin-top:auto;flex-shrink:0}
+@media(max-width:767px){body>.workspace-footer{margin-left:0!important;padding:var(--ui-space-4);justify-content:center}.workspace-footer span{order:3;width:100%;text-align:center}}
+
+/* ── Recruiter sidebar (core/layout/recruiterSidebar.ts) ──────────────────────────────────────────────── */
+body[data-page]>.recruiter-sidebar{position:fixed;inset:0 auto 0 0;z-index:50;width:224px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;padding:11px 12px 16px;background:var(--ui-surface);border-right:1px solid var(--ui-border);box-shadow:none;font:400 var(--ui-text-sm)/1.5 var(--ui-font);color:var(--ui-muted);overflow-y:auto}
+.recruiter-brand{display:flex;align-items:center;gap:10px;padding:0 7px;text-decoration:none}
+.recruiter-brand strong{display:block;color:var(--ui-text);font-size:var(--ui-text-lg);font-weight:600;line-height:1.3}
+.recruiter-brand small{display:block;color:var(--ui-muted);font-size:var(--ui-text-xs)}
+.recruiter-nav-label{margin:var(--ui-space-6) 10px var(--ui-space-2);font-size:var(--ui-text-xs);font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--ui-faint)}
+.recruiter-sidebar nav{display:flex;flex-direction:column;gap:2px}
+.recruiter-sidebar nav a,.recruiter-back{display:flex;align-items:center;gap:var(--ui-space-3);min-height:40px;box-sizing:border-box;padding:0 14px;border-radius:var(--ui-radius-control);text-decoration:none;color:var(--ui-muted);font-weight:500}
+.recruiter-sidebar .material-symbols-outlined{font-size:20px;flex-shrink:0}
+.recruiter-sidebar nav a:hover,.recruiter-back:hover{background:var(--ui-subtle);color:var(--ui-text)}
+.recruiter-sidebar nav a[aria-current=page]{background:var(--ui-primary-soft);color:var(--ui-primary);font-weight:600}
+.recruiter-sidebar nav a[aria-current=page] .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+.recruiter-back{margin-top:var(--ui-space-6);font-size:var(--ui-text-xs)}
+body.recruiter-workspace>header{z-index:40}
+body[data-page=employer]>.pl-64{padding-left:224px}body[data-page=employer] header{left:224px}
+body[data-page=candidates]>.workspace-footer,body[data-page=employer]>.workspace-footer{margin-left:224px}
+@media(min-width:768px){
+  body[data-page].recruiter-sidebar-collapsed>.recruiter-sidebar{width:72px;padding-left:10px;padding-right:10px;overflow-x:hidden;transition:width var(--ui-med) var(--ui-ease),box-shadow var(--ui-med) var(--ui-ease)}
+  .recruiter-sidebar-collapsed .recruiter-brand{width:202px}
+  .recruiter-sidebar-collapsed .recruiter-brand>span:last-child{white-space:nowrap;opacity:0;transition:opacity var(--ui-fast) ease}
+  .recruiter-sidebar-collapsed .recruiter-nav-label{height:18px;white-space:nowrap;opacity:0}
+  .recruiter-sidebar-collapsed .recruiter-sidebar nav a{padding:0 16px;white-space:nowrap}
+  .recruiter-sidebar-collapsed .recruiter-sidebar nav a>span:last-child{opacity:0;transition:opacity var(--ui-fast) ease}
+  body[data-page].recruiter-sidebar-collapsed>.recruiter-sidebar:hover,
+  body[data-page].recruiter-sidebar-collapsed>.recruiter-sidebar:has(:focus-visible){width:224px;box-shadow:var(--ui-shadow-overlay)}
+  .recruiter-sidebar-collapsed .recruiter-sidebar:is(:hover,:has(:focus-visible)) .recruiter-brand>span:last-child,
+  .recruiter-sidebar-collapsed .recruiter-sidebar:is(:hover,:has(:focus-visible)) .recruiter-nav-label,
+  .recruiter-sidebar-collapsed .recruiter-sidebar:is(:hover,:has(:focus-visible)) nav a>span:last-child{opacity:1}
+  body[data-page].recruiter-sidebar-collapsed>.pl-64{padding-left:72px}
+  body[data-page].recruiter-sidebar-collapsed header,body[data-page].recruiter-sidebar-collapsed header.site-header{left:72px}
+  body[data-page].recruiter-sidebar-collapsed>.workspace-footer{margin-left:72px}
+  body.recruiter-sidebar-collapsed.recruiter-workspace>main{margin-left:72px;min-width:0}
+}
+@media(max-width:767px){body[data-page]>.recruiter-sidebar{display:none}body[data-page=employer]>.pl-64{padding-left:0}body[data-page=employer] header{left:0}}
+
+/* ── Related-pages trail (core/layout/workflow.ts) ───────────────────────────────────────────────────── */
+.workflow-trail{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:var(--ui-space-1) var(--ui-space-3);margin:0 0 var(--ui-space-1);padding:0;border:0;background:transparent;font:500 var(--ui-text-xs)/1.5 var(--ui-font)}
+.workflow-trail a{color:var(--ui-muted);text-decoration:none}.workflow-trail a:hover{color:var(--ui-primary);text-decoration:underline}
+@media(max-width:767px){.workflow-trail{padding:0 var(--ui-space-4)}}
+.workflow-trail a+a::before{content:"·";display:inline-block;margin-right:var(--ui-space-3);color:var(--ui-faint);text-decoration:none}
+.workflow-conversation{display:flex;flex-direction:column;gap:var(--ui-space-2);margin-top:var(--ui-space-4);padding:var(--ui-space-4);border-radius:var(--ui-radius-control);background:var(--ui-subtle);font-size:var(--ui-text-sm)}
+
+/* ── Page-load state: data pages stay hidden until main.ts sets body[data-ready]; a thin progress bar
+      under the nav replaces the old centred spinner (spinners only live inside buttons). ──────────── */
+:is(body[data-page=jobs],body[data-page=profile],body[data-page=cv-builder],body[data-page=job-detail],body[data-page=company],body[data-page=employer],body[data-page=candidates],body[data-page=messages]):not([data-ready]) main{visibility:hidden}
+:is(body[data-page=jobs],body[data-page=profile],body[data-page=cv-builder],body[data-page=job-detail],body[data-page=company],body[data-page=employer],body[data-page=candidates],body[data-page=messages]):not([data-ready])::after{content:"";position:fixed;top:var(--ui-header-h);left:0;z-index:100;width:40%;height:2px;background:var(--ui-primary);animation:app-page-progress 1.2s var(--ui-ease) infinite}
+@keyframes app-page-progress{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+@media(prefers-reduced-motion:reduce){body::after{animation:none!important}}
+
+/* ── Page-level layout fixes for the exported design HTML (module owners refine these in Phase 2) ───── */
+@media(max-width:767px){
+  h1{overflow-wrap:anywhere}
+  header:not(.site-header){padding-left:16px!important;padding-right:16px!important;gap:8px}header:not(.site-header)>div{gap:12px!important}header:not(.site-header) img[alt*=Logo]{max-width:34px}
   main .grid>*,main .flex>*,main input{min-width:0}
+  body[data-page=jobs] h1{font-size:24px}
+  body[data-page=messages] main>div{overflow-x:auto}
+  body[data-page=candidates] main{overflow-x:auto}
   body[data-page=employer]>aside{display:none}
   body[data-page=employer]>.pl-64{padding-left:0}
   body[data-page=employer] header{left:0}
-  body[data-page=employer] header>div:first-child{display:none}
-  body[data-page=employer] header>div:last-child{width:100%;justify-content:space-between}
   body[data-page=employer] main .flex.items-center.justify-between{flex-wrap:wrap;gap:12px}
   body[data-page=cv-builder] input{max-width:100%;width:100%}
   body[data-page=cv-builder] main .flex.items-center.justify-between:has(input){flex-wrap:wrap;gap:8px}
@@ -45,78 +249,15 @@ button{cursor:pointer} :focus-visible{outline:2px solid var(--ui-primary);outlin
   body[data-page=candidates] #candidateDrawer{position:fixed;inset:80px 16px auto;width:auto;max-height:calc(100dvh - 160px);overflow-y:auto;z-index:80}
   body[data-page=messages] main>div>div:first-child{flex-wrap:wrap;gap:8px;padding:12px 16px}
   body[data-page=messages] main>div>div:first-child>div:last-child{display:none}
-  body[data-page=messages] main>div>.grid{display:flex;flex-direction:column;height:auto;overflow:visible}
-  body[data-page=messages] main>div>.grid>aside:first-child{width:100%;height:240px;overflow:auto}
   body[data-page=messages] main>div>.grid>aside:last-child{display:none}
-  body[data-page=messages] main>div>.grid>section{width:100%;height:calc(100dvh - 80px);min-height:600px}
   body[data-page=messages] section>div:first-child{flex-wrap:wrap;gap:12px;padding:16px}
   body[data-page=messages] section>div:nth-child(2){flex-wrap:wrap;padding:12px 16px;gap:8px}
   body[data-page=messages] section>div:nth-child(2)>div{flex-wrap:wrap}
-  body[data-page=messages] section input{width:100px}
   body[data-page=messages] section>div:last-child{padding-left:12px;padding-right:12px}
-  .itviec-footer{min-height:0}.itviec-footer-inner{padding:38px 24px 18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 22px}.itviec-brand-block{grid-column:1/-1;align-items:flex-start;text-align:left}.itviec-tagline{margin-bottom:18px}.itviec-socials{gap:10px}.itviec-footer-column{gap:8px;font-size:13px}.itviec-footer-column h3{font-size:14px}.itviec-contact{grid-column:1/-1}.itviec-contact a{white-space:normal}.itviec-footer-bottom{grid-column:1/-1;flex-wrap:wrap;gap:8px;font-size:11px;padding-top:18px}.itviec-footer-rings{right:-230px;bottom:-230px;width:550px;height:420px}
-}
-@media(max-width:767px){.internships-footer{min-height:0}.internships-footer .itviec-footer-inner{min-height:0;width:100%;max-width:none;box-sizing:border-box;padding:38px 24px 18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 22px}.internships-footer .itviec-brand-block{grid-column:1/-1;align-items:flex-start;text-align:left}.internships-footer .itviec-contact{grid-column:1/-1}.internships-footer .itviec-footer-bottom{grid-column:1/-1;margin-top:20px;flex-wrap:wrap;gap:8px;font-size:11px;padding-top:18px}.internships-footer .itviec-footer-rings{display:none}}
-
-/* Base full-height document layout and sticky footer */
-html {
-  min-height: 100%;
-}
-html, body {
-  margin: 0;
-  padding: 0;
-}
-body[data-page] {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-/* The workspace and site footers use margin-top: auto to stick to the bottom without stretching main content */
-body[data-page=messages] main {
-  flex: 1 1 auto;
-  min-height: 0 !important;
 }
 
-/* Compact footer for task-oriented pages. */
-.workspace-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 28px;border-top:1px solid var(--ui-border);background:#f8fafc;color:var(--ui-muted);font:12px/1.5 Inter,sans-serif;margin-top:auto;flex-shrink:0}
-.workspace-footer a{color:var(--ui-muted);text-decoration:none}.workspace-footer a:hover{text-decoration:underline}.workspace-footer a:first-child{font-weight:600}
-.internships-footer, .admin-login-footer {
-  margin-top: auto;
-  flex-shrink: 0;
-}
-body[data-page=candidates]>.workspace-footer{margin-left:224px}
-body[data-page=employer]>.workspace-footer{margin-left:224px}
-@media(max-width:767px){body>.workspace-footer{margin-left:0!important;padding:16px;justify-content:center}.workspace-footer span{order:3;width:100%;text-align:center}}
-
-/* Shared recruiter navigation on overview and candidate management. */
-body[data-page]>.recruiter-sidebar{position:fixed;inset:0 auto 0 0;z-index:50;width:224px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;padding:24px 12px 16px;background:#fff;border-right:1px solid var(--ui-border);box-shadow:none;font:14px/1.5 Inter,sans-serif;color:var(--ui-muted);overflow-y:auto}
-.recruiter-brand{display:flex;align-items:center;gap:10px;padding:0 8px;text-decoration:none}.recruiter-brand img{width:32px;height:32px;object-fit:contain;flex-shrink:0}.recruiter-brand strong{display:block;color:var(--ui-text);font-size:19px;letter-spacing:-.5px;line-height:1.3}.recruiter-brand small{display:block;margin-top:3px;color:var(--ui-muted);font-size:12px}
-.recruiter-nav-label{margin:32px 10px 10px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ui-muted)}
-.recruiter-sidebar nav{display:flex;flex-direction:column;gap:4px}.recruiter-sidebar nav a,.recruiter-back{display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:8px;text-decoration:none;color:var(--ui-muted);font-weight:500}.recruiter-sidebar .material-symbols-outlined{font-size:20px;flex-shrink:0}.recruiter-sidebar nav a:hover,.recruiter-back:hover{background:var(--ui-subtle);color:var(--ui-text)}.recruiter-sidebar nav a[aria-current=page]{background:var(--ui-primary-soft);color:var(--ui-primary);font-weight:600}.recruiter-back{margin-top:24px;font-size:12px}
-body[data-page=employer]>.pl-64{padding-left:224px}body[data-page=employer] header{left:224px}body[data-page=employer]>.workspace-footer{margin-left:224px}
-@media(max-width:767px){body[data-page]>.recruiter-sidebar{display:none}body[data-page=employer]>.pl-64{padding-left:0}body[data-page=employer] header{left:0}}
-
-/* Expand over the workspace on hover so the content stays in place. */
-@media(min-width:768px){
-  body[data-page].recruiter-sidebar-collapsed>.recruiter-sidebar{width:72px;padding-left:10px;padding-right:10px;overflow-x:hidden;transition:width .18s ease,box-shadow .18s ease}
-  .recruiter-sidebar-collapsed .recruiter-brand{padding:0 10px;gap:10px;width:202px}
-  .recruiter-sidebar-collapsed .recruiter-brand>span{white-space:nowrap;opacity:0;transition:opacity .12s ease}
-  .recruiter-sidebar-collapsed .recruiter-nav-label{height:15px;margin:32px 10px 10px;white-space:nowrap;opacity:0}
-  .recruiter-sidebar-collapsed .recruiter-sidebar nav a{height:44px;padding:11px 16px;white-space:nowrap}
-  .recruiter-sidebar-collapsed .recruiter-sidebar nav a>span:last-child{opacity:0;transition:opacity .12s ease}
-  body[data-page].recruiter-sidebar-collapsed>.recruiter-sidebar:hover,
-  body[data-page].recruiter-sidebar-collapsed>.recruiter-sidebar:has(:focus-visible){width:224px;box-shadow:8px 0 24px #25324a12}
-  .recruiter-sidebar-collapsed .recruiter-sidebar:is(:hover,:has(:focus-visible)) .recruiter-brand>span,
-  .recruiter-sidebar-collapsed .recruiter-sidebar:is(:hover,:has(:focus-visible)) .recruiter-nav-label,
-  .recruiter-sidebar-collapsed .recruiter-sidebar:is(:hover,:has(:focus-visible)) nav a>span:last-child{opacity:1}
-  body[data-page].recruiter-sidebar-collapsed>.pl-64{padding-left:72px}
-  body[data-page].recruiter-sidebar-collapsed header{left:72px}
-  body[data-page].recruiter-sidebar-collapsed>.workspace-footer{margin-left:72px}
-}
-@media(prefers-reduced-motion:reduce){body[data-page]>.recruiter-sidebar,.recruiter-sidebar-collapsed .recruiter-brand>span,.recruiter-sidebar-collapsed .recruiter-sidebar nav a>span:last-child{transition:none}}
-/* Constrain the chat grid so long messages cannot push the composer out of view. */
-body[data-page=messages] main{height:calc(100dvh - 55px);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+/* Messages: constrain the chat grid so long messages cannot push the composer out of view. */
+body[data-page=messages] main{flex:1 1 auto;height:calc(100dvh - 55px);min-height:0!important;display:flex;flex-direction:column;overflow:hidden}
 body[data-page=messages] main>div{flex:1;min-height:0}
 body[data-page=messages] main>div>div:first-child{flex-shrink:0}
 body[data-page=messages] main>div>.grid{flex:1;min-height:0;height:auto;grid-template-columns:minmax(240px,3fr) minmax(0,6fr) minmax(230px,3fr);grid-template-rows:minmax(0,1fr)}
@@ -134,12 +275,13 @@ body[data-page=messages]>.workspace-footer{min-height:55px;box-sizing:border-box
   body[data-page=messages] main>div>.grid{grid-template-columns:280px minmax(0,1fr)}
   body[data-page=messages] main>div>.grid>aside:last-child{display:none}
 }
+@media(min-width:768px){body.recruiter-workspace[data-page=messages] main>div>.grid{grid-template-columns:240px minmax(0,1fr)}body.recruiter-workspace[data-page=messages] main>div>.grid>aside:last-child{display:none}}
 @media(max-width:767px){
-  body[data-page=messages] main{height:calc(100dvh - 68px - env(safe-area-inset-bottom));min-height:0}
+  body[data-page=messages] main{height:calc(100dvh - var(--ui-tabbar-h) - env(safe-area-inset-bottom));min-height:0}
   body[data-page=messages] main>div>.grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:140px minmax(0,1fr);overflow:hidden}
-  body[data-page=messages] main>div>.grid>aside:first-child{height:140px;min-height:0;overflow:auto}
+  body[data-page=messages] main>div>.grid>aside:first-child{width:100%;height:140px;min-height:0;overflow:auto}
   body[data-page=messages] main>div>.grid>aside:first-child>.overflow-y-auto{flex:none;overflow:visible}
-  body[data-page=messages] main>div>.grid>section{height:100%;min-height:0;overflow:hidden}
+  body[data-page=messages] main>div>.grid>section{width:100%;height:100%;min-height:0;overflow:hidden}
   body[data-page=messages] main section>div:first-child{padding:8px 12px}
   body[data-page=messages] main section>div:first-child>div:last-child{display:none}
   body[data-page=messages] main section>div:nth-child(2){display:none}
@@ -149,29 +291,7 @@ body[data-page=messages]>.workspace-footer{min-height:55px;box-sizing:border-box
   body[data-page=messages] main section>div:last-child button{padding:10px}
 }
 
-.workflow-trail{display:flex;flex-wrap:wrap;gap:16px;padding:14px 20px;border-bottom:1px solid var(--ui-border);background:#fff;font:13px/1.5 Inter,sans-serif}.workflow-trail a{color:var(--ui-primary)}.workflow-trail a:hover{text-decoration:underline}.workflow-conversation{display:flex;flex-direction:column;gap:8px;margin-top:16px;padding:16px;border-radius:8px;background:var(--ui-primary-soft);font-size:13px}
-@media(min-width:768px){body.recruiter-workspace[data-page=messages] main>div>.grid{grid-template-columns:240px minmax(0,1fr)}body.recruiter-workspace[data-page=messages] main>div>.grid>aside:last-child{display:none}}
-@media(min-width:768px){.internships-footer .itviec-footer-inner{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(200px,1.4fr);max-width:1400px;width:100%;gap:24px}.internships-footer .itviec-footer-inner>*{min-width:0}}
-.internships-footer{position:relative;overflow:hidden}
-
-/* The posting form is a direct body child, unlike the other recruiter shells. */
-body.recruiter-workspace>header{z-index:40}
-@media(min-width:768px){
-  body.recruiter-sidebar-collapsed.recruiter-workspace>main{margin-left:72px;min-width:0}
-}
-
-/* One shared header across content pages; recruiter links remain role-specific. */
-body[data-page] header.site-header{position:fixed;inset:0 0 auto 0;height:64px;box-sizing:border-box;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ui-border);box-shadow:none;color:var(--ui-text);font:14px/1.5 Inter,sans-serif}
-.site-header-start,.site-header-actions,.site-header-brand,.site-header-nav,.site-header-nav a,.site-header-account{display:flex;align-items:center}
-.site-header-start{gap:28px;min-width:0}.site-header-brand{gap:8px;white-space:nowrap;color:var(--ui-primary);font-size:21px;font-weight:700;letter-spacing:-.6px;text-decoration:none}.site-header-brand>.material-symbols-outlined{font-size:28px}.site-header-nav{gap:4px}.site-header-nav a{gap:7px;padding:9px 12px;border-radius:8px;color:var(--ui-muted);white-space:nowrap;font-weight:500;text-decoration:none}.site-header-nav a:hover{background:var(--ui-subtle)}.site-header-nav a[aria-current=page]{background:var(--ui-primary-soft);color:var(--ui-primary);font-weight:600}.site-header-nav .material-symbols-outlined{font-size:20px}
-.site-header-actions{gap:12px;flex-shrink:0}.site-header-notifications{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:transparent;color:var(--ui-muted)}.site-header-notifications:hover,.site-header-account:hover{background:var(--ui-subtle)}.site-header-account{gap:10px;padding:4px 8px;border-radius:8px;background:transparent;color:var(--ui-text);text-align:left}.site-header-account img{width:34px;height:34px;object-fit:cover;border-radius:50%;flex-shrink:0}.site-header-account-text strong,.site-header-account-text small{display:block}.site-header-account-text strong{font-size:13px;font-weight:600}.site-header-account-text small{font-size:11px;color:var(--ui-muted)}.site-header-chevron{font-size:18px}.site-header-workspace{color:var(--ui-muted);font-size:13px}
-.app-mobile-nav a[aria-current=page]{color:#264eb1;background:var(--ui-primary-soft);border-radius:8px;font-weight:600}
-@media(min-width:768px){body[data-page].recruiter-sidebar-collapsed header.site-header{left:72px}}
-@media(max-width:1100px){.site-header-account-text{display:none}.site-header-start{gap:16px}.site-header-nav a{padding:9px 8px}}
-@media(max-width:900px){.site-header-nav a>.material-symbols-outlined{display:none}.site-header-workspace{display:none}}
-@media(max-width:767px){body[data-page] header.site-header{left:0;padding:0 16px!important;gap:8px}body[data-page] header.site-header>.site-header-start{display:flex;width:auto;gap:8px!important}body[data-page] header.site-header>.site-header-actions{width:auto;gap:8px!important}.site-header-nav{display:none}.site-header-brand{font-size:19px}.site-header-chevron{display:none}.site-header-account{padding:2px}.site-header-account img{max-width:none}}
-
-/* Allow preview content to wrap within its own column. */
+/* Post a job: let the preview wrap within its own column. */
 body[data-page=post-job] .post-job-layout{grid-template-columns:minmax(0,1fr);gap:24px}
 body[data-page=post-job] .post-job-layout>form,body[data-page=post-job] .post-job-layout>.post-job-preview{grid-column:auto;min-width:0;max-width:100%}
 body[data-page=post-job] .post-job-preview{position:static;overflow-wrap:anywhere}
@@ -184,26 +304,15 @@ body[data-page=post-job] .post-job-preview .truncate{white-space:normal;overflow
 body[data-page=post-job] .post-job-preview .group>div:nth-of-type(2){flex-wrap:wrap}
 body[data-page=post-job] .post-job-preview .group>div:last-child>span:first-child{flex:1 1 180px}
 body[data-page=post-job] .post-job-preview .material-symbols-outlined{flex-shrink:0}
-@media(min-width:1200px){body[data-page=post-job] .post-job-layout{grid-template-columns:minmax(0,1fr) minmax(340px,360px)}body[data-page=post-job] .post-job-preview{position:sticky;top:88px}}
+@media(min-width:1200px){body[data-page=post-job] .post-job-layout{grid-template-columns:minmax(0,1fr) minmax(340px,360px)}body[data-page=post-job] .post-job-preview{position:sticky;top:80px}}
 @media(max-width:767px){body[data-page=post-job] .post-job-preview>div{padding:16px}}
 
-.site-header-login,.site-header-register{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 14px;border:1px solid var(--ui-primary);border-radius:var(--ui-radius-control);font:500 14px/1.5 var(--ui-font);white-space:nowrap;text-decoration:none}.site-header-login{color:var(--ui-primary);background:var(--ui-surface)}.site-header-login:hover{background:var(--ui-primary-soft)}
-@media(max-width:480px){.site-header-guest .site-header-brand{font-size:16px;letter-spacing:-.5px}.site-header-guest .site-header-brand>.material-symbols-outlined{display:none}.site-header-guest .site-header-actions>a{padding:7px 9px;font-size:12px;min-height:36px}}
-
-/* Center the home columns and let job results fill the available space. */
-body[data-page=jobs]>div.min-h-screen{padding-top:64px;background:var(--ui-page)}
-body[data-page=jobs] .home-container{width:100%;max-width:1480px;margin-inline:auto;padding:24px}
-body[data-page=jobs] .home-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
-body[data-page=jobs] .home-layout>*{width:100%;min-width:0;max-width:none}
-body[data-page=jobs] .home-feed>div:first-child{flex-wrap:wrap;gap:12px}
+/* Jobs home: centre the columns and let results fill the space (2A replaces this with .ui-shell). */
+body[data-page=jobs]>div.min-h-screen{padding-top:var(--ui-header-h);background:var(--ui-page)}
 body[data-page=jobs] .home-feed article{min-width:0;overflow-wrap:anywhere}
-@media(min-width:900px){body[data-page=jobs] .home-layout{grid-template-columns:240px minmax(0,1fr)}body[data-page=jobs] .home-discovery{grid-column:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
-@media(min-width:1200px){body[data-page=jobs] .home-layout{grid-template-columns:240px minmax(0,1fr) 300px}body[data-page=jobs] .home-discovery{grid-column:auto;display:flex}}
-@media(min-width:1200px) and (min-height:850px){body[data-page=jobs] .home-discovery{position:sticky;top:88px}}
-@media(max-width:767px){body[data-page=jobs] .home-container{padding:20px 16px}.home-layout{gap:20px}}
-/* Pages whose design HTML holds placeholder data (e.g. "Nguyễn Minh Thư") stay hidden until main.ts has
-   rendered the real data and set body[data-ready]; this avoids a flash of demo content. */
-:is(body[data-page=jobs],body[data-page=profile],body[data-page=cv-builder],body[data-page=job-detail],body[data-page=company],body[data-page=employer],body[data-page=candidates],body[data-page=messages]):not([data-ready]) main{visibility:hidden}
-:is(body[data-page=jobs],body[data-page=profile],body[data-page=cv-builder],body[data-page=job-detail],body[data-page=company],body[data-page=employer],body[data-page=candidates],body[data-page=messages]):not([data-ready])::after{content:"";position:fixed;top:50%;left:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border:3px solid #dbe1ff;border-top-color:var(--ui-primary,#3f5baa);border-radius:50%;animation:app-page-spin .8s linear infinite;z-index:100}
-@keyframes app-page-spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){body::after{animation-duration:2.4s}}
+
+/* ── Print ─────────────────────────────────────────────────────────────────────────────────────────── */
+@media print{header,nav,button,#app-feedback,.app-mobile-nav,.site-footer,.rail-footer{display:none!important}body,main{background:var(--ui-surface)!important;padding:0!important}body[data-page=cv-builder] main{padding-top:0}body[data-page=cv-builder] #cv-preview{box-shadow:none!important}}
+
+/* Recruiter workspace: the sidebar already shows the brand mark at top-left, so the header drops its own copy. */
+@media(min-width:768px){body.recruiter-workspace:has(>.recruiter-sidebar) .site-header-brand{display:none}}

@@ -1,9 +1,12 @@
 import { dialog, toast } from '../../core/ui/feedback';
 import { label } from '../../core/navigation';
 import { bind, field, record, value } from '../../core/ui/actions';
+import { renderRailFooter } from '../../core/layout/siteFooter';
 
 /** University page: partner inquiry modal, event registration and event details. */
 export function setupUniversityPage() {
+  const rightRail = document.getElementById('university-right-rail') || document.querySelector<HTMLElement>('.ui-shell--main-right > :nth-child(2)');
+  if (rightRail) renderRailFooter(rightRail);
   const form=document.querySelector<HTMLFormElement>('#partner-inquiry-form');form?.addEventListener('submit',e=>{e.preventDefault();const inputs=[...form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea')];record('inquiries',{name:inputs[0].value,company:inputs[1].value,email:inputs[2].value,body:inputs[3].value});document.getElementById('close-modal')?.click();toast('Đã lưu yêu cầu hợp tác demo.');});
   const modal=document.getElementById('contact-modal');modal?.setAttribute('role','dialog');modal?.setAttribute('aria-label','Liên hệ hợp tác');
   document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('close-modal')?.click();});

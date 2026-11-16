@@ -13,7 +13,8 @@ import { formatDate, formatStipend, relativeTime, workTypeLabel } from '../../co
 import { el, stateBlock } from '../../core/render';
 import { initialsAvatar } from '../../core/layout/siteHeader';
 import { companyRating, companyReviews, getCompany, isFollowing, searchJobs, setFollowing, similarCompanies, type CompanyDetail, type JobHit } from './api';
-import { setIconText } from './jobSearch';
+import { deadlineClock, setIconText } from './jobSearch';
+import { renderRailFooter } from '../../core/layout/siteFooter';
 import type { CompanyProfile } from '../../core/models';
 
 
@@ -32,7 +33,7 @@ function fillHero(company: CompanyDetail, profile: CompanyProfile, jobs: JobHit[
   document.title = `${company.name} | Internships.io`;
   const verified = company.verification_status === 'verified';
   const tier = h1.nextElementSibling as HTMLElement | null;
-  if (tier) { tier.textContent = verified ? 'Đã xác thực' : 'Chưa xác thực'; }
+  if (tier) { tier.textContent = verified ? 'Đã xác thực' : 'Chưa xác thực'; tier.classList.toggle('ui-chip--success', verified); tier.classList.toggle('ui-chip--neutral', !verified); }
   const banner = byText<HTMLElement>('main span', /Đối tác Tuyển dụng Xác thực/);
   if (banner && !verified) banner.parentElement!.hidden = true;
   const cover = document.querySelector<HTMLElement>('main [data-alt^="Modern open-concept"]');
@@ -55,18 +56,19 @@ function fillHero(company: CompanyDetail, profile: CompanyProfile, jobs: JobHit[
       else site.hidden = true;
     }
   }
-  // Stats tiles: real numbers instead of the design's sample figures
+  // Stats: real numbers instead of the design's sample figures
   const stipends = jobs.flatMap(j => [j.stipend_min, j.stipend_max]).filter((v): v is number => !!v);
-  const tiles: [string, string, string][] = [
-    ['school', String(jobs.length), 'Vị trí thực tập đang mở'],
-    ['workspace_premium', String(company.follower_count), 'Người theo dõi'],
-    ['payments', stipends.length ? `${Math.min(...stipends) / 1e6} - ${Math.max(...stipends) / 1e6} tr` : '—', 'Trợ cấp thực tập hàng tháng'],
-    ['star', rating?.review_count ? `${rating.avg_rating} / 5.0` : '—', `Đánh giá từ thực tập sinh (${rating?.review_count ?? 0} lượt)`],
+  const stats: [string, string, string][] = [
+    ['jobs', String(jobs.length), 'Vị trí thực tập đang mở'],
+    ['followers', String(company.follower_count), 'Người theo dõi'],
+    ['stipend', stipends.length ? `${Math.min(...stipends) / 1e6} - ${Math.max(...stipends) / 1e6} tr` : '—', 'Trợ cấp thực tập hàng tháng'],
+    ['rating', rating?.review_count ? `${rating.avg_rating} / 5.0` : '—', `Đánh giá từ thực tập sinh (${rating?.review_count ?? 0} lượt)`],
   ];
-  for (const [icon, value, caption] of tiles) {
-    const iconEl = [...document.querySelectorAll('main .material-symbols-outlined')].find(i => i.textContent?.trim() === icon && i.closest('div')?.nextElementSibling?.children.length === 2);
-    const text = iconEl?.closest('div')?.nextElementSibling;
-    if (text?.children.length === 2) { text.children[0].textContent = value; text.children[1].textContent = caption; }
+  for (const [key, value, caption] of stats) {
+    const box = document.querySelector(`[data-stat="${key}"]`);
+    const [term, data] = [box?.querySelector('dt'), box?.querySelector('dd')];
+    if (term) term.textContent = caption;
+    if (data) data.textContent = value;
   }
   const jobsTab = document.querySelector('#tab-jobs span:last-child');
   if (jobsTab) jobsTab.textContent = String(jobs.length);
@@ -105,11 +107,11 @@ function fillOverview(company: CompanyDetail, profile: CompanyProfile) {
   }
 }
 
-function fillJobs(jobs: JobHit[], saved: Set<string>) {
+function fillJobs(jobs: JobHit[], saved: Set<string>, companyLogo: string) {
   const section = document.getElementById('jobs-section');
   if (!section) return;
   const header = section.firstElementChild as HTMLElement;
-  const counter = header.querySelector(':scope > span');
+  const counter = header.querySelector(':scope > .ui-chip');
   if (counter) counter.textContent = `${jobs.length} vị trí đang mở`;
   const sub = header.querySelector('p');
   if (sub) sub.textContent = 'Cập nhật trực tiếp từ các tin đã được duyệt.';
@@ -119,26 +121,34 @@ function fillJobs(jobs: JobHit[], saved: Set<string>) {
   if (!jobs.length) { list.replaceChildren(stateBlock('empty', 'Doanh nghiệp chưa có vị trí nào đang tuyển.')); return; }
   list.replaceChildren(...jobs.map(job => {
     const card = template.cloneNode(true) as HTMLElement;
-    const tags = card.querySelector('h3')?.previousElementSibling;
-    if (tags) {
-      const [first, second, third] = [...tags.children] as HTMLElement[];
-      if (first) first.textContent = job.skills[0] ?? workTypeLabel[job.work_type];
-      if (second) second.textContent = workTypeLabel[job.work_type] ?? job.work_type;
-      if (third) setIconText(third, 'Đang nhận hồ sơ');
+    card.dataset.jobId = job.id;
+    card.dataset.demoClick = 'job';
+    const logo = card.querySelector<HTMLElement>('.jobs-co-rowlogo');
+    if (logo && companyLogo) logo.style.backgroundImage = `url("${companyLogo}")`;
+    const link = card.querySelector('h3 a');
+    if (link) { link.textContent = job.title; (link as HTMLAnchorElement).href = jobHref(job.id); }
+    else card.querySelector('h3')!.textContent = job.title;
+    const place = card.querySelector('.jobs-row__place');
+    if (place) place.textContent = `${job.city ?? 'Toàn quốc'} · ${workTypeLabel[job.work_type] ?? job.work_type}`;
+    const meta = card.querySelector('.jobs-row__meta');
+    if (meta) {
+      const stipend = el('span', { className: 'jobs-row__stipend' }, formatStipend(job.stipend_min, job.stipend_max));
+      meta.replaceChildren(stipend, el('span', {}, job.deadline ? `Hạn nộp: ${formatDate(job.deadline)}` : `Đăng ${relativeTime(job.published_at)}`));
     }
-    card.querySelector('h3')!.textContent = job.title;
-    const meta = card.querySelector('h3')?.nextElementSibling;
-    const spans = meta ? [...meta.children] as HTMLElement[] : [];
-    setIconText(spans[0], formatStipend(job.stipend_min, job.stipend_max));
-    setIconText(spans[1], `${job.city ?? 'Toàn quốc'} · ${workTypeLabel[job.work_type] ?? job.work_type}`);
-    setIconText(spans[2], job.deadline ? `Hạn nộp: ${formatDate(job.deadline)}` : `Đăng ${relativeTime(job.published_at)}`);
-    const p = card.querySelector('p');
-    if (p) p.textContent = job.excerpt;
-    const apply = card.querySelector<HTMLButtonElement>('button[data-design-click]');
-    if (apply) { apply.removeAttribute('data-design-click'); apply.textContent = 'Xem & ứng tuyển'; bind(apply, () => location.assign(jobHref(job.id))); }
+    const foot = card.querySelector<HTMLElement>('.jobs-row__foot');
+    if (foot) {
+      const clock = deadlineClock(job.deadline);
+      const skills = job.skills.length ? el('span', { className: 'jobs-row__skills' }, job.skills.slice(0, 3).join(' · ')) : null;
+      foot.replaceChildren(...[clock, skills].filter((n): n is HTMLElement => !!n));
+      foot.hidden = !foot.childElementCount;
+    }
     const save = card.querySelector<HTMLButtonElement>('button[title="Lưu tin"]');
     if (save) {
-      const render = () => { save.setAttribute('aria-pressed', String(saved.has(job.id))); save.setAttribute('aria-label', saved.has(job.id) ? 'Bỏ lưu tin' : 'Lưu tin'); };
+      const render = () => {
+        const on = saved.has(job.id);
+        save.setAttribute('aria-pressed', String(on)); save.setAttribute('aria-label', on ? 'Bỏ lưu tin' : 'Lưu tin');
+        save.querySelector('span')!.textContent = on ? 'bookmark' : 'bookmark_border';
+      };
       bind(save, async () => {
         if (!requireSignIn() || currentRole() !== 'student') return;
         const next = !saved.has(job.id);
@@ -147,6 +157,7 @@ function fillJobs(jobs: JobHit[], saved: Set<string>) {
       });
       render();
     }
+    bind(card, () => location.assign(jobHref(job.id)));
     return card;
   }));
 }
@@ -163,12 +174,15 @@ function fillReviews(reviews: Awaited<ReturnType<typeof companyReviews>>, rating
   list.replaceChildren(...reviews.map(r => {
     const card = template.cloneNode(true) as HTMLElement;
     const name = r.author_name ?? 'Ẩn danh';
-    const avatar = card.querySelector('div > div > div');
+    const avatar = card.querySelector('.ui-avatar');
     if (avatar) avatar.textContent = name.split(/\s+/).slice(-2).map(w => w[0]).join('').toUpperCase();
-    const info = avatar?.nextElementSibling;
-    if (info?.children.length) { info.children[0].textContent = name; if (info.children[1]) info.children[1].textContent = r.title || relativeTime(r.created_at); }
-    const stars = [...card.querySelectorAll<HTMLElement>('.material-symbols-outlined')].filter(s => s.textContent?.trim() === 'star');
-    stars.forEach((s, i) => { s.style.opacity = i < (r.rating ?? 0) ? '1' : '0.25'; });
+    const who = card.querySelector('.jobs-co-review__name');
+    if (who) who.textContent = name;
+    const sub = card.querySelector('.jobs-co-review__meta');
+    if (sub) sub.textContent = r.title || relativeTime(r.created_at);
+    const stars = [...card.querySelectorAll<HTMLElement>('.jobs-co-stars .material-symbols-outlined')];
+    stars.forEach((s, i) => s.classList.toggle('is-off', i >= (r.rating ?? 0)));
+    card.querySelector('.jobs-co-stars')?.setAttribute('aria-label', `${r.rating ?? 0}/5`);
     const p = card.querySelector('p');
     if (p) p.textContent = `"${r.body}"`;
     return card;
@@ -222,7 +236,11 @@ async function fillSidebar(company: CompanyDetail, profile: CompanyProfile) {
         const a = template.cloneNode(true) as HTMLAnchorElement;
         a.href = companyHref(peer.id); a.dataset.appControl = 'peer-company';
         const badge = a.querySelector('div > div');
-        if (badge) badge.textContent = peer.name.split(/\s+/)[0].slice(0, 4).toUpperCase();
+        const peerLogo = publicUrl('company-assets', peer.logo_path);
+        if (badge instanceof HTMLElement) {
+          badge.textContent = peerLogo ? '' : peer.name.split(/\s+/)[0].slice(0, 4).toUpperCase();
+          badge.style.backgroundImage = peerLogo ? `url("${peerLogo}")` : '';
+        }
         const info = badge?.nextElementSibling;
         if (info?.children.length === 2) { info.children[0].textContent = peer.name; info.children[1].textContent = `${peer.open_jobs} vị trí thực tập mở`; }
         return a;
@@ -260,8 +278,7 @@ function wireActions(company: CompanyDetail) {
   }
   // Tabs scroll to their section (design's switchTab expects the static sample layout)
   document.querySelectorAll<HTMLButtonElement>('[data-design-click^="switchTab"]').forEach(b => bind(b, () => {
-    document.querySelectorAll('[data-design-click^="switchTab"]').forEach(x => { x.classList.remove('bg-primary', 'text-on-primary'); x.setAttribute('aria-selected', String(x === b)); });
-    b.classList.add('bg-primary', 'text-on-primary');
+    document.querySelectorAll('[data-design-click^="switchTab"]').forEach(x => x.setAttribute('aria-selected', String(x === b)));
     const id = b.id.replace('tab-', '');
     const target = id === 'jobs' ? document.getElementById('jobs-section')
       : id === 'reviews' ? byText<HTMLElement>('main section h2', /Đánh giá/)?.closest('section')
@@ -289,8 +306,10 @@ export async function setupCompanyPage() {
   ]);
   fillHero(company, profile, jobs, rating);
   fillOverview(company, profile);
-  fillJobs(jobs, saved);
+  fillJobs(jobs, saved, publicUrl('company-assets', company.logo_path) || initialsAvatar(company.name));
   fillReviews(reviews, rating);
   wireActions(company);
+  const rail = document.querySelector<HTMLElement>('.jobs-company-rail');
+  if (rail) renderRailFooter(rail);
   await fillSidebar(company, profile);
 }

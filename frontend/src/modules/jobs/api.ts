@@ -76,7 +76,10 @@ export async function setFollowing(companyId: string, follow: boolean) {
 
 // --- Applying (minimal: default CV + screening answers; the full modal comes in Phase 6) ---
 export async function myCvs() {
-  return unwrap(await supabase.from('cvs').select('id, title, is_default, updated_at').order('is_default', { ascending: false }).order('updated_at', { ascending: false }));
+  // RLS also returns other students' public CVs, so filter by owner explicitly
+  const uid = currentSession()?.user.id;
+  if (!uid) return [];
+  return unwrap(await supabase.from('cvs').select('id, title, is_default, updated_at').eq('student_id', uid).order('is_default', { ascending: false }).order('updated_at', { ascending: false }));
 }
 
 export async function hasApplied(jobId: string) {

@@ -3,9 +3,9 @@
 import { flash } from '../../core/auth';
 import { label, routes, jobHref } from '../../core/navigation';
 import { dialog, toast } from '../../core/ui/feedback';
-import { bind, csv, value } from '../../core/ui/actions';
+import { bind, csv, esc, value } from '../../core/ui/actions';
 import { showError } from '../../core/errors';
-import { formatDateTime, formatStipend, jobStatusLabel, relativeTime, verifyStatusLabel, workTypeLabel } from '../../core/format';
+import { formatDateTime, formatStipend, jobStatusLabel, relativeTime, scheduleLabel, verifyStatusLabel, workTypeLabel } from '../../core/format';
 import { el, stateBlock } from '../../core/render';
 import { initialsAvatar } from '../../core/layout/siteHeader';
 import { publicUrl } from '../../core/supabase';
@@ -23,16 +23,19 @@ const iconText = (el: Element | null | undefined, text: string) => {
 };
 
 function renderHeader(company: MyCompany) {
-  const h1 = document.querySelector('main h1');
+  const h1 = document.getElementById('employer-title');
   if (h1) h1.textContent = `Trung tâm Tuyển dụng ${company.name}`;
-  const eyebrow = h1?.previousElementSibling;
-  if (eyebrow) iconText(eyebrow, `Doanh nghiệp: ${verifyStatusLabel[company.verification_status]}`);
-  const intro = h1?.nextElementSibling;
+  const eyebrow = document.getElementById('employer-eyebrow');
+  if (eyebrow) {
+    eyebrow.textContent = '';
+    eyebrow.append(el('span', { className: `ei-chip ei-chip-${company.verification_status}` }, `Doanh nghiệp: ${verifyStatusLabel[company.verification_status]}`));
+  }
+  const intro = document.getElementById('employer-intro');
   if (company.verification_status !== 'verified' && intro) {
     const text = company.verification_status === 'pending'
       ? 'Hồ sơ doanh nghiệp đang chờ quản trị viên thẩm định. Bạn có thể soạn tin nháp; tin chỉ được gửi duyệt sau khi doanh nghiệp được xác thực.'
       : `Doanh nghiệp chưa được xác thực${company.verification_note ? ` (${company.verification_note})` : ''}. Hoàn thiện mã số thuế và giấy phép kinh doanh để bắt đầu đăng tin.`;
-    intro.after(el('div', { className: 'ei-banner ei-banner-warning', role: 'status', style: 'margin-top:12px' } as never,
+    intro.after(el('div', { className: 'ei-banner ei-banner-warning rc-banner', role: 'status' },
       el('span', {}, text, ' ', el('a', { href: routes['company-settings'] }, 'Mở hồ sơ doanh nghiệp →'))));
   }
 }
@@ -50,14 +53,14 @@ function renderKpis(jobs: DashboardJob[], stats: Stat[], interviewsToday: number
     [String(interviewing), 'ứng viên', `${interviewsToday} ca phỏng vấn hôm nay`],
     [String(offered + hired), 'ứng viên', `${hired} ứng viên đã chấp thuận`],
   ];
-  const kpiCards = [...document.querySelectorAll('main section')][0]?.querySelectorAll(':scope > div:last-child > div') ?? [];
-  [...kpiCards].forEach((card, i) => {
+  document.querySelectorAll('#employer-stats .rc-stat').forEach((card, i) => {
     const [value, unit, foot] = tiles[i] ?? [];
-    const rows = [...card.children];
-    const numbers = rows[1]?.children;
-    if (numbers?.length) { numbers[0].textContent = value; if (numbers[1]) numbers[1].textContent = unit; }
-    const footText = rows[2]?.querySelector('span:not(.material-symbols-outlined)');
-    if (footText) footText.textContent = foot;
+    const number = card.querySelector('.rc-stat__value strong');
+    const unitEl = card.querySelector('.rc-stat__value span');
+    const footEl = card.querySelector('.rc-stat__foot');
+    if (number) number.textContent = value;
+    if (unitEl) unitEl.textContent = unit;
+    if (footEl) footEl.textContent = foot;
   });
 }
 
@@ -70,29 +73,32 @@ const statusFilters: [string, string, (j: DashboardJob) => boolean][] = [
   ['closed', 'Đã đóng', j => j.status === 'closed' || j.status === 'expired'],
 ];
 
+/** "Còn N ngày" clock (signal colour at 3 days or fewer). */
+function deadlineCell(job: DashboardJob) {
+  if (!job.deadline || ['draft', 'rejected', 'closed', 'expired'].includes(job.status)) return el('span', { className: 'ui-deadline' }, '—');
+  const days = Math.ceil((new Date(job.deadline).getTime() - Date.now()) / 86_400_000);
+  if (days < 0) return el('span', { className: 'ui-deadline' }, 'Đã hết hạn');
+  return el('span', { className: `ui-deadline${days <= 3 ? ' is-soon' : ''}` }, days === 0 ? 'Hết hạn hôm nay' : `Còn ${days} ngày`);
+}
+
 export async function setupDashboard() {
   const company = await myCompany().catch(error => { showError(error); return null; });
   if (!company) { flash('Hãy tạo hồ sơ doanh nghiệp trước khi đăng tin.'); location.replace(routes['company-settings']); return; }
   renderHeader(company);
 
   // Header actions
-  document.querySelectorAll<HTMLButtonElement>('main section button').forEach(b => {
+  document.querySelectorAll<HTMLButtonElement>('.rc-actions button').forEach(b => {
     const text = label(b);
     if (/^Đăng tin tuyển dụng$/.test(text)) bind(b, () => location.assign(routes['post-job']));
     if (/Tìm kiếm hồ sơ sinh viên/.test(text)) bind(b, () => openTalentSearch(company.id));
   });
 
-  const jobSection = document.querySelectorAll('main section')[1] as HTMLElement;
-  const toolbar = jobSection.firstElementChild as HTMLElement;
-  const list = toolbar.nextElementSibling as HTMLElement;
-  const template = list.firstElementChild!.cloneNode(true) as HTMLElement;
-  const tabBar = toolbar.querySelector('button')!.parentElement as HTMLElement;
-  const activeTab = tabBar.children[0].cloneNode(true) as HTMLButtonElement;
-  const idleTab = (tabBar.children[1] ?? tabBar.children[0]).cloneNode(true) as HTMLButtonElement;
-  const search = toolbar.querySelector<HTMLInputElement>('input');
-  const department = toolbar.querySelector<HTMLSelectElement>('select');
-  const toolButtons = [...toolbar.querySelectorAll<HTMLButtonElement>(':scope > div:first-child > div:last-child button')];
-  toolButtons.filter(b => /Đồng bộ/.test(label(b))).forEach(b => { b.hidden = true; });
+  const jobSection = document.getElementById('employer-jobs')!;
+  const list = document.getElementById('employer-job-list')!;
+  const tabBar = document.getElementById('employer-tabs')!;
+  const search = jobSection.querySelector<HTMLInputElement>('input');
+  const department = jobSection.querySelector<HTMLSelectElement>('select');
+  const exportButton = jobSection.querySelector<HTMLButtonElement>('.rc-jobs__head button');
   let filter = 'all';
 
   let jobs: DashboardJob[] = [];
@@ -122,10 +128,7 @@ export async function setupDashboard() {
 
   function renderTabs() {
     tabBar.replaceChildren(...statusFilters.map(([key, name, test]) => {
-      const tab = (key === filter ? activeTab : idleTab).cloneNode(true) as HTMLButtonElement;
-      const [text, count] = [...tab.querySelectorAll('span')];
-      if (text) text.textContent = name;
-      if (count) count.textContent = String(jobs.filter(test).length);
+      const tab = el('button', { type: 'button', className: 'ui-pill' }, el('span', {}, name), el('span', { className: 'rc-count' }, String(jobs.filter(test).length)));
       tab.setAttribute('aria-pressed', String(key === filter));
       bind(tab, () => { filter = key; render(); });
       return tab;
@@ -133,64 +136,50 @@ export async function setupDashboard() {
   }
 
   function card(job: DashboardJob) {
-    const c = template.cloneNode(true) as HTMLElement;
-    c.dataset.jobId = job.id;
-    const tags = c.querySelector('h2')?.previousElementSibling;
-    const [status, dept, posted] = tags ? [...tags.children] as HTMLElement[] : [];
-    if (status) status.replaceChildren(el('span', { className: `ei-chip ei-chip-${job.status}` }, jobStatusLabel[job.status] ?? job.status));
-    if (dept) dept.textContent = job.department || 'Chưa chọn phòng ban';
-    iconText(posted, job.published_at ? `Đăng ${relativeTime(job.published_at)}` : `Tạo ${relativeTime(job.created_at)}`);
-    c.querySelector('h2')!.textContent = job.title;
-    const meta = c.querySelector('h2')?.nextElementSibling;
-    const [loc, pay, heads] = meta ? [...meta.children] as HTMLElement[] : [];
-    iconText(loc, `${job.city ?? job.address ?? 'Chưa có địa chỉ'} · ${workTypeLabel[job.work_type] ?? job.work_type}`);
-    iconText(pay, `${formatStipend(job.stipend_min, job.stipend_max)}/tháng`);
-    iconText(heads, `Cần tuyển: ${job.openings} SV`);
-    if (job.status === 'rejected' && job.rejection_reason) {
-      meta?.after(el('div', { className: 'ei-banner ei-banner-danger', style: 'margin-top:8px' } as never, `Lý do từ chối: ${job.rejection_reason}`));
-    }
-
-    const actionsBox = c.querySelector('button[title="Sao chép tin"]')?.parentElement as HTMLElement | null;
-    const iconTemplate = actionsBox?.firstElementChild as HTMLButtonElement | null;
-    if (actionsBox && iconTemplate) {
-      const make = (icon: string, title: string, run: () => void) => {
-        const b = iconTemplate.cloneNode(true) as HTMLButtonElement;
-        b.title = title; b.setAttribute('aria-label', `${title}: ${job.title}`);
-        b.querySelector('.material-symbols-outlined')!.textContent = icon;
-        bind(b, run); return b;
-      };
-      const act = (fn: () => Promise<unknown>, done: string) => async () => { try { await fn(); toast(done); await load(); } catch (error) { showError(error); } };
-      const buttons: HTMLButtonElement[] = [make('content_copy', 'Sao chép tin', act(() => duplicateJob(job.id), 'Đã tạo bản sao ở dạng nháp.'))];
-      if (job.status === 'active') buttons.push(make('pause_circle', 'Tạm dừng nhận đơn', act(() => changeJobStatus(job.id, 'paused'), 'Đã tạm dừng nhận đơn.')));
-      if (job.status === 'paused') buttons.push(make('play_circle', 'Mở lại nhận đơn', act(() => changeJobStatus(job.id, 'active'), 'Đã mở lại nhận đơn.')));
-      if (['draft', 'rejected'].includes(job.status)) buttons.push(make('send', 'Gửi duyệt', act(() => submitJob(job.id), 'Đã gửi tin để quản trị viên duyệt.')));
-      if (job.status === 'pending_approval') buttons.push(make('undo', 'Rút về bản nháp', act(() => changeJobStatus(job.id, 'draft'), 'Đã rút tin về bản nháp.')));
-      if (!['closed', 'expired'].includes(job.status)) buttons.push(make('edit', 'Chỉnh sửa chi tiết', () => location.assign(`${routes['post-job']}?id=${job.id}`)));
-      if (['active', 'paused', 'rejected'].includes(job.status)) buttons.push(make('cancel', 'Đóng tin', () => dialog('Đóng tin tuyển dụng', `<p>Đóng <strong>${job.title.replace(/[<&>]/g, '')}</strong>? Tin sẽ ngừng nhận hồ sơ và không thể mở lại.</p>`, 'Đóng tin', act(() => changeJobStatus(job.id, 'closed'), 'Đã đóng tin.'))));
-      if (job.status === 'draft') buttons.push(make('delete', 'Xóa bản nháp', () => dialog('Xóa bản nháp', '<p>Bản nháp sẽ bị xóa vĩnh viễn.</p>', 'Xóa', act(() => deleteDraft(job.id), 'Đã xóa bản nháp.'))));
-      actionsBox.replaceChildren(...buttons);
-    }
-
-    const metrics = c.lastElementChild as HTMLElement;
-    const cells = [...metrics.children] as HTMLElement[];
     const jobStats = stats.filter(s => s.job_id === job.id);
     const today = new Date(); today.setHours(0, 0, 0, 0);
-    const values: [string, string, string][] = [
-      ['Tổng hồ sơ nộp', String(job.application_count), `(+${jobStats.filter(s => new Date(s.applied_at) >= today).length} mới)`],
-      ['Lượt xem tin', String(job.view_count), 'lượt'],
-      ['Đang phỏng vấn', String(jobStats.filter(s => s.status === 'interviewing').length), 'ứng viên'],
-    ];
-    values.forEach(([title, value, unit], i) => {
-      const cell = cells[i]; if (!cell) return;
-      const [t, v] = [...cell.children] as HTMLElement[];
-      if (t) t.textContent = title;
-      if (v) v.replaceChildren(document.createTextNode(`${value} `), el('span', {}, unit));
-    });
-    const link = cells[3]?.querySelector('a');
-    if (link) {
-      if (job.status === 'active' || job.application_count > 0) { link.href = `${routes.candidates}?job=${job.id}`; link.dataset.appControl = 'pipeline'; }
-      else { link.href = jobHref(job.id); link.dataset.appControl = 'preview'; link.querySelector('span')!.textContent = 'Xem trước tin'; }
+    const fresh = jobStats.filter(s => new Date(s.applied_at) >= today).length;
+    const cell = (name: string, ...content: (Node | string)[]) => el('div', { className: 'rc-cell' }, el('span', { className: 'rc-cell__label' }, name), ...content);
+    const line1 = [job.department || 'Chưa chọn phòng ban', job.city ?? job.address ?? 'Chưa có địa chỉ', workTypeLabel[job.work_type] ?? scheduleLabel[job.work_type] ?? (job.work_type ? String(job.work_type).replace(/_/g, ' ') : '')].filter(Boolean).join(' · ');
+    const line2 = [
+      `${formatStipend(job.stipend_min, job.stipend_max)}/tháng`,
+      job.openings != null ? `Cần tuyển: ${job.openings} SV` : '',
+      job.published_at ? `Đăng ${relativeTime(job.published_at)}` : `Tạo ${relativeTime(job.created_at)}`,
+    ].filter(Boolean).join(' · ');
+    const link = el('a', { className: 'rc-job__link' }, 'Xem Pipeline ATS') as HTMLAnchorElement;
+    if (job.status === 'active' || (job.application_count ?? 0) > 0) { link.href = `${routes.candidates}?job=${job.id}`; link.dataset.appControl = 'pipeline'; }
+    else { link.href = jobHref(job.id); link.dataset.appControl = 'preview'; link.textContent = 'Xem trước tin'; }
+    const c = el('div', { className: 'ui-row rc-job' },
+      el('div', { className: 'ui-row__body rc-job__main' },
+        el('h3', { className: 'ui-row__title' }, job.title),
+        el('p', { className: 'rc-meta rc-meta--1' }, line1),
+        el('p', { className: 'rc-meta rc-meta--2' }, line2),
+        link),
+      el('div', { className: 'rc-cell rc-cell--status' }, el('span', { className: `ei-chip ei-chip-${job.status}` }, jobStatusLabel[job.status] ?? job.status)),
+      cell('Tổng hồ sơ nộp', el('strong', {}, String(job.application_count ?? 0)), fresh ? el('small', {}, ` (+${fresh} mới)`) : ''),
+      cell('Lượt xem tin', el('strong', {}, String(job.view_count ?? 0))),
+      cell('Đang phỏng vấn', el('strong', {}, String(jobStats.filter(s => s.status === 'interviewing').length))),
+      cell('Hạn nộp', deadlineCell(job)));
+    c.dataset.jobId = job.id;
+    if (job.status === 'rejected' && job.rejection_reason) {
+      c.querySelector('.rc-job__main')!.append(el('div', { className: 'ei-banner ei-banner-danger rc-banner' }, `Lý do từ chối: ${job.rejection_reason}`));
     }
+
+    const make = (icon: string, title: string, run: () => void) => {
+      const b = el('button', { type: 'button', className: 'ui-btn ui-btn--icon ui-btn--sm', title }, el('span', { className: 'material-symbols-outlined', 'aria-hidden': 'true' }, icon)) as HTMLButtonElement;
+      b.setAttribute('aria-label', `${title}: ${job.title}`);
+      bind(b, run); return b;
+    };
+    const act = (fn: () => Promise<unknown>, done: string) => async () => { try { await fn(); toast(done); await load(); } catch (error) { showError(error); } };
+    const buttons: HTMLButtonElement[] = [make('content_copy', 'Sao chép tin', act(() => duplicateJob(job.id), 'Đã tạo bản sao ở dạng nháp.'))];
+    if (job.status === 'active') buttons.push(make('pause_circle', 'Tạm dừng nhận đơn', act(() => changeJobStatus(job.id, 'paused'), 'Đã tạm dừng nhận đơn.')));
+    if (job.status === 'paused') buttons.push(make('play_circle', 'Mở lại nhận đơn', act(() => changeJobStatus(job.id, 'active'), 'Đã mở lại nhận đơn.')));
+    if (['draft', 'rejected'].includes(job.status)) buttons.push(make('send', 'Gửi duyệt', act(() => submitJob(job.id), 'Đã gửi tin để quản trị viên duyệt.')));
+    if (job.status === 'pending_approval') buttons.push(make('undo', 'Rút về bản nháp', act(() => changeJobStatus(job.id, 'draft'), 'Đã rút tin về bản nháp.')));
+    if (!['closed', 'expired'].includes(job.status)) buttons.push(make('edit', 'Chỉnh sửa chi tiết', () => location.assign(`${routes['post-job']}?id=${job.id}`)));
+    if (['active', 'paused', 'rejected'].includes(job.status)) buttons.push(make('cancel', 'Đóng tin', () => dialog('Đóng tin tuyển dụng', `<p>Đóng <strong>${esc(job.title)}</strong>? Tin sẽ ngừng nhận hồ sơ và không thể mở lại.</p>`, 'Đóng tin', act(() => changeJobStatus(job.id, 'closed'), 'Đã đóng tin.'))));
+    if (job.status === 'draft') buttons.push(make('delete', 'Xóa bản nháp', () => dialog('Xóa bản nháp', '<p>Bản nháp sẽ bị xóa vĩnh viễn.</p>', 'Xóa', act(() => deleteDraft(job.id), 'Đã xóa bản nháp.'))));
+    c.append(el('div', { className: 'ui-row__actions rc-job__actions' }, ...buttons));
     return c;
   }
 
@@ -200,101 +189,69 @@ export async function setupDashboard() {
     const test = statusFilters.find(([key]) => key === filter)![2];
     const visible = jobs.filter(test).filter(j => (!department?.value || j.department === department.value) && (!query || `${j.title} ${j.department ?? ''}`.toLocaleLowerCase('vi').includes(query)));
     if (!jobs.length) {
-      list.replaceChildren(el('div', { className: 'app-state' }, el('p', {}, 'Bạn chưa có tin tuyển dụng nào.'), el('a', { className: 'ei-button ei-button-primary', href: routes['post-job'] }, 'Đăng tin đầu tiên')));
+      list.replaceChildren(el('div', { className: 'ui-empty' }, el('p', {}, 'Bạn chưa có tin tuyển dụng nào.'), el('a', { className: 'ui-btn ui-btn--primary', href: routes['post-job'] }, 'Đăng tin đầu tiên')));
       return;
     }
     list.replaceChildren(...(visible.length ? visible.map(card) : [stateBlock('empty', 'Không có tin nào khớp bộ lọc.')]));
   }
 
   function renderInterviews(rows: Awaited<ReturnType<typeof todayInterviews>>) {
-    const aside = document.querySelector('main aside');
-    const cardBox = aside?.firstElementChild as HTMLElement | null;
+    const cardBox = document.getElementById('employer-interviews');
     if (!cardBox) return;
-    const count = cardBox.querySelector(':scope > div:first-child > span');
+    const count = cardBox.querySelector('.ui-chip');
     if (count) count.textContent = `${rows.length} ca`;
-    const listBox = cardBox.children[1] as HTMLElement;
-    const item = listBox?.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
-    if (!listBox || !item) return;
-    if (!rows.length) { listBox.replaceChildren(el('p', { className: 'ei-muted', style: 'padding:8px 0' } as never, 'Hôm nay không có lịch phỏng vấn.')); }
+    const listBox = cardBox.querySelector('.rc-side-list')!;
+    cardBox.classList.toggle('rc-side--empty', !rows.length);
+    if (!rows.length) listBox.replaceChildren(el('p', { className: 'ei-muted rc-side-note' }, 'Hôm nay không có lịch phỏng vấn.'));
     else listBox.replaceChildren(...rows.map(r => {
-      const it = item.cloneNode(true) as HTMLElement;
-      const spans = it.querySelectorAll('div > div > span');
-      if (spans[0]) spans[0].textContent = formatDateTime(r.scheduled_at).split(' ')[0];
-      if (spans[1]) spans[1].textContent = r.candidate_name;
-      const badge = it.querySelector(':scope > div > span'); if (badge) badge.textContent = `Vòng ${r.round}`;
-      iconText(it.querySelector('p'), r.job_title);
-      const foot = it.lastElementChild as HTMLElement;
-      iconText(foot.querySelector('span'), r.mode === 'online' ? 'Phỏng vấn trực tuyến' : r.mode === 'onsite' ? (r.location ?? 'Tại văn phòng') : 'Qua điện thoại');
-      const a = foot.querySelector('a');
-      if (a) { if (r.meeting_url) { a.href = r.meeting_url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Vào phòng họp'; } else { a.href = `${routes.candidates}?application=${r.application_id}`; a.textContent = 'Chi tiết'; } a.dataset.appControl = 'interview'; }
-      return it;
+      const mode = r.mode === 'online' ? 'Phỏng vấn trực tuyến' : r.mode === 'onsite' ? (r.location ?? 'Tại văn phòng') : 'Qua điện thoại';
+      const a = el('a', { className: 'ui-link' }) as HTMLAnchorElement;
+      if (r.meeting_url) { a.href = r.meeting_url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Vào phòng họp'; }
+      else { a.href = `${routes.candidates}?application=${r.application_id}`; a.textContent = 'Chi tiết'; }
+      a.dataset.appControl = 'interview';
+      return el('div', { className: 'rc-side-item' },
+        el('div', { className: 'rc-side-item__top' }, el('strong', {}, r.candidate_name), el('span', { className: 'ui-chip ui-chip--neutral' }, `Vòng ${r.round}`)),
+        el('p', { className: 'ui-meta' }, el('span', {}, formatDateTime(r.scheduled_at).split(' ')[0]), el('span', {}, r.job_title)),
+        el('div', { className: 'rc-side-item__foot' }, el('span', { className: 'ui-meta' }, mode), a));
     }));
-    const all = cardBox.querySelector<HTMLButtonElement>(':scope > button');
+    const all = cardBox.querySelector<HTMLButtonElement>('.ui-card__footer button');
     if (all) bind(all, () => location.assign(routes.candidates));
   }
 
   async function renderTalentMatching(companyId: string) {
-    const aside = document.querySelector('main aside');
-    const matchCard = aside?.children[1] as HTMLElement | null;
+    const matchCard = document.getElementById('employer-matching');
     if (!matchCard) return;
-
     // Only verified companies can search candidates
-    if (company!.verification_status !== 'verified') {
-      matchCard.hidden = true;
-      return;
-    }
-    matchCard.hidden = false;
-
+    if (company!.verification_status !== 'verified') { matchCard.hidden = true; return; }
     try {
       const candidates = await searchCandidates({ limit: 3 });
-      const listBox = matchCard.querySelector('.space-y-3') as HTMLElement | null;
-      if (!listBox) return;
+      const listBox = matchCard.querySelector('.rc-side-list')!;
+      matchCard.hidden = false;
       if (!candidates.length) {
-        listBox.replaceChildren(el('p', { className: 'ei-muted text-label-sm' }, 'Chưa có ứng viên mới bật chế độ tìm việc.'));
+        listBox.replaceChildren(el('div', { className: 'ui-empty rc-empty' }, el('span', { className: 'ui-empty__icon' }, el('span', { className: 'material-symbols-outlined', 'aria-hidden': 'true' }, 'person_search')), el('p', {}, 'Chưa có ứng viên mới bật chế độ tìm việc.')));
         return;
       }
       listBox.replaceChildren(...candidates.map(c => {
-        const item = el('div', { className: 'p-4 rounded-xl bg-surface-container-low flex flex-col gap-3' },
-          el('div', { className: 'flex items-start gap-3' },
-            el('img', {
-              className: 'w-11 h-11 rounded-full object-cover shrink-0 shadow-sm',
-              src: publicUrl('avatars', c.avatar_path) || initialsAvatar(c.full_name || 'SV'),
-              alt: c.full_name || 'SV'
-            }),
-            el('div', { className: 'min-w-0 flex-1' },
-              el('div', { className: 'flex items-center justify-between' },
-                el('h4', { className: 'font-label-md text-label-md text-on-surface font-bold truncate' }, c.full_name || 'Sinh viên'),
-                el('span', { className: 'px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold' },
-                  c.is_verified ? 'Đã xác thực' : 'Sẵn sàng')
-              ),
-              el('p', { className: 'font-body-sm text-body-sm text-on-surface-variant truncate' }, `${c.major || 'Chuyên ngành'} • ${c.university_name || ''}`)
-            )
-          ),
-          el('div', { className: 'flex flex-wrap gap-1.5' },
-            ...(c.skills || []).slice(0, 3).map(sk => el('span', { className: 'px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded font-label-sm text-label-sm' }, sk))
-          ),
-          el('button', {
-            type: 'button',
-            className: 'w-full py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-dim transition-colors flex items-center justify-center gap-1.5 shadow-sm',
-          }, el('span', { className: 'material-symbols-outlined text-[18px]' }, 'send'), 'Nhắn tin cho ứng viên')
-        );
-        const contactBtn = item.querySelector('button');
-        if (contactBtn) {
-          bind(contactBtn, async () => {
-            try {
-              const convId = await startConversation(c.user_id, companyId);
-              location.assign(`${routes.messages}?workspace=employer&conversation=${convId}`);
-            } catch (err) { showError(err); }
-          });
-        }
-        return item;
+        const message = el('button', { type: 'button', className: 'ui-btn ui-btn--neutral ui-btn--sm ui-btn--block' }, el('span', { className: 'material-symbols-outlined', 'aria-hidden': 'true' }, 'send'), 'Nhắn tin cho ứng viên');
+        bind(message, async () => {
+          try {
+            const convId = await startConversation(c.user_id, companyId);
+            location.assign(`${routes.messages}?workspace=employer&conversation=${convId}`);
+          } catch (err) { showError(err); }
+        });
+        return el('div', { className: 'rc-side-item' },
+          el('div', { className: 'rc-person' },
+            el('img', { className: 'ui-avatar', src: publicUrl('avatars', c.avatar_path) || initialsAvatar(c.full_name || 'SV'), alt: c.full_name || 'SV' }),
+            el('div', { className: 'rc-person__body' },
+              el('strong', {}, c.full_name || 'Sinh viên'),
+              el('p', { className: 'ui-meta' }, el('span', {}, c.major || 'Chuyên ngành'), c.university_name ? el('span', {}, c.university_name) : null)),
+            el('span', { className: 'ui-chip ui-chip--neutral' }, c.is_verified ? 'Đã xác thực' : 'Sẵn sàng')),
+          el('div', { className: 'ui-pills' }, ...(c.skills || []).slice(0, 3).map(sk => el('span', { className: 'ui-chip ui-chip--neutral' }, sk))),
+          message);
       }));
     } catch {
       matchCard.hidden = true;
     }
-    // University portal card (Phase 10) is hidden for now
-    const uniCard = aside?.children[2] as HTMLElement | null;
-    if (uniCard) uniCard.hidden = true;
   }
 
   function openTalentSearch(companyId: string) {
@@ -331,23 +288,23 @@ export async function setupDashboard() {
         }
         resultsEl.replaceChildren(
           ...hits.map(student => {
-            const card = el('div', { className: 'p-sm bg-surface-container-low rounded-xl mb-2 flex items-center justify-between' },
-              el('div', { className: 'flex items-center gap-sm' },
+            const card = el('div', { className: 'ui-row rc-hit' },
+              el('div', { className: 'rc-person' },
                 el('img', {
-                  className: 'w-10 h-10 rounded-full object-cover',
+                  className: 'ui-avatar',
                   src: publicUrl('avatars', student.avatar_path) || initialsAvatar(student.full_name || 'SV'),
                   alt: student.full_name || 'SV'
                 }),
-                el('div', {},
-                  el('strong', { className: 'font-label-md text-on-surface' }, student.full_name || 'Sinh viên'),
-                  el('p', { className: 'font-body-sm text-on-surface-variant' }, `${student.major || 'Chuyên ngành'} • ${student.university_name || ''}`),
-                  el('div', { className: 'flex gap-1 mt-0.5' }, ...(student.skills || []).slice(0, 3).map(sk => el('span', { className: 'ei-chip ei-chip-draft', style: 'font-size:10px' } as never, sk)))
+                el('div', { className: 'rc-person__body' },
+                  el('strong', {}, student.full_name || 'Sinh viên'),
+                  el('p', { className: 'ui-meta' }, el('span', {}, student.major || 'Chuyên ngành'), student.university_name ? el('span', {}, student.university_name) : null),
+                  el('div', { className: 'ui-pills' }, ...(student.skills || []).slice(0, 3).map(sk => el('span', { className: 'ui-chip ui-chip--neutral' }, sk)))
                 )
               ),
               el('button', {
                 type: 'button',
-                className: 'px-sm py-1 rounded bg-primary text-on-primary font-label-sm text-[12px] flex items-center gap-1',
-              }, el('span', { className: 'material-symbols-outlined text-[16px]' }, 'chat'), 'Nhắn tin')
+                className: 'ui-btn ui-btn--neutral ui-btn--sm',
+              }, el('span', { className: 'material-symbols-outlined', 'aria-hidden': 'true' }, 'chat'), 'Nhắn tin')
             );
             const chatBtn = card.querySelector('button');
             if (chatBtn) {
@@ -367,9 +324,9 @@ export async function setupDashboard() {
 
   search?.addEventListener('input', render);
   department?.addEventListener('change', render);
-  toolButtons.filter(b => /Xuất Excel/.test(label(b))).forEach(b => bind(b, () => csv(`tin-tuyen-dung-${new Date().toISOString().slice(0, 10)}.csv`, [
+  if (exportButton) bind(exportButton, () => csv(`tin-tuyen-dung-${new Date().toISOString().slice(0, 10)}.csv`, [
     ['Vị trí', 'Trạng thái', 'Phòng ban', 'Số lượng', 'Hồ sơ', 'Lượt xem', 'Ngày đăng'],
-    ...jobs.map(j => [j.title, jobStatusLabel[j.status] ?? j.status, j.department ?? '', String(j.openings), String(j.application_count), String(j.view_count), j.published_at ? j.published_at.slice(0, 10) : '']),
-  ])));
+    ...jobs.map(j => [j.title, jobStatusLabel[j.status] ?? j.status, j.department ?? '', String(j.openings ?? 0), String(j.application_count ?? 0), String(j.view_count ?? 0), j.published_at ? j.published_at.slice(0, 10) : '']),
+  ]));
   await load();
 }
