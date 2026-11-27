@@ -293,3 +293,46 @@
 .community-post__counts { font-size: var(--ui-text-xs); }
 .community-post__action-bar { padding-top: 0; }
 .community-post__media img { max-height: 200px; object-fit: cover; }
+
+/* ── Real-data feed (community.ts) ───────────────────────────────── */
+.community-feed { display: flex; flex-direction: column; gap: var(--ui-space-4); }
+.community-more { display: flex; justify-content: center; }
+.community-more [hidden] { display: none; }
+.community-tag-filter { margin: 0; font-size: var(--ui-text-sm); color: var(--ui-muted); display: flex; align-items: center; gap: var(--ui-space-2); }
+.community-tag-filter[hidden] { display: none; }
+.community-tag-filter__clear { border: 1px solid var(--ui-border); background: var(--ui-surface); color: var(--ui-text); border-radius: var(--ui-radius-pill); width: 24px; height: 24px; cursor: pointer; line-height: 1; }
+.community-post--pinned { outline: 2px solid var(--ui-primary); outline-offset: 2px; }
+.community-post__avatar--anon { display: flex; align-items: center; justify-content: center; background: var(--ui-sunken); color: var(--ui-muted); }
+.community-post__title { font-size: var(--ui-text-lg); font-weight: 600; margin: 0 0 var(--ui-space-2); color: var(--ui-text); overflow-wrap: anywhere; }
+.community-post__text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.community-post__expand, .community-post__count-link, .community-comment-tool {
+  border: 0; background: transparent; padding: 0; font: inherit; color: var(--ui-primary); cursor: pointer;
+}
+.community-post__expand { margin-top: var(--ui-space-1); font-size: var(--ui-text-sm); font-weight: 500; }
+.community-post__count-link { font-size: var(--ui-text-xs); color: var(--ui-muted); }
+.community-post__count-link:hover, .community-comment-tool:hover { text-decoration: underline; }
+.community-post__tags { display: flex; flex-wrap: wrap; gap: var(--ui-space-1); margin-top: var(--ui-space-2); }
+.community-post__tag { cursor: pointer; border: 0; font: inherit; font-size: var(--ui-text-xs); }
+.community-review { display: flex; align-items: center; gap: var(--ui-space-2); margin: 0 0 var(--ui-space-2); font-size: var(--ui-text-sm); font-weight: 600; }
+.community-review__stars { color: var(--ui-warning, var(--ui-primary)); letter-spacing: 1px; }
+.community-attachment { text-decoration: none; color: var(--ui-text); }
+.community-attachment__icon { width: 40px; height: 40px; border-radius: var(--ui-radius-media); background: var(--ui-danger-soft); color: var(--ui-danger); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; }
+.community-attachment__open { display: flex; align-items: center; gap: var(--ui-space-1); color: var(--ui-primary); font-size: var(--ui-text-sm); font-weight: 500; flex-shrink: 0; }
+.community-post__action[aria-pressed="true"] { color: var(--ui-primary); }
+.community-post__action[aria-pressed="true"] .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+.community-post__action:disabled { opacity: .6; cursor: progress; }
+.community-composer__hint { font-size: var(--ui-text-xs); margin: 0; }
+[data-review-fields][hidden] { display: none; }
+
+/* Comment thread dialog */
+.community-comments { display: flex; flex-direction: column; gap: var(--ui-space-2); max-height: 50vh; overflow-y: auto; margin-bottom: var(--ui-space-3); }
+.community-comments .community-comment-inset__body { white-space: pre-wrap; overflow-wrap: anywhere; }
+.community-comment-tools { display: flex; justify-content: flex-end; gap: var(--ui-space-3); margin-top: var(--ui-space-1); }
+.community-comment-tool { font-size: var(--ui-text-xs); color: var(--ui-muted); }
+
+/* Upcoming events rail */
+.community-event { display: flex; gap: var(--ui-space-3); align-items: flex-start; text-decoration: none; color: inherit; border-radius: var(--ui-radius-media); }
+.community-event:hover .community-event__title { color: var(--ui-primary); }
+.community-event__title { font-size: var(--ui-text-xs); font-weight: 600; color: var(--ui-text); line-height: 1.4; }
+.community-event__meta { font-size: var(--ui-text-xs); color: var(--ui-muted); margin-top: 2px; }
+.community-event__org { font-size: 11px; color: var(--ui-primary); font-weight: 500; margin-top: 2px; }
