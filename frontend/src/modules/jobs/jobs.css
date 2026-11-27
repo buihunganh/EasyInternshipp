@@ -419,3 +419,17 @@ body.has-landing .jobs-home { padding-top: var(--ui-space-4); }
   .landing-stats { grid-template-columns: 1fr; gap: var(--ui-space-3); }
   .landing-pill { min-height: 40px; font-size: var(--ui-text-sm); }
 }
+
+/* Company card in the job detail rail (jobDetail.ts companyCard) */
+.jobs-company-card { display: flex; flex-direction: column; gap: var(--ui-space-3); }
+.jobs-company-card__head { display: flex; gap: var(--ui-space-3); align-items: center; }
+.jobs-company-card__head .ui-logo { width: 48px; height: 48px; border-radius: var(--ui-radius-media); object-fit: cover; flex-shrink: 0; }
+.jobs-company-card__name { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.jobs-company-card__name a { font-size: var(--ui-text-md); font-weight: 600; color: var(--ui-text); text-decoration: none; overflow-wrap: anywhere; }
+.jobs-company-card__name a:hover { color: var(--ui-primary); text-decoration: underline; }
+.jobs-company-card__about { margin: 0; font-size: var(--ui-text-sm); line-height: 1.55; color: var(--ui-muted); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.jobs-company-card__facts { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: var(--ui-text-sm); }
+.jobs-company-card__facts li { display: flex; align-items: center; gap: var(--ui-space-2); }
+.jobs-company-card__facts .material-symbols-outlined { font-size: 18px; color: var(--ui-muted); }
+.jobs-company-card__open { font-size: var(--ui-text-sm); font-weight: 600; color: var(--ui-primary); }
+.jobs-company-card__open:empty { display: none; }

@@ -34,7 +34,7 @@ function fillHero(company: CompanyDetail, profile: CompanyProfile, jobs: JobHit[
   const verified = company.verification_status === 'verified';
   const tier = h1.nextElementSibling as HTMLElement | null;
   if (tier) { tier.textContent = verified ? 'Đã xác thực' : 'Chưa xác thực'; tier.classList.toggle('ui-chip--success', verified); tier.classList.toggle('ui-chip--neutral', !verified); }
-  const banner = byText<HTMLElement>('main span', /Đối tác Tuyển dụng Xác thực/);
+  const banner = byText<HTMLElement>('main span', /Đối tác tuyển dụng xác thực/i);
   if (banner && !verified) banner.parentElement!.hidden = true;
   const cover = document.querySelector<HTMLElement>('main [data-alt^="Modern open-concept"]');
   if (cover && company.cover_path) cover.style.backgroundImage = `url('${publicUrl('company-assets', company.cover_path)}')`;
@@ -163,7 +163,7 @@ function fillJobs(jobs: JobHit[], saved: Set<string>, companyLogo: string) {
 }
 
 function fillReviews(reviews: Awaited<ReturnType<typeof companyReviews>>, rating: { review_count: number | null; avg_rating: number | null } | null) {
-  const section = byText<HTMLElement>('main section h2', /Đánh giá từ Thực tập sinh/)?.closest('section');
+  const section = byText<HTMLElement>('main section h2', /Đánh giá từ thực tập sinh/i)?.closest('section');
   if (!section) return;
   const score = section.querySelector('h2')?.nextElementSibling?.firstElementChild;
   if (score) score.textContent = rating?.avg_rating ? String(rating.avg_rating) : '—';
