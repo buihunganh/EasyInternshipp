@@ -23,7 +23,8 @@
     "db:push": "npx supabase --workdir backend db push --linked",
     "db:migrations": "npx supabase --workdir backend migration list --linked",
     "db:link": "npx supabase --workdir backend link",
-    "fn:deploy": "npx supabase --workdir backend functions deploy notify-email job-alerts"
+    "fn:deploy": "npx supabase --workdir backend functions deploy notify-email job-alerts",
+    "diagrams:export": "node diagrams/export.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.14",
