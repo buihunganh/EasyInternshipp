@@ -158,3 +158,17 @@ body[data-page=post-job] #jobForm .material-symbols-outlined{color:inherit}
 .rc-empty .ui-empty__icon{width:40px;height:40px;margin:0}
 .rc-empty p{font-size:var(--ui-text-sm)}
 @media(max-width:1300px){.rc-meta{white-space:normal}}
+
+/* Exclusive partner-university posting (post-job, Phase 10) */
+#exclusive-university{min-height:var(--ui-control-h);padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);background:var(--ui-surface);color:var(--ui-text);font:inherit;font-size:var(--ui-text-sm);margin-top:var(--ui-space-2)}
+#exclusive-university:disabled{opacity:.6}
+#exclusive-status:empty{display:none}
+
+/* Hiring funnel card (dashboard, Phase 11): one series, one scale */
+.rc-funnel{display:flex;flex-direction:column;gap:6px}
+.rc-funnel__row{display:grid;grid-template-columns:76px minmax(0,1fr) 32px;gap:var(--ui-space-2);align-items:center;font-size:var(--ui-text-xs)}
+.rc-funnel__label{color:var(--ui-muted)}
+.rc-funnel__track{height:10px;background:var(--ui-sunken);border-radius:2px;overflow:hidden}
+.rc-funnel__bar{display:block;height:100%;background:var(--ui-primary);border-radius:0 2px 2px 0}
+.rc-funnel__value{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.rc-funnel__meta{margin:var(--ui-space-2) 0 0}

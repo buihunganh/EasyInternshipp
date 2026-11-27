@@ -2,7 +2,8 @@
 // reports and the audit log, all on live data through the admin RPCs.
 import { currentProfile, currentRole, initSession, signOut } from '../../core/session';
 import { dialog, toast } from '../../core/ui/feedback';
-import { esc } from '../../core/ui/actions';
+import { csv, esc } from '../../core/ui/actions';
+import { renderAnalytics, renderSettings } from './analytics';
 import { showError } from '../../core/errors';
 import { formatDate, formatDateTime, formatStipend, jobStatusLabel, relativeTime, verifyStatusLabel, workTypeLabel } from '../../core/format';
 import { companyHref, jobHref } from '../../core/navigation';
@@ -11,11 +12,14 @@ import { auditTable, formatAuditAction, reportReason, reportTarget, roleNames } 
 import { renderOverview } from './overview';
 import '../../styles/platform.css';
 
-type Tab = 'overview' | 'companies' | 'jobs' | 'users' | 'reports' | 'audit';
+type Tab = 'overview' | 'companies' | 'jobs' | 'users' | 'reports' | 'audit' | 'analytics' | 'settings';
 const titles: Record<Tab, string> = {
   overview: 'Tổng quan hệ thống', companies: 'Thẩm định doanh nghiệp', jobs: 'Duyệt tin tuyển dụng',
   users: 'Quản lý tài khoản', reports: 'Báo cáo vi phạm', audit: 'Nhật ký thao tác',
+  analytics: 'Phân tích nền tảng', settings: 'Cài đặt nền tảng',
 };
+/** Tabs that render their own panel (no search / filters / pager). */
+const panelTabs: Tab[] = ['overview', 'analytics', 'settings'];
 const descriptions: Record<Tab, string> = {
   overview: 'Những việc cần xử lý trên nền tảng.',
   companies: 'Kiểm tra mã số thuế và giấy phép kinh doanh trước khi cấp tích xanh.',
@@ -23,6 +27,8 @@ const descriptions: Record<Tab, string> = {
   users: 'Kích hoạt cán bộ nhà trường, tạm khóa tài khoản vi phạm.',
   reports: 'Xem phản ánh, ghi nhận kết quả xác minh và xử lý.',
   audit: 'Mọi quyết định quản trị kèm người thực hiện và lý do.',
+  analytics: 'Chỉ số tăng trưởng, tuyển dụng và kiểm duyệt theo ngày và theo tháng.',
+  settings: 'Tham số vận hành dùng chung (thời hạn tin, cột Kanban mặc định, gói tin).',
 };
 const statusFilters: Partial<Record<Tab, [string, string][]>> = {
   companies: [['pending', 'Chờ thẩm định'], ['verified', 'Đã xác thực'], ['rejected', 'Bị từ chối'], ['revoked', 'Đã thu hồi'], ['unverified', 'Chưa gửi hồ sơ']],
@@ -51,6 +57,7 @@ let status = '';
 let pageNo = 1;
 let rows: Record<string, unknown>[] = [];
 let targetNames = new Map<string, string>();
+let auditView: Audit[] = [];
 let loadToken = 0;
 
 const chip = (status: string, text: string) => `<span class="ei-chip ei-chip-${esc(status)}">${esc(text)}</span>`;
@@ -115,10 +122,10 @@ async function chooseTab() {
   document.getElementById('admin-title')!.textContent = titles[tab];
   document.getElementById('admin-description')!.textContent = descriptions[tab];
   document.querySelectorAll<HTMLElement>('[data-tab]').forEach(link => link.dataset.tab === tab ? link.setAttribute('aria-current', 'page') : link.removeAttribute('aria-current'));
-  document.getElementById('admin-toolbar')!.hidden = tab === 'overview';
+  document.getElementById('admin-toolbar')!.hidden = panelTabs.includes(tab);
   document.getElementById('admin-stats')!.hidden = tab !== 'overview';
   document.getElementById('admin-refresh')!.hidden = tab !== 'overview';
-  board.classList.toggle('is-list', tab !== 'overview');
+  board.classList.toggle('is-list', !panelTabs.includes(tab));
   await load();
 }
 
@@ -134,6 +141,8 @@ async function load() {
       document.getElementById('admin-description')!.textContent = `${descriptions.overview} Cập nhật lúc ${time}.`;
       return;
     }
+    if (tab === 'analytics') { await renderAnalytics(panel, () => token === loadToken); return; }
+    if (tab === 'settings') { await renderSettings(panel, () => token === loadToken); return; }
     if (tab === 'companies') rows = await api.listCompanies(status as never);
     else if (tab === 'jobs') rows = await api.listJobs(status as never);
     else if (tab === 'users') rows = await api.listUsers({ status: status || undefined });
@@ -265,7 +274,8 @@ function render() {
     // listAudit() is capped at 200 rows: say so instead of presenting the cap as the total
     count.textContent = rows.length >= 200 ? `${list.length} thao tác (trong 200 gần nhất)` : `${list.length} thao tác`;
     total = list.length;
-    panel.innerHTML = list.length ? table(['Thời gian', 'Thao tác', 'Đối tượng', 'Lý do'], paginate(list).map(a => {
+    auditView = list;
+    panel.innerHTML = (list.length ? `<div class="admin-export"><button type="button" class="ei-button" data-export="audit"><span class="material-symbols-outlined" aria-hidden="true">download</span>Xuất CSV (${list.length})</button></div>` : '') + (list.length ? table(['Thời gian', 'Thao tác', 'Đối tượng', 'Lý do'], paginate(list).map(a => {
       const actor = a.actor as { full_name?: string; email?: string } | null;
       const actorName = actor?.full_name || actor?.email || 'Hệ thống';
       const actionText = formatAuditAction(a.action);
@@ -283,7 +293,7 @@ function render() {
       const titleAttr = a.target_id ? ` title="${esc(a.target_id)}"` : '';
       const reasonText = a.reason?.trim() ? esc(a.reason) : '—';
       return `<tr><td>${esc(formatDateTime(a.created_at))}<small>${esc(actorName)}</small></td><td>${esc(actionText)}</td><td${titleAttr}>${targetCellContent}</td><td>${reasonText}</td></tr>`;
-    }).join('')) : empty('Chưa có thao tác nào.');
+    }).join('')) : empty('Chưa có thao tác nào.'));
   }
   renderPager(total);
 }
@@ -299,6 +309,10 @@ function confirmWithReason(title: string, subject: string, fn: (reason: string) 
 }
 
 panel.addEventListener('click', async event => {
+  if ((event.target as Element).closest('button[data-export=audit]')) {
+    csv(`nhat-ky-quan-tri-${new Date().toISOString().slice(0, 10)}.csv`, api.auditCsvRows(auditView, targetNames, formatAuditAction));
+    return;
+  }
   const target = (event.target as Element).closest<HTMLButtonElement>('button[data-action]');
   if (!target) return;
   const id = target.dataset.id!;

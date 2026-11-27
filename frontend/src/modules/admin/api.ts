@@ -133,3 +133,39 @@ export async function activitySince(sinceIso: string) {
     approvals: unwrap(approvals).map(r => r.created_at),
   };
 }
+
+// --- Analytics & settings (Phase 11) ------------------------------------------------
+export interface PlatformDay {
+  date: string; new_students: number; new_employers: number; new_officers: number; jobs_published: number;
+  job_views: number; applications: number; hires: number; reports: number;
+}
+export interface ModerationMonth {
+  month: string; jobs_approved: number; jobs_rejected: number; job_reject_rate: number | null; jobs_taken_down: number;
+  companies_verified: number; users_suspended: number; avg_hours_to_job_decision: number | null;
+  reports_opened: number; reports_closed: number; scam_fee_reports: number; avg_hours_to_resolve: number | null;
+}
+export async function platformKpis(from: string, to: string) {
+  const { data, error } = await supabase.rpc('get_platform_kpis', { p_from: from, p_to: to });
+  if (error) throw toAppError(error);
+  return (data ?? []) as unknown as PlatformDay[];
+}
+export async function moderationKpis(months = 12) {
+  const { data, error } = await supabase.rpc('get_moderation_kpis', { p_months: months });
+  if (error) throw toAppError(error);
+  return (data ?? []) as unknown as ModerationMonth[];
+}
+export async function listSettings() {
+  return unwrap(await supabase.from('platform_settings').select('key, value, description, updated_at').order('key'));
+}
+export async function updateSetting(key: string, value: unknown) {
+  unwrap(await supabase.from('platform_settings').update({ value: value as never }).eq('key', key));
+}
+
+/** Audit rows as CSV (newest first), with resolved target names. */
+export function auditCsvRows(rows: Awaited<ReturnType<typeof listAudit>>, names: Map<string, string>, action: (a: string) => string) {
+  return [['Thời gian', 'Người thực hiện', 'Vai trò', 'Thao tác', 'Bảng', 'Đối tượng', 'Mã đối tượng', 'Lý do'],
+    ...rows.map(a => {
+      const actor = a.actor as { full_name?: string; email?: string } | null;
+      return [a.created_at, actor?.full_name || actor?.email || 'Hệ thống', a.actor_role ?? '', action(a.action), a.target_table, (a.target_id && names.get(a.target_id)) || '', a.target_id ?? '', a.reason ?? ''];
+    })];
+}

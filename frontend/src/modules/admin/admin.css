@@ -373,3 +373,19 @@ body[data-page=admin] .admin-pager-top button:focus-visible{outline:0;box-shadow
   .admin-ov-queue__kind{grid-column:1/-1;justify-self:start;min-width:0}
   .admin-ov-queue__row .ui-btn{grid-row:2/4;grid-column:2}
 }
+
+/* Phase 11: analytics, settings, audit export */
+.admin-analytics { display: flex; flex-direction: column; gap: var(--ui-space-3); }
+.admin-analytics__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ui-space-3); justify-content: space-between; }
+.admin-analytics__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--ui-space-3); }
+.admin-kpi-table th, .admin-kpi-table td { white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
+.admin-kpi-table th:first-child { text-align: left; }
+.admin-settings { display: flex; flex-direction: column; gap: var(--ui-space-3); }
+.admin-setting { display: flex; flex-direction: column; gap: var(--ui-space-2); }
+.admin-setting__head { display: flex; justify-content: space-between; gap: var(--ui-space-2); flex-wrap: wrap; align-items: baseline; }
+.admin-setting__head code { font-size: var(--ui-text-xs); color: var(--ui-muted); }
+.admin-setting textarea { width: 100%; box-sizing: border-box; font: 13px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; padding: var(--ui-space-2); border: 1px solid var(--ui-border-strong); border-radius: var(--ui-radius-control); background: var(--ui-surface); color: var(--ui-text); resize: vertical; }
+.admin-setting__foot { display: flex; justify-content: space-between; align-items: center; gap: var(--ui-space-2); }
+.admin-export { display: flex; justify-content: flex-end; padding: var(--ui-space-2) var(--ui-space-3) 0; }
+.admin-export .ei-button { display: inline-flex; align-items: center; gap: 4px; }
+.admin-export .material-symbols-outlined { font-size: 18px; }
