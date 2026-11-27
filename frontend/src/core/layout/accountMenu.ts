@@ -97,7 +97,9 @@ function menuItems(): MenuItem[] {
     {label:'Xem trang công ty',icon:'storefront',action:()=>location.assign(workspaceHref(routes.company))},
     {label:'Quản lý tuyển dụng',icon:'dashboard',action:()=>location.assign(routes.employer)},
     {label:'Quản lý ứng viên',icon:'group',action:()=>location.assign(routes.candidates)});
-  else if (role === 'university_officer') items.push({label:'Trang nhà trường',icon:'school',action:()=>location.assign(routes.university)});
+  else if (role === 'university_officer') items.push(
+    {label:'Cổng quản lý nhà trường',icon:'dashboard',action:()=>location.assign(routes['university-portal'])},
+    {label:'Trang trường công khai',icon:'school',action:()=>location.assign(routes.university)});
   else if (role === 'admin') items.push({label:'Bảng quản trị',icon:'admin_panel_settings',action:()=>location.assign('/pages/admin/')});
   items.push({label:'Cài đặt thông báo',icon:'settings',action:()=>{void settings();},divider:true});
   items.push({label:'Đăng xuất',icon:'logout',action:logout,danger:true,divider:true});

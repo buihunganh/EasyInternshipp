@@ -21,17 +21,20 @@
     "db:new": "npx supabase --workdir backend migration new",
     "db:push": "npx supabase --workdir backend db push --linked",
     "db:migrations": "npx supabase --workdir backend migration list --linked",
-    "db:link": "npx supabase --workdir backend link"
+    "db:link": "npx supabase --workdir backend link",
+    "fn:deploy": "npx supabase --workdir backend functions deploy notify-email job-alerts"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.14",
     "@playwright/test": "^1.55.0",
+    "@types/qrcode": "^1.5.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.2",
     "vite": "^6.4.1"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.118.0"
+    "@supabase/supabase-js": "^2.118.0",
+    "qrcode": "^1.5.4"
   },
   "engines": {
     "node": ">=22"

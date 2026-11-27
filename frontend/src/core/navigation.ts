@@ -9,7 +9,8 @@ export const routes: Record<string, string> = {
   'post-job': '/pages/post-job/', 'job-detail': '/pages/job-detail/', company: '/pages/company/',
   'cv-builder': '/pages/cv-builder/', profile: '/pages/profile/', university: '/pages/university/',
   'company-settings': '/pages/company-settings/', 'reset-password': '/pages/reset-password/',
-  applications: '/pages/applications/', cv: '/pages/cv/', notifications: '/pages/notifications/'
+  applications: '/pages/applications/', cv: '/pages/cv/', notifications: '/pages/notifications/',
+  'university-portal': '/pages/university-portal/', verify: '/pages/verify/'
 };
 /** Links to jobs and companies use ids (`?id=<uuid>`). */
 export const jobHref = (id: string) => '/pages/job-detail/?id=' + encodeURIComponent(id);

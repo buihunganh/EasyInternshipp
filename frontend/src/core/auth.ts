@@ -13,6 +13,7 @@ const pageRoles: Record<string, Role[]> = {
   'post-job': ['employer'],
   'company-settings': ['employer'],
   notifications: ['student', 'employer', 'university_officer', 'admin'],
+  'university-portal': ['university_officer'],
 };
 export const privatePages = Object.keys(pageRoles);
 
@@ -25,7 +26,7 @@ export function safeReturnPath(value: string | null) {
   if (!value) return null;
   try {
     const url = new URL(value, location.origin);
-    if (url.origin !== location.origin || !/^\/(?:pages\/(?:messages|profile|cv-builder|applications|employer|candidates|post-job|company-settings|job-detail|company|community|university|cv|notifications)\/)?$/.test(url.pathname)) return null;
+    if (url.origin !== location.origin || !/^\/(?:pages\/(?:messages|profile|cv-builder|applications|employer|candidates|post-job|company-settings|job-detail|company|community|university|university-portal|verify|cv|notifications)\/)?$/.test(url.pathname)) return null;
     return url.pathname + url.search + url.hash;
   } catch { return null; }
 }
