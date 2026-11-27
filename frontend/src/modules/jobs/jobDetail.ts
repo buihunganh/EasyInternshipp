@@ -214,9 +214,10 @@ function wireActions(job: JobDetail) {
     });
   }
 
-  // "Về Công Ty" tab → company page
+  // Tabs: "Chi Tiết Công Việc" is the page itself (scroll to the description), "Về Công Ty" → company page
   document.querySelectorAll<HTMLButtonElement>('main button').forEach(b => {
     if (/^Về Công Ty$/i.test(label(b)) && job.company) bind(b, () => location.assign(companyHref(job.company!.id)));
+    else if (/^Chi Tiết Công Việc$/i.test(label(b))) bind(b, () => document.querySelector('.jobs-jd')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   });
 
   // Report (guests allowed, BR-37)

@@ -129,6 +129,20 @@ export async function reviewableCompanies() {
   return [...map].map(([id, name]) => ({ id, name }));
 }
 
+/** Most active named authors over the last `days` (anonymous posts never count: post_feed hides their author). */
+export async function topAuthors(days = 30, limit = 4) {
+  const since = new Date(Date.now() - days * 86400000).toISOString();
+  const rows = unwrap(await supabase.from('post_feed').select('author_id, author_name, author_avatar_path, like_count')
+    .not('author_id', 'is', null).gte('created_at', since).limit(500));
+  const by = new Map<string, { id: string; name: string; avatar: string | null; posts: number; likes: number }>();
+  for (const r of rows) {
+    const cur = by.get(r.author_id!) ?? { id: r.author_id!, name: r.author_name || 'Thành viên', avatar: r.author_avatar_path, posts: 0, likes: 0 };
+    cur.posts++; cur.likes += r.like_count ?? 0;
+    by.set(r.author_id!, cur);
+  }
+  return [...by.values()].sort((a, b) => b.posts - a.posts || b.likes - a.likes).slice(0, limit);
+}
+
 /** Published events that have not ended yet (right rail). */
 export async function upcomingEvents(limit = 3) {
   return unwrap(await supabase.from('events')

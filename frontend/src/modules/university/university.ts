@@ -33,6 +33,19 @@ export async function setupUniversityPage() {
   if (rightRail) renderRailFooter(rightRail);
   setupContactModal();
 
+  // The design's "follow" button becomes the real job alerts (in-app + e-mail digests) for students
+  const follow = document.getElementById('btn-follow-school');
+  if (follow) {
+    const role = currentRole();
+    if (role && role !== 'student') follow.hidden = true;
+    else {
+      const text = document.getElementById('follow-text'), icon = document.getElementById('follow-icon');
+      if (text) text.textContent = 'Nhận thông báo việc làm';
+      if (icon) icon.textContent = 'notifications_active';
+      bind(follow, () => { if (requireSignIn('/pages/applications/?tab=alerts')) location.assign('/pages/applications/?tab=alerts'); });
+    }
+  }
+
   let uni: api.University | null;
   try { uni = await pickUniversity(); } catch (error) { showError(error); return; }
   const main = document.querySelector('main');

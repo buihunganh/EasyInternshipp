@@ -8,7 +8,7 @@
 <nav class="ui-card community-shortcuts" aria-label="Lối tắt cộng đồng">
 <span class="community-rail-card__title">Lối tắt</span>
 <a class="community-network-row" href="/pages/university/"><span class="material-symbols-outlined" aria-hidden="true">groups</span><span class="community-network-name">Cộng đồng HCMUT</span></a>
-<a class="community-network-row" href="/pages/university/"><span class="material-symbols-outlined" aria-hidden="true">psychology</span><span>Hội cựu SV Bách Khoa Mentors</span></a>
+<a class="community-network-row" href="/pages/terms/#cong-dong"><span class="material-symbols-outlined" aria-hidden="true">gavel</span><span>Quy chế cộng đồng</span></a>
 <a class="community-network-row" id="community-saved-link" href="#community-feed" data-auth-only hidden><span class="material-symbols-outlined" aria-hidden="true">bookmark</span><span>Bài viết đã lưu</span></a>
 </nav>
 </aside>
@@ -40,26 +40,13 @@
 </div>
 <!-- ================= RIGHT RAIL ================= -->
 <aside class="ui-rail ui-rail--sticky" id="community-right-rail">
-<!-- Widget: Alumni Mentors Connection -->
+<!-- Widget: most active members (last 30 days, non-anonymous posts; community.ts) -->
 <div class="ui-card">
 <div class="ui-card__header">
-<span class="community-rail-card__title">Kết nối Cựu sinh viên (Alumni)</span>
-<span class="ui-chip ui-chip--neutral" style="font-size:11px">1-on-1 Free</span>
+<span class="community-rail-card__title">Thành viên tích cực</span>
+<span class="ui-chip ui-chip--neutral" style="font-size:11px">30 ngày</span>
 </div>
-<!-- Mentors: one row each -->
-<div class="community-mentor">
-<img alt="Ảnh đại diện mentor Lê Hoàng Nam" class="ui-avatar" src="/assets/images/2350cb92442a7ec4.png">
-<div class="community-mentor__info"><p class="community-mentor__name">Anh Lê Hoàng Nam</p><p class="community-mentor__role">Tech Lead @ Shopee · Review CV backend</p></div>
-<button class="ui-btn ui-btn--neutral ui-btn--sm" type="button" title="Kết nối với mentor Lê Hoàng Nam">Kết nối</button>
-</div>
-<div class="community-mentor">
-<img alt="Ảnh đại diện mentor Mai Lan Anh" class="ui-avatar" src="/assets/images/caf071088772d2ab.png">
-<div class="community-mentor__info"><p class="community-mentor__name">Chị Mai Lan Anh</p><p class="community-mentor__role">HR Manager @ FPT Software · Mock interview</p></div>
-<button class="ui-btn ui-btn--neutral ui-btn--sm" type="button" title="Đặt lịch Mentoring 30 phút với Mai Lan Anh">Mentoring</button>
-</div>
-<a class="ui-link" style="text-align:center;display:block;margin-top:var(--ui-space-3);font-size:var(--ui-text-xs)" href="#">
-    Xem thêm 180+ Cựu SV Bách Khoa →
-  </a>
+<div id="community-top-authors" class="community-top-authors"></div>
 </div>
 <!-- Widget: Upcoming Career Events (published events, rendered by community.ts) -->
 <div class="ui-card">

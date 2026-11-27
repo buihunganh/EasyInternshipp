@@ -19,5 +19,5 @@
 
 **Watch out**
 - The left-rail profile card is the shared `core/layout/profileCard.ts`; `.community-profile-card` is only its host.
-- The mentor widget in the right rail is a static showcase (no mentor data in the schema).
+- The right rail's "Thành viên tích cực" ranks named authors of the last 30 days (`topAuthors()`); anonymous posts never count.
 - Mobile order is set by class (`.community-left-rail`), not `:first-child`: `<main>` starts with the sr-only `<h1>`.

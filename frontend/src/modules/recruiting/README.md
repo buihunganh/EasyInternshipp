@@ -11,7 +11,7 @@
 | `companySettings.ts` + `company-settings.css` | create/edit company, page content (`companies.profile`), GPKD upload + `submit_company_verification`, team members |
 | `pipeline.ts` + `candidates.css` | candidate board — real ATS pipeline (Phase 7): KPI tiles count by kanban column name, drawer actions, scorecards, offers, talent search, CSV export |
 | `recruiting.css` | UI refresh styles: employer dashboard (`rc-*` classes, stat strip, job table) and post-job restyle; linked from employer and post-job |
-| `shortcuts.ts` | "Xem CV" preview, "Chat 1-1", applicant links |
+| `shortcuts.ts` | dashboard design links about applicants → candidates board |
 
 **Data:** `companies`, `company_members`, `company_documents` (+ storage `company-documents/<company_id>/`, `company-assets/<company_id>/`), `jobs`, `job_skills`, `screening_questions` / `screening_question_keys`, `applications` (counts), RPC `company_interviews`.
 

@@ -1,8 +1,7 @@
 // Community feed (DFD process 7) on real data: post_feed, comments, likes, bookmarks, reports.
 import { dialog, toast } from '../../core/ui/feedback';
-import { label } from '../../core/navigation';
 import { isSignedIn, requireSignIn } from '../../core/auth';
-import { bind, compose, schedule } from '../../core/ui/actions';
+import { bind } from '../../core/ui/actions';
 import { attachMenu, type MenuItem } from '../../core/ui/menu';
 import { renderRailFooter } from '../../core/layout/siteFooter';
 import { currentProfile, currentRole } from '../../core/session';
@@ -407,15 +406,24 @@ export function setupCommunity() {
     feed.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
-  // Mentor widget is a static showcase (no mentor data in the schema yet)
-  document.querySelectorAll<HTMLButtonElement>('#community-right-rail button').forEach(b => {
-    const text = label(b);
-    if (/Kết nối/.test(text)) bind(b, () => compose('Kết nối với mentor', 'mentor@example.com'));
-    else if (/Mentoring/.test(text)) bind(b, () => schedule('Mentoring 30 phút'));
-  });
-
+  renderTopAuthors();
   renderEvents();
   if (tag) setTag(tag); else load(true);
+}
+
+async function renderTopAuthors() {
+  const host = document.getElementById('community-top-authors');
+  if (!host) return;
+  showState(host, 'loading', 'Đang tải...');
+  try {
+    const authors = await api.topAuthors();
+    if (!authors.length) { showState(host, 'empty', 'Chưa có bài viết nào trong 30 ngày qua.'); return; }
+    host.replaceChildren(...authors.map(a => el('div', { className: 'community-mentor' },
+      el('img', { className: 'ui-avatar', src: avatarFor(a.name, a.avatar), alt: '' }),
+      el('div', { className: 'community-mentor__info' },
+        el('p', { className: 'community-mentor__name' }, a.name),
+        el('p', { className: 'community-mentor__role' }, `${a.posts} bài viết · ${a.likes} lượt thích`)))));
+  } catch (error) { showState(host, 'error', toAppError(error).message); }
 }
 
 async function renderEvents() {
