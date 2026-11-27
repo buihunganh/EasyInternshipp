@@ -124,3 +124,24 @@ export async function upcomingEvents(limit = 2) {
   return unwrap(await supabase.from('events').select('id, title, starts_at, location, is_virtual, university:organizer_university_id(name, short_name)')
     .eq('status', 'published').gte('ends_at', new Date().toISOString()).order('starts_at').limit(limit));
 }
+
+// --- Guest landing (live numbers + fields with open jobs) ----------------------------------
+export async function landingStats() {
+  const count = async (q: PromiseLike<{ count: number | null; error: unknown }>) => { const { count: n, error } = await q; if (error) throw toAppError(error); return n ?? 0; };
+  const [jobs, companies, universities] = await Promise.all([
+    count(supabase.from('jobs').select('id', { count: 'exact' }).eq('status', 'active').is('university_id', null).limit(1)),
+    count(supabase.from('companies').select('id', { count: 'exact' }).eq('verification_status', 'verified').limit(1)),
+    count(supabase.from('universities').select('id', { count: 'exact' }).limit(1)),
+  ]);
+  return { jobs, companies, universities };
+}
+/** Industries ordered by how many public jobs are open in them (all industries are shown, busiest first). */
+export async function industriesWithJobs() {
+  const [industries, jobs] = await Promise.all([
+    listIndustries(),
+    supabase.from('jobs').select('industry_id').eq('status', 'active').is('university_id', null).limit(2000),
+  ]);
+  const counts = new Map<number, number>();
+  for (const j of unwrap(jobs)) if (j.industry_id != null) counts.set(j.industry_id, (counts.get(j.industry_id) ?? 0) + 1);
+  return industries.map(i => ({ ...i, open: counts.get(i.id) ?? 0 })).sort((a, b) => b.open - a.open || a.name.localeCompare(b.name, 'vi'));
+}

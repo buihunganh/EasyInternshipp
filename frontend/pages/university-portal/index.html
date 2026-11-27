@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng quản lý nhà trường | Internships.io</title><meta property="og:site_name" content="Internships.io"><meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:title" content="Cổng quản lý nhà trường | Internships.io"><meta property="og:description" content="Cán bộ nhà trường xác thực sinh viên, duyệt tin độc quyền, chứng nhận thực tập, quản lý sự kiện và đối tác."><meta name="twitter:card" content="summary">
+  <meta name="description" content="Cán bộ nhà trường xác thực sinh viên, duyệt tin độc quyền, chứng nhận thực tập, quản lý sự kiện và đối tác.">
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+  <link rel="stylesheet" href="/src/modules/university/portal.css">
+</head>
+<body data-page="university-portal">
+  <header></header>
+  <main class="ui-shell ui-shell--left-main up-shell" id="university-portal">
+    <aside class="ui-rail ui-rail--sticky">
+      <div class="ui-card up-identity">
+        <span class="up-eyebrow">Cổng quản lý nhà trường</span>
+        <h1 id="up-university">Đang tải...</h1>
+        <p class="up-muted" id="up-officer"></p>
+        <a class="ui-btn ui-btn--neutral ui-btn--sm ui-btn--block" id="up-public-link" href="/pages/university/">Xem trang công khai</a>
+      </div>
+      <nav class="ui-card up-nav" aria-label="Các mục quản lý" id="up-nav">
+        <a href="#overview" data-tab="overview"><span class="material-symbols-outlined" aria-hidden="true">monitoring</span>Tổng quan</a>
+        <a href="#students" data-tab="students"><span class="material-symbols-outlined" aria-hidden="true">school</span>Sinh viên<span class="up-count" data-count="students"></span></a>
+        <a href="#jobs" data-tab="jobs"><span class="material-symbols-outlined" aria-hidden="true">work</span>Tin độc quyền<span class="up-count" data-count="jobs"></span></a>
+        <a href="#reports" data-tab="reports"><span class="material-symbols-outlined" aria-hidden="true">workspace_premium</span>Báo cáo thực tập<span class="up-count" data-count="reports"></span></a>
+        <a href="#events" data-tab="events"><span class="material-symbols-outlined" aria-hidden="true">event</span>Sự kiện<span class="up-count" data-count="events"></span></a>
+        <a href="#partners" data-tab="partners"><span class="material-symbols-outlined" aria-hidden="true">handshake</span>Đối tác (MoU)</a>
+        <a href="#inquiries" data-tab="inquiries"><span class="material-symbols-outlined" aria-hidden="true">mail</span>Liên hệ hợp tác<span class="up-count" data-count="inquiries"></span></a>
+      </nav>
+    </aside>
+    <div class="ui-main">
+      <section class="ui-card up-panel" id="up-panel" aria-live="polite" aria-busy="true"></section>
+    </div>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -43,3 +43,16 @@ export async function createAlert(fields: AlertFields) { unwrap(await supabase.f
 export async function setAlertActive(id: string, active: boolean) { unwrap(await supabase.from('job_alerts').update({ is_active: active }).eq('id', id)); }
 export async function deleteAlert(id: string) { unwrap(await supabase.from('job_alerts').delete().eq('id', id)); }
 export async function listIndustries() { return unwrap(await supabase.from('industries').select('id, name').order('name')); }
+
+// --- Internship report (Phase 10): hired students submit, the employer rates, the university certifies ---
+export async function getInternshipReport(applicationId: string) {
+  const { data, error } = await supabase.from('internship_reports')
+    .select('id, status, student_summary, employer_rating, employer_comment, review_note, certified_at, verification_code, updated_at')
+    .eq('application_id', applicationId).maybeSingle();
+  if (error) throw toAppError(error);
+  return data;
+}
+export async function submitInternshipReport(applicationId: string, summary: string) {
+  const { error } = await supabase.rpc('submit_internship_report', { p_application: applicationId, p_summary: summary });
+  if (error) throw toAppError(error);
+}

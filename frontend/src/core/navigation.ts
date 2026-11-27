@@ -9,7 +9,9 @@ export const routes: Record<string, string> = {
   'post-job': '/pages/post-job/', 'job-detail': '/pages/job-detail/', company: '/pages/company/',
   'cv-builder': '/pages/cv-builder/', profile: '/pages/profile/', university: '/pages/university/',
   'company-settings': '/pages/company-settings/', 'reset-password': '/pages/reset-password/',
-  applications: '/pages/applications/', cv: '/pages/cv/', notifications: '/pages/notifications/'
+  applications: '/pages/applications/', cv: '/pages/cv/', notifications: '/pages/notifications/',
+  'university-portal': '/pages/university-portal/', verify: '/pages/verify/',
+  about: '/pages/about/', help: '/pages/help/', terms: '/pages/terms/', privacy: '/pages/privacy/'
 };
 /** Links to jobs and companies use ids (`?id=<uuid>`). */
 export const jobHref = (id: string) => '/pages/job-detail/?id=' + encodeURIComponent(id);
@@ -20,6 +22,10 @@ export function label(el: Element) {
   return (clone.textContent || '').replace(/\s+/g, ' ').trim();
 }
 export function destination(text: string): string | undefined {
+  if (/^(hỗ trợ sinh viên|trợ giúp|liên hệ hỗ trợ)$/i.test(text)) return routes.help;
+  if (/^điều khoản/i.test(text)) return routes.terms;
+  if (/^(chính sách (quyền riêng tư|bảo mật)|quyền riêng tư)$/i.test(text)) return routes.privacy;
+  if (/^về chúng tôi$/i.test(text)) return routes.about;
   if (/dành cho doanh nghiệp|tin đã đăng/i.test(text)) return routes.employer;
   if (/liên kết trường đại học/i.test(text)) return routes.university;
   if (/đăng ký|tạo tài khoản/i.test(text)) return routes.register;
@@ -49,7 +55,9 @@ export function setupNavigation() {
     if (/đơn ứng tuyển/i.test(text)) { a.addEventListener('click', e => {e.preventDefault(); applications();}); return; }
     const href = destination(text);
     if (href) a.href = workspaceHref(href);
-    else a.addEventListener('click', e => {
+    else a.dataset.generic = 'dev-placeholder', a.addEventListener('click', e => {
+      // A module may give the link a real destination after this runs (profile links, peer companies…)
+      if (a.getAttribute('href') !== '#') return;
       e.preventDefault();
       dialog('Đang phát triển', `<p>Tính năng "<strong>${text || 'Liên kết'}</strong>" đang được hoàn thiện theo lộ trình và sẽ sớm có mặt.</p>`, 'Đóng');
     });

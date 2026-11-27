@@ -16,5 +16,11 @@
   {"slug":"applications","title":"Đơn ứng tuyển của tôi","url":"/pages/applications/"},
   {"slug":"cv","title":"CV công khai","url":"/pages/cv/"},
   {"slug":"notifications","title":"Thông báo hệ thống","url":"/pages/notifications/"},
-  {"slug":"reset-password","title":"Đặt lại mật khẩu","url":"/pages/reset-password/"}
+  {"slug":"reset-password","title":"Đặt lại mật khẩu","url":"/pages/reset-password/"},
+  {"slug":"verify","title":"Xác minh chứng nhận thực tập","url":"/pages/verify/"},
+  {"slug":"university-portal","title":"Cổng quản lý nhà trường","url":"/pages/university-portal/"},
+  {"slug":"about","title":"Về chúng tôi","url":"/pages/about/"},
+  {"slug":"help","title":"Trung tâm trợ giúp","url":"/pages/help/"},
+  {"slug":"terms","title":"Điều khoản sử dụng","url":"/pages/terms/"},
+  {"slug":"privacy","title":"Chính sách quyền riêng tư","url":"/pages/privacy/"}
 ]

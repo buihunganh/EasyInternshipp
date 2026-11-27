@@ -4,16 +4,20 @@
 
 | File | What it does |
 |---|---|
-| `index.ts` | `setup` → post menus; `controls` → `setupCommunity` |
-| `community.ts` | compose posts, comments, likes, saves, filters, rail footer |
-| `postMenus.ts` | "…" menu per post: save, copy link, hide, report |
-| `community.css` | styles for 3-col LinkedIn feed shell, composer, posts, rails |
+| `index.ts` | `controls` → `setupCommunity` |
+| `api.ts` | `post_feed` (pages of 10; filters latest / top / question / review / document / saved, `?tag=`), viewer state (own, liked, saved), posts CRUD, `post-attachments` upload, likes, bookmarks, `comment_feed` + comments, reviewable companies, upcoming events |
+| `community.ts` | feed rendering, composer dialog (type, review company + rating, title, body, tags, PDF/image attachment, anonymous), comment thread dialog, "…" menu (copy link, edit/delete own, hide, report), filters, events rail, rail footer |
+| `community.css` | 3-col shell, composer, posts, comment thread, events rail |
 
-**Storage:** owns `demo:posts`, `demo:comments:*`, `demo:like:*`, `demo:save-post:*`, `saved-post:*`; reports go through `core/report.ts` into `reports` (read by admin).
+**Data:** Supabase only (no localStorage). Business rules enforced by the database:
+- BR-35 anonymous posts/comments: the `post_feed` / `comment_feed` views return `author_name = 'Ẩn danh'` and no `author_id`; the `posts` table's RLS hides anonymous rows from everyone but the author and admins.
+- BR-36 company reviews only from hired interns (`posts_before_insert` trigger). The composer only offers "Review công ty" when `reviewableCompanies()` is non-empty.
+- BR-37 reports (guests too) go to `reports` through `core/report.ts` with `target_type` `post` / `comment`.
+- `like_count` / `comment_count` are kept by triggers; the UI updates them optimistically.
+
+**Links:** `?post=<id>` pins a post at the top (share links), `?tag=<tag>` filters by tag.
 
 **Watch out**
-- The admin panel imports `reports`. Don't change the report shape without telling the admin owner (core PR to `core/report.ts`).
-- Guests are redirected to login when they like or post (labels checked in `core/auth.ts`).
-- The left-rail profile card is the shared `core/layout/profileCard.ts` (same card as the job list, every role); `.community-profile-card` is only its host. Change the card there, not here.
-- Layout kept deliberately quiet: one-row composer (the post type is a select in the "Viết bài" dialog), one scrollable row of filter pills, a single "Lối tắt" card (university network, mentors, saved documents), one-row mentors. The HCMUT hub banner and the hashtag card were removed.
+- The left-rail profile card is the shared `core/layout/profileCard.ts`; `.community-profile-card` is only its host.
+- The right rail's "Thành viên tích cực" ranks named authors of the last 30 days (`topAuthors()`); anonymous posts never count.
 - Mobile order is set by class (`.community-left-rail`), not `:first-child`: `<main>` starts with the sr-only `<h1>`.

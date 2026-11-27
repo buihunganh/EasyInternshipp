@@ -244,10 +244,26 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
-# Uncomment to customize email template
-# [auth.email.template.invite]
-# subject = "You have been invited"
-# content_path = "./supabase/templates/invite.html"
+# Vietnamese auth e-mails (Phase 0 / 14). Apply to the hosted project with: npx supabase --workdir backend config push
+[auth.email.template.confirmation]
+subject = "Xác nhận email đăng ký Internships.io"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.recovery]
+subject = "Đặt lại mật khẩu Internships.io"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.email_change]
+subject = "Xác nhận đổi email Internships.io"
+content_path = "./supabase/templates/email_change.html"
+
+[auth.email.template.magic_link]
+subject = "Đường dẫn đăng nhập Internships.io"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.invite]
+subject = "Lời mời tham gia Internships.io"
+content_path = "./supabase/templates/invite.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
@@ -383,6 +399,13 @@ policy = "per_worker"
 inspector_port = 8083
 # The Deno major version to use.
 deno_version = 2
+
+# Phase 12 e-mail functions authenticate with the x-webhook-secret header (EI_WEBHOOK_SECRET), not a user JWT
+[functions.notify-email]
+verify_jwt = false
+
+[functions.job-alerts]
+verify_jwt = false
 
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"

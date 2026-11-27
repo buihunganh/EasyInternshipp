@@ -27,7 +27,7 @@ export function renderSiteHeader(page: string) {
   const items: NavItem[] = recruiter
     ? [['employer', 'home', 'Tổng quan', '/pages/employer/'], ['candidates', 'group', 'Ứng viên', '/pages/candidates/'], ['messages', 'chat', 'Tin nhắn', workspaceHref('/pages/messages/')]]
     : role === 'university_officer' || role === 'admin' || role === 'employer'
-    ? [['jobs', 'work', 'Việc làm', '/'], ['community', 'forum', 'Cộng đồng', '/pages/community/'], ...(role === 'employer' ? [['messages', 'chat', 'Tin nhắn', '/pages/messages/'] as NavItem] : []), ...(role === 'admin' ? [['admin', 'admin_panel_settings', 'Bảng quản trị', '/pages/admin/'] as NavItem] : [])]
+    ? [['jobs', 'work', 'Việc làm', '/'], ['community', 'forum', 'Cộng đồng', '/pages/community/'], ...(role === 'employer' ? [['messages', 'chat', 'Tin nhắn', '/pages/messages/'] as NavItem] : []), ...(role === 'university_officer' ? [['university-portal', 'school', 'Cổng nhà trường', '/pages/university-portal/'] as NavItem] : []),...(role === 'admin' ? [['admin', 'admin_panel_settings', 'Bảng quản trị', '/pages/admin/'] as NavItem] : [])]
     : [['jobs', 'work', 'Việc làm', '/'], ['applications', 'send', 'Đơn ứng tuyển', '/pages/applications/'], ['messages', 'chat', 'Tin nhắn', '/pages/messages/'], ['community', 'forum', 'Cộng đồng', '/pages/community/']];
   const visible = items.filter(([key]) => !guest || !['applications', 'messages'].includes(key));
   const profile = currentProfile();

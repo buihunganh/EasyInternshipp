@@ -133,7 +133,40 @@ function fillSections(job: JobDetail) {
   if (deadline) deadline.textContent = job.deadline ? `Hạn chót ứng tuyển: ${formatDate(job.deadline)}` : 'Đang nhận hồ sơ';
 }
 
+/** Company card at the top of the right rail (logo, verified name, facts, open roles, link to the company page). */
+async function companyCard(job: JobDetail) {
+  const company = job.company;
+  // The right rail (the main column has its own "Về công ty" aside further down)
+  const rail = document.querySelector<HTMLElement>('.jobs-detail-rail');
+  if (!company || !rail || rail.querySelector('.jobs-company-card')) return;
+  const industry = (company.industry as { name: string } | null)?.name;
+  const facts = [
+    industry && ['category', industry],
+    company.company_size && ['groups', `${company.company_size} nhân viên`],
+    company.founded_year && ['history_edu', `Thành lập ${company.founded_year}`],
+    company.city && ['location_on', company.city],
+  ].filter(Boolean) as [string, string][];
+  const open = el('span', { className: 'jobs-company-card__open' });
+  const card = el('section', { className: 'ui-card jobs-company-card', 'aria-label': `Về ${company.name}` },
+    el('div', { className: 'jobs-company-card__head' },
+      el('img', { className: 'ui-logo', src: publicUrl('company-assets', company.logo_path) || initialsAvatar(company.name), alt: '', width: 48, height: 48 }),
+      el('div', { className: 'jobs-company-card__name' },
+        el('a', { href: companyHref(company.id) }, company.name),
+        company.verification_status === 'verified' ? el('span', { className: 'ui-chip ui-chip--success' }, el('span', { className: 'material-symbols-outlined', 'aria-hidden': 'true' }, 'verified'), 'Đã xác thực') : null)),
+    company.description ? el('p', { className: 'jobs-company-card__about' }, company.description) : null,
+    facts.length ? el('ul', { className: 'jobs-company-card__facts' }, ...facts.map(([icon, text]) =>
+      el('li', {}, el('span', { className: 'material-symbols-outlined', 'aria-hidden': 'true' }, icon), text))) : null,
+    open,
+    el('a', { className: 'ui-btn ui-btn--neutral ui-btn--sm ui-btn--block', href: companyHref(company.id) }, 'Xem trang công ty'));
+  rail.prepend(card);
+  try {
+    const rows = await searchJobs({ p_company_id: company.id, p_limit: 50 });
+    open.textContent = rows.length ? `${rows.length} vị trí đang tuyển` : '';
+  } catch { open.remove(); }
+}
+
 function fillSidebar(job: JobDetail) {
+  void companyCard(job);
   const company = job.company;
   const widget = document.querySelector<HTMLElement>('.jobs-about');
   if (!widget || !company) return;
@@ -175,7 +208,9 @@ async function fillSimilar(job: JobDetail) {
   const more = heading?.parentElement?.querySelector<HTMLButtonElement>('.ui-card__footer button');
   if (more) bind(more, () => location.assign(job.industry_id ? `/?industry=${job.industry_id}` : routes.jobs));
   try {
-    const rows = await searchJobs({ p_industry_id: job.industry_id ?? undefined, p_exclude_job: job.id, p_limit: 3, p_sort: 'newest' });
+    let rows = await searchJobs({ p_industry_id: job.industry_id ?? undefined, p_exclude_job: job.id, p_limit: 3, p_sort: 'newest' });
+    // Nothing else in this field yet: show the newest other openings rather than an empty card
+    if (!rows.length && job.industry_id) rows = await searchJobs({ p_exclude_job: job.id, p_limit: 3, p_sort: 'newest' });
     if (!rows.length) { box.replaceChildren(el('p', { className: 'ei-muted' }, 'Chưa có công việc tương tự.')); return; }
     box.replaceChildren(...rows.map(row => {
       const a = template.cloneNode(true) as HTMLAnchorElement;
@@ -214,9 +249,10 @@ function wireActions(job: JobDetail) {
     });
   }
 
-  // "Về Công Ty" tab → company page
+  // Tabs: "Chi Tiết Công Việc" is the page itself (scroll to the description), "Về Công Ty" → company page
   document.querySelectorAll<HTMLButtonElement>('main button').forEach(b => {
     if (/^Về Công Ty$/i.test(label(b)) && job.company) bind(b, () => location.assign(companyHref(job.company!.id)));
+    else if (/^Chi Tiết Công Việc$/i.test(label(b))) bind(b, () => document.querySelector('.jobs-jd')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   });
 
   // Report (guests allowed, BR-37)

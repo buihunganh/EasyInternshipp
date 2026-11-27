@@ -8,8 +8,8 @@
 <nav class="ui-card community-shortcuts" aria-label="Lối tắt cộng đồng">
 <span class="community-rail-card__title">Lối tắt</span>
 <a class="community-network-row" href="/pages/university/"><span class="material-symbols-outlined" aria-hidden="true">groups</span><span class="community-network-name">Cộng đồng HCMUT</span></a>
-<a class="community-network-row" href="/pages/university/"><span class="material-symbols-outlined" aria-hidden="true">psychology</span><span>Hội cựu SV Bách Khoa Mentors</span></a>
-<a class="community-network-row" href="#"><span class="material-symbols-outlined" aria-hidden="true">bookmark</span><span>Tài liệu đã lưu</span></a>
+<a class="community-network-row" href="/pages/terms/#cong-dong"><span class="material-symbols-outlined" aria-hidden="true">gavel</span><span>Quy chế cộng đồng</span></a>
+<a class="community-network-row" id="community-saved-link" href="#community-feed" data-auth-only hidden><span class="material-symbols-outlined" aria-hidden="true">bookmark</span><span>Bài viết đã lưu</span></a>
 </nav>
 </aside>
 <!-- ================= MAIN FEED ================= -->
@@ -24,264 +24,37 @@
 </button>
 </div>
 </div>
-<!-- Feed Filtering Pills -->
-<div class="community-filters">
-<button class="ui-pill demo-selected" aria-pressed="true">Nổi bật</button>
-<button class="ui-pill" aria-pressed="false">Mới nhất</button>
-<button class="ui-pill" aria-pressed="false">Từ Cựu sinh viên</button>
-<button class="ui-pill" aria-pressed="false">Review phỏng vấn</button>
-<button class="ui-pill" aria-pressed="false">Cổng ĐH Bách Khoa</button>
+<!-- Feed filters (data-filter drives modules/community/community.ts) -->
+<div class="community-filters" role="group" aria-label="Lọc bảng tin">
+<button class="ui-pill demo-selected" type="button" data-filter="latest" aria-pressed="true">Mới nhất</button>
+<button class="ui-pill" type="button" data-filter="top" aria-pressed="false">Nổi bật</button>
+<button class="ui-pill" type="button" data-filter="question" aria-pressed="false">Hỏi đáp</button>
+<button class="ui-pill" type="button" data-filter="review" aria-pressed="false">Review công ty</button>
+<button class="ui-pill" type="button" data-filter="document" aria-pressed="false">Tài liệu</button>
+<button class="ui-pill" type="button" data-filter="saved" aria-pressed="false" data-auth-only hidden>Đã lưu</button>
 </div>
-<!-- ================= FEED POST 1: VIRAL ALUMNI POST ================= -->
-<article class="ui-card community-post">
-<!-- Author Info -->
-<div class="community-post__author">
-<div class="community-post__author-info">
-<img alt="Ảnh đại diện tác giả bài viết" class="community-post__avatar" data-alt="Professional Vietnamese tech engineer in modern smart-casual workspace, confident posture, soft studio lighting, high resolution, navy and teal subtle tones" src="/assets/images/c17a77fcb752a7a9.png">
-<div>
-<div class="flex items-center gap-xs">
-<h2 class="community-post__name">Trần Quốc Bảo</h2>
-<span class="community-post__badge">Alumni HCMUT</span>
-</div>
-<p class="community-post__subtitle">Senior Frontend Engineer @ VNG Corp • 4 giờ trước</p>
-</div>
-</div>
-<button class="community-post__more-btn" type="button">
-<span class="material-symbols-outlined text-[20px]">more_horiz</span>
-</button>
-</div>
-<!-- Post Content -->
-<div class="community-post__body">
-<p>
-        Chia sẻ trọn bộ kinh nghiệm vượt qua 3 vòng phỏng vấn thực tập Software Engineer tại các công ty Big Tech Việt Nam. Bộ câu hỏi live-coding ReactJS &amp; Thuật toán hay gặp nhất năm 2025!
-      </p>
-<p style="color:var(--ui-muted);font-size:var(--ui-text-sm)">
-        Các bạn sinh viên K20, K21 đang chuẩn bị cho kỳ Thực tập Hè lưu ý 3 điểm mấu chốt: Live coding không cần vội, hãy giao tiếp cách tư duy; Nắm chắc Virtual DOM &amp; Memoization; Chuẩn bị ít nhất 1 project cá nhân có deploy thực tế.
-      </p>
-</div>
-<!-- Rich Infographic / Roadmap Asset Mockup -->
-<div class="community-post__media">
-<img alt="Sơ đồ lộ trình từ thực tập sinh lên kỹ sư phần mềm junior" class="w-full" style="height:224px;object-fit:cover" data-alt="Clean tech infographic illustration titled Roadmap Intern to Junior Software Engineer, minimalist diagrammatic cards, vibrant blue and teal accents, modern software engineer skills" src="/assets/images/d99096067fe5c12a.png">
-</div>
-<!-- PDF Attachment Card -->
-<div class="community-attachment">
-<div class="flex items-center gap-sm min-w-0">
-<div style="width:40px;height:40px;border-radius:var(--ui-radius-media);background:var(--ui-danger-soft);color:var(--ui-danger);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-<span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
-</div>
-<div class="truncate">
-<p style="font-size:var(--ui-text-sm);font-weight:500;color:var(--ui-text);margin:0" class="truncate">50_Interview_Questions_Frontend_2025.pdf</p>
-<p style="font-size:var(--ui-text-xs);color:var(--ui-muted);margin:0">PDF • 4.8 MB • 1.2k lượt tải về</p>
-</div>
-</div>
-<button style="flex-shrink:0;padding:var(--ui-space-1) var(--ui-space-2);color:var(--ui-primary);background:transparent;border:0;border-radius:var(--ui-radius-media);cursor:pointer;display:flex;align-items:center;gap:var(--ui-space-1);font-size:var(--ui-text-xs);font-weight:500" type="button">
-<span class="material-symbols-outlined text-[18px]">download</span>
-<span class="hidden sm:inline">Tải về</span>
-</button>
-</div>
-<!-- Social Reactions Bar -->
-<div class="community-post__counts">
-<div class="flex items-center gap-xs">
-<span class="flex -space-x-1">
-<span style="width:20px;height:20px;border-radius:50%;background:var(--ui-primary);display:flex;align-items:center;justify-content:center">
-<span class="material-symbols-outlined text-[12px]" style="color:var(--ui-on-accent)">thumb_up</span>
-</span>
-<span style="width:20px;height:20px;border-radius:50%;background:var(--ui-muted);display:flex;align-items:center;justify-content:center">
-<span class="material-symbols-outlined text-[12px]" style="color:var(--ui-on-accent)">favorite</span>
-</span>
-</span>
-<span>486 lượt thích</span>
-</div>
-<div class="flex items-center gap-md">
-<span>92 bình luận</span>
-<span>65 lượt lưu</span>
-</div>
-</div>
-<!-- Action Buttons -->
-<div class="community-post__action-bar">
-<button class="community-post__action" type="button">
-<span class="material-symbols-outlined text-[18px]">thumb_up</span>
-<span>Thích</span>
-</button>
-<button class="community-post__action" type="button">
-<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
-<span>Bình luận</span>
-</button>
-<button class="community-post__action" type="button">
-<span class="material-symbols-outlined text-[18px]">bookmark</span>
-<span>Lưu tài liệu</span>
-</button>
-<button class="community-post__action" type="button">
-<span class="material-symbols-outlined text-[18px]">share</span>
-<span>Chia sẻ</span>
-</button>
-</div>
-</article>
-<!-- ================= FEED POST 2: STUDENT QUESTION & REVIEW ================= -->
-<article class="ui-card community-post">
-<div class="community-post__author">
-<div class="community-post__author-info">
-<div style="width:48px;height:48px;border-radius:50%;background:var(--ui-sunken);color:var(--ui-muted);display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0">
-        HN
-      </div>
-<div>
-<div class="flex items-center gap-xs">
-<h2 class="community-post__name">Lê Hải Nam</h2>
-<span class="community-post__badge">Sinh viên năm 3 ĐHQG</span>
-</div>
-<p class="community-post__subtitle">Hỏi đáp kỳ thực tập • 6 giờ trước</p>
-</div>
-</div>
-<span class="ui-chip ui-chip--neutral">
-      Cần tư vấn
-    </span>
-</div>
-<div class="community-post__body">
-<h3 style="font-size:var(--ui-text-lg);font-weight:600;margin:0 0 var(--ui-space-2)">
-      Review môi trường thực tập tại TechNova Solutions?
-    </h3>
-<p>
-      Mình vừa nhận được mail mời phỏng vấn vị trí Backend Intern, mọi người cho mình xin review về mentor và chế độ phụ cấp với ạ! Có yêu cầu OT nhiều không và cơ hội lên chính thức sau 3 tháng thế nào? Cảm ơn mọi người nhiều!
-    </p>
-</div>
-<!-- Featured Response highlight (comment inset) -->
-<div class="community-comment-inset">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-xs">
-<span class="community-comment-inset__author">Võ Hoàng Phúc</span>
-<span class="community-comment-inset__detail">• Cựu Intern TechNova 2024</span>
-</div>
-<span class="community-comment-inset__detail">1 giờ trước</span>
-</div>
-<p class="community-comment-inset__body">
-      Môi trường rất ổn áp nhé Nam. Mentor 1 kèm 1 siêu nhiệt tình, phụ cấp 7-10M tùy năng lực lúc test, trà sữa free thứ 6. Pass vòng phỏng vấn nhớ ôn kĩ Index Database và RESTful design nha!
-    </p>
-</div>
-<!-- Interaction Counts & Actions -->
-<div class="community-post__counts">
-<span>18 lượt thích</span>
-<span style="color:var(--ui-primary);font-size:var(--ui-text-xs);font-weight:500;cursor:pointer">
-      Xem toàn bộ 14 bình luận giải đáp →
-    </span>
-</div>
-</article>
-<!-- ================= FEED POST 3: EXCLUSIVE CAMPUS RECRUITMENT ================= -->
-<article class="ui-card community-post community-exclusive">
-<div class="community-post__author">
-<div class="community-post__author-info">
-<div style="width:48px;height:48px;border-radius:var(--ui-radius-media);background:var(--ui-primary);color:var(--ui-on-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-<span class="material-symbols-outlined text-[24px]">corporate_fare</span>
-</div>
-<div>
-<div class="flex items-center gap-xs">
-<h2 class="community-post__name">Phòng Quan hệ Doanh nghiệp – ĐH Bách Khoa TP.HCM</h2>
-<span class="material-symbols-outlined text-[16px]" style="color:var(--ui-primary)">verified</span>
-</div>
-<p class="community-post__subtitle">Thông báo tuyển dụng chính thức • Hôm nay lúc 09:15</p>
-</div>
-</div>
-</div>
-<div class="community-post__body">
-<span class="ui-chip ui-chip--neutral" style="margin-bottom:var(--ui-space-2)">
-      Tuyển dụng độc quyền sinh viên HCMUT
-    </span>
-<h3 style="font-size:var(--ui-text-xl);font-weight:600;margin:0 0 var(--ui-space-2)">
-      Đợt tuyển dụng sớm Tech Combined Internship 2025 với 15 doanh nghiệp đối tác hàng đầu đã mở đơn
-    </h3>
-<p style="color:var(--ui-muted);font-size:var(--ui-text-sm)">
-      Các đối tác VNG, FPT Software, Shopee, Viettel Digital và Momo dành riêng 250 chỉ tiêu thực tập nhận lương dành riêng cho sinh viên Khoa KH&amp;KT Máy tính, Điện - Điện tử. Hồ sơ được sơ tuyển trực tiếp qua hệ thống Internships.io.
-    </p>
-</div>
-<!-- Key Metrics Grid -->
-<div class="community-exclusive__metrics">
-<div>
-<p class="community-exclusive__metric-value" style="color:var(--ui-primary);margin:0">250+</p>
-<p class="community-exclusive__metric-label" style="margin:2px 0 0">Vị trí mở tuyển</p>
-</div>
-<div>
-<p class="community-exclusive__metric-value" style="margin:0">15</p>
-<p class="community-exclusive__metric-label" style="margin:2px 0 0">Doanh nghiệp Top</p>
-</div>
-<div>
-<p class="community-exclusive__metric-value" style="margin:0">100%</p>
-<p class="community-exclusive__metric-label" style="margin:2px 0 0">Có phụ cấp lương</p>
-</div>
-</div>
-<div class="flex items-center justify-between" style="padding-top:var(--ui-space-1)">
-<div class="flex items-center gap-xs" style="color:var(--ui-muted);font-size:var(--ui-text-xs)">
-<span class="material-symbols-outlined text-[16px]">event</span>
-<span>Hạn nộp: 30/04/2025</span>
-</div>
-<a class="ui-btn ui-btn--primary ui-btn--sm" href="#" style="display:inline-flex;align-items:center;gap:var(--ui-space-1)">
-<span>Ứng tuyển độc quyền ngay</span>
-<span class="material-symbols-outlined text-[16px]">open_in_new</span>
-</a>
-</div>
-</article>
+<p id="community-tag-filter" class="community-tag-filter" hidden></p>
+<!-- Posts from post_feed, rendered by community.ts -->
+<section id="community-feed" class="community-feed" aria-live="polite" aria-busy="true"></section>
+<div class="community-more"><button id="community-more" class="ui-btn ui-btn--neutral ui-btn--sm" type="button" hidden>Xem thêm bài viết</button></div>
 </div>
 <!-- ================= RIGHT RAIL ================= -->
 <aside class="ui-rail ui-rail--sticky" id="community-right-rail">
-<!-- Widget: Alumni Mentors Connection -->
+<!-- Widget: most active members (last 30 days, non-anonymous posts; community.ts) -->
 <div class="ui-card">
 <div class="ui-card__header">
-<span class="community-rail-card__title">Kết nối Cựu sinh viên (Alumni)</span>
-<span class="ui-chip ui-chip--neutral" style="font-size:11px">1-on-1 Free</span>
+<span class="community-rail-card__title">Thành viên tích cực</span>
+<span class="ui-chip ui-chip--neutral" style="font-size:11px">30 ngày</span>
 </div>
-<!-- Mentors: one row each -->
-<div class="community-mentor">
-<img alt="Ảnh đại diện mentor Lê Hoàng Nam" class="ui-avatar" src="/assets/images/2350cb92442a7ec4.png">
-<div class="community-mentor__info"><p class="community-mentor__name">Anh Lê Hoàng Nam</p><p class="community-mentor__role">Tech Lead @ Shopee · Review CV backend</p></div>
-<button class="ui-btn ui-btn--neutral ui-btn--sm" type="button" title="Kết nối với mentor Lê Hoàng Nam">Kết nối</button>
+<div id="community-top-authors" class="community-top-authors"></div>
 </div>
-<div class="community-mentor">
-<img alt="Ảnh đại diện mentor Mai Lan Anh" class="ui-avatar" src="/assets/images/caf071088772d2ab.png">
-<div class="community-mentor__info"><p class="community-mentor__name">Chị Mai Lan Anh</p><p class="community-mentor__role">HR Manager @ FPT Software · Mock interview</p></div>
-<button class="ui-btn ui-btn--neutral ui-btn--sm" type="button" title="Đặt lịch Mentoring 30 phút với Mai Lan Anh">Mentoring</button>
-</div>
-<a class="ui-link" style="text-align:center;display:block;margin-top:var(--ui-space-3);font-size:var(--ui-text-xs)" href="#">
-    Xem thêm 180+ Cựu SV Bách Khoa →
-  </a>
-</div>
-<!-- Widget: Upcoming Career Events -->
+<!-- Widget: Upcoming Career Events (published events, rendered by community.ts) -->
 <div class="ui-card">
 <div class="ui-card__header">
 <span class="community-rail-card__title">Sự kiện hướng nghiệp sắp tới</span>
-<span class="material-symbols-outlined text-[18px]" style="color:var(--ui-muted)">event</span>
+<span class="material-symbols-outlined text-[18px]" style="color:var(--ui-muted)" aria-hidden="true">event</span>
 </div>
-<div class="flex flex-col gap-md">
-<!-- Event 1 -->
-<div class="flex gap-sm items-start">
-<div class="community-event-date">
-<span class="community-event-date__day">Thứ 6</span>
-<span>18</span>
-</div>
-<div class="flex flex-col">
-<p style="font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text);line-height:1.4;margin:0">
-          Workshop: Chinh phục nhà tuyển dụng IT bằng CV chuẩn ATS
-        </p>
-<p style="font-size:var(--ui-text-xs);color:var(--ui-muted);display:flex;align-items:center;gap:var(--ui-space-1);margin:2px 0 0">
-<span class="material-symbols-outlined text-[12px]">schedule</span> 19:30 • Trực tuyến qua Zoom
-        </p>
-<span style="font-size:11px;color:var(--ui-muted);font-weight:500;margin-top:2px">Miễn phí vé sinh viên</span>
-</div>
-</div>
-<!-- Event 2 -->
-<div class="flex gap-sm items-start">
-<div class="community-event-date">
-<span class="community-event-date__day">Thứ 7</span>
-<span>24</span>
-</div>
-<div class="flex flex-col">
-<p style="font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text);line-height:1.4;margin:0">
-          HCMUT Career Day 2025 – Ngày hội Việc làm &amp; Thực tập
-        </p>
-<p style="font-size:var(--ui-text-xs);color:var(--ui-muted);display:flex;align-items:center;gap:var(--ui-space-1);margin:2px 0 0">
-<span class="material-symbols-outlined text-[12px]">location_on</span> Hội trường A5, ĐH Bách Khoa
-        </p>
-<span style="font-size:11px;color:var(--ui-primary);font-weight:500;margin-top:2px">50 Doanh nghiệp tham gia</span>
-</div>
-</div>
-</div>
+<div id="community-events" class="flex flex-col gap-md"></div>
 </div>
 <!-- Rail footer text (hidden, replaced by renderRailFooter) -->
 <div class="community-rail-footer-text">

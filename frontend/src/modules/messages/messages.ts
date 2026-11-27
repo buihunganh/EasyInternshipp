@@ -2,7 +2,7 @@ import { isRecruiterWorkspace, workspaceHref } from '../../core/workspace';
 import { currentRole, currentProfile, currentSession } from '../../core/session';
 import { dialog, toast } from '../../core/ui/feedback';
 import { attachMenu } from '../../core/ui/menu';
-import { bind, button, field, normal, schedule, upload, value, video } from '../../core/ui/actions';
+import { bind, button, field, normal, upload, value } from '../../core/ui/actions';
 import { publicUrl } from '../../core/supabase';
 import { showError } from '../../core/errors';
 import { esc, el } from '../../core/render';
@@ -390,8 +390,12 @@ export async function setupMessages() {
         const meetingUrl = interviewMsg?.metadata?.meeting_url;
         if (meetingUrl) {
           window.open(meetingUrl, '_blank', 'noopener,noreferrer');
+        } else if (recruiter) {
+          dialog('Phỏng vấn trực tuyến', '<p>Cuộc trò chuyện này chưa có lịch phỏng vấn trực tuyến. Lên lịch phỏng vấn (kèm đường dẫn Google Meet, Zoom…) từ hồ sơ ứng viên; lời mời sẽ xuất hiện ngay trong cuộc trò chuyện.</p>',
+            activeContext?.application ? 'Mở hồ sơ ứng viên' : 'Đã hiểu',
+            activeContext?.application ? () => location.assign(`/pages/candidates/?job=${activeContext!.application!.job_id}`) : undefined);
         } else {
-          video();
+          dialog('Phỏng vấn trực tuyến', '<p>Chưa có lịch phỏng vấn trực tuyến. Khi nhà tuyển dụng gửi lời mời, đường dẫn phòng họp sẽ xuất hiện trong cuộc trò chuyện và nút này sẽ mở phòng họp.</p>', 'Đã hiểu');
         }
       });
     }
@@ -1024,8 +1028,13 @@ export async function setupMessages() {
             toast('Lên lịch phỏng vấn qua danh sách hồ sơ ứng viên.');
           }
         } else {
-          schedule('Đề xuất thời gian trao đổi', timeStr => {
-            if (timeStr) void handleSend(`Dạ em có thể trao đổi trong khoảng thời gian: ${timeStr}`);
+          // Proposes a time as a chat message (the employer schedules the actual interview)
+          const tomorrow = new Date(Date.now() + 86400000); tomorrow.setHours(9, 0, 0, 0);
+          dialog('Đề xuất thời gian trao đổi', `<label>Thời gian<input type="datetime-local" name="when" required min="${localDateTimeInput(new Date())}" value="${localDateTimeInput(tomorrow)}"></label>
+            <label>Ghi chú (tùy chọn)<input name="note" maxlength="200" placeholder="VD: em rảnh cả buổi sáng"></label>`, 'Gửi đề xuất', form => {
+            const when = (form.elements.namedItem('when') as HTMLInputElement).value;
+            const note = (form.elements.namedItem('note') as HTMLInputElement).value.trim();
+            if (when) void handleSend(`Dạ em có thể trao đổi vào ${formatDateTime(new Date(when))}${note ? ` (${note})` : ''}.`);
           });
         }
       });

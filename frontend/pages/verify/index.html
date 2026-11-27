@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xác minh chứng nhận thực tập | Internships.io</title><meta property="og:site_name" content="Internships.io"><meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:title" content="Xác minh chứng nhận thực tập | Internships.io"><meta property="og:description" content="Tra cứu chứng nhận thực tập do nhà trường chứng thực bằng mã chứng nhận hoặc mã QR."><meta name="twitter:card" content="summary">
+  <meta name="description" content="Tra cứu chứng nhận thực tập do nhà trường chứng thực bằng mã chứng nhận hoặc mã QR.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/app.css">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
+  <link rel="stylesheet" href="/src/styles/design-system.css">
+  <link rel="stylesheet" href="/src/modules/university/portal.css">
+</head>
+<body data-page="verify">
+  <header></header>
+  <main class="ui-shell verify-shell" id="verify-page">
+    <div class="ui-main">
+      <section class="ui-card verify-intro">
+        <span class="up-eyebrow">Tra cứu công khai</span>
+        <h1>Xác minh chứng nhận thực tập</h1>
+        <p class="up-muted">Nhập mã chứng nhận in trên báo cáo thực tập (hoặc quét mã QR) để kiểm tra chứng nhận do nhà trường cấp qua Internships.io.</p>
+        <form id="verify-form" class="verify-form" role="search">
+          <label class="verify-label" for="verify-code">Mã chứng nhận</label>
+          <div class="verify-input-row">
+            <input id="verify-code" name="code" autocomplete="off" spellcheck="false" maxlength="20" placeholder="VD: 8F3A1C0B2D4E" required>
+            <button class="ui-btn ui-btn--primary" type="submit">Tra cứu</button>
+          </div>
+        </form>
+      </section>
+      <section id="verify-result" class="ui-card verify-result" aria-live="polite" hidden></section>
+    </div>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

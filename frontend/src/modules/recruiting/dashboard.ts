@@ -10,7 +10,7 @@ import { el, stateBlock } from '../../core/render';
 import { initialsAvatar } from '../../core/layout/siteHeader';
 import { publicUrl } from '../../core/supabase';
 import {
-  applicationStats, changeJobStatus, companyJobs, deleteDraft, duplicateJob, myCompany,
+  applicationStats, changeJobStatus, companyFunnel, companyJobs, deleteDraft, duplicateJob, myCompany,
   searchCandidates, startConversation, submitJob, todayInterviews,
   type DashboardJob, type MyCompany,
 } from './api';
@@ -113,6 +113,7 @@ export async function setupDashboard() {
       renderKpis(jobs, stats, interviews.length);
       renderInterviews(interviews);
       void renderTalentMatching(company!.id);
+      void renderFunnel(company!.id);
       if (department) {
         const departments = [...new Set(jobs.map(j => j.department).filter(Boolean))] as string[];
         const current = department.value;
@@ -216,6 +217,33 @@ export async function setupDashboard() {
     }));
     const all = cardBox.querySelector<HTMLButtonElement>('.ui-card__footer button');
     if (all) bind(all, () => location.assign(routes.candidates));
+  }
+
+  /** Hiring funnel card in the right rail (analytics warehouse, one series on one scale). */
+  async function renderFunnel(companyId: string) {
+    let card = document.getElementById('employer-funnel');
+    if (!card) {
+      card = el('section', { className: 'ui-card', id: 'employer-funnel', 'aria-labelledby': 'employer-funnel-title' });
+      const anchor = document.getElementById('employer-matching') ?? document.getElementById('employer-interviews');
+      if (!anchor) return;
+      anchor.after(card);
+    }
+    try {
+      const { company: f, refreshed_at } = await companyFunnel(companyId);
+      const steps: [string, number][] = f ? [['Ứng tuyển', f.applications], ['Đã xem CV', f.cv_viewed], ['Qua hồ sơ', f.shortlisted], ['Phỏng vấn', f.interviewed], ['Offer', f.offered], ['Nhận việc', f.hired]] : [];
+      const max = Math.max(1, ...steps.map(s => Number(s[1]) || 0));
+      const pct = (v: number | null) => v == null ? '—' : `${Math.round(Number(v) * 100)}%`;
+      card.replaceChildren(
+        el('div', { className: 'ui-card__header' }, el('h3', { className: 'ui-card__title ui-card__title--sm', id: 'employer-funnel-title' }, 'Phễu tuyển dụng'), el('span', { className: 'ui-meta' }, 'Toàn bộ tin')),
+        ...(f && f.applications ? [
+          el('div', { className: 'rc-funnel', role: 'table', 'aria-label': 'Phễu tuyển dụng' }, ...steps.map(([label, n]) => el('div', { className: 'rc-funnel__row', role: 'row' },
+            el('span', { className: 'rc-funnel__label', role: 'rowheader' }, label),
+            el('span', { className: 'rc-funnel__track', role: 'cell' }, (() => { const bar = el('span', { className: 'rc-funnel__bar' }); bar.style.width = `${(Number(n) || 0) / max * 100}%`; return bar; })()),
+            el('span', { className: 'rc-funnel__value', role: 'cell' }, String(n ?? 0))))),
+          el('p', { className: 'ui-meta rc-funnel__meta' }, `Tỷ lệ xem CV ${pct(f.cv_view_rate)} · nhận offer ${pct(f.offer_acceptance_rate)}${f.avg_days_to_hire != null ? ` · ${Math.round(Number(f.avg_days_to_hire))} ngày đến khi tuyển` : ''}`),
+        ] : [el('p', { className: 'ui-meta' }, 'Chưa có số liệu. Phễu cập nhật hằng đêm khi có đơn ứng tuyển.')]),
+        ...(refreshed_at ? [el('p', { className: 'ui-meta rc-funnel__meta' }, `Cập nhật lúc ${formatDateTime(refreshed_at)}`)] : []));
+    } catch { card.remove(); }
   }
 
   async function renderTalentMatching(companyId: string) {

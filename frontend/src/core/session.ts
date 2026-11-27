@@ -61,7 +61,7 @@ export async function signOut() {
 export function roleHome(role: Role | null) {
   switch (role) {
     case 'employer': return '/pages/employer/';
-    case 'university_officer': return '/pages/university/';
+    case 'university_officer': return '/pages/university-portal/';
     case 'admin': return '/pages/admin/';
     default: return '/';
   }

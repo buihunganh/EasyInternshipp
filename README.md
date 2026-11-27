@@ -30,7 +30,34 @@ cp .env.example .env.local   # fill in the Supabase URL, anon key and service-ro
 npm run dev          # http://127.0.0.1:5173
 npm run build        # type-check + production build (the gate before every PR)
 npm run db:seed      # demo accounts (password Demo@2026): admin@, employer@, student@, officer@… demo.internships.io
+npm run db:seed:internship   # a hired intern with a certified internship report (anon key only)
 ```
+
+### Demo accounts (password `Demo@2026`, domain `@demo.internships.io`)
+
+| Role | Account | Lands on | Try |
+|---|---|---|---|
+| Student | `student@` | `/` | search, apply, CV builder, My Applications, community |
+| Student (hired) | `intern@` | `/` | certified internship report, company review in the community |
+| Employer | `employer@` (TechNova), `hr.vng@` (VNG) | `/pages/employer/` | post jobs (incl. exclusive to a partner university), ATS board, offers, hiring funnel |
+| University officer | `officer@` (HCMUT) | `/pages/university-portal/` | verify students, exclusive jobs, certify reports, events + check-in, MoUs |
+| Admin | `admin@` (sign in at `/pages/admin-login/`) | `/pages/admin/` | moderation queues, analytics, settings, audit log |
+
+Public pages: `/pages/university/`, `/pages/verify/?code=…` (certificate check), `/pages/about/`, `/pages/help/`,
+`/pages/terms/`, `/pages/privacy/`.
+
+### Deploying
+
+1. **Frontend:** import the repo in Vercel (`vercel.json` is ready: `npm run build` → `frontend/dist`) and set
+   `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Any static host works.
+2. **Supabase Auth:** add the production URL to `site_url` / `additional_redirect_urls` in `backend/supabase/config.toml`,
+   configure custom SMTP, then `npx supabase --workdir backend config push` (also uploads the Vietnamese e-mail
+   templates in `backend/supabase/templates/`).
+3. **Database:** `npm run db:push` (migrations), and for e-mail automation follow "E-mail automation" in
+   [backend/README.md](backend/README.md) (Resend key, `npm run fn:deploy`, two Vault secrets).
+4. **CI:** `.github/workflows/ci.yml` builds and runs `npm run test:db` on every pull request.
+
+Diagrams are exported to `diagrams/export/pdf` and `diagrams/export/png` (`npm run diagrams:export` regenerates them with the draw.io desktop app).
 
 Tests run against the dev server and the dev Supabase project, so start `npm run dev` and seed once:
 
@@ -69,8 +96,9 @@ Each frontend module lives in `frontend/src/modules/<name>/` and owns its pages.
 | `recruiting` | employer, candidates, post-job | employer dashboard, ATS pipeline, posting jobs | Processes 3 & 5, Sequence_Employer_Recruitment_ATS | |
 | `messages` | messages | conversations | Process 6, Sequence_Direct_Messaging | |
 | `community` | community | posts, comments, reviews, reports | Process 7 | |
-| `university` | university | partner universities, events, inquiries | UseCase_University | |
-| `admin` | admin, admin-login | moderation, users, reports, audit | Process 9, Sequence_Job_Posting_Moderation | |
+| `university` | university, university-portal, verify | public university page, officer portal, certificate check | UseCase_University | |
+| `admin` | admin, admin-login | moderation, users, reports, audit, analytics, settings | Process 9, Sequence_Job_Posting_Moderation | |
+| `info` | about, help, terms, privacy | static reading pages linked from the footer | | |
 | `core` (shared) | all | header, footer, navigation, auth guard, dialogs, generic buttons | | whole team, reviewed by lead |
 | `backend` | – | database schema, RLS, RPCs, storage, analytics | Class_Diagram, all DFDs | |
 

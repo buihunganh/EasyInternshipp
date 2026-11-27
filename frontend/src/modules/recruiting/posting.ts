@@ -11,7 +11,7 @@ import { el } from '../../core/render';
 import { publicUrl } from '../../core/supabase';
 import { initialsAvatar } from '../../core/layout/siteHeader';
 import {
-  getJobForEdit, listIndustries, myCompany, replaceQuestions, saveJob, submitJob, syncSkills,
+  getJobForEdit, listIndustries, myCompany, partnerUniversities, replaceQuestions, saveJob, submitJob, syncSkills,
   type EditableJob, type JobFields, type QuestionInput,
 } from './api';
 
@@ -62,9 +62,26 @@ export async function setupPosting() {
   const questionList = questionHeader.nextElementSibling as HTMLElement;
   const questionTemplate = questionList.firstElementChild!.cloneNode(true) as HTMLElement;
 
-  // Exclusive / partner-university posting arrives with the university portal (Phase 10)
+  // Exclusive posting for a partner university (Phase 10): only universities with an active MoU; the
+  // jobs_before_write trigger sets university_approval = 'pending' and the officer approves in their portal.
   const universityBlock = [...form.querySelectorAll('label')].find(l => /Cổng thông tin trường/.test(l.textContent || ''))?.closest('div')?.parentElement as HTMLElement | undefined;
-  if (universityBlock) universityBlock.hidden = true;
+  const partners = await partnerUniversities(company.id).catch(() => []);
+  const universitySelect = el('select', { id: 'exclusive-university', className: 'ei-select' },
+    el('option', { value: '' }, 'Không – tin công khai cho mọi sinh viên'),
+    ...partners.map(u => el('option', { value: u.id }, `Chỉ sinh viên ${u.short_name || u.name}`)));
+  const universityStatus = el('p', { className: 'font-body-sm text-body-sm text-on-surface-variant', id: 'exclusive-status' });
+  if (universityBlock) {
+    const heading = universityBlock.querySelector('label');
+    if (heading) { heading.lastChild!.textContent = ' Đăng tin độc quyền cho trường đại học đối tác'; heading.htmlFor = 'exclusive-university'; }
+    universityBlock.querySelector('span.rounded-full')?.remove();
+    universityBlock.querySelector('div.flex-wrap')?.remove();
+    const note = universityBlock.querySelector('p');
+    if (note) note.textContent = partners.length
+      ? 'Tin độc quyền chỉ hiển thị với sinh viên đã xác thực của trường được chọn, sau khi cả quản trị viên và nhà trường duyệt.'
+      : 'Doanh nghiệp chưa có thỏa thuận hợp tác (MoU) đang hiệu lực với trường nào. Liên hệ trường qua trang trường đại học để được thêm vào danh sách đối tác.';
+    universitySelect.disabled = !partners.length;
+    universityBlock.append(universitySelect, universityStatus);
+  }
 
   // Deadline (optional; empty = 30 days after approval, BR-15)
   const deadlineField = el('label', { className: 'ei-field', htmlFor: 'deadline' }, 'Hạn nhận hồ sơ',
@@ -157,6 +174,13 @@ export async function setupPosting() {
     salaryMin.value = formatMoney(j.stipend_min); salaryMax.value = formatMoney(j.stipend_max);
     perkBoxes.forEach(box => { box.checked = j.perks.includes(box.closest('label')?.querySelector('span:last-child')?.textContent?.trim() || ''); });
     editor.innerText = j.description;
+    if (j.university_id && ![...universitySelect.options].some(o => o.value === j.university_id)) {
+      universitySelect.append(el('option', { value: j.university_id }, 'Trường đối tác (MoU không còn hiệu lực)'));
+      universitySelect.disabled = false;
+    }
+    universitySelect.value = j.university_id ?? '';
+    const approval: Record<string, string> = { pending: 'Nhà trường: chờ duyệt', approved: 'Nhà trường: đã duyệt', rejected: 'Nhà trường: từ chối' };
+    universityStatus.textContent = j.university_id && j.university_approval ? `${approval[j.university_approval] ?? ''}${j.university_note ? ` – ${j.university_note}` : ''}` : '';
     setTags(skillsHost, (j.skills ?? []).map(s => s.skill?.name ?? '').filter(Boolean), skillInput);
     questions = [...(j.questions ?? [])].sort((a, b) => a.position - b.position).map(q => ({
       question: q.question, kind: q.kind, options: Array.isArray(q.options) ? q.options.map(String) : [], is_required: q.is_required, is_knockout: q.is_knockout,
@@ -179,6 +203,7 @@ export async function setupPosting() {
       stipend_min: paid.checked ? money(salaryMin.value) : null, stipend_max: paid.checked ? money(salaryMax.value) : null,
       stipend_negotiable: !paid.checked, deadline: deadline.value ? new Date(`${deadline.value}T23:59:00+07:00`).toISOString() : null,
       industry_id: industries.find(i => i.slug === industrySlug)?.id ?? null,
+      university_id: universitySelect.value || null,
     };
   }
 

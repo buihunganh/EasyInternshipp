@@ -2,10 +2,10 @@ import { dialog } from '../ui/feedback';
 
 /** Footer links shared by the page footer and the right-rail footer. `null` = page not built yet. */
 const footerLinks: [label: string, href: string | null][] = [
-  ['Về chúng tôi', null],
-  ['Trợ giúp', null],
-  ['Điều khoản', null],
-  ['Quyền riêng tư', null],
+  ['Về chúng tôi', '/pages/about/'],
+  ['Trợ giúp', '/pages/help/'],
+  ['Điều khoản', '/pages/terms/'],
+  ['Quyền riêng tư', '/pages/privacy/'],
   ['Dành cho nhà tuyển dụng', '/pages/register/'],
   ['Đối tác nhà trường', '/pages/university/'],
   ['Cộng đồng', '/pages/community/'],
@@ -51,7 +51,7 @@ export function renderSiteFooter() {
   const footer = document.createElement('footer');
   if (workspacePages.includes(document.body.dataset.page || '')) {
     footer.className = 'workspace-footer';
-    footer.innerHTML = `<a href="/" aria-label="Internships.io — Trang chủ">Internships.io</a><span>© ${new Date().getFullYear()} Internships.io</span><a href="mailto:partner@internships.io">Liên hệ hỗ trợ</a>`;
+    footer.innerHTML = `<a href="/" aria-label="Internships.io — Trang chủ">Internships.io</a><span>© ${new Date().getFullYear()} Internships.io</span><a href="/pages/help/#lien-he">Liên hệ hỗ trợ</a>`;
   } else {
     footer.className = 'site-footer';
     footer.append(linkRow('site-footer-links'), copyright());

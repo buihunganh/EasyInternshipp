@@ -12,11 +12,11 @@
 <div class="ui-card university-identity__inner">
 <!-- Emblem / Logo -->
 <div class="university-logo">
-<img data-alt="Official round emblem seal logo of Ho Chi Minh City University of Technology" src="/assets/images/14df1950e2effdac.png">
+<img id="university-logo" alt="" src="/assets/images/14df1950e2effdac.png">
 </div>
 <!-- Titles & Metadata -->
 <div class="flex flex-col gap-xs flex-1 min-w-0">
-<div class="university-badges">
+<div class="university-badges" id="university-badges">
 <span class="ui-chip ui-chip--neutral">ĐHQG-HCM</span>
 <span class="ui-chip ui-chip--neutral">Mã trường: QSB</span>
 <span class="ui-chip ui-chip--neutral">
@@ -24,33 +24,13 @@
 <span>Đối tác Chiến lược Vàng (Gold Partner)</span>
 </span>
 </div>
-<h1 class="university-name">Trường Đại học Bách Khoa - ĐHQG-HCM (HCMUT)</h1>
-<p class="university-tagline">"Đơn vị đào tạo kỹ thuật, công nghệ hàng đầu Việt Nam"</p>
-<!-- Quick Metadata Badges -->
-<div class="university-meta">
-<div class="flex items-center gap-xs">
-<span class="material-symbols-outlined">history_edu</span>
-<span>Thành lập: <strong>1957</strong></span>
-</div>
-<span class="university-meta__sep">•</span>
-<div class="flex items-center gap-xs">
-<span class="material-symbols-outlined">groups</span>
-<span>Sinh viên: <strong>26.000+</strong></span>
-</div>
-<span class="university-meta__sep">•</span>
-<div class="flex items-center gap-xs">
-<span class="material-symbols-outlined">location_on</span>
-<span>Quận 10 &amp; TP. Thủ Đức, TP.HCM</span>
-</div>
-<span class="university-meta__sep">•</span>
-<div class="flex items-center gap-xs">
-<span class="material-symbols-outlined">language</span>
-<a href="https://hcmut.edu.vn" target="_blank" rel="noopener">hcmut.edu.vn</a>
-</div>
-</div>
+<h1 class="university-name" id="university-name">Trường Đại học Bách Khoa - ĐHQG-HCM (HCMUT)</h1>
+<p class="university-tagline" id="university-tagline">"Đơn vị đào tạo kỹ thuật, công nghệ hàng đầu Việt Nam"</p>
+<!-- Quick metadata (filled by university.ts) -->
+<div class="university-meta" id="university-meta"></div>
 </div>
 <!-- Action CTAs Right -->
-<div class="university-actions">
+<div class="university-actions" id="university-actions">
 <button class="ui-btn ui-btn--primary" id="btn-contact-career" type="button" style="display:inline-flex;align-items:center;gap:var(--ui-space-2)">
 <span class="material-symbols-outlined text-[20px]">mail</span>
 <span>Liên hệ P. CTSV &amp; Hướng nghiệp</span>
@@ -66,44 +46,7 @@
 
 <!-- KEY METRICS & IMPACT STATS -->
 <section style="margin-bottom:var(--ui-space-6)">
-<div class="university-stats">
-<!-- Metric 1 -->
-<div class="ui-card university-stat">
-<div class="flex items-center justify-between">
-<span class="university-stat__label">Việc làm tốt nghiệp</span>
-<span class="material-symbols-outlined" style="color:var(--ui-muted)">work</span>
-</div>
-<div class="university-stat__value">98.2%</div>
-<p class="university-stat__note" style="margin:0">Có việc làm sau 6 tháng tốt nghiệp</p>
-</div>
-<!-- Metric 2 -->
-<div class="ui-card university-stat">
-<div class="flex items-center justify-between">
-<span class="university-stat__label">Đối tác tuyển dụng</span>
-<span class="material-symbols-outlined" style="color:var(--ui-muted)">domain</span>
-</div>
-<div class="university-stat__value">500+ <span style="font-size:var(--ui-text-sm);font-weight:500;color:var(--ui-muted)">Doanh nghiệp</span></div>
-<p class="university-stat__note" style="margin:0">Liên kết tuyển dụng tại Internships.io</p>
-</div>
-<!-- Metric 3 -->
-<div class="ui-card university-stat">
-<div class="flex items-center justify-between">
-<span class="university-stat__label">Thực tập thành công</span>
-<span class="material-symbols-outlined" style="color:var(--ui-muted)">fact_check</span>
-</div>
-<div class="university-stat__value">3.500+</div>
-<p class="university-stat__note" style="margin:0">Lượt sinh viên nhận việc (Năm 2023)</p>
-</div>
-<!-- Metric 4 -->
-<div class="ui-card university-stat">
-<div class="flex items-center justify-between">
-<span class="university-stat__label">Kiểm định chuẩn quốc tế</span>
-<span class="material-symbols-outlined" style="color:var(--ui-muted)">workspace_premium</span>
-</div>
-<div class="university-stat__value" style="font-size:var(--ui-text-xl)">ABET &amp; AUN-QA</div>
-<p class="university-stat__note" style="margin:0">Hơn 30 chương trình đạt kiểm định toàn diện</p>
-</div>
-</div>
+<div class="university-stats" id="university-stats"></div>
 </section>
 
 <!-- MAIN DUAL-COLUMN CONTENT GRID -->
@@ -111,7 +54,7 @@
 <!-- LEFT CONTENT COLUMN -->
 <div class="ui-main">
 <!-- Section: Overview & Career Support Center -->
-<article class="ui-card">
+<article class="ui-card" data-hcmut-only>
 <div class="university-section-head">
 <h2 class="university-section-title">
 <span class="material-symbols-outlined">school</span>
@@ -146,7 +89,7 @@
 </article>
 
 <!-- Section: Key Academic Faculties Linked with Internships -->
-<article class="ui-card">
+<article class="ui-card" data-hcmut-only>
 <div class="university-section-head">
 <h2 class="university-section-title">
 <span class="material-symbols-outlined">account_tree</span>
@@ -233,73 +176,9 @@
 <span class="material-symbols-outlined">event</span>
 <span>Lịch Sự kiện Tuyển dụng &amp; Hướng nghiệp Sắp tới</span>
 </h2>
-<span class="ui-chip ui-chip--neutral">3 sự kiện gần nhất</span>
+<span class="ui-chip ui-chip--neutral" id="university-events-count"></span>
 </div>
-<div class="flex flex-col gap-md">
-<!-- Event 1 -->
-<div class="university-event">
-<div class="flex items-start gap-md">
-<div class="university-event__date">
-<span style="font-size:10px;text-transform:uppercase;color:var(--ui-on-accent)">Th.11</span>
-<span style="font-size:20px;line-height:1">16</span>
-</div>
-<div>
-<div class="flex items-center gap-xs">
-<span class="ui-chip ui-chip--neutral">Trực tiếp tại Cơ sở 1</span>
-<span style="font-size:var(--ui-text-xs);color:var(--ui-muted);font-weight:500">Quy mô: 120+ Gian hàng</span>
-</div>
-<h3 style="margin:var(--ui-space-1) 0 0;font-size:var(--ui-text-md);font-weight:600;color:var(--ui-text)">Ngày hội Việc làm Bách Khoa - BK Career Fair 2024</h3>
-<p style="margin:2px 0 0;font-size:var(--ui-text-xs);color:var(--ui-muted)">Khuôn viên Sân A5, 268 Lý Thường Kiệt, P.14, Quận 10, TP.HCM</p>
-</div>
-</div>
-<button class="ui-btn ui-btn--secondary ui-btn--sm" type="button" style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap">
-<span>Đăng ký tham gia</span>
-<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-</button>
-</div>
-<!-- Event 2 -->
-<div class="university-event">
-<div class="flex items-start gap-md">
-<div class="university-event__date" style="background:var(--ui-muted)">
-<span style="font-size:10px;text-transform:uppercase;color:var(--ui-on-accent)">Th.11</span>
-<span style="font-size:20px;line-height:1">24</span>
-</div>
-<div>
-<div class="flex items-center gap-xs">
-<span class="ui-chip ui-chip--neutral">Hybrid</span>
-<span style="font-size:var(--ui-text-xs);color:var(--ui-muted)">Giới hạn 150 sinh viên</span>
-</div>
-<h3 style="margin:var(--ui-space-1) 0 0;font-size:var(--ui-text-md);font-weight:600;color:var(--ui-text)">Hội thảo CV Clinic &amp; Phỏng vấn Thử cùng Chuyên gia Nhân sự</h3>
-<p style="margin:2px 0 0;font-size:var(--ui-text-xs);color:var(--ui-muted)">Hội trường B4 &amp; Phát sóng trực tuyến trên Internships.io Live</p>
-</div>
-</div>
-<button class="ui-btn ui-btn--tertiary ui-btn--sm" type="button" style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap">
-<span>Xem chi tiết</span>
-<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-</button>
-</div>
-<!-- Event 3 -->
-<div class="university-event">
-<div class="flex items-start gap-md">
-<div class="university-event__date" style="background:var(--ui-muted)">
-<span style="font-size:10px;text-transform:uppercase;color:var(--ui-on-accent)">Th.12</span>
-<span style="font-size:20px;line-height:1">05</span>
-</div>
-<div>
-<div class="flex items-center gap-xs">
-<span class="ui-chip ui-chip--neutral">Chuyên đề Công nghệ</span>
-<span style="font-size:var(--ui-text-xs);color:var(--ui-primary)">Speaker từ VinAI &amp; Google</span>
-</div>
-<h3 style="margin:var(--ui-space-1) 0 0;font-size:var(--ui-text-md);font-weight:600;color:var(--ui-text)">Tech Talk: Cơ hội việc làm &amp; Lộ trình Phát triển Ngành Trí tuệ Nhân tạo (AI)</h3>
-<p style="margin:2px 0 0;font-size:var(--ui-text-xs);color:var(--ui-muted)">Hội trường A5, Trường ĐH Bách Khoa TP.HCM</p>
-</div>
-</div>
-<button class="ui-btn ui-btn--tertiary ui-btn--sm" type="button" style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap">
-<span>Xem chi tiết</span>
-<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-</button>
-</div>
-</div>
+<div class="flex flex-col gap-md" id="university-events"></div>
 </article>
 
 <!-- Section: Top Strategic Corporate Partners -->
@@ -307,69 +186,14 @@
 <div class="university-section-head">
 <h2 class="university-section-title">
 <span class="material-symbols-outlined">corporate_fare</span>
-<span>Doanh nghiệp Đối tác Săn đón Sinh viên BK</span>
+<span>Doanh nghiệp đối tác của trường</span>
 </h2>
 <a class="ui-link" style="font-size:var(--ui-text-xs);font-weight:500;display:inline-flex;align-items:center;gap:2px" href="#">
-<span>Xem toàn bộ 500+ công ty</span>
+<span id="university-partners-more">Xem việc làm</span>
 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
 </a>
 </div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--ui-space-3)">
-<!-- Company 1: VinFast -->
-<div class="university-company">
-<div class="university-company__logo">
-<img data-alt="VinFast corporate automotive electric vehicle logo emblem in blue and silver on clean white backdrop" src="/assets/images/6dbcc5058ed0a0f3.png">
-</div>
-<h4 style="margin:0;font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)">VinFast Auto</h4>
-<span style="font-size:11px;color:var(--ui-muted);margin-top:2px">Cơ khí, Ô tô, AI</span>
-<span class="ui-chip ui-chip--neutral" style="margin-top:var(--ui-space-2);font-size:11px">18 vị trí mở</span>
-</div>
-<!-- Company 2: Viettel -->
-<div class="university-company">
-<div class="university-company__logo">
-<img data-alt="Viettel telecommunications and aerospace high tech group red corporate emblem logo" src="/assets/images/895c553eef3f96b6.png">
-</div>
-<h4 style="margin:0;font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)">Tập đoàn Viettel</h4>
-<span style="font-size:11px;color:var(--ui-muted);margin-top:2px">Viễn thông, An ninh Mạng</span>
-<span class="ui-chip ui-chip--neutral" style="margin-top:var(--ui-space-2);font-size:11px">24 vị trí mở</span>
-</div>
-<!-- Company 3: FPT Software -->
-<div class="university-company">
-<div class="university-company__logo">
-<img data-alt="FPT Software global tech company multi-color emblem logo crisp corporate logo on white" src="/assets/images/0c16a2206517a7e6.png">
-</div>
-<h4 style="margin:0;font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)">FPT Software</h4>
-<span style="font-size:11px;color:var(--ui-muted);margin-top:2px">Phần mềm, Cloud, AI</span>
-<span class="ui-chip ui-chip--neutral" style="margin-top:var(--ui-space-2);font-size:11px">35 vị trí mở</span>
-</div>
-<!-- Company 4: Samsung R&D -->
-<div class="university-company">
-<div class="university-company__logo">
-<img data-alt="Samsung electronics technology corporate blue oval brand logo on pure white background" src="/assets/images/860b6faa818ec787.png">
-</div>
-<h4 style="margin:0;font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)">Samsung Vietnam (SRV)</h4>
-<span style="font-size:11px;color:var(--ui-muted);margin-top:2px">Vi mạch, Thiết bị thông minh</span>
-<span class="ui-chip ui-chip--neutral" style="margin-top:var(--ui-space-2);font-size:11px">15 vị trí mở</span>
-</div>
-<!-- Company 5: Shopee & Sea -->
-<div class="university-company">
-<div class="university-company__logo">
-<img data-alt="Shopee orange shopping bag modern tech company logo crisp icon" src="/assets/images/01cb70c8aeb9fe2c.png">
-</div>
-<h4 style="margin:0;font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)">Shopee &amp; Sea Group</h4>
-<span style="font-size:11px;color:var(--ui-muted);margin-top:2px">E-Commerce, Data Engineering</span>
-<span class="ui-chip ui-chip--neutral" style="margin-top:var(--ui-space-2);font-size:11px">12 vị trí mở</span>
-</div>
-<!-- Company 6: TechNova Global -->
-<div class="university-company">
-<div class="university-company__logo">
-<img data-alt="TechNova modern semiconductor and software corporate icon futuristic geometric mark" src="/assets/images/7c920dd9c9ca2e00.png">
-</div>
-<h4 style="margin:0;font-size:var(--ui-text-xs);font-weight:600;color:var(--ui-text)">TechNova Global</h4>
-<span style="font-size:11px;color:var(--ui-muted);margin-top:2px">Semiconductor &amp; ASIC</span>
-<span class="ui-chip ui-chip--neutral" style="margin-top:var(--ui-space-2);font-size:11px">9 vị trí mở</span>
-</div>
-</div>
+<div id="university-partners" class="university-partners"></div>
 </article>
 </div>
 
@@ -383,7 +207,7 @@
 <span>Phòng Hợp tác Doanh nghiệp</span>
 </h3>
 </div>
-<div class="flex flex-col gap-md" style="margin-top:var(--ui-space-3)">
+<div class="flex flex-col gap-md" style="margin-top:var(--ui-space-3)" data-hcmut-only>
 <div class="university-contact-row">
 <span class="material-symbols-outlined">location_on</span>
 <div>
@@ -430,33 +254,31 @@
 </h3>
 </div>
 <p style="font-size:var(--ui-text-xs);color:var(--ui-muted);margin:var(--ui-space-2) 0 var(--ui-space-3)">
-  Quy trình kết nối trực tiếp với hơn 26.000 kỹ sư và cử nhân tài năng của Đại học Bách Khoa:
+  Quy trình hợp tác tuyển dụng với nhà trường trên Internships.io:
 </p>
 <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--ui-space-2);font-size:var(--ui-text-xs);color:var(--ui-text)">
 <li style="display:flex;align-items:flex-start;gap:var(--ui-space-2)">
 <span style="width:20px;height:20px;border-radius:50%;background:var(--ui-sunken);color:var(--ui-text);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex-shrink:0;margin-top:1px">1</span>
-<span>Đăng ký hồ sơ Doanh nghiệp trên Internships.io</span>
+<span>Đăng ký và xác thực hồ sơ doanh nghiệp</span>
 </li>
 <li style="display:flex;align-items:flex-start;gap:var(--ui-space-2)">
 <span style="width:20px;height:20px;border-radius:50%;background:var(--ui-sunken);color:var(--ui-text);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex-shrink:0;margin-top:1px">2</span>
-<span>Xác thực liên kết Trường ĐH Bách Khoa (HCMUT)</span>
+<span>Gửi đề xuất hợp tác để ký thỏa thuận (MoU) với nhà trường</span>
 </li>
 <li style="display:flex;align-items:flex-start;gap:var(--ui-space-2)">
 <span style="width:20px;height:20px;border-radius:50%;background:var(--ui-sunken);color:var(--ui-text);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex-shrink:0;margin-top:1px">3</span>
-<span>Đăng bài thực tập hiển thị ưu tiên tại Cổng sinh viên</span>
+<span>Đăng tin thực tập độc quyền cho sinh viên đã xác thực của trường</span>
 </li>
 <li style="display:flex;align-items:flex-start;gap:var(--ui-space-2)">
 <span style="width:20px;height:20px;border-radius:50%;background:var(--ui-sunken);color:var(--ui-text);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex-shrink:0;margin-top:1px">4</span>
-<span>Tài trợ học bổng &amp; Đặt booth tại BK Career Fair</span>
+<span>Đăng ký gian hàng tại ngày hội việc làm của trường</span>
 </li>
 </ol>
-<a class="ui-btn ui-btn--tertiary ui-btn--sm ui-btn--block" style="margin-top:var(--ui-space-3);text-align:center;text-decoration:none" href="#">
-  Tải cẩm nang Hợp tác Doanh nghiệp 2024 (PDF)
-</a>
+<a class="ui-btn ui-btn--tertiary ui-btn--sm ui-btn--block" style="margin-top:var(--ui-space-3);text-align:center;text-decoration:none" href="/pages/help/#doanh-nghiep"> Xem hướng dẫn cho doanh nghiệp </a>
 </div>
 
 <!-- Widget 3: Data Visualization / Salary Benchmark Report -->
-<div class="ui-card">
+<div class="ui-card" data-hcmut-only>
 <div class="ui-card__header">
 <h3 style="margin:0;font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text);display:flex;align-items:center;gap:var(--ui-space-2)">
 <span class="material-symbols-outlined text-[20px]" style="color:var(--ui-primary)">analytics</span>
@@ -517,7 +339,7 @@
 </div>
 
 <!-- Widget 4: Campus Map Snapshot -->
-<div class="ui-card">
+<div class="ui-card" data-hcmut-only>
 <div class="ui-card__header">
 <h3 style="margin:0;font-size:var(--ui-text-sm);font-weight:600;color:var(--ui-text);display:flex;align-items:center;gap:var(--ui-space-2)">
 <span class="material-symbols-outlined text-[20px]" style="color:var(--ui-primary)">map</span>
@@ -547,19 +369,19 @@
 <form class="mt-md" id="partner-inquiry-form" style="display:flex;flex-direction:column;gap:var(--ui-space-3);margin-top:var(--ui-space-4)">
 <div>
 <label style="display:block;font-size:var(--ui-text-xs);font-weight:500;color:var(--ui-text);margin-bottom:4px">Họ tên đại diện / Nhà tuyển dụng *</label>
-<input style="width:100%;height:40px;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm)" placeholder="Nguyễn Văn A" required="" type="text">
+<input style="width:100%;height:40px;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm)" name="contact_name" maxlength="120" placeholder="Nguyễn Văn A" required="" type="text">
 </div>
 <div>
 <label style="display:block;font-size:var(--ui-text-xs);font-weight:500;color:var(--ui-text);margin-bottom:4px">Tên Doanh nghiệp / Tổ chức *</label>
-<input style="width:100%;height:40px;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm)" placeholder="Tập đoàn Công nghệ ABC" required="" type="text">
+<input style="width:100%;height:40px;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm)" name="company_name" maxlength="200" placeholder="Tập đoàn Công nghệ ABC" required="" type="text">
 </div>
 <div>
 <label style="display:block;font-size:var(--ui-text-xs);font-weight:500;color:var(--ui-text);margin-bottom:4px">Email liên hệ công việc *</label>
-<input style="width:100%;height:40px;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm)" placeholder="recruitment@company.com" required="" type="email">
+<input style="width:100%;height:40px;padding:0 var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm)" name="email" placeholder="recruitment@company.com" required="" type="email">
 </div>
 <div>
 <label style="display:block;font-size:var(--ui-text-xs);font-weight:500;color:var(--ui-text);margin-bottom:4px">Nội dung mong muốn kết nối</label>
-<textarea style="width:100%;padding:var(--ui-space-2) var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm);resize:vertical" placeholder="Đăng tin tuyển thực tập, tham gia BK Career Fair, tài trợ phòng lab..." rows="3"></textarea>
+<textarea name="message" maxlength="3000" style="width:100%;padding:var(--ui-space-2) var(--ui-space-3);border:1px solid var(--ui-border-strong);border-radius:var(--ui-radius-control);box-sizing:border-box;font:inherit;font-size:var(--ui-text-sm);resize:vertical" placeholder="Đăng tin tuyển thực tập, tham gia BK Career Fair, tài trợ phòng lab..." rows="3"></textarea>
 </div>
 <div class="flex items-center justify-end gap-sm" style="padding-top:var(--ui-space-2)">
 <button class="ui-btn ui-btn--tertiary ui-btn--sm" id="cancel-modal" type="button">Hủy</button>
@@ -574,6 +396,6 @@
 <span style="font-size:var(--ui-text-sm);font-weight:500" id="toast-message">Đã cập nhật theo dõi!</span>
 </div>
 <!-- JAVASCRIPT LOGIC FOR INTERACTIONS -->
-<script type="module" src="/src/design/university-0.js"></script>
+
 </main><footer class="internships-footer"><div class="itviec-footer-rings" aria-hidden="true"></div><div class="itviec-footer-inner"><div class="itviec-brand-block"><a class="internships-logo" href="/" aria-label="Internships.io home"><span class="internships-logo-mark"></span><span>Internships.io</span></a><p class="internships-tagline"><strong>KẾT NỐI TƯƠNG LAI NGHỀ NGHIỆP<br>SINH VIÊN</strong><small>BUILD YOU THEN BUILD IMPACT</small></p><div class="itviec-socials"><a href="#" aria-label="Website"><span class="material-symbols-outlined">language</span></a><a href="#" aria-label="Facebook"><span class="material-symbols-outlined">public</span></a><a href="#" aria-label="Youtube"><span class="material-symbols-outlined">play_circle</span></a></div></div><div class="itviec-footer-column"><h3>Về Internships.io</h3><a href="/">Trang Chủ</a><a href="/pages/profile/">Về chúng tôi</a><a href="/pages/job-detail/">Dịch vụ AI Matching sinh viên</a><a href="/pages/community/">Liên hệ</a><a href="/">Tất cả vị trí thực tập</a><a href="/pages/community/">Câu hỏi thường gặp</a></div><div class="itviec-footer-column"><h3>Chiến dịch &amp; Cộng đồng</h3><a href="/pages/community/">Chuyện thực tập</a><a href="/pages/community/">Cuộc thi viết CV &amp; Chia sẻ</a><a href="/">Vị trí thực tập nổi bật</a><a href="/pages/community/">Khảo sát lương thực tập sinh hàng năm</a><a href="/pages/university/">Mạng lưới đối tác Trường ĐH</a></div><div class="itviec-footer-column"><h3>Điều khoản chung</h3><a href="/pages/login/">Chính sách bảo mật</a><a href="/pages/login/">Quy chế hoạt động</a><a href="/pages/community/">Giải quyết khiếu nại</a><a href="/pages/login/">Thỏa thuận sử dụng</a><a href="/pages/community/">Thông cáo báo chí</a></div><div class="itviec-footer-column itviec-contact"><h3>Dành cho nhà tuyển dụng</h3><p>Bạn muốn đăng tin tuyển thực tập sinh?<br>Liên hệ tại:</p><a href="tel:+84977460519">Hồ Chí Minh: <b>(+84) 977 460 519</b></a><a href="tel:+84983131351">Hà Nội: <b>(+84) 983 131 351</b></a><a href="mailto:partner@internships.io">Email: partner@internships.io</a><a class="footer-contact-link" href="/pages/community/">Gửi thông tin liên hệ <span class="material-symbols-outlined">arrow_forward</span></a></div><div class="itviec-footer-bottom"><span>Copyright © Internships.io JSC</span><b>|</b><span>Mã số thuế: 0312192258</span></div></div></footer>
 <script type="module" src="/src/main.ts"></script></body></html>

@@ -31,6 +31,33 @@ and its policies in `…000005`:
 | `…000008_scheduled_jobs` | `pg_cron` jobs |
 | `20261101000009_ui_alignment` | job department / target students / perks, `companies.profile`, `is_discoverable`, `application_match_scores`, `search_candidates`, `duplicate_job`, `company_interviews` |
 | `20261101000010_search_jobs_filters` | `search_jobs` v2: several work types / schedules, quick chips, partner universities, card fields |
+| `20261101000011_applications_links` | notification links → `/pages/applications/?id=` |
+| `20261127000012_notifications_email_automation` | `pg_net` hooks: notifications INSERT → `notify-email`, daily `ei-job-alerts` cron → `job-alerts` (inactive until the Vault secrets exist) |
+
+## E-mail automation (Phase 12)
+
+Two Edge Functions in `supabase/functions/` send transactional e-mail through [Resend](https://resend.com) (decision D5):
+
+| Function | Trigger | What it does |
+|---|---|---|
+| `notify-email` | `notifications` INSERT (trigger `notifications_email_hook`) | reloads the notification, checks `notification_preferences` (application updates / messages / job alerts / community), sends one e-mail |
+| `job-alerts` | `pg_cron` `ei-job-alerts`, 08:00 Vietnam | for each due alert (daily, or weekly on Mondays) sends a digest of `job_alert_matches()` and moves `last_sent_at` |
+
+Both only accept requests carrying `x-webhook-secret` (`verify_jwt = false` in `config.toml`). Setup, once per project:
+
+```bash
+# 1. secrets for the functions (SUPABASE_URL / SERVICE_ROLE_KEY are provided by the runtime)
+npx supabase --workdir backend secrets set RESEND_API_KEY=re_xxx EMAIL_FROM="Internships.io <noreply@your-domain>" \
+  SITE_URL=https://your-site EI_WEBHOOK_SECRET=<long random string>
+# 2. deploy
+npm run fn:deploy
+# 3. apply the migration, then tell the database where the functions are (SQL editor):
+#    select vault.create_secret('https://<project-ref>.supabase.co/functions/v1', 'ei_functions_url');
+#    select vault.create_secret('<same EI_WEBHOOK_SECRET>', 'ei_webhook_secret');
+```
+
+Until step 3 the hooks are no-ops, and an e-mail failure never blocks the notification insert (it becomes a warning).
+Check deliveries in Resend and calls in Dashboard → Edge Functions → Logs; scheduled runs in `cron.job_run_details`.
 
 ## Commands (run from the repo root)
 

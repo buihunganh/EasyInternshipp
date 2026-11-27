@@ -27,7 +27,7 @@ export function restoreForm(page: string) {
 }
 
 /** Pages whose forms are handled by a module. Every other form gets a "saved locally" toast. */
-const ownForms=['login','register','reset-password','jobs','post-job','company-settings','applications','cv','university'];
+const ownForms=['login','register','reset-password','jobs','post-job','company-settings','applications','cv','university','university-portal','verify'];
 export function setupGenericForms(page: string) {
   if (ownForms.includes(page)) return;
   document.querySelectorAll('form').forEach(form => {

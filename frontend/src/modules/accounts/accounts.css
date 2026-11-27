@@ -420,3 +420,7 @@ body .accounts-field__input-wrap button .material-symbols-outlined {
 }
 /* Login: wide enough for the three role tabs without truncation. */
 body[data-page="login"] .accounts-card { max-width: 440px; }
+
+/* Social / SSO sign-in is not configured in Supabase Auth yet: hide the 'Sắp ra mắt' buttons and the 'Hoặc…' divider
+   so the forms only show what works. Remove this rule once a provider (Google, GitHub, SSO) is enabled. */
+.accounts-sso-btn, .accounts-social-grid, .accounts-divider { display: none !important; }

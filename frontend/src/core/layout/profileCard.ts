@@ -84,7 +84,7 @@ export async function renderProfileCard(card: HTMLElement, { roles }: { roles?: 
     else data = {
       role: role === 'admin' ? 'Quản trị viên' : 'Cán bộ nhà trường', name, avatar: publicUrl('avatars', currentProfile()?.avatar_path) || initialsAvatar(name), avatarAlt: name,
       lines: [role === 'admin' ? 'Ban quản trị Internships.io' : 'Cán bộ hợp tác doanh nghiệp'], stats: [],
-      link: role === 'admin' ? { href: '/pages/admin/', text: 'Bảng điều khiển quản trị' } : { href: routes.university, text: 'Cổng hợp tác nhà trường' },
+      link: role === 'admin' ? { href: '/pages/admin/', text: 'Bảng điều khiển quản trị' } : { href: routes['university-portal'], text: 'Cổng quản lý nhà trường' },
     };
   } catch { card.remove(); return null; }
   render(card, data);

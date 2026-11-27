@@ -34,6 +34,129 @@
 </div>
 </div>
 </header>
+<!-- Guest landing (modules/jobs/landing.ts): only for signed-out visitors without a search in the URL.
+     Layout follows the professional-network pattern (headline + illustration, topic pills, audience bands); brand stays ours. -->
+<div id="guest-landing" class="landing" hidden>
+<section class="landing-hero" aria-labelledby="landing-title">
+<div class="landing-hero__copy">
+<h1 id="landing-title" class="landing-hero__title">Chào mừng đến với cộng đồng thực tập của sinh viên Việt Nam</h1>
+<div class="landing-hero__actions">
+<a class="landing-btn landing-btn--primary" href="/pages/register/">Tạo tài khoản sinh viên</a>
+<a class="landing-btn landing-btn--outline" href="/pages/login/">Đăng nhập bằng email</a>
+<p class="landing-legal">Khi tiếp tục, bạn đồng ý với <a href="/pages/terms/">Điều khoản sử dụng</a> và <a href="/pages/privacy/">Chính sách quyền riêng tư</a> của Internships.io.</p>
+<p class="landing-hero__employer">Bạn là nhà tuyển dụng? <a href="/pages/register/">Đăng ký doanh nghiệp</a></p>
+</div>
+</div>
+<div class="landing-hero__art" aria-hidden="true">
+<svg viewBox="0 0 520 400" class="landing-art" focusable="false">
+  <circle cx="300" cy="200" r="170" class="la-disc"/>
+  <g class="la-card" transform="translate(150 70) rotate(-4)">
+    <rect width="250" height="128" rx="14"/>
+    <rect x="18" y="20" width="44" height="44" rx="10" class="la-logo"/>
+    <rect x="76" y="24" width="120" height="12" rx="6" class="la-ink"/>
+    <rect x="76" y="46" width="86" height="9" rx="4.5" class="la-muted"/>
+    <rect x="18" y="82" width="64" height="22" rx="11" class="la-chip"/>
+    <rect x="90" y="82" width="72" height="22" rx="11" class="la-chip"/>
+    <rect x="170" y="82" width="62" height="22" rx="11" class="la-accent"/>
+  </g>
+  <g class="la-card" transform="translate(70 210) rotate(3)">
+    <rect width="220" height="120" rx="14"/>
+    <circle cx="38" cy="38" r="20" class="la-face"/>
+    <rect x="70" y="26" width="110" height="11" rx="5.5" class="la-ink"/>
+    <rect x="70" y="45" width="76" height="9" rx="4.5" class="la-muted"/>
+    <rect x="20" y="76" width="180" height="8" rx="4" class="la-muted"/>
+    <rect x="20" y="92" width="132" height="8" rx="4" class="la-muted"/>
+  </g>
+  <g class="la-card" transform="translate(320 230) rotate(-2)">
+    <rect width="150" height="118" rx="14"/>
+    <circle cx="75" cy="46" r="24" class="la-seal"/>
+    <path d="M64 46l8 8 15-17" class="la-check"/>
+    <rect x="35" y="82" width="80" height="9" rx="4.5" class="la-ink"/>
+    <rect x="50" y="98" width="50" height="7" rx="3.5" class="la-muted"/>
+  </g>
+  <g class="la-bubble" transform="translate(395 92)">
+    <rect width="96" height="44" rx="22"/>
+    <circle cx="30" cy="22" r="4"/><circle cx="48" cy="22" r="4"/><circle cx="66" cy="22" r="4"/>
+  </g>
+</svg>
+</div>
+</section>
+
+<section class="landing-band" aria-labelledby="landing-fields">
+<h2 id="landing-fields" class="landing-band__title">Khám phá việc làm thực tập theo lĩnh vực</h2>
+<div class="landing-band__body">
+<div class="landing-pills" id="landing-industries" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="landing-band landing-band--tint" aria-labelledby="landing-search">
+<h2 id="landing-search" class="landing-band__title">Tìm vị trí thực tập phù hợp với bạn</h2>
+<div class="landing-band__body">
+<span class="landing-eyebrow">Gợi ý tìm kiếm</span>
+<div class="landing-pills landing-pills--outline">
+<a class="landing-pill" href="/?city=H%E1%BB%93%20Ch%C3%AD%20Minh">TP. Hồ Chí Minh</a>
+<a class="landing-pill" href="/?city=H%C3%A0%20N%E1%BB%99i">Hà Nội</a>
+<a class="landing-pill" href="/?city=%C4%90%C3%A0%20N%E1%BA%B5ng">Đà Nẵng</a>
+<a class="landing-pill" href="/?q=Frontend">Frontend</a>
+<a class="landing-pill" href="/?q=Backend">Backend</a>
+<a class="landing-pill" href="/?q=Data">Data</a>
+<a class="landing-pill" href="/?q=UI%2FUX">UI/UX</a>
+<a class="landing-pill" href="/?q=Marketing">Marketing</a>
+<a class="landing-pill" href="#jobs-list-start">Xem tất cả việc làm</a>
+</div>
+</div>
+</section>
+
+<section class="landing-band" aria-labelledby="landing-employer">
+<h2 id="landing-employer" class="landing-band__title">Đăng tin thực tập tới sinh viên đã được nhà trường xác thực</h2>
+<div class="landing-band__body landing-band__body--cta">
+<a class="landing-btn landing-btn--outline landing-btn--inline" href="/pages/register/">Đăng tin tuyển dụng</a>
+</div>
+</section>
+
+<section class="landing-stats" aria-label="Internships.io hôm nay" id="landing-stats">
+<div class="landing-stat"><strong data-stat="jobs">–</strong><span>vị trí đang tuyển</span></div>
+<div class="landing-stat"><strong data-stat="companies">–</strong><span>doanh nghiệp đã xác thực</span></div>
+<div class="landing-stat"><strong data-stat="universities">–</strong><span>trường đại học liên kết</span></div>
+</section>
+
+<section class="landing-features" aria-label="Tính năng nổi bật">
+<article class="landing-feature">
+<span class="material-symbols-outlined" aria-hidden="true">person_search</span>
+<h3>Để nhà tuyển dụng tìm thấy bạn</h3>
+<p>Bật “cho phép tìm thấy hồ sơ”: doanh nghiệp đã xác thực có thể mời bạn ứng tuyển, không lộ email hay số điện thoại.</p>
+</article>
+<article class="landing-feature">
+<span class="material-symbols-outlined" aria-hidden="true">description</span>
+<h3>CV chuẩn, chia sẻ bằng một đường dẫn</h3>
+<p>Tạo CV trực tuyến hoặc tải PDF, chọn CV mặc định khi ứng tuyển và chia sẻ liên kết công khai.</p>
+</article>
+<article class="landing-feature">
+<span class="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
+<h3>Chứng nhận thực tập có mã QR</h3>
+<p>Nộp báo cáo sau kỳ thực tập, nhà trường chứng thực và bất kỳ ai cũng kiểm tra được bằng mã.</p>
+</article>
+</section>
+
+<section class="landing-band" aria-labelledby="landing-who">
+<h2 id="landing-who" class="landing-band__title">Ai dùng Internships.io?</h2>
+<div class="landing-band__body">
+<p class="landing-lead">Bất kỳ ai đang tìm, tuyển hoặc đồng hành cùng sinh viên trong kỳ thực tập.</p>
+<div class="landing-pills landing-pills--outline">
+<a class="landing-pill" href="/pages/register/">Sinh viên tìm thực tập</a>
+<a class="landing-pill" href="/pages/register/">Doanh nghiệp tuyển thực tập sinh</a>
+<a class="landing-pill" href="/pages/university/">Nhà trường &amp; cán bộ hướng nghiệp</a>
+<a class="landing-pill" href="/pages/community/">Cộng đồng chia sẻ kinh nghiệm</a>
+</div>
+</div>
+</section>
+
+<section class="landing-join" aria-labelledby="landing-join-title">
+<h2 id="landing-join-title">Cùng các bạn sinh viên bắt đầu kỳ thực tập đầu tiên</h2>
+<a class="landing-btn landing-btn--primary landing-btn--inline" href="/pages/register/">Bắt đầu miễn phí</a>
+</section>
+<h2 class="landing-list-title" id="jobs-list-start">Việc làm thực tập mới nhất</h2>
+</div>
 <!-- Jobs home ("Giấy & Mực"): search on top, then filters rail | job list | discovery rail. Enhanced by modules/jobs. -->
 <div class="ui-shell jobs-home">
 <!-- Search card (top of the main column; first on mobile) -->
@@ -113,7 +236,7 @@
 <div class="ui-card ui-card--flush jobs-results">
 <div class="jobs-results__header">
 <div class="jobs-results__heading">
-<h2 class="jobs-results__title"><span>1,245</span> Vị trí thực tập đang tuyển</h2>
+<h2 class="jobs-results__title"><span>1,245</span> vị trí thực tập đang tuyển</h2>
 <p class="jobs-results__subtitle">Cập nhật liên tục từ các doanh nghiệp đối tác xác thực</p>
 </div>
 <div class="jobs-results__tools">

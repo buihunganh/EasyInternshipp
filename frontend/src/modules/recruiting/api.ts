@@ -116,7 +116,24 @@ export type EditableJob = NonNullable<Awaited<ReturnType<typeof getJobForEdit>>>
 
 export type JobFields = Pick<Database['public']['Tables']['jobs']['Insert'],
   'title' | 'description' | 'department' | 'openings' | 'work_type' | 'schedule' | 'address' | 'city' | 'target_study_years' |
-  'target_majors' | 'perks' | 'stipend_min' | 'stipend_max' | 'stipend_negotiable' | 'deadline' | 'industry_id'>;
+  'target_majors' | 'perks' | 'stipend_min' | 'stipend_max' | 'stipend_negotiable' | 'deadline' | 'industry_id' | 'university_id'>;
+
+/** Company hiring funnel from the analytics warehouse (refreshed nightly, Phase 11). */
+export interface CompanyFunnel {
+  applications: number; cv_viewed: number; shortlisted: number; interviewed: number; offered: number; hired: number;
+  cv_view_rate: number | null; offer_acceptance_rate: number | null; avg_hours_to_first_view: number | null; avg_days_to_hire: number | null;
+}
+export async function companyFunnel(companyId: string) {
+  const data = await rpc<{ company: CompanyFunnel | null; refreshed_at: string | null }>('get_company_funnel', { p_company: companyId });
+  return data ?? { company: null, refreshed_at: null };
+}
+
+/** Universities with an active MoU with this company: the only targets for exclusive postings (Phase 10). */
+export async function partnerUniversities(companyId: string) {
+  const rows = unwrap(await supabase.from('university_partnerships').select('university:universities(id, name, short_name)')
+    .eq('company_id', companyId).eq('status', 'active'));
+  return rows.map(r => r.university).filter((u): u is NonNullable<typeof u> => !!u);
+}
 
 export async function saveJob(companyId: string, jobId: string | null, fields: JobFields) {
   if (jobId) { unwrap(await supabase.from('jobs').update(fields).eq('id', jobId)); return jobId; }
