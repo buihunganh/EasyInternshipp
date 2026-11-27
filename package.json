@@ -19,6 +19,7 @@
     "db:types": "npx supabase gen types typescript --project-id rzawsonjjqdpcoqfxbir --schema public > frontend/src/core/database.types.ts",
     "db:seed": "node backend/scripts/seed-demo.mjs",
     "db:seed:internship": "node backend/scripts/seed-internship-demo.mjs",
+    "db:seed:showcase": "node backend/scripts/seed-showcase.mjs",
     "db:new": "npx supabase --workdir backend migration new",
     "db:push": "npx supabase --workdir backend db push --linked",
     "db:migrations": "npx supabase --workdir backend migration list --linked",
