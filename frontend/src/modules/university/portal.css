@@ -125,3 +125,6 @@ body[data-page=university-portal], body[data-page=verify] { background: var(--ui
   .verify-shell { padding: 0 !important; }
   .verify-result { box-shadow: none !important; }
 }
+
+/* One view per tab visit (portal.ts show()): same layout the panel used to have */
+.up-view { display: flex; flex-direction: column; gap: var(--ui-space-4); min-width: 0; }

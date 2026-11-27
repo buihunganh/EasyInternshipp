@@ -61,8 +61,12 @@ export function setupCommunity() {
   let viewer = { own: new Set<string>(), liked: new Set<string>(), saved: new Set<string>() };
 
   // --- Feed ---------------------------------------------------------------------------------
+  let request = 0;
   async function load(reset: boolean) {
-    if (loading) return;
+    // "Xem thêm" waits for the current page; a filter change (reset) always wins over an older request
+    if (loading && !reset) return;
+    const token = ++request;
+    const stale = () => token !== request;
     loading = true;
     if (reset) { page = 0; showState(feed, 'loading', 'Đang tải bài viết...'); }
     feed.setAttribute('aria-busy', 'true');
@@ -71,8 +75,10 @@ export function setupCommunity() {
       const pinnedId = reset ? params.get('post') : null;
       params.delete('post');   // a shared link pins its post once, not on every filter change
       const [posts, pinned] = await Promise.all([api.listFeed(filter, page, tag), pinnedId ? api.getPost(pinnedId).catch(() => null) : null]);
+      if (stale()) return;
       const list = pinned ? [pinned, ...posts.filter(p => p.id !== pinned.id)] : posts;
       const state = await api.viewerState(list.map(p => p.id!));
+      if (stale()) return;
       if (reset) {
         viewer = state;
         feed.replaceChildren();
@@ -85,10 +91,11 @@ export function setupCommunity() {
       page++;
       if (pinned && reset) feed.firstElementChild?.scrollIntoView({ block: 'start' });
     } catch (error) {
+      if (stale()) return;
       if (reset) showState(feed, 'error', toAppError(error).message, () => load(true));
       else showError(error);
     } finally {
-      loading = false; more.disabled = false; feed.setAttribute('aria-busy', 'false');
+      if (!stale()) { loading = false; more.disabled = false; feed.setAttribute('aria-busy', 'false'); }
     }
   }
 

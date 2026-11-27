@@ -47,7 +47,8 @@ function askNote(title: string, confirm: string, required: boolean, hint = ''): 
 }
 
 export async function setupUniversityPortal() {
-  const panel = document.getElementById('up-panel')!;
+  const root = document.getElementById('up-panel')!;
+  let panel = root;
   const nav = document.getElementById('up-nav')!;
   showState(panel, 'loading', 'Đang tải cổng quản lý...');
 
@@ -82,13 +83,18 @@ export async function setupUniversityPortal() {
   async function show() {
     const tab = current();
     nav.querySelectorAll<HTMLAnchorElement>('a[data-tab]').forEach(a => { if (a.dataset.tab === tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-    panel.setAttribute('aria-busy', 'true');
-    showState(panel, 'loading');
+    // Each visit renders into its own view: a slower, earlier tab that finishes late writes into a
+    // detached element instead of replacing the tab the officer is looking at now.
+    const view = el('div', { className: 'up-view' });
+    panel = view;
+    root.replaceChildren(view);
+    root.setAttribute('aria-busy', 'true');
+    showState(view, 'loading');
     try {
-      await renderers[tab]();
+      await renderers[tab](view);
     } catch (error) {
-      showState(panel, 'error', toAppError(error).message, show);
-    } finally { panel.setAttribute('aria-busy', 'false'); }
+      showState(view, 'error', toAppError(error).message, show);
+    } finally { if (panel === view) root.setAttribute('aria-busy', 'false'); }
   }
   const reload = () => { refreshCounts().catch(() => undefined); return show(); };
 
@@ -106,7 +112,7 @@ export async function setupUniversityPortal() {
   }
 
   // --- Overview ---------------------------------------------------------------------------
-  async function overview() {
+  async function overview(panel: HTMLElement) {
     const [rows, students, jobs, reports, events, inquiries] = await Promise.all([
       api.placement().catch(() => [] as api.Placement[]), api.listStudents(uniId), api.exclusiveJobs(uniId),
       api.internshipReports(uniId), api.officerEvents(uniId), api.inquiries(uniId)]);
@@ -175,7 +181,7 @@ export async function setupUniversityPortal() {
   // --- Students ---------------------------------------------------------------------------
   let studentFilter: 'pending' | 'verified' | 'other' | 'all' = 'pending';
   let studentQuery = '';
-  async function students() {
+  async function students(panel: HTMLElement) {
     const list = await api.listStudents(uniId);
     const draw = () => {
       const q = norm(studentQuery);
@@ -198,7 +204,7 @@ export async function setupUniversityPortal() {
     const counts = (f: string) => list.filter(s => f === 'all' || (f === 'other' ? !['pending', 'verified'].includes(s.verification_status) : s.verification_status === f)).length;
     panel.replaceChildren(
       head('Sinh viên', 'Xác thực tài khoản sinh viên (MSSV) và theo dõi tiến độ ứng tuyển', exportBtn),
-      el('div', { className: 'up-toolbar' }, pills([['pending', `Chờ xác thực (${counts('pending')})`], ['verified', `Đã xác thực (${counts('verified')})`], ['other', `Khác (${counts('other')})`], ['all', `Tất cả (${counts('all')})`]], studentFilter, v => { studentFilter = v; students(); }), search),
+      el('div', { className: 'up-toolbar' }, pills([['pending', `Chờ xác thực (${counts('pending')})`], ['verified', `Đã xác thực (${counts('verified')})`], ['other', `Khác (${counts('other')})`], ['all', `Tất cả (${counts('all')})`]], studentFilter, v => { studentFilter = v; students(panel); }), search),
       body);
     draw();
   }
@@ -240,7 +246,7 @@ export async function setupUniversityPortal() {
   }
 
   // --- Exclusive jobs ---------------------------------------------------------------------
-  async function jobs() {
+  async function jobs(panel: HTMLElement) {
     const list = (await api.exclusiveJobs(uniId)).filter(j => j.status !== 'draft');
     const rows = list.map(j => {
       const company = j.company as { id: string; name: string } | null;
@@ -267,7 +273,7 @@ export async function setupUniversityPortal() {
 
   // --- Internship reports -----------------------------------------------------------------
   let reportFilter: 'submitted' | 'certified' | 'rejected' | 'all' = 'submitted';
-  async function reports() {
+  async function reports(panel: HTMLElement) {
     const list = await api.internshipReports(uniId);
     const names = await api.profileNames(list.map(r => r.student_id));
     const shown = list.filter(r => reportFilter === 'all' ? r.status !== 'draft' : r.status === reportFilter);
@@ -309,12 +315,12 @@ export async function setupUniversityPortal() {
           const app = r.application as { job: { title: string; company: { name: string } | null } | null } | null;
           return [names.get(r.student_id) || '', app?.job?.title || '', app?.job?.company?.name || '', certLabel[r.status] || r.status, r.employer_rating == null ? '' : String(r.employer_rating), r.verification_code || '', r.certified_at ? formatDate(r.certified_at) : ''];
         })]), 'download')),
-      el('div', { className: 'up-toolbar' }, pills([['submitted', `Chờ chứng thực (${c('submitted')})`], ['certified', `Đã chứng thực (${c('certified')})`], ['rejected', `Cần chỉnh sửa (${c('rejected')})`], ['all', `Tất cả (${c('all')})`]], reportFilter, v => { reportFilter = v; reports(); })),
+      el('div', { className: 'up-toolbar' }, pills([['submitted', `Chờ chứng thực (${c('submitted')})`], ['certified', `Đã chứng thực (${c('certified')})`], ['rejected', `Cần chỉnh sửa (${c('rejected')})`], ['all', `Tất cả (${c('all')})`]], reportFilter, v => { reportFilter = v; reports(panel); })),
       el('div', { className: 'up-rows' }, ...(rows.length ? rows : [el('p', { className: 'up-empty' }, 'Không có báo cáo nào.')])));
   }
 
   // --- Events -----------------------------------------------------------------------------
-  async function events() {
+  async function events(panel: HTMLElement) {
     const list = await api.officerEvents(uniId);
     const rows = list.map(e => {
       const regCount = (e.event_registrations as unknown as { count: number }[] | null)?.[0]?.count ?? 0;
@@ -413,7 +419,7 @@ export async function setupUniversityPortal() {
   }
 
   // --- Partnerships -----------------------------------------------------------------------
-  async function partners() {
+  async function partners(panel: HTMLElement) {
     const list = await api.partnerships(uniId);
     const rows = list.map(p => {
       const company = p.company as { id: string; name: string } | null;
@@ -469,7 +475,7 @@ export async function setupUniversityPortal() {
   }
 
   // --- Inquiries --------------------------------------------------------------------------
-  async function inquiries() {
+  async function inquiries(panel: HTMLElement) {
     const list = await api.inquiries(uniId);
     const rows = list.map(i => {
       const status = el('select', { className: 'up-select', 'aria-label': 'Trạng thái liên hệ' }, ...Object.entries(inquiryLabel).map(([v, t]) => el('option', { value: v, selected: v === i.status }, t)));
@@ -487,7 +493,7 @@ export async function setupUniversityPortal() {
       el('div', { className: 'up-rows' }, ...(rows.length ? rows : [el('p', { className: 'up-empty' }, 'Chưa có yêu cầu liên hệ nào.')])));
   }
 
-  const renderers: Record<Tab, () => Promise<void>> = { overview, students, jobs, reports, events, partners, inquiries };
+  const renderers: Record<Tab, (view: HTMLElement) => Promise<void>> = { overview, students, jobs, reports, events, partners, inquiries };
   window.addEventListener('hashchange', show);
   refreshCounts().catch(() => undefined);
   await show();
