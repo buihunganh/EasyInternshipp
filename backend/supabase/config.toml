@@ -384,6 +384,13 @@ inspector_port = 8083
 # The Deno major version to use.
 deno_version = 2
 
+# Phase 12 e-mail functions authenticate with the x-webhook-secret header (EI_WEBHOOK_SECRET), not a user JWT
+[functions.notify-email]
+verify_jwt = false
+
+[functions.job-alerts]
+verify_jwt = false
+
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
