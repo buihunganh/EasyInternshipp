@@ -12,7 +12,7 @@ import { publicUrl } from '../../core/supabase';
 import { initialsAvatar } from '../../core/layout/siteHeader';
 import {
   createAlert, deleteAlert, listAlerts, listApplications, listIndustries, offerLetterUrl, respondInterview, respondOffer,
-  setAlertActive, statusHistory, withdraw, type MyApplication,
+  setAlertActive, statusHistory, withdraw, getInternshipReport, submitInternshipReport, type MyApplication,
 } from './api';
 
 export const applicationStatusLabel: Record<string, string> = {
@@ -168,6 +168,11 @@ export async function setupApplicationsPage() {
       parts.push(ivBox);
     }
 
+    // Internship report for hired roles (submit → employer rates → university certifies)
+    if (app.status === 'hired') {
+      try { parts.push(reportBox(app, await getInternshipReport(app.id))); } catch (error) { showError(error); }
+    }
+
     // Timeline
     try {
       const history = await statusHistory(app.id);
@@ -189,6 +194,32 @@ export async function setupApplicationsPage() {
       parts.push(el('div', { className: 'ei-actions' }, button));
     }
     box.replaceChildren(...parts);
+  }
+
+  function reportBox(app: MyApplication, report: Awaited<ReturnType<typeof getInternshipReport>>) {
+    const statusText: Record<string, string> = { draft: 'Chưa nộp', submitted: 'Đã nộp, chờ nhà trường chứng thực', certified: 'Đã được nhà trường chứng thực', rejected: 'Nhà trường yêu cầu chỉnh sửa' };
+    const box = el('div', { className: 'apps-box' }, el('h4', {}, 'Báo cáo thực tập'),
+      el('p', { className: 'ei-muted' }, report ? statusText[report.status] ?? report.status : 'Sau kỳ thực tập, nộp báo cáo để nhà trường chứng thực và cấp mã chứng nhận.'));
+    if (report?.employer_rating) box.append(el('p', {}, `Doanh nghiệp đánh giá: ${'★'.repeat(report.employer_rating)}${'☆'.repeat(5 - report.employer_rating)}${report.employer_comment ? ` – “${report.employer_comment}”` : ''}`));
+    if (report?.review_note) box.append(el('div', { className: `ei-banner ${report.status === 'rejected' ? 'ei-banner-warning' : ''}` }, `Nhà trường: ${report.review_note}`));
+    if (report?.student_summary && report.status !== 'draft') box.append(el('p', { className: 'demo-prewrap' }, report.student_summary));
+    if (report?.status === 'certified' && report.verification_code) {
+      box.append(el('p', {}, 'Mã chứng nhận: ', el('strong', {}, report.verification_code), ' · ',
+        el('a', { href: `/pages/verify/?code=${encodeURIComponent(report.verification_code)}`, target: '_blank', rel: 'noopener' }, 'Xem & in chứng nhận')));
+    } else if (!report || report.status === 'draft' || report.status === 'rejected') {
+      const submit = el('button', { type: 'button', className: 'ui-btn ui-btn--primary ui-btn--sm' }, report?.status === 'rejected' ? 'Chỉnh sửa & nộp lại' : 'Nộp báo cáo thực tập');
+      bind(submit, () => dialog('Báo cáo thực tập', `<p class="app-muted">Tóm tắt công việc đã làm, kỹ năng học được và kết quả. Tài khoản cần được nhà trường xác thực (MSSV) trước khi nộp.</p>
+        <label>Nội dung báo cáo<textarea name="summary" rows="8" required maxlength="10000">${(report?.student_summary || '').replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`)}</textarea></label>`, 'Nộp báo cáo', async form => {
+        const summary = (form.elements.namedItem('summary') as HTMLTextAreaElement).value.trim();
+        if (!summary) throw new Error('Vui lòng nhập nội dung báo cáo.');
+        await submitInternshipReport(app.id, summary);
+        toast('Đã nộp báo cáo. Nhà trường sẽ xem xét và chứng thực.');
+        const detail = document.querySelector<HTMLElement>(`#application-${app.id} .apps-detail`);
+        if (detail) await fillDetail(app, detail);
+      }, { keepOpen: true }));
+      box.append(el('div', { className: 'ei-actions' }, submit));
+    }
+    return box;
   }
 
   filter.addEventListener('change', render);
